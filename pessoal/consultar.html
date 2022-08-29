@@ -1,0 +1,92 @@
+<div class="col-lg-12">
+    <div class="card card-outline">
+        <form name="moose">
+            <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active col-3">
+                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Codigo
+                </label>
+                <label class="btn btn-secondary">
+                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Nome
+                </label>
+            </div>
+            <div class="card-body" style="height:300px;width:100%;overflow:auto;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select class='selectDouble' id="listaPessoal" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
+                        </select>
+                    </div>
+                    <div class="col-md-9">
+                        <select class='selectDouble' id="listaPessoalNome" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <button id='visualizarServidor' type="button" disabled class="btn btn-secondary ">Visualizar</button>
+    </div>
+    <input type="text" id='textMatriculaCpfNome' placeholder="Busca por CPF, Nome ou Matrícula" class="form-control">
+    <div class="input-group-prepend">
+        <button id='btnMatriculaCpfNome' type="button" disabled  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Buscar</button>
+      </div>
+  </div>
+  <div class="modal fade" id="modal-pessoal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Dado Funcional</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <label>CPF</label>
+                        <input disabled="disabled" id='pessoalCpfs' type="text" class="form-control" placeholder="CPF">
+                    </div>
+                    <div class="col-9">
+                        <label>Nome</label>
+                        <input id="pessoalNome" type="text" class="form-control" placeholder="nome">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <label>CodFunc</label>
+                        <input id='pessoalCodFunc' type="text" class="form-control" placeholder="CodFunc">
+                    </div>
+                    <div class="col-3">
+                        <label>Data Admissão</label>
+                        <input id="pessoalDataAdmis" type="text" class="form-control" placeholder="Data Admissão">
+                    </div>
+                    <div class="col-6">
+                        <label>Cargo</label>
+                        <input id="pessoalNomeCarg" type="text" class="form-control" placeholder="Nome do cargo">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label>Lotação</label>
+                        <input id='pessoalSecretarias' type="text" class="form-control" placeholder="Lotação">
+                    </div>
+                    <div class="col-6">
+                        <label>Sessões</label>
+                        <input id="pessoalSecoes" type="text" class="form-control" placeholder="Sessões">
+                    </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary">Salvar Alterações</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+    <!-- /.modal-dialog -->
+  </div>
+<script src="js/pessoalConsultar.js"></script>
