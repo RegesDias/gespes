@@ -11,9 +11,9 @@ function msn(icon, title) {
     });
 };
 function selectDouble(a,b){
-for (var i=0,j=a.options.length; i<j; i++){
-    b.options[i].selected=a.options[i].selected;
-}
+  for (var i=0,j=a.options.length; i<j; i++){
+      b.options[i].selected=a.options[i].selected;
+  }
 }
 $(document).ready(function(){
  $('#carregando').hide();

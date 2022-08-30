@@ -5,12 +5,6 @@
 require_once('Conexao.php');
 
 class Servidor {
-  public function burcaPorId($id){
-    $call = "call ServidorBurcaPorId(?)";
-    $exec = Conexao::Inst()->prepare($call);
-    $exec->execute(array($id));
-    $obj = $exec->fetchobject();
-  }
   public function listarPessoal(){
     $call = "SELECT codfunc,nome,secretarias,prefixos,nome_carg,dataadmis,secoes,cpfs FROM servidor LIMIT 1000";
     $exec = Conexao::Inst()->prepare($call);

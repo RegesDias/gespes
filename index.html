@@ -23,9 +23,9 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Clique em entrar para iniciar a sessão</p>
-      <form action="home.html" method="post">
+      <div id="login-form">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="logn">
+          <input type="text" class="form-control" placeholder="usuario" id="email" name="email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="senha">
+          <input type="password" class="form-control" placeholder="senha" id="senha" name="senha">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -45,23 +45,19 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            <button type="submit" name="btn-login" id="btn-login" class="btn btn-primary btn-block">Entrar</button>
           </div>
           <!-- /.col -->
         </div>
-    </form>
+      </div>
     </div>
     <!-- /.login-card-body -->
   </div>
 </div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+<script src="dist/js/sweetalert2@11.js"></script>
 <script src="js/script.js"></script>
 <script src="js/login.js"></script>
 </body>

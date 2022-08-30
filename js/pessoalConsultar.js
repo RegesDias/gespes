@@ -2,37 +2,43 @@
 function getPessoalCodigo() {
     $('#carregando').show();
     $.ajax({
-        url: 'http://localhost/gespes/acoes/sevidorListarCodigo.php',
+        url: 'acoes/sevidorListarCodigo.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
         var total = result.length;
-        $('#carregando').hide();
         $('#listaPessoal').attr("size", total);
         $('#listaPessoalNome').attr("size", total);
         msn('success','Servidores ordenados por codigo!');
         preenchimentoSelect(result);
+    }).fail(function() {
+        $(location).attr('href', 'index.html');
+    }).always(function() {
+        $('#carregando').hide();
     });
 };
 function getPessoalNome() {
     $('#carregando').show();
     $.ajax({
-        url: 'http://localhost/gespes/acoes/sevidorListarNome.php',
+        url: 'acoes/sevidorListarNome.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        $('#carregando').hide();
         var total = result.length;
         $('#listaPessoal').attr("size", total);
         $('#listaPessoalNome').attr("size", total);
         msn('success','Servidores ordenados por nome!');
         preenchimentoSelect(result);
+    }).fail(function() {
+        $(location).attr('href', 'index.html');
+    }).always(function() {
+        $('#carregando').hide();
     });
 };
 function getPessoalMatriculaCpfNome(dado){
     $('#carregando').show();
     $.ajax({
-        url: 'http://localhost/gespes/acoes/sevidorBuscaMatriculaCpfNome.php?dado='+dado,
+        url: 'acoes/sevidorBuscaMatriculaCpfNome.php?dado='+dado,
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
@@ -44,15 +50,19 @@ function getPessoalMatriculaCpfNome(dado){
             $('#listaPessoal').attr("size", total);
             $('#listaPessoalNome').attr("size", total);
             preenchimentoSelect(result);
-            $('#carregando').hide();
         }else{
             msn('error','Nenhum servidor encontrado!');
         }
+    }).fail(function() {
+        $(location).attr('href', 'index.html');
+    }).always(function() {
+        $('#carregando').hide();
     });
 };
 function getPessoaDadosFuncionais(codfunc){
+    $('#carregando').show();
     $.ajax({
-        url: 'http://localhost/gespes/acoes/sevidorBuscarCodFunc.php?codfunc='+codfunc,
+        url: 'acoes/sevidorBuscarCodFunc.php?codfunc='+codfunc,
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosPessoal){
@@ -66,6 +76,10 @@ function getPessoaDadosFuncionais(codfunc){
         $('#pessoalSecretarias').val(dadosPessoal[0].secretarias);
         $('#textMatriculaCpfNome').val('');
         $('#modal-pessoal').modal('show');
+    }).fail(function() {
+        $(location).attr('href', 'index.html');
+    }).always(function() {
+        $('#carregando').hide();
     });
 };
 function preenchimentoSelect(result){
