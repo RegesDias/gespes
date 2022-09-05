@@ -1,11 +1,11 @@
 <?php
 header('Content-Type: application/json');
 
-require_once('../class/Conexao.php');
+require_once('../../class/Servidor.php');
+$dado = $_GET['dado'];
+$s = new Servidor;
+$exec = $s->buscaMatriculaCpfNome($dado);
 
-
-$call = "SELECT codfunc,nome,secretarias,prefixos,nome_carg,dataadmis,secoes,cpfs FROM servidor ORDER BY codfunc LIMIT 1000";
-$exec = Conexao::Inst()->prepare($call);
 if(Conexao::verificaLogin()){
     $exec->execute();
     if ($exec->rowCount() >= 1) {

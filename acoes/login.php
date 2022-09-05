@@ -104,7 +104,7 @@ endif;
 
 // Se logado envia código 1, senão retorna mensagem de erro para o login
 if ($_SESSION['logado'] == 'SIM'):
-	$retorno = array('codigo' => 1, 'mensagem' => 'Logado com sucesso!');
+	$retorno = array('codigo' => 1, 'mensagem' => 'Logado com sucesso!', 'nome' => $retorno->nome);
 	echo json_encode($retorno);
 	exit();
 else:

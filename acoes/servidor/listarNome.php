@@ -1,9 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
-require_once('../class/Conexao.php');
-$call = "SELECT codfunc,nome,secretarias,prefixos,nome_carg,dataadmis,secoes,cpfs FROM servidor ORDER BY nome LIMIT 1000";
-$exec = Conexao::Inst()->prepare($call);
+require_once('../../class/Servidor.php');
+$s = new Servidor;
+$exec = $s->listarPorNome();
+
 if(Conexao::verificaLogin()){
     $exec->execute();
     if ($exec->rowCount() >= 1) {

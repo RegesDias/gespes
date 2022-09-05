@@ -13,9 +13,12 @@
 			data : data,
 			dataType: 'json',
 			success :  function(response){						
-				if(response.codigo == "1"){	
+				if(response.codigo == "1"){
                     msn('success',response.mensagem);
-					window.location.href = "home.html";
+					var log = {'nome': response.nome};
+					log = JSON.stringify(log);
+					sessionStorage.setItem('nome', log);
+					setTimeout(() => {  window.location.href = "home.html" }, 1000);
 				}
 				else{			
                     msn('error',response.mensagem);

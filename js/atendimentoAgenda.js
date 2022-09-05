@@ -128,6 +128,9 @@ $('#listaPessoalNome').change(function(){
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
+
 $(document).ready(function(){
+    data = new Date();
+    $('#dataAgenda').val(converteDataUS(data));
     getPessoalCodigo();
 });
