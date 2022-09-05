@@ -54,7 +54,10 @@ $("#atendimentoEntrada").on("click", function() {
   $('#principal').load( 'atendimento/entrada.html' );
   $('#logoDireita').show();
 });
-
+$("#alterarSenha").on("click", function() {
+  $('#principal').load( 'sistema/alterarSenha.html' );
+  $('#logoDireita').show();
+});
 
 $("#sairSistema").on("click", function() {
   sair()

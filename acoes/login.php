@@ -22,7 +22,7 @@ endif;
 
 // Recebe os dados do formulário
 $email = (isset($_POST['email'])) ? $_POST['email'] : '' ;
-$senha = md5((isset($_POST['senha'])) ? $_POST['senha'] : '' );
+$senha = (isset($_POST['senha'])) ? $_POST['senha'] : '' ;
 
 //2 - Validações de preenchimento e-mail e senha se foi preenchido o e-mail
 if (empty($email)):
@@ -73,6 +73,7 @@ $retorno = $stm->fetch(PDO::FETCH_OBJ);
 
 
 //6 - Válida a senha utlizando a API Password Hash
+$senha = md5($senha);
 if(!empty($retorno) && ($senha == $retorno->senha)):
 	$token = uniqid();
 	$_SESSION['id'] = $retorno->id;
