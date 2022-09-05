@@ -50,6 +50,11 @@ $("#atendimentoAgenda").on("click", function() {
   $('#principal').load( 'atendimento/agenda.html' );
   $('#logoDireita').show();
 });
+$("#atendimentoEntrada").on("click", function() {
+  $('#principal').load( 'atendimento/entrada.html' );
+  $('#logoDireita').show();
+});
+
 
 $("#sairSistema").on("click", function() {
   sair()

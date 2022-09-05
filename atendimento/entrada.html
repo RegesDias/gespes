@@ -1,0 +1,168 @@
+<div class="col-lg-12">
+  <div class="content-header">
+    <div class="container">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0"> Entrada para <small>Antendimento</small></h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Iniciar</a></li>
+            <li class="breadcrumb-item"><a href="#">Atendimento</a></li>
+            <li class="breadcrumb-item active">Entrada</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <div class="card card-outline">
+    <div class="card-body">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Setor:</label>
+              <select class="form-control select2" style="width: 100%;">
+                <option selected="selected">Todos</option>
+                <option>Alaska</option>
+                <option>California</option>
+                <option>Delaware</option>
+                <option>Tennessee</option>
+                <option>Texas</option>
+                <option>Washington</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Período:</label>
+              <select class="form-control select2" style="width: 100%;">
+                <option selected="selected">Todos</option>
+                <option>Manhã</option>
+                <option>Tarde</option>
+                <option>Noite</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Data:</label>
+              <div class="input-group date" data-target-input="nearest">
+                <input type="date" class="form-control datetimepicker-input" id="dataAgenda" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <label>&nbsp;</label>
+            <div class="form-group">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                  class="nav-icon fas fa-filter"></i> Filtrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form name="moose">
+        <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary active col-3">
+            <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Matrícula
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Nome
+          </label>
+        </div>
+        <div class="card-body" style="height:300px;width:100%;overflow:auto;">
+          <div class="row">
+            <div class="col-md-3">
+              <select class='selectDouble' id="listaPessoal" style="overflow:visible; width:100%" name="S1"
+                onchange="selectDouble(S1, S2)">
+              </select>
+            </div>
+            <div class="col-md-9">
+              <select class='selectDouble' id="listaPessoalNome" style="overflow:visible; width:100%" name="S2"
+                onchange="selectDouble(S2, S1)">
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button id='visualizarServidor' type="button" disabled class="btn btn-secondary"><i
+          class="nav-icon fas fa-search"></i> Visualizar</button>
+    </div>
+    <input type="text" id='textMatriculaCpfNome' placeholder="Busca por CPF, Nome ou Matrícula" class="form-control">
+    <div class="input-group-prepend">
+      <button id='btnMatriculaCpfNome' type="button" disabled class="btn btn-secondary"><i
+          class="nav-icon fas fa-search"></i> Buscar</button>
+    </div>
+    <div class="input-group-prepend">
+      <button id='btnInserir' type="button" class="btn btn-secondary"><i class="nav-icon fas fa-plus"></i>
+        Inserir</button>
+    </div>
+  </div>
+  <div class="modal fade" id="modal-pessoal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="ribbon-wrapper ribbon-xl">
+          <div class="ribbon bg-secondary">
+            não possui histórico
+          </div>
+        </div>
+        <div class="modal-header">
+          <h4 class="modal-title">Dados Pessoais</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <label>CPF</label>
+                <input disabled="disabled" id='pessoalCpfs' type="text" class="form-control" placeholder="CPF">
+              </div>
+              <div class="col-9">
+                <label>Nome</label>
+                <input id="pessoalNome" type="text" class="form-control" placeholder="nome">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <label>CodFunc</label>
+                <input id='pessoalCodFunc' type="text" class="form-control" placeholder="CodFunc">
+              </div>
+              <div class="col-3">
+                <label>Data Admissão</label>
+                <input id="pessoalDataAdmis" type="text" class="form-control" placeholder="Data Admissão">
+              </div>
+              <div class="col-6">
+                <label>Cargo</label>
+                <input id="pessoalNomeCarg" type="text" class="form-control" placeholder="Nome do cargo">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <label>Lotação</label>
+                <input id='pessoalSecretarias' type="text" class="form-control" placeholder="Lotação">
+              </div>
+              <div class="col-6">
+                <label>Sessões</label>
+                <input id="pessoalSecoes" type="text" class="form-control" placeholder="Sessões">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-times"></i>
+            Cancelar</button>
+          <button type="button" class="btn btn-primary"><i class="nav-icon fas fa-calendar"></i> Agendamentos</button>
+          <button type="button" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> Salvar Alterações</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <script src="js/atendimentoEntrada.js"></script>
