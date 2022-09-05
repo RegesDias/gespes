@@ -6,8 +6,8 @@ class Conexao{
 
     public static function Inst() {
         //$srv = "187.45.196.218";
-        $srv = "localhost";
-        $usr = 'root';
+        $srv = "10.40.10.7";
+        $usr = 'setinf';
         $db = 'gespes';
         $pwd = 'semad@cpd';
         $dsn = 'mysql:dbname='.$db.';host='.$srv;     
