@@ -6,7 +6,7 @@ function getPessoalCodigo() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length;
+        var total = result.length+1;
         $('#listaPessoal').attr("size", total);
         $('#listaPessoalNome').attr("size", total);
         msn('success','Servidores ordenados por codigo!');
@@ -24,7 +24,7 @@ function getPessoalNome() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length;
+        var total = result.length+1;
         $('#listaPessoal').attr("size", total);
         $('#listaPessoalNome').attr("size", total);
         msn('success','Servidores ordenados por nome!');
@@ -42,8 +42,9 @@ function getPessoalMatriculaCpfNome(dado){
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length;
-        if (total>0){
+        console.log(result);
+        var total = result.length+1;
+        if (total>0 && result!='erro'){
             msn('success','Total de '+total+' encontrado(s)!');
             $("#listaPessoal").empty();
             $("#listaPessoalNome").empty();

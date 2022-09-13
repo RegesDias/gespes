@@ -15,12 +15,22 @@ function selectDouble(a,b){
       b.options[i].selected=a.options[i].selected;
   }
 }
-function converteDataUS(codfunc){
+function converteDataUS(data){
   dia = String(data.getDate()).padStart(2, '0');
   mes = String(data.getMonth() + 1).padStart(2, '0');
   ano = data.getFullYear();
   dataConvertida = ano + '-' + mes + '-' + dia;
   return dataConvertida;
+}
+function converteDataHoraBr(d) {
+  var data = new Date(d),
+      dia = data.getDate(),
+      mes = data.getMonth() + 1,
+      ano = data.getFullYear(),
+      hora = data.getHours(),
+      minutos = data.getMinutes(),
+      segundos = data.getSeconds();
+  return [dia, mes, ano].join('/') + ' ' + [hora, minutos, segundos].join(':');
 }
 function sair() {
   $('#carregando').show();
@@ -43,19 +53,23 @@ $(document).ready(function(){
   $('#nomeUsuarioLogado').html(log.nome);
 });
 $("#consultaPessoal").on("click", function() {
-    $('#principal').load( 'pessoal/consultar.html' );
+    $('#principal').load( 'html/pessoal/consultar.html' );
     $('#logoDireita').show();
 });
+$("#consultausuario").on("click", function() {
+  $('#principal').load( 'html/usuario/consultar.html' );
+  $('#logoDireita').show();
+});
 $("#atendimentoAgenda").on("click", function() {
-  $('#principal').load( 'atendimento/agenda.html' );
+  $('#principal').load( 'html/atendimento/agenda.html' );
   $('#logoDireita').show();
 });
 $("#atendimentoEntrada").on("click", function() {
-  $('#principal').load( 'atendimento/entrada.html' );
+  $('#principal').load( 'html/atendimento/entrada.html' );
   $('#logoDireita').show();
 });
 $("#alterarSenha").on("click", function() {
-  $('#principal').load( 'sistema/alterarSenha.html' );
+  $('#principal').load( 'html/usuario/alterarSenha.html' );
   $('#logoDireita').show();
 });
 

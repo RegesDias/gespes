@@ -1,16 +1,16 @@
 //###############################Funções###########################################
-function getPessoalCodigo() {
+function getUsuarioCodigo() {
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/servidor/listarCodigo.php',
+        url: 'acoes/usuario/listarCodigo.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
         var size = result.length+1;
-        $("#listaPessoal").empty();
-        $("#listaPessoalNome").empty();
-        $('#listaPessoal').attr("size", size);
-        $('#listaPessoalNome').attr("size", size);
+        $("#listaUsuario").empty();
+        $("#listaUsuarioNome").empty();
+        $('#listaUsuario').attr("size", size);
+        $('#listaUsuarioNome').attr("size", size);
         msn('success','Servidores ordenados por codigo!');
         preenchimentoSelect(result);
     }).fail(function() {
@@ -19,18 +19,18 @@ function getPessoalCodigo() {
         $('#carregando').hide();
     });
 };
-function getPessoalNome() {
+function getUsuarioNome() {
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/servidor/listarNome.php',
+        url: 'acoes/usuario/listarNome.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
         var size = result.length+1;
-        $("#listaPessoal").empty();
-        $("#listaPessoalNome").empty();
-        $('#listaPessoal').attr("size", size);
-        $('#listaPessoalNome').attr("size", size);
+        $("#listaUsuario").empty();
+        $("#listaUsuarioNome").empty();
+        $('#listaUsuario').attr("size", size);
+        $('#listaUsuarioNome').attr("size", size);
         msn('success','Servidores ordenados por nome!');
         preenchimentoSelect(result);
     }).fail(function() {
@@ -39,21 +39,21 @@ function getPessoalNome() {
         $('#carregando').hide();
     });
 };
-function getPessoalMatriculaCpfNome(dado){
+function getUsuarioCpfNome(dado){
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/servidor/buscaMatriculaCpfNome.php?dado='+dado,
+        url: 'acoes/usuario/buscaCpfNome.php?dado='+dado,
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length;
-        var size = result.length+1;
+        var total = result.length+1;
+        var size = total-1;
         if (total>0){
             msn('success','Total de '+total+' encontrado(s)!');
-            $("#listaPessoal").empty();
-            $("#listaPessoalNome").empty();
-            $('#listaPessoal').attr("size", size);
-            $('#listaPessoalNome').attr("size", size);
+            $("#listaUsuario").empty();
+            $("#listaUsuarioNome").empty();
+            $('#listaUsuario').attr("size", size);
+            $('#listaUsuarioNome').attr("size", size);
             preenchimentoSelect(result);
         }else{
             msn('error','Nenhum servidor encontrado!');
@@ -64,23 +64,28 @@ function getPessoalMatriculaCpfNome(dado){
         $('#carregando').hide();
     });
 };
-function getPessoaDadosFuncionais(codfunc){
+function getUsuarioDados(codfunc){
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/servidor/buscarCodFunc.php?codfunc='+codfunc,
+        url: 'acoes/usuario/buscarCpf.php?codfunc='+codfunc,
         method: 'GET',
         dataType: 'json'
-    }).done(function(dadosPessoal){
-        $('#pessoalNome').val(dadosPessoal[0].nome);
-        $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
-        $('#pessoalCpfs').val(dadosPessoal[0].cpfs);
-        $('#pessoalDataAdmis').val(dadosPessoal[0].dataadmis);
-        $('#pessoalNomeCarg').val(dadosPessoal[0].nome_carg);
-        $('#pessoalPrefixos').val(dadosPessoal[0].prefixos);
-        $('#pessoalSecoes').val(dadosPessoal[0].secoes);
-        $('#pessoalSecretarias').val(dadosPessoal[0].secretarias);
-        $('#textMatriculaCpfNome').val('');
-        $('#modal-pessoal').modal('show');
+    }).done(function(dadosUsuario){
+        console.log(dadosUsuario);
+        $('#UsuarioNome').val(dadosUsuario[0].nome);
+        $('#UsuarioCpfs').val(dadosUsuario[0].CPF);
+        $('#UsuarioStatus').val(dadosUsuario[0].status);
+        $('#UsuarioDataCriacao').val(converteDataHoraBr(dadosUsuario[0].dataHora));
+        $('#consultaPessoalheckbox').prop("checked", dadosUsuario[0].atendimentoEntrada);
+        $('#atendimentoEntradaCheckbox').prop("checked", dadosUsuario[0].atendimentoEntrada);
+        $('#atendimentoAgendaCheckbox').prop("checked", dadosUsuario[0].atendimentoAgenda);
+        $('#alterarSenhaCheckbox').prop("checked", dadosUsuario[0].alterarSenha);
+        $('#usuariosCheckbox').prop("checked", dadosUsuario[0].usuarios);
+        $('#modal-Usuario').modal('show');
+        $('#chaveLabel').html(dadosUsuario[0].email);
+        $('#dataCriacaoLabel').html(converteDataHoraBr(dadosUsuario[0].dataHora));
+        $('#dataUltimoLoginLabel').html(converteDataHoraBr(dadosUsuario[0].ultimoLogin));
+        
     }).fail(function() {
         $(location).attr('href', 'index.html');
     }).always(function() {
@@ -89,21 +94,21 @@ function getPessoaDadosFuncionais(codfunc){
 };
 function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
-        $('#listaPessoal').prepend('<option value='+ result[i].codfunc +'> '+result[i].codfunc+'</option>');
-        $('#listaPessoalNome').prepend('<option value='+ result[i].codfunc +'> '+result[i].nome+'</option>');
+        $('#listaUsuario').prepend('<option value='+ result[i].CPF +'> '+result[i].CPF+'</option>');
+        $('#listaUsuarioNome').prepend('<option value='+ result[i].CPF +'> '+result[i].nome+'</option>');
     }
 };
 
 //###############################Ações###########################################
 
 $("#visualizarServidor").on("click", function() {
-    var codfunc =  $('#listaPessoal option:selected').val();
-    getPessoaDadosFuncionais(codfunc);
+    var codfunc =  $('#listaUsuario option:selected').val();
+    getUsuarioDados(codfunc);
 });
 
 $('#btnMatriculaCpfNome').on("click", function(){
     var textMatriculaCpfNome = $('#textMatriculaCpfNome').val();
-    getPessoalMatriculaCpfNome(textMatriculaCpfNome);
+    getUsuarioCpfNome(textMatriculaCpfNome);
     $('#textMatriculaCpfNome').val('');
     $('#visualizarServidor').attr("disabled","disabled");
 });
@@ -111,24 +116,24 @@ $('#textMatriculaCpfNome').keyup(function(){
     $('#btnMatriculaCpfNome').removeAttr('disabled');
     $('#visualizarServidor').attr("disabled","disabled");
 });
-$('#optionPessoalCodigo').on("click", function(){
-    getPessoalCodigo();
+$('#optionUsuarioCodigo').on("click", function(){
+    getUsuarioCodigo();
     $('#visualizarServidor').attr("disabled","disabled");
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#optionPessoalNome').on("click", function(){
-    getPessoalNome();
+$('#optionUsuarioNome').on("click", function(){
+    getUsuarioNome();
     $('#visualizarServidor').attr("disabled","disabled");
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#listaPessoal').change(function(){
+$('#listaUsuario').change(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#listaPessoalNome').change(function(){
+$('#listaUsuarioNome').change(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
@@ -137,5 +142,5 @@ $('#listaPessoalNome').change(function(){
 $(document).ready(function(){
     data = new Date();
     $('#dataAgenda').val(converteDataUS(data));
-    getPessoalCodigo();
+    getUsuarioCodigo();
 });

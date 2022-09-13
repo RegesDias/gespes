@@ -6,9 +6,11 @@ function getPessoalCodigo() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length;
-        $('#listaPessoal').attr("size", total);
-        $('#listaPessoalNome').attr("size", total);
+        var size = result.length+1;
+        $("#listaPessoal").empty();
+        $("#listaPessoalNome").empty();
+        $('#listaPessoal').attr("size", size);
+        $('#listaPessoalNome').attr("size", size);
         msn('success','Servidores ordenados por codigo!');
         preenchimentoSelect(result);
     }).fail(function() {
@@ -24,9 +26,11 @@ function getPessoalNome() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length;
-        $('#listaPessoal').attr("size", total);
-        $('#listaPessoalNome').attr("size", total);
+        var size = result.length+1;
+        $("#listaPessoal").empty();
+        $("#listaPessoalNome").empty();
+        $('#listaPessoal').attr("size", size);
+        $('#listaPessoalNome').attr("size", size);
         msn('success','Servidores ordenados por nome!');
         preenchimentoSelect(result);
     }).fail(function() {
@@ -43,12 +47,13 @@ function getPessoalMatriculaCpfNome(dado){
         dataType: 'json'
     }).done(function(result){
         var total = result.length;
+        var size = result.length+1;
         if (total>0){
             msn('success','Total de '+total+' encontrado(s)!');
             $("#listaPessoal").empty();
             $("#listaPessoalNome").empty();
-            $('#listaPessoal').attr("size", total);
-            $('#listaPessoalNome').attr("size", total);
+            $('#listaPessoal').attr("size", size);
+            $('#listaPessoalNome').attr("size", size);
             preenchimentoSelect(result);
         }else{
             msn('error','Nenhum servidor encontrado!');

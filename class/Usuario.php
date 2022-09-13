@@ -62,7 +62,7 @@ class Usuario {
     endif;
   }
   public function verificaUsuarioAtivo($email){
-    $sql = "SELECT id, nome, senha, email FROM usuario WHERE email = ? AND status = 'A' LIMIT 1";
+    $sql = "SELECT id, nome, senha, email FROM usuario WHERE email = ? AND status = 'Ativo' LIMIT 1";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->bindValue(1, $email);
     $stm->execute();
@@ -80,30 +80,33 @@ class Usuario {
     $stm->bindValue(1, $retorno->id);
     $stm->execute();
   }
-  public function gravaTentativaDeLogin($email, $senha){
+  public function gravaLog($email, $senha, $sucessoLogin){
     $bloqueado = ($_SESSION['tentativas'] == TENTATIVAS_ACEITAS) ? 'SIM' : 'NAO';
-    $sql = 'INSERT INTO usuario_log (ip, email, senha, origem, bloqueado) VALUES (?, ?, ?, ?, ?)';
+    $sql = 'INSERT INTO usuario_log (ip, email, senha, origem, sucessoLogin, bloqueado) VALUES (?, ?, ?, ?, ?, ?)';
     $stm = Conexao::Inst()->prepare($sql);
     $stm->bindValue(1, $_SERVER['SERVER_ADDR']);
     $stm->bindValue(2, $email);
     $stm->bindValue(3, $senha);
     $stm->bindValue(4, $_SERVER['HTTP_REFERER']);
-    $stm->bindValue(5, $bloqueado);
+    $stm->bindValue(5, $sucessoLogin);
+    $stm->bindValue(6, $bloqueado);
     $stm->execute();
   }
 
   public function verificaUsuarioSenha($retorno, $email, $senha){
-    $senha = md5($senha);
-    if(!empty($retorno) && ($senha == $retorno->senha)):
+    $senhaMd5 = md5($senha);
+    if(!empty($retorno) && ($senhaMd5 == $retorno->senha)):
       $_SESSION['logado'] = 'SIM';
       $_SESSION['tentativas'] = 0;
       $this->atualizarToken($retorno);
+      $this->gravaLog($email, $senhaMd5, 'login');
     else:
       $_SESSION['logado'] = 'NAO';
       $_SESSION['tentativas'] = (isset($_SESSION['tentativas'])) ? $_SESSION['tentativas'] += 1 : 1;
-      $this->gravaTentativaDeLogin($email, $senha);
+      $this->gravaLog($email, $senha, 'loginFalha');
     endif;
   }
+
   public function verificaSenhasCoincidem($senhaNovaSenha2, $senhaNovaSenha){
     if ($senhaNovaSenha2 != $senhaNovaSenha):
       $retorno = array('codigo' => 0, 'mensagem' => 'Senhas não coincidem!');
@@ -111,6 +114,7 @@ class Usuario {
       exit();
     endif;
   }
+
   public function insereNovaSenha($senhaNovaSenha){
     $token = $_SESSION['token'];
     $senhaNovaSenha = md5($senhaNovaSenha);
@@ -120,6 +124,54 @@ class Usuario {
     $retorno = array('codigo' => 1, 'mensagem' => 'Senha alterada com sucesso!');
     echo json_encode($retorno);
     exit();
+  }
+
+  public function listarPorCodigo(){
+    $call = "SELECT *  FROM usuario ORDER BY id LIMIT 1000";
+    return $exec = Conexao::Inst()->prepare($call);
+  }
+
+  public function listarPorNome(){
+    $call = "SELECT * FROM usuario ORDER BY nome LIMIT 1000";
+    return $exec = Conexao::Inst()->prepare($call);
+  }
+
+  public function buscaCpfNome($dado){
+    if(is_numeric($dado)){
+      $call = "SELECT * FROM usuario WHERE cpf = '$dado'";
+    }else{
+      $call = "SELECT * FROM usuario WHERE nome like '%$dado%'";
+    }
+    return $exec = Conexao::Inst()->prepare($call);
+  }
+
+  public function buscaCPF($cpf){
+    $call = "SELECT
+                  usuario.CPF,
+                  usuario.nome,
+                  usuario.email,
+                  usuario.consultaPessoal,
+                  usuario.atendimentoEntrada,
+                  usuario.atendimentoAgenda,
+                  usuario.alterarSenha,
+                  usuario.usuarios,
+                  usuario.dataHora,
+                  usuario.status,
+                  usuario_log.data_hora as ultimoLogin
+              FROM 
+                  usuario LEFT JOIN usuario_log
+                  ON usuario.email = usuario_log.email
+              WHERE
+                      usuario.CPF = '09487331794' AND
+                      usuario_log.sucessoLogin = 'login'
+              ORDER BY
+                      usuario_log.data_hora DESC
+              LIMIT 1";
+    return $exec = Conexao::Inst()->prepare($call);
+  }
+  public function ultimoLogin($email){
+    $call = "SELECT * FROM usuario_log WHERE sucessoLogin = '1' AND email = '$email' ORDER BY data_hora LIMIT 1 ";
+    return $exec = Conexao::Inst()->prepare($call);
   }
 }
 ?>

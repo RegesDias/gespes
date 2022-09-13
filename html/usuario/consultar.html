@@ -1,0 +1,237 @@
+<div class="col-lg-12">
+  <div class="content-header">
+    <div class="container">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0"> Controle de Fluxo de <small>Antendimento</small></h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Iniciar</a></li>
+            <li class="breadcrumb-item active">Usuário</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <div class="card card-outline">
+    <div class="card-body">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Setor:</label>
+              <select class="form-control select2" style="width: 100%;">
+                <option selected="selected">Todos</option>
+                <option>Alaska</option>
+                <option>California</option>
+                <option>Delaware</option>
+                <option>Tennessee</option>
+                <option>Texas</option>
+                <option>Washington</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Período:</label>
+              <select class="form-control select2" style="width: 100%;">
+                <option selected="selected">Todos</option>
+                <option>Manhã</option>
+                <option>Tarde</option>
+                <option>Noite</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Data:</label>
+              <div class="input-group date" data-target-input="nearest">
+                <input type="date" class="form-control datetimepicker-input" id="dataAgenda" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <label>&nbsp;</label>
+            <div class="form-group">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                  class="nav-icon fas fa-filter"></i> Filtrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form name="moose">
+        <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary active col-3">
+            <input type="radio" name="options" id="optionUsuarioCodigo" autocomplete="off" checked> CPF
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="options" id="optionUsuarioNome" autocomplete="off"> Nome
+          </label>
+        </div>
+        <div class="card-body" style="height:300px;width:100%;overflow:auto;">
+          <div class="row">
+            <div class="col-md-3">
+              <select class='selectDouble' id="listaUsuario" style="overflow:visible; width:100%" name="S1"
+                onchange="selectDouble(S1, S2)">
+              </select>
+            </div>
+            <div class="col-md-9">
+              <select class='selectDouble' id="listaUsuarioNome" style="overflow:visible; width:100%" name="S2"
+                onchange="selectDouble(S2, S1)">
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button id='visualizarServidor' type="button" disabled class="btn btn-secondary"><i
+          class="nav-icon fas fa-search"></i> Visualizar</button>
+    </div>
+    <input type="text" id='textMatriculaCpfNome' placeholder="Busca por CPF, Nome ou Matrícula" class="form-control">
+    <div class="input-group-prepend">
+      <button id='btnMatriculaCpfNome' type="button" disabled class="btn btn-secondary"><i
+          class="nav-icon fas fa-search"></i> Buscar</button>
+    </div>
+    <div class="input-group-prepend">
+      <button id='btnInserir' type="button" class="btn btn-secondary"><i class="nav-icon fas fa-plus"></i>
+        Inserir</button>
+    </div>
+  </div>
+  <div class="modal fade" id="modal-Usuario">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4><div id="chaveLabel" >chave</div></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+          <div class="col-12">
+            <!-- Custom Tabs -->
+            <div class="card">
+              <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Dados do Usuário</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Geral</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Acesso</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Locais</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_1">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-3">
+                          <label>CPF</label>
+                          <input disabled="disabled" id='UsuarioCpfs' type="text" class="form-control" placeholder="CPF">
+                        </div>
+                        <div class="col-7">
+                          <label>Nome</label>
+                          <input id="UsuarioNome" type="text" class="form-control" placeholder="nome">
+                        </div>
+                        <div class="col-2">
+                          <label>Status</label>
+                          <select id='UsuarioStatus' class="form-control select2" style="width: 100%;">
+                            <option>Inativo</option>
+                            <option>Ativo</option>
+                            <option>Bloqueado</option>
+                          </select>
+                      </div>
+                      </div>
+                   </div>
+                   <div class="form-group">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="col-12">
+                            <label>Dados da Conta</label>
+                            <div class="info-box bg-warning">
+                              <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+                
+                              <div class="info-box-content">
+                                <span class="info-box-number"><b>Data Criação:</b> <span id="dataCriacaoLabel">datacriacao</span></span>
+                                <span class="info-box-number"><b>Último login:</b> <span id="dataUltimoLoginLabel">datacriacao</span></span>
+                                <span class="info-box-number"><b>Última Ação:</b> <span id="ultimaAcaoLabel">datacriacao</span></span>
+                              </div>
+                              <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_2">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="consultaPessoalheckbox" value="option1">
+                            <label for="consultaPessoalheckbox" class="custom-control-label">Consulta Pessoal</label>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="atendimentoEntradaCheckbox" value="option1">
+                            <label for="atendimentoEntradaCheckbox" class="custom-control-label">Atendimento Entrada</label>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="atendimentoAgendaCheckbox" value="option1">
+                            <label for="atendimentoAgendaCheckbox" class="custom-control-label">Atendimento Agenda</label>
+                          </div>
+                        </div>
+                      </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="alterarSenhaCheckbox" value="option1">
+                          <label for="alterarSenhaCheckbox" class="custom-control-label">Alterar Senha</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="usuariosCheckbox" value="option1">
+                          <label for="usuariosCheckbox" class="custom-control-label">Usuários</label>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_3">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    It has survived not only five centuries, but also the leap into electronic typesetting,
+                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
+                    like Aldus PageMaker including versions of Lorem Ipsum.
+                  </div>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- ./card -->
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-times"></i>
+            Cancelar</button>
+          <button type="button" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> Salvar Alterações</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <script src="js/usuario.js"></script>
