@@ -10,10 +10,10 @@ $senhaNovaSenha2 = (isset($_POST['senhaNovaSenha2'])) ? $_POST['senhaNovaSenha2'
 
 //Validar dados
 $u = new Usuario;
-$u->verificaPreenchimentoCampoEmail($email);
-$u->verificaPreenchimentoCampoSenha($senha);
-$u->verificaPreenchimentoCampoNovaSenha($senhaNovaSenha);
-$u->verificaPreenchimentoCampoNovaSenha2($senhaNovaSenha2);
+$u->verificaPreenchimentoCampo($email,' chave');
+$u->verificaPreenchimentoCampo($senha, 'senha');
+$u->verificaPreenchimentoCampo($senhaNovaSenha, 'Nova Senha');
+$u->verificaPreenchimentoCampo($senhaNovaSenha, 'Nova Senha');
 
 $u->verificaSenhasCoincidem($senhaNovaSenha, $senhaNovaSenha2);
 if(Conexao::verificaLogin()){

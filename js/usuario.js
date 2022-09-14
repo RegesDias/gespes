@@ -71,16 +71,15 @@ function getUsuarioDados(codfunc){
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosUsuario){
-        console.log(dadosUsuario);
         $('#UsuarioNome').val(dadosUsuario[0].nome);
         $('#UsuarioCpfs').val(dadosUsuario[0].CPF);
         $('#UsuarioStatus').val(dadosUsuario[0].status);
         $('#UsuarioDataCriacao').val(converteDataHoraBr(dadosUsuario[0].dataHora));
-        $('#consultaPessoalheckbox').prop("checked", dadosUsuario[0].atendimentoEntrada);
-        $('#atendimentoEntradaCheckbox').prop("checked", dadosUsuario[0].atendimentoEntrada);
-        $('#atendimentoAgendaCheckbox').prop("checked", dadosUsuario[0].atendimentoAgenda);
-        $('#alterarSenhaCheckbox').prop("checked", dadosUsuario[0].alterarSenha);
-        $('#usuariosCheckbox').prop("checked", dadosUsuario[0].usuarios);
+        $('#consultaPessoalheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].consultaPessoal));
+        $('#atendimentoEntradaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].atendimentoEntrada));
+        $('#atendimentoAgendaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].atendimentoAgenda));
+        $('#alterarSenhaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].alterarSenha));
+        $('#usuariosCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].usuarios));
         $('#modal-Usuario').modal('show');
         $('#chaveLabel').html(dadosUsuario[0].email);
         $('#dataCriacaoLabel').html(converteDataHoraBr(dadosUsuario[0].dataHora));
@@ -99,11 +98,117 @@ function preenchimentoSelect(result){
     }
 };
 
+function salvarAlteracoesUsuario(data){
+    $.ajax({
+        type : 'POST',
+        url  : 'acoes/usuario/salvarAlteracoes.php',
+        data : data,
+        dataType: 'json',
+        success :  function(response){						
+            if(response.codigo == "1"){
+                msn('success',response.mensagem);
+            }
+            else{			
+                msn('error',response.mensagem);
+            }
+        }
+    });
+};
+function inserirUsuario(data){
+    $.ajax({
+        type : 'POST',
+        url  : 'acoes/usuario/inserirNovo.php',
+        data : data,
+        dataType: 'json',
+        success :  function(response){						
+            if(response.codigo == "1"){
+                msn('success',response.mensagem);
+            }
+            else{			
+                msn('error',response.mensagem);
+            }
+        }
+    });
+};
+
 //###############################Ações###########################################
 
+$('#salvarAlteracoesUsuario').on("click", function(){
+    var UsuarioCpf = $('#UsuarioCpfs').val();
+    var usuarioNome = $('#UsuarioNome').val();
+    var usuarioStatus = $("#UsuarioStatus option:selected").val();
+    var consultaPessoalheckbox = converteBooleanEmNumero($('#consultaPessoalheckbox').is(':checked'));
+    var atendimentoEntradaCheckbox = converteBooleanEmNumero($('#atendimentoEntradaCheckbox').is(':checked'));
+    var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
+    var alterarSenhaCheckbox = converteBooleanEmNumero($('#alterarSenhaCheckbox').is(':checked'));
+    var usuariosCheckbox = converteBooleanEmNumero($('#usuariosCheckbox').is(':checked'));
+    var data = {
+                cpf:UsuarioCpf,
+                nome:usuarioNome, 
+                status:usuarioStatus, 
+                consultaPessoal:consultaPessoalheckbox, 
+                atendimentoEntrada:atendimentoEntradaCheckbox,
+                atendimentoAgenda:atendimentoAgendaCheckbox, 
+                alterarSenha:alterarSenhaCheckbox, 
+                usuarios:usuariosCheckbox, 
+            }
+    salvarAlteracoesUsuario(data);
+});
+$('#inserirUsuario').on("click", function(){
+    var UsuarioCpf = $('#UsuarioCpfs').val();
+    var usuarioNome = $('#UsuarioNome').val();
+    var usuarioStatus = $("#UsuarioStatus option:selected").val();
+    var consultaPessoalheckbox = converteBooleanEmNumero($('#consultaPessoalheckbox').is(':checked'));
+    var atendimentoEntradaCheckbox = converteBooleanEmNumero($('#atendimentoEntradaCheckbox').is(':checked'));
+    var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
+    var alterarSenhaCheckbox = converteBooleanEmNumero($('#alterarSenhaCheckbox').is(':checked'));
+    var usuariosCheckbox = converteBooleanEmNumero($('#usuariosCheckbox').is(':checked'));
+    var emailUsuario = $('#emailUsuario').val();
+    var senhaUsuario = $('#senhaUsuario').val();
+    var senha2Usuario = $('#senha2Usuario').val();
+    var data = {
+                cpf:UsuarioCpf,
+                nome:usuarioNome, 
+                status:usuarioStatus, 
+                consultaPessoal:consultaPessoalheckbox, 
+                atendimentoEntrada:atendimentoEntradaCheckbox,
+                atendimentoAgenda:atendimentoAgendaCheckbox, 
+                alterarSenha:alterarSenhaCheckbox, 
+                usuarios:usuariosCheckbox, 
+                email:emailUsuario,
+                senha:senhaUsuario,
+                senha2:senha2Usuario
+            }
+        inserirUsuario(data);
+});
 $("#visualizarServidor").on("click", function() {
     var codfunc =  $('#listaUsuario option:selected').val();
+    $("#UsuarioStatus option[value='']").remove();
+    $('#dadosDaConta').show();
+    $('#camposCriarUsuario').hide();
+    $('#salvarAlteracoesUsuario').show();
+    $('#inserirUsuario').hide();
+    $("#dadosGeral").trigger('click');
     getUsuarioDados(codfunc);
+});
+$("#btnInserir").on("click", function() {
+    $('#UsuarioCpfs').removeAttr('disabled');
+    $('#modal-Usuario').modal('show');
+    $('#salvarAlteracoesUsuario').hide();
+    $("#UsuarioStatus option[value='']").remove();
+    $('#UsuarioStatus').prepend('<option value="" selected> </option>');
+    $('#inserirUsuario').show();
+    $('#dadosDaConta').hide();
+    $('#camposCriarUsuario').show();
+    $('#consultaPessoalheckbox').prop("checked", false);
+    $('#atendimentoEntradaCheckbox').prop("checked", false);
+    $('#atendimentoAgendaCheckbox').prop("checked", false);
+    $('#alterarSenhaCheckbox').prop("checked", false);
+    $('#usuariosCheckbox').prop("checked", false);
+    $('#UsuarioNome').val('');
+    $('#UsuarioCpfs').val('');
+    $("#dadosGeral").trigger('click');
+    
 });
 
 $('#btnMatriculaCpfNome').on("click", function(){

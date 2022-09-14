@@ -23,14 +23,28 @@ function converteDataUS(data){
   return dataConvertida;
 }
 function converteDataHoraBr(d) {
-  var data = new Date(d),
-      dia = data.getDate(),
-      mes = data.getMonth() + 1,
-      ano = data.getFullYear(),
-      hora = data.getHours(),
-      minutos = data.getMinutes(),
-      segundos = data.getSeconds();
-  return [dia, mes, ano].join('/') + ' ' + [hora, minutos, segundos].join(':');
+    if(d != undefined) {
+      let split = d.split(' '); //separa a data da hora
+      let date = split[0].split('-');
+      dataHoraBr = date[2]+'-'+date[1]+'-'+date[0]+' '+split[1];
+      return dataHoraBr;
+    }else{
+      return d;
+    }
+}
+function converteBooleanEmNumero(dado) {
+  if (dado == true){
+    return '1';
+  }else{
+    return '0';
+  }
+}
+function converteNumeroEmBoolean(dado) {
+  if (dado == '1'){
+    return true;
+  }else{
+    return false;
+  }
 }
 function sair() {
   $('#carregando').show();

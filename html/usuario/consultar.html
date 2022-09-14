@@ -16,50 +16,6 @@
   </div>
   <div class="card card-outline">
     <div class="card-body">
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>Setor:</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Todos</option>
-                <option>Alaska</option>
-                <option>California</option>
-                <option>Delaware</option>
-                <option>Tennessee</option>
-                <option>Texas</option>
-                <option>Washington</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>Período:</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Todos</option>
-                <option>Manhã</option>
-                <option>Tarde</option>
-                <option>Noite</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>Data:</label>
-              <div class="input-group date" data-target-input="nearest">
-                <input type="date" class="form-control datetimepicker-input" id="dataAgenda" />
-              </div>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <label>&nbsp;</label>
-            <div class="form-group">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
-                  class="nav-icon fas fa-filter"></i> Filtrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
       <form name="moose">
         <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-secondary active col-3">
@@ -105,7 +61,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-            <h4><div id="chaveLabel" >chave</div></h4>
+            <h4><div id="chaveLabel" ></div></h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -118,9 +74,9 @@
               <div class="card-header d-flex p-0">
                 <h3 class="card-title p-3">Dados do Usuário</h3>
                 <ul class="nav nav-pills ml-auto p-2">
-                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Geral</a></li>
+                  <li class="nav-item"><a id="dadosGeral" class="nav-link active" href="#tab_1" data-toggle="tab">Geral</a></li>
                   <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Acesso</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Locais</a></li>
+                  <li class="nav-item" id="dadosDaConta" ><a class="nav-link" href="#tab_3" data-toggle="tab">Logs</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -130,7 +86,7 @@
                       <div class="row">
                         <div class="col-3">
                           <label>CPF</label>
-                          <input disabled="disabled" id='UsuarioCpfs' type="text" class="form-control" placeholder="CPF">
+                          <input disabled="disabled" maxlength="11" id='UsuarioCpfs' type="number" class="form-control" placeholder="CPF">
                         </div>
                         <div class="col-7">
                           <label>Nome</label>
@@ -146,26 +102,22 @@
                       </div>
                       </div>
                    </div>
-                   <div class="form-group">
+                   <div class="form-group" id="camposCriarUsuario">
                       <div class="row">
-                        <div class="col-12">
-                          <div class="col-12">
-                            <label>Dados da Conta</label>
-                            <div class="info-box bg-warning">
-                              <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
-                
-                              <div class="info-box-content">
-                                <span class="info-box-number"><b>Data Criação:</b> <span id="dataCriacaoLabel">datacriacao</span></span>
-                                <span class="info-box-number"><b>Último login:</b> <span id="dataUltimoLoginLabel">datacriacao</span></span>
-                                <span class="info-box-number"><b>Última Ação:</b> <span id="ultimaAcaoLabel">datacriacao</span></span>
-                              </div>
-                              <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                          </div>
+                        <div class="col-2">
+                          <label>chave</label>
+                          <input id='emailUsuario' type="text" class="form-control" placeholder="chave">
                         </div>
+                        <div class="col-5">
+                          <label>Senha</label>
+                          <input id="senhaUsuario" type="text" class="form-control" placeholder="CPF caso em branco">
+                        </div>
+                        <div class="col-5">
+                          <label>Repita a senha</label>
+                          <input id="senha2Usuario" type="text" class="form-control" placeholder="CPF caso em branco">
                       </div>
                     </div>
+                 </div>
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="tab_2">
@@ -208,13 +160,25 @@
                 </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="tab_3">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    It has survived not only five centuries, but also the leap into electronic typesetting,
-                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software
-                    like Aldus PageMaker including versions of Lorem Ipsum.
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="col-12">
+                            <div class="info-box bg-warning">
+                              <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+                
+                              <div class="info-box-content">
+                                <span class="info-box-number"><b>Data Criação:</b> <span id="dataCriacaoLabel">datacriacao</span></span>
+                                <span class="info-box-number"><b>Último login:</b> <span id="dataUltimoLoginLabel">datacriacao</span></span>
+                                <span class="info-box-number"><b>Última Ação:</b> <span id="ultimaAcaoLabel">datacriacao</span></span>
+                              </div>
+                              <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <!-- /.tab-pane -->
                 </div>
@@ -227,7 +191,8 @@
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-times"></i>
             Cancelar</button>
-          <button type="button" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> Salvar Alterações</button>
+          <button type="button" id="salvarAlteracoesUsuario" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> Salvar Alterações</button>
+          <button type="button" id="inserirUsuario" class="btn btn-primary"><i class="nav-icon fas fa-save"></i> Inserir </button>
         </div>
       </div>
       <!-- /.modal-content -->

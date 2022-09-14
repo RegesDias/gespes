@@ -2,32 +2,16 @@
 require_once('Conexao.php');
 
 class Usuario {
-  public function verificaPreenchimentoCampoEmail($email){
-    if (empty($email)):
-      $retorno = array('codigo' => 0, 'mensagem' => 'Preencha seu Usuário!');
+  public function verificaPreenchimentoCampo($dado, $campo){
+    if (empty($dado)):
+      $retorno = array('codigo' => 0, 'mensagem' => 'Preencha o campo '.$campo.' !');
       echo json_encode($retorno);
       exit();
     endif;
   }
-  public function verificaPreenchimentoCampoSenha($senha){
-    if (empty($senha)):
-      $retorno = array('codigo' => 0, 'mensagem' => 'Preencha sua senha!');
-      echo json_encode($retorno);
-      exit();
-    endif;
-  }
-
-  public function verificaPreenchimentoCampoNovaSenha($senhaNovaSenha){
-    if (empty($senhaNovaSenha)):
-      $retorno = array('codigo' => 0, 'mensagem' => 'Preencha nova Senha!');
-      echo json_encode($retorno);
-      exit();
-    endif;
-  }
-
-  public function verificaPreenchimentoCampoNovaSenha2($senhaNovaSenha2){
-    if (empty($senhaNovaSenha2)):
-      $retorno = array('codigo' => 0, 'mensagem' => 'Repita a digitação da nova senha!');
+  public function verificaPreenchimentoCpf($cpf){
+    if (!$this->validaCPF($cpf)):
+      $retorno = array('codigo' => 0, 'mensagem' => 'CPF válido !');
       echo json_encode($retorno);
       exit();
     endif;
@@ -62,11 +46,11 @@ class Usuario {
     endif;
   }
   public function verificaUsuarioAtivo($email){
-    $sql = "SELECT id, nome, senha, email FROM usuario WHERE email = ? AND status = 'Ativo' LIMIT 1";
+    $sql = "SELECT id, nome, senha, email, status FROM usuario WHERE email = '$email' LIMIT 1";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->bindValue(1, $email);
     $stm->execute();
-    return $retorno = $stm->fetch(PDO::FETCH_OBJ);
+    return $retorno = $stm->fetchAll(PDO::FETCH_OBJ);
   }
 
   public function atualizarToken($retorno){
@@ -125,6 +109,22 @@ class Usuario {
     echo json_encode($retorno);
     exit();
   }
+  public function atualizarDadosUsuario($cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal){
+  $sql = "UPDATE usuario SET 
+                        nome = '$nome',
+                        status = '$status',
+                        atendimentoEntrada = '$atendimentoEntrada',
+                        atendimentoAgenda = '$atendimentoAgenda',
+                        alterarSenha = '$alterarSenha',
+                        usuarios = '$usuarios',
+                        consultaPessoal = '$consultaPessoal'
+            WHERE CPF = '$cpf'";
+    $stm = Conexao::Inst()->prepare($sql);
+    $stm->execute();
+    $retorno = array('codigo' => 1, 'mensagem' => 'Usuário '.$nome.' alterado com sucesso!');
+    echo json_encode($retorno);
+    exit();
+  }
 
   public function listarPorCodigo(){
     $call = "SELECT *  FROM usuario ORDER BY id LIMIT 1000";
@@ -162,8 +162,9 @@ class Usuario {
                   usuario LEFT JOIN usuario_log
                   ON usuario.email = usuario_log.email
               WHERE
-                      usuario.CPF = '09487331794' AND
-                      usuario_log.sucessoLogin = 'login'
+                      usuario.CPF = '$cpf' AND
+                      ( usuario_log.sucessoLogin = 'login' OR
+                       usuario_log.sucessoLogin IS NULL)
               ORDER BY
                       usuario_log.data_hora DESC
               LIMIT 1";
@@ -172,6 +173,25 @@ class Usuario {
   public function ultimoLogin($email){
     $call = "SELECT * FROM usuario_log WHERE sucessoLogin = '1' AND email = '$email' ORDER BY data_hora LIMIT 1 ";
     return $exec = Conexao::Inst()->prepare($call);
+  }
+  function validaCPF($cpf) {
+      $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+      if (strlen($cpf) != 11) {
+          return false;
+      }
+      if (preg_match('/(\d)\1{10}/', $cpf)) {
+          return false;
+      }
+      for ($t = 9; $t < 11; $t++) {
+          for ($d = 0, $c = 0; $c < $t; $c++) {
+              $d += $cpf[$c] * (($t + 1) - $c);
+          }
+          $d = ((10 * $d) % 11) % 10;
+          if ($cpf[$c] != $d) {
+              return false;
+          }
+      }
+      return true;
   }
 }
 ?>

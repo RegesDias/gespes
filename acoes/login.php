@@ -11,18 +11,24 @@ $email = (isset($_POST['email'])) ? $_POST['email'] : '' ;
 $senha = (isset($_POST['senha'])) ? $_POST['senha'] : '' ;
 
 $u = new Usuario;
-$u->verificaPreenchimentoCampoEmail($email);
-$u->verificaPreenchimentoCampoSenha($senha);
+$u->verificaPreenchimentoCampo($email,'chave');
+$u->verificaPreenchimentoCampo($senha, 'senha');
 
 //Validacao
 $retorno = $u->contaTentativasLoginFalhas();
 $u->bloqueiaContaExcedeuTentativasLogin($retorno);
 $retorno = $u->verificaUsuarioAtivo($email);
-$u->verificaUsuarioSenha($retorno, $email, $senha);
+if ($retorno[0]->status != 'Ativo'){
+	$retorno = array('codigo' => 0, 'mensagem' => 'Usuário '.$retorno[0]->nome.' está '.$retorno[0]->status);
+	echo json_encode($retorno);
+	exit();
+}
+
+$u->verificaUsuarioSenha($retorno[0], $email, $senha);
 
 // Se logado envia código 1, senão retorna mensagem de erro para o login
 if ($_SESSION['logado'] == 'SIM'):
-	$retorno = array('codigo' => 1, 'mensagem' => 'Logado com sucesso!', 'nome' => $retorno->nome);
+	$retorno = array('codigo' => 1, 'mensagem' => 'Logado com sucesso!', 'nome' => $retorno[0]->nome);
 	echo json_encode($retorno);
 	exit();
 else:
