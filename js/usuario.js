@@ -107,8 +107,9 @@ function salvarAlteracoesUsuario(data){
         success :  function(response){						
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
+                $('#modal-Usuario').modal('hide');
             }
-            else{			
+            else{		
                 msn('error',response.mensagem);
             }
         }
@@ -123,6 +124,8 @@ function inserirUsuario(data){
         success :  function(response){						
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
+                $('#modal-Usuario').modal('hide');
+                getUsuarioCodigo();
             }
             else{			
                 msn('error',response.mensagem);

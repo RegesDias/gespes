@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../class/Usuario.php');
+require_once('../../class/Usuario.php');
 
 // Recebe os dados do formulário
 $email = (isset($_POST['email'])) ? $_POST['email'] : '' ;
@@ -16,6 +16,7 @@ $u->verificaPreenchimentoCampo($senhaNovaSenha, 'Nova Senha');
 $u->verificaPreenchimentoCampo($senhaNovaSenha, 'Nova Senha');
 
 $u->verificaSenhasCoincidem($senhaNovaSenha, $senhaNovaSenha2);
+$u->isValidPassword($senhaNovaSenha);
 if(Conexao::verificaLogin()){
-	$u->insereNovaSenha($senhaNovaSenha);
+	$u->insereNovaSenha($senhaNovaSenha,$email);
 }

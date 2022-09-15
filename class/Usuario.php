@@ -9,12 +9,39 @@ class Usuario {
       exit();
     endif;
   }
-  public function verificaPreenchimentoCpf($cpf){
-    if (!$this->validaCPF($cpf)):
-      $retorno = array('codigo' => 0, 'mensagem' => 'CPF válido !');
+  function isValidPassword($senha) {
+    $pattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d].\S{8,36}$/";
+    if(!preg_match($pattern, $senha)){
+      $retorno = array('codigo' => 0, 'mensagem' => ' Senha não atende ao nível minimo de complexidade!');
       echo json_encode($retorno);
       exit();
-    endif;
+    }
+  }
+  function verificaSenha($senha, $cpf) {
+    if (empty($senha)){
+      return $cpf;
+    }
+    $this->isValidPassword($senha);
+  }
+  public function verificaPreenchimentoCpf($cpf){
+    if (!$this->validaCPF($cpf)){
+      $retorno = array('codigo' => 0, 'mensagem' => 'CPF inválido !');
+      echo json_encode($retorno);
+      exit();
+    }
+    if ($this->verificaCPFJaCadastrado($cpf)){
+      $retorno = array('codigo' => 0, 'mensagem' => 'CPF já cadastrado !');
+      echo json_encode($retorno);
+      exit();
+    }
+  }
+  public function verificaPreenchimentoChave($chave){
+    $this->verificaPreenchimentoCampo($chave, 'chave');
+    if ($this->verificaCPFChaveJaCadastrado($chave)){
+        $retorno = array('codigo' => 0, 'mensagem' => 'Chave já utilizada por outro usuário !');
+        echo json_encode($retorno);
+        exit();
+    }
   }
 
   public function validaOrigemRequisicao(){
@@ -45,13 +72,35 @@ class Usuario {
       exit();
     endif;
   }
-  public function verificaUsuarioAtivo($email){
-    $sql = "SELECT id, nome, senha, email, status FROM usuario WHERE email = '$email' LIMIT 1";
-    $stm = Conexao::Inst()->prepare($sql);
-    $stm->bindValue(1, $email);
-    $stm->execute();
-    return $retorno = $stm->fetchAll(PDO::FETCH_OBJ);
+  public function verificaSeSenhaIgualCPF($cpf,$senha,$nome){
+    if($cpf == $senha){
+      $retorno = array('codigo' => 2, 'mensagem' => 'É necessario fazer a troca da senha!', 'nome'=> $nome);
+      echo json_encode($retorno);
+      exit();
+    }
   }
+
+  public function verificaCPFJaCadastrado($cpf){
+    $sql = "SELECT id, cpf, nome, senha, email, status FROM usuario WHERE cpf = '$cpf' LIMIT 1";
+    $stm = Conexao::Inst()->prepare($sql);
+    $stm->execute();
+    if($stm->rowCount()==1){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  public function verificaCPFChaveJaCadastrado($email){
+    $sql = "SELECT id, cpf, nome, senha, email, status FROM usuario WHERE email = '$email' LIMIT 1";
+    $stm = Conexao::Inst()->prepare($sql);
+    $stm->execute();
+    if($stm->rowCount()==1){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 
   public function atualizarToken($retorno){
     $token = uniqid();
@@ -99,16 +148,64 @@ class Usuario {
     endif;
   }
 
-  public function insereNovaSenha($senhaNovaSenha){
+  public function buscaUsuarioEmail($email){
+    $sql = "SELECT id, nome, senha, email, status, CPF FROM usuario WHERE email = '$email' LIMIT 1";
+    $stm = Conexao::Inst()->prepare($sql);
+    $stm->bindValue(1, $email);
+    $stm->execute();
+    if($stm->rowCount()==1){
+      return $retorno = $stm->fetchAll(PDO::FETCH_OBJ);
+    }else{
+      $retorno = array('codigo' => 0, 'mensagem' => 'Chave de Usuário não encontrada!');
+      echo json_encode($retorno);
+      exit();
+    }
+  }
+
+  public function insereNovaSenha($senhaNovaSenha, $email){
     $token = $_SESSION['token'];
     $senhaNovaSenha = md5($senhaNovaSenha);
     $sql = "UPDATE usuario SET senha = '$senhaNovaSenha' WHERE token = '$token'";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
-    $retorno = array('codigo' => 1, 'mensagem' => 'Senha alterada com sucesso!');
+    $retorno = $this->buscaUsuarioEmail($email);
+    $retorno = array('codigo' => 1, 'mensagem' => 'Senha alterada com sucesso!', 'nome' => $retorno[0]->nome);
     echo json_encode($retorno);
     exit();
   }
+  public function insereNovoUsuario($email,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal){
+    $senha = md5($senha);
+    $sql = "INSERT INTO usuario
+                          (
+                            CPF,
+                            nome,
+                            email,
+                            senha,
+                            status,
+                            consultaPessoal,
+                            atendimentoEntrada,
+                            atendimentoAgenda,
+                            alterarSenha,
+                            usuarios,
+                            dataHora
+                          )VALUES(
+                            '$cpf',
+                            '$nome',
+                            '$email',
+                            '$senha',
+                            '$status',
+                            '$consultaPessoal',
+                            '$atendimentoEntrada',
+                            '$atendimentoAgenda',
+                            '$alterarSenha',
+                            '$usuarios',
+                              NOW())";
+      $stm = Conexao::Inst()->prepare($sql);
+      $stm->execute();
+      $retorno = array('codigo' => 1, 'mensagem' => 'Usuário '.$sql.' criado com sucesso!');
+      echo json_encode($retorno);
+      exit();
+    }
   public function atualizarDadosUsuario($cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal){
   $sql = "UPDATE usuario SET 
                         nome = '$nome',

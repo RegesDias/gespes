@@ -28,26 +28,36 @@
 					sessionStorage.setItem('nome', log);
 					setTimeout(() => {  window.location.href = "home.html" }, 1000);
 				}
-				else{			
+				else if (response.codigo == "0"){			
                     msn('error',response.mensagem);
-				}
+				}else if (response.codigo == "2"){
+					$('#exibeNovaSenha').show();
+					$('#exibeNovaSenha2').show();
+					$('#btn-login').hide();
+					$('#btn-alterar-senha').removeClass('invisible');
+					msn('error',response.mensagem);
+				}	
 		    }
 		});
 	};
 	function alterarSenha(data){
 		$.ajax({
 			type : 'POST',
-			url  : 'acoes/trocarSenha.php',
+			url  : 'acoes/usuario/trocarSenha.php',
 			data : data,
 			dataType: 'json',
 			success :  function(response){						
 				if(response.codigo == "1"){
+					var log = {'nome': response.nome};
+					log = JSON.stringify(log);
+					sessionStorage.setItem('nome', log);
                     msn('success',response.mensagem);
 					setTimeout(() => {  window.location.href = "home.html" }, 1000);
-				}
-				else{			
-                    msn('error',response.mensagem);
 				}
 		    }
 		});
 	};
+	$(document).ready(function(){
+		$('#exibeNovaSenha').hide();
+		$('#exibeNovaSenha2').hide();
+	});
