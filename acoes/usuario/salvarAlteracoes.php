@@ -16,7 +16,7 @@ $u->verificaPreenchimentoCampo($status, 'status');
 $u->atualizarDadosUsuario($cpf,$nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal);
 
 
-if(Conexao::verificaLogin()){
+if(Conexao::verificaLogin('usuarios')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));

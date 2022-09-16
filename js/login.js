@@ -23,9 +23,16 @@
 		}).done(function(response){				
 				if(response.codigo == "1"){
                     msn('success',response.mensagem);
-					var log = {'nome': response.nome};
+					var log = {
+								'nome': response.nome,
+								'consultaPessoal': response.consultaPessoal,
+								'atendimentoEntrada': response.atendimentoEntrada,
+								'atendimentoAgenda': response.atendimentoAgenda,
+								'alterarSenha': response.alterarSenha,
+								'usuarios': response.usuarios
+							};
 					log = JSON.stringify(log);
-					sessionStorage.setItem('nome', log);
+					sessionStorage.setItem('login', log);
 					setTimeout(() => {  window.location.href = "home.html" }, 1000);
 				}
 				else if (response.codigo == "0"){			

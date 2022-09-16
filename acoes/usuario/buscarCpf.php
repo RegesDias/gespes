@@ -6,7 +6,7 @@ $codfunc = $_GET['codfunc'];
 $u = new Usuario;
 $exec = $u->buscaCPF($codfunc);
 
-if(Conexao::verificaLogin()){
+if(Conexao::verificaLogin('usuarios')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));

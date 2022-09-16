@@ -3,7 +3,7 @@ session_start();
 define('TENTATIVAS_ACEITAS', 5); 
 define('MINUTOS_BLOQUEIO', 30); 
 
-// Require da classe de conexão
+// /Require da classe de conexão
 require_once('../class/Usuario.php');
 
 // Recebe os dados do formulário
@@ -27,7 +27,16 @@ $u->verificaUsuarioSenha($retorno[0], $email, $senha);
 $u->verificaSeSenhaIgualCPF($senha,$retorno[0]->CPF,$retorno[0]->nome);
 
 if ($_SESSION['logado'] == 'SIM'):
-	$retorno = array('codigo' => 1, 'mensagem' => 'Logado com sucesso!', 'nome' => $retorno[0]->nome);
+	$retorno = array(
+						'codigo' => 1, 
+						'mensagem' => 'Logado com sucesso!', 
+						'nome' => $retorno[0]->nome,
+						'consultaPessoal' => $retorno[0]->consultaPessoal,
+						'atendimentoEntrada' => $retorno[0]->atendimentoEntrada,
+						'atendimentoAgenda' => $retorno[0]->atendimentoAgenda,
+						'alterarSenha' => $retorno[0]->alterarSenha,
+						'usuarios'  => $retorno[0]->usuarios
+					);
 	echo json_encode($retorno);
 	exit();
 else:

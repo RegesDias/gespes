@@ -6,7 +6,7 @@ $dado = $_GET['dado'];
 $s = new Usuario;
 $exec = $s->buscaCpfNome($dado);
 
-if(Conexao::verificaLogin()){
+if(Conexao::verificaLogin('usuarios')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));

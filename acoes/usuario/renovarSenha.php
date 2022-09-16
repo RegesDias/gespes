@@ -10,7 +10,6 @@ $cpf = (isset($_POST['cpf'])) ? $_POST['cpf'] : '' ;
 
 //Validar dados
 $u = new Usuario;
-$retorno = $u->insereNovaSenha($cpf,$email);
-
-
-//http://localhost/gespes/gespes/acoes/usuario/trocarSenha.php?email=dreges&senha=teste&senhaNovaSenha=omegaX0521&senhaNovaSenha2=omegaX0521
+if(Conexao::verificaLogin('usuarios')){
+    $retorno = $u->insereNovaSenha($cpf,$email);
+}

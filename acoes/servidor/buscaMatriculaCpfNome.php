@@ -6,7 +6,7 @@ $dado = $_GET['dado'];
 $s = new Servidor;
 $exec = $s->buscaMatriculaCpfNome($dado);
 
-if(Conexao::verificaLogin()){
+if(Conexao::verificaLogin('consultaPessoal')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));

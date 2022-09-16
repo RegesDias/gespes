@@ -22,7 +22,7 @@ $u->isValidPassword($senhaNovaSenha);
 $retorno = $u->buscaUsuarioEmail($email);
 $u->verificaUsuarioSenha($retorno[0], $email, $senha);
 if ($_SESSION['logado'] == 'SIM'){
-	if(Conexao::verificaLogin()){
+	if(Conexao::verificaLogin('alterarSenha')){
 		$u->insereNovaSenha($senhaNovaSenha,$email);
 	}
 }else{

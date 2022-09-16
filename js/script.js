@@ -60,12 +60,6 @@ function sair() {
       $('#carregando').hide();
   });
 };
-$(document).ready(function(){
-  var log = JSON.parse(sessionStorage.getItem('nome'));
-  $('#carregando').hide();
-  $('#logoDireita').hide();
-  $('#nomeUsuarioLogado').html(log.nome);
-});
 $("#consultaPessoal").on("click", function() {
     $('#principal').load( 'html/pessoal/consultar.html' );
     $('#logoDireita').show();
@@ -89,4 +83,30 @@ $("#alterarSenha").on("click", function() {
 
 $("#sairSistema").on("click", function() {
   sair()
+});
+$(document).ready(function(){
+  var login = JSON.parse(sessionStorage.getItem('login'));
+  console.log(login);
+  $('#carregando').hide();
+  $('#logoDireita').hide();
+  $('#nomeUsuarioLogado').html(login.nome);
+  if(login.consultaPessoal == 0){
+    $('#consultaPessoal').hide();
+  }
+  if(login.usuarios == 0){
+    $('#consultausuario').hide();
+  }
+  if(login.atendimentoEntrada == 0){
+    $('#atendimentoEntrada').hide();
+  }
+  if(login.atendimentoAgenda == 0){
+    $('#atendimentoAgenda').hide();
+  }
+  if(login.alterarSenha == 0){
+    $('#alterarSenha').hide();
+  }
+  if((login.atendimentoEntrada == 0)&(login.atendimentoAgenda == 0)){
+    $('#dropdownSubMenuAtendimento').hide();
+  }
+  dropdownSubMenuAtendimento
 });

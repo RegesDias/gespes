@@ -141,9 +141,24 @@ class Usuario extends Generica{
       exit();
     endif;
   }
-
   public function buscaUsuarioEmail($email){
-    $sql = "SELECT id, nome, senha, email, status, CPF FROM usuario WHERE email = '$email' LIMIT 1";
+    $sql = "SELECT 
+                    id,
+                    nome, 
+                    senha, 
+                    email, 
+                    status, 
+                    CPF, 
+                    consultaPessoal,
+                    atendimentoEntrada,
+                    atendimentoAgenda,
+                    alterarSenha,
+                    usuarios
+              FROM 
+                usuario 
+              WHERE 
+                email = '$email' 
+                LIMIT 1";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->bindValue(1, $email);
     $stm->execute();
