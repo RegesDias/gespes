@@ -1,8 +1,8 @@
 <?php
 require_once('Conexao.php');
-require_once('Genericas.php');
+require_once('Generica.php');
 
-class Usuario extends Genericas{
+class Usuario extends Generica{
   function isValidPassword($senha) {
     $pattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d].\S{8,36}$/";
     if(!preg_match($pattern, $senha)){

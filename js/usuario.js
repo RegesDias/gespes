@@ -133,8 +133,34 @@ function inserirUsuario(data){
         }
     });
 };
+function renovarSenhaUsuario(data){
+    $.ajax({
+        type : 'POST',
+        url  : 'acoes/usuario/renovarSenha.php',
+        data : data,
+        dataType: 'json',
+        success :  function(response){						
+            if(response.codigo == "1"){
+                msn('success',response.mensagem);
+                $('#modal-Usuario').modal('hide');
+            }
+            else{			
+                msn('error',response.mensagem);
+            }
+        }
+    });
+};
 
 //###############################Ações###########################################
+$('#renovarSenha').on("click", function(){
+    var UsuarioCpf = $('#UsuarioCpfs').val();
+    var chave = $('#chaveLabel').html();
+    var data = {
+        cpf:UsuarioCpf,
+        email:chave
+    }
+    renovarSenhaUsuario(data);
+});
 
 $('#salvarAlteracoesUsuario').on("click", function(){
     var UsuarioCpf = $('#UsuarioCpfs').val();
@@ -192,6 +218,8 @@ $("#visualizarServidor").on("click", function() {
     $('#salvarAlteracoesUsuario').show();
     $('#inserirUsuario').hide();
     $("#dadosGeral").trigger('click');
+    $('#renovarSenha').show();
+    $('#UsuarioCpfs').attr('disabled', 'disabled');
     getUsuarioDados(codfunc);
 });
 $("#btnInserir").on("click", function() {
@@ -211,6 +239,7 @@ $("#btnInserir").on("click", function() {
     $('#UsuarioNome').val('');
     $('#UsuarioCpfs').val('');
     $("#dadosGeral").trigger('click');
+    $('#renovarSenha').hide();
     
 });
 

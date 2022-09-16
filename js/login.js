@@ -1,6 +1,5 @@
 
 	$('#btn-login').on("click", function(){
-		console.log('login');
         var vemail = $('#email').val();
         var vsenha = $('#senha').val();
         var data = {email:vemail, senha:vsenha }
@@ -48,7 +47,7 @@
 			url  : 'acoes/usuario/trocarSenha.php',
 			data : data,
 			dataType: 'json',
-			success :  function(response){						
+			}).done(function(response){					
 				if(response.codigo == "1"){
 					var log = {'nome': response.nome};
 					log = JSON.stringify(log);
@@ -58,8 +57,9 @@
 				}else{
 					msn('error',response.mensagem);
 				}
-		    }
-		});
+			}).fail(function() {
+				msn('error', 'Falha Geral! error#999');
+			});
 	};
 	$(document).ready(function(){
 		$('#exibeNovaSenha').hide();
