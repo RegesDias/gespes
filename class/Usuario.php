@@ -1,14 +1,8 @@
 <?php
 require_once('Conexao.php');
+require_once('Genericas.php');
 
-class Usuario {
-  public function verificaPreenchimentoCampo($dado, $campo){
-    if (empty($dado)):
-      $retorno = array('codigo' => 0, 'mensagem' => 'Preencha o campo '.$campo.' !');
-      echo json_encode($retorno);
-      exit();
-    endif;
-  }
+class Usuario extends Genericas{
   function isValidPassword($senha) {
     $pattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d].\S{8,36}$/";
     if(!preg_match($pattern, $senha)){

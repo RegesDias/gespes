@@ -1,5 +1,6 @@
 
 	$('#btn-login').on("click", function(){
+		console.log('login');
         var vemail = $('#email').val();
         var vsenha = $('#senha').val();
         var data = {email:vemail, senha:vsenha }
@@ -20,7 +21,7 @@
 			url  : 'acoes/login.php',
 			data : data,
 			dataType: 'json',
-			success :  function(response){						
+		}).done(function(response){				
 				if(response.codigo == "1"){
                     msn('success',response.mensagem);
 					var log = {'nome': response.nome};
@@ -37,8 +38,9 @@
 					$('#btn-alterar-senha').removeClass('invisible');
 					msn('error',response.mensagem);
 				}	
-		    }
-		});
+			}).fail(function() {
+				msn('error', 'Falha Geral! error#999');
+			});
 	};
 	function alterarSenha(data){
 		$.ajax({
@@ -53,6 +55,8 @@
 					sessionStorage.setItem('nome', log);
                     msn('success',response.mensagem);
 					setTimeout(() => {  window.location.href = "home.html" }, 1000);
+				}else{
+					msn('error',response.mensagem);
 				}
 		    }
 		});
