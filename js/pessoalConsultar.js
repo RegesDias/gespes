@@ -42,7 +42,6 @@ function getPessoalMatriculaCpfNome(dado){
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        console.log(result);
         var total = result.length;
         var size = result.length+1;
         if (total>0 && result!='erro'){
@@ -53,7 +52,7 @@ function getPessoalMatriculaCpfNome(dado){
             $('#listaPessoalNome').attr("size", size);
             preenchimentoSelect(result);
         }else{
-            msn('error','Nenhum servidor encontrado!');
+            msn('error',result.mensagem);
         }
     }).fail(function() {
         $(location).attr('href', 'index.html');

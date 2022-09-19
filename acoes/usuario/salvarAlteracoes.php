@@ -13,14 +13,9 @@ $consultaPessoal = (isset($_POST['consultaPessoal'])) ? $_POST['consultaPessoal'
 $u = new Usuario;
 $u->verificaPreenchimentoCampo($nome,'nome');
 $u->verificaPreenchimentoCampo($status, 'status');
-$u->atualizarDadosUsuario($cpf,$nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal);
-
 
 if(Conexao::verificaLogin('usuarios')){
-    $exec->execute();
-    if ($exec->rowCount() >= 1) {
+        $u->gravaLog('Modificado os dados do usuário com o cpf: '.$cpf);
+        $u->atualizarDadosUsuario($cpf,$nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal);
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));
-    } else {
-        echo json_encode('Erro ao salvar Usuário');
-    }
 }

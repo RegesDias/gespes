@@ -2,19 +2,31 @@
 
 session_start();
 class Conexao{
-    public static $instance;
+    public static $gespes;
 
     public static function Inst() {
-        //$srv = "187.45.196.218";
         $srv = "10.40.10.7";
         $usr = 'setinf';
         $db = 'gespes';
         $pwd = 'semad@cpd';
         $dsn = 'mysql:dbname='.$db.';host='.$srv;     
-        if (!isset(self::$instance)) {
-            self::$instance = new PDO($dsn, $usr, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        if (!isset(self::$gespes)) {
+            self::$gespes = new PDO($dsn, $usr, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         }
-        return self::$instance;
+        return self::$gespes;
+    }
+    public static $gestaoPessoal;
+
+    public static function InstSDGC() {
+        $srv = "10.40.10.6";
+        $usr = 'root';
+        $db = 'gestaoPessoal';
+        $pwd = 'semad@cpd';
+        $dsn = 'mysql:dbname='.$db.';host='.$srv;     
+        if (!isset(self::$gestaoPessoal)) {
+            self::$gestaoPessoal = new PDO($dsn, $usr, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        }
+        return self::$gestaoPessoal;
     }
     public static function verificaLogin($campo) {
         $sql = "SELECT token FROM usuario WHERE email = ?";

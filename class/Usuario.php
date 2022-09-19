@@ -107,30 +107,18 @@ class Usuario extends Generica{
     $stm->bindValue(1, $retorno->id);
     $stm->execute();
   }
-  public function gravaLog($email, $senha, $sucessoLogin){
-    $bloqueado = ($_SESSION['tentativas'] == TENTATIVAS_ACEITAS) ? 'SIM' : 'NAO';
-    $sql = 'INSERT INTO usuario_log (ip, email, senha, origem, sucessoLogin, bloqueado) VALUES (?, ?, ?, ?, ?, ?)';
-    $stm = Conexao::Inst()->prepare($sql);
-    $stm->bindValue(1, $_SERVER['SERVER_ADDR']);
-    $stm->bindValue(2, $email);
-    $stm->bindValue(3, $senha);
-    $stm->bindValue(4, $_SERVER['HTTP_REFERER']);
-    $stm->bindValue(5, $sucessoLogin);
-    $stm->bindValue(6, $bloqueado);
-    $stm->execute();
-  }
 
-  public function verificaUsuarioSenha($retorno, $email, $senha){
+  public function verificaUsuarioSenha($retorno, $senha){
     $senhaMd5 = md5($senha);
     if(!empty($retorno) && ($senhaMd5 == $retorno->senha)):
       $_SESSION['logado'] = 'SIM';
       $_SESSION['tentativas'] = 0;
       $this->atualizarToken($retorno);
-      $this->gravaLog($email, $senhaMd5, 'login');
+      $this->gravaLog('login', $senhaMd5);
     else:
       $_SESSION['logado'] = 'NAO';
       $_SESSION['tentativas'] = (isset($_SESSION['tentativas'])) ? $_SESSION['tentativas'] += 1 : 1;
-      $this->gravaLog($email, $senha, 'loginFalha');
+      $this->gravaLog('loginFalha', $senha);
     endif;
   }
 
@@ -277,8 +265,14 @@ class Usuario extends Generica{
     return $exec = Conexao::Inst()->prepare($call);
   }
   public function ultimoLogin($email){
-    $call = "SELECT * FROM usuario_log WHERE sucessoLogin = '1' AND email = '$email' ORDER BY data_hora LIMIT 1 ";
+    $call = "SELECT * FROM usuario_log WHERE sucessoLogin = 'login' AND email = '$email' ORDER BY data_hora LIMIT 1 ";
     return $exec = Conexao::Inst()->prepare($call);
+  }
+  public function ultimaAcao($email){
+    $call = "SELECT sucessoLogin, data_hora FROM usuario_log WHERE email = '$email' AND senha IS NULL ORDER BY id DESC LIMIT 1";
+     $exec = Conexao::Inst()->prepare($call);
+     $exec->execute();
+     return $exec->fetchAll(PDO::FETCH_ASSOC);
   }
   function validaCPF($cpf) {
       $cpf = preg_replace( '/[^0-9]/is', '', $cpf );

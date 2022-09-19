@@ -29,6 +29,7 @@ $u->insereNovoUsuario($chave,$senha,$cpf, $nome,$status,$atendimentoEntrada,$ate
 if(Conexao::verificaLogin('usuarios')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
+        $u->gravaLog('Insere novo Usuário com o CPF: '.$cpf);
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));
     } else {
         echo json_encode('Erro ao salvar Usuário');

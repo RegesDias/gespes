@@ -11,5 +11,6 @@ $cpf = (isset($_POST['cpf'])) ? $_POST['cpf'] : '' ;
 //Validar dados
 $u = new Usuario;
 if(Conexao::verificaLogin('usuarios')){
+    $u->gravaLog('Renovar senha do usuário com o cpf: '.$cpf);
     $retorno = $u->insereNovaSenha($cpf,$email);
 }

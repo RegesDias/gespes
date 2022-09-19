@@ -86,7 +86,6 @@ $("#sairSistema").on("click", function() {
 });
 $(document).ready(function(){
   var login = JSON.parse(sessionStorage.getItem('login'));
-  console.log(login);
   $('#carregando').hide();
   $('#logoDireita').hide();
   $('#nomeUsuarioLogado').html(login.nome);

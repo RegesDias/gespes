@@ -64,10 +64,10 @@ function getUsuarioCpfNome(dado){
         $('#carregando').hide();
     });
 };
-function getUsuarioDados(codfunc){
+function getUsuarioDados(codFunc){
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/usuario/buscarCpf.php?codfunc='+codfunc,
+        url: 'acoes/usuario/buscarCpf.php?codFunc='+codFunc,
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosUsuario){
@@ -84,6 +84,7 @@ function getUsuarioDados(codfunc){
         $('#chaveLabel').html(dadosUsuario[0].email);
         $('#dataCriacaoLabel').html(converteDataHoraBr(dadosUsuario[0].dataHora));
         $('#dataUltimoLoginLabel').html(converteDataHoraBr(dadosUsuario[0].ultimoLogin));
+        $('#ultimaAcaoLabel').html(dadosUsuario[0].ultimaAcao);
         
     }).fail(function() {
         $(location).attr('href', 'index.html');
@@ -220,6 +221,9 @@ $("#visualizarServidor").on("click", function() {
     $("#dadosGeral").trigger('click');
     $('#renovarSenha').show();
     $('#UsuarioCpfs').attr('disabled', 'disabled');
+    $('#dataCriacaoLabel').html('');
+    $('#dataUltimoLoginLabel').html('');
+    $('#ultimaAcaoLabel').html('');
     getUsuarioDados(codfunc);
 });
 $("#btnInserir").on("click", function() {
