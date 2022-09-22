@@ -29,7 +29,8 @@
 								'atendimentoEntrada': response.atendimentoEntrada,
 								'atendimentoAgenda': response.atendimentoAgenda,
 								'alterarSenha': response.alterarSenha,
-								'usuarios': response.usuarios
+								'usuarios': response.usuarios,
+								'setor': response.setor
 							};
 					log = JSON.stringify(log);
 					sessionStorage.setItem('login', log);
@@ -72,3 +73,15 @@
 		$('#exibeNovaSenha').hide();
 		$('#exibeNovaSenha2').hide();
 	});
+	function msn(icon, title) {
+		var Toast = Swal.mixin({
+		  toast: true,
+		  position: 'top-end',
+		  showConfirmButton: false,
+		  timer: 3000
+		});
+		Toast.fire({
+			icon: icon,
+			title: title
+		  });
+	  };

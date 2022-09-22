@@ -1,4 +1,19 @@
 //###############################Funções###########################################
+function getListaSetoresAtivos() {
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/setor/listarAtivos.php',
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        var size = result.length+1;
+        preenchimentoSelectSetor(result);
+    }).fail(function() {
+        $(location).attr('href', 'index.html');
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
 function getUsuarioCodigo() {
     $('#carregando').show();
     $.ajax({
@@ -80,11 +95,13 @@ function getUsuarioDados(codFunc){
         $('#atendimentoAgendaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].atendimentoAgenda));
         $('#alterarSenhaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].alterarSenha));
         $('#usuariosCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].usuarios));
+        $('#setorCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].setor));
         $('#modal-Usuario').modal('show');
         $('#chaveLabel').html(dadosUsuario[0].email);
         $('#dataCriacaoLabel').html(converteDataHoraBr(dadosUsuario[0].dataHora));
         $('#dataUltimoLoginLabel').html(converteDataHoraBr(dadosUsuario[0].ultimoLogin));
         $('#ultimaAcaoLabel').html(dadosUsuario[0].ultimaAcao);
+        getListaSetoresAtivos();
         
     }).fail(function() {
         $(location).attr('href', 'index.html');
@@ -92,6 +109,12 @@ function getUsuarioDados(codFunc){
         $('#carregando').hide();
     });
 };
+function preenchimentoSelectSetor(result){
+    for (var i = 0; i < result.length; i++) {
+        $('#setorSelect').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');
+    }
+};
+
 function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
         $('#listaUsuario').prepend('<option value='+ result[i].CPF +'> '+result[i].CPF+'</option>');
@@ -109,6 +132,7 @@ function salvarAlteracoesUsuario(data){
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
                 $('#modal-Usuario').modal('hide');
+                getUsuarioCodigo();
             }
             else{		
                 msn('error',response.mensagem);
@@ -172,6 +196,7 @@ $('#salvarAlteracoesUsuario').on("click", function(){
     var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
     var alterarSenhaCheckbox = converteBooleanEmNumero($('#alterarSenhaCheckbox').is(':checked'));
     var usuariosCheckbox = converteBooleanEmNumero($('#usuariosCheckbox').is(':checked'));
+    var setorCheckbox = converteBooleanEmNumero($('#setorCheckbox').is(':checked'));
     var data = {
                 cpf:UsuarioCpf,
                 nome:usuarioNome, 
@@ -181,6 +206,7 @@ $('#salvarAlteracoesUsuario').on("click", function(){
                 atendimentoAgenda:atendimentoAgendaCheckbox, 
                 alterarSenha:alterarSenhaCheckbox, 
                 usuarios:usuariosCheckbox, 
+                setor:setorCheckbox, 
             }
     salvarAlteracoesUsuario(data);
 });
@@ -193,6 +219,7 @@ $('#inserirUsuario').on("click", function(){
     var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
     var alterarSenhaCheckbox = converteBooleanEmNumero($('#alterarSenhaCheckbox').is(':checked'));
     var usuariosCheckbox = converteBooleanEmNumero($('#usuariosCheckbox').is(':checked'));
+    var setorCheckbox = converteBooleanEmNumero($('#setorCheckbox').is(':checked'));
     var emailUsuario = $('#emailUsuario').val();
     var senhaUsuario = $('#senhaUsuario').val();
     var senha2Usuario = $('#senha2Usuario').val();
@@ -205,6 +232,7 @@ $('#inserirUsuario').on("click", function(){
                 atendimentoAgenda:atendimentoAgendaCheckbox, 
                 alterarSenha:alterarSenhaCheckbox, 
                 usuarios:usuariosCheckbox, 
+                setor:setorCheckbox, 
                 email:emailUsuario,
                 senha:senhaUsuario,
                 senha2:senha2Usuario
@@ -240,6 +268,7 @@ $("#btnInserir").on("click", function() {
     $('#atendimentoAgendaCheckbox').prop("checked", false);
     $('#alterarSenhaCheckbox').prop("checked", false);
     $('#usuariosCheckbox').prop("checked", false);
+    $('#setorCheckbox').prop("checked", false);
     $('#UsuarioNome').val('');
     $('#UsuarioCpfs').val('');
     $("#dadosGeral").trigger('click');

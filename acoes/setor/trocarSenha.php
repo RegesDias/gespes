@@ -17,8 +17,8 @@ $u->verificaPreenchimentoCampo($senhaNovaSenha, 'Nova Senha');
 $u->verificaSenhasCoincidem($senhaNovaSenha, $senhaNovaSenha2);
 $u->isValidPassword($senhaNovaSenha);
 
-$retorno = $u->buscaEmail($email);
-$u->verificaSenha($retorno[0], $senha);
+$retorno = $u->buscaUsuarioEmail($email);
+$u->verificaUsuarioSenha($retorno[0], $senha);
 if ($_SESSION['logado'] == 'SIM'){
 	if(Conexao::verificaLogin('alterarSenha')){
 		$u->gravaLog('Usuario trocou sua senha');

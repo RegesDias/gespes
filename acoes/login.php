@@ -13,13 +13,13 @@ $u->verificaPreenchimentoCampo($senha, 'senha');
 //Validacao
 $retorno = $u->contaTentativasLoginFalhas();
 $u->bloqueiaContaExcedeuTentativasLogin($retorno);
-$retorno = $u->buscaUsuarioEmail($email);
+$retorno = $u->buscaEmail($email);
 if ($retorno[0]->status != 'Ativo'){
 	$retorno = array('codigo' => 0, 'mensagem' => 'Usuário '.$retorno[0]->nome.' está '.$retorno[0]->status);
 	echo json_encode($retorno);
 	exit();
 }
-$u->verificaUsuarioSenha($retorno[0], $senha);
+$u->verificaSenha($retorno[0], $senha);
 $u->verificaSeSenhaIgualCPF($senha,$retorno[0]->CPF,$retorno[0]->nome);
 
 if ($_SESSION['logado'] == 'SIM'):
@@ -31,7 +31,8 @@ if ($_SESSION['logado'] == 'SIM'):
 						'atendimentoEntrada' => $retorno[0]->atendimentoEntrada,
 						'atendimentoAgenda' => $retorno[0]->atendimentoAgenda,
 						'alterarSenha' => $retorno[0]->alterarSenha,
-						'usuarios'  => $retorno[0]->usuarios
+						'usuarios'  => $retorno[0]->usuarios,
+						'setor'  => $retorno[0]->setor
 					);
 	echo json_encode($retorno);
 	exit();

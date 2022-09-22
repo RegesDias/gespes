@@ -31,7 +31,21 @@
                         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Iniciar</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                           <li><a id="consultaPessoal" style="cursor: pointer;" class="dropdown-item"><i class="nav-icon fas fa-search"></i> Consulta Pessoal </a></li>
-                          <li><a id="consultausuario" style="cursor: pointer;" class="dropdown-item"><i class="nav-icon fas fa-user"></i> Usuários </a></li>
+                          <li class="dropdown-submenu dropdown-hover">
+                            <a id="dropdownSubMenuAdministrar" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">
+                              Administrar
+                            </a>
+                            <ul aria-labelledby="dropdownSubMenuAtendimento" class="dropdown-menu border-0 shadow">
+                              <li>
+                                <li>
+                                  <a id="consultausuario" style="cursor: pointer;" class="dropdown-item"><i class="nav-icon fas fa-user"></i> Usuários </a>
+                                </li>
+                              </li>
+                              <li>
+                                  <a id="consultaSetores" style="cursor: pointer;" class="dropdown-item"><i class="nav-icon fas fa-table"></i> Setores</a>
+                              </li>
+                            </ul>
+                          </li>
                           <li class="dropdown-submenu dropdown-hover">
                             <a id="dropdownSubMenuAtendimento" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">
                               Atendimento

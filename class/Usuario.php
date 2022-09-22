@@ -2,7 +2,7 @@
 require_once('Conexao.php');
 require_once('Generica.php');
 
-class Usuario extends Generica{
+class  Usuario extends Generica{
   function isValidPassword($senha) {
     $pattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d].\S{8,36}$/";
     if(!preg_match($pattern, $senha)){
@@ -11,7 +11,7 @@ class Usuario extends Generica{
       exit();
     }
   }
-  function verificaSenha($senha, $cpf) {
+  function substituirSenhaPorCPF($senha, $cpf) {
     if (empty($senha)){
       return $cpf;
     }
@@ -108,7 +108,7 @@ class Usuario extends Generica{
     $stm->execute();
   }
 
-  public function verificaUsuarioSenha($retorno, $senha){
+  public function verificaSenha($retorno, $senha){
     $senhaMd5 = md5($senha);
     if(!empty($retorno) && ($senhaMd5 == $retorno->senha)):
       $_SESSION['logado'] = 'SIM';
@@ -129,19 +129,9 @@ class Usuario extends Generica{
       exit();
     endif;
   }
-  public function buscaUsuarioEmail($email){
+  public function buscaEmail($email){
     $sql = "SELECT 
-                    id,
-                    nome, 
-                    senha, 
-                    email, 
-                    status, 
-                    CPF, 
-                    consultaPessoal,
-                    atendimentoEntrada,
-                    atendimentoAgenda,
-                    alterarSenha,
-                    usuarios
+                  *
               FROM 
                 usuario 
               WHERE 
@@ -165,12 +155,12 @@ class Usuario extends Generica{
     $sql = "UPDATE usuario SET senha = '$senhaNovaSenha' WHERE token = '$token'";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
-    $retorno = $this->buscaUsuarioEmail($email);
+    $retorno = $this->buscaEmail($email);
     $retorno = array('codigo' => 1, 'mensagem' => 'Senha alterada com sucesso!', 'nome' => $retorno[0]->nome);
     echo json_encode($retorno);
     exit();
   }
-  public function insereNovoUsuario($email,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal){
+  public function insereNovo($email,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$setor,$consultaPessoal){
     $senha = md5($senha);
     $sql = "INSERT INTO usuario
                           (
@@ -184,6 +174,7 @@ class Usuario extends Generica{
                             atendimentoAgenda,
                             alterarSenha,
                             usuarios,
+                            setor,
                             dataHora
                           )VALUES(
                             '$cpf',
@@ -196,6 +187,7 @@ class Usuario extends Generica{
                             '$atendimentoAgenda',
                             '$alterarSenha',
                             '$usuarios',
+                            '$setor',
                               NOW())";
       $stm = Conexao::Inst()->prepare($sql);
       $stm->execute();
@@ -203,7 +195,7 @@ class Usuario extends Generica{
       echo json_encode($retorno);
       exit();
     }
-  public function atualizarDadosUsuario($cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal){
+  public function atualizarDados($cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal,$setor){
   $sql = "UPDATE usuario SET 
                         nome = '$nome',
                         status = '$status',
@@ -211,7 +203,8 @@ class Usuario extends Generica{
                         atendimentoAgenda = '$atendimentoAgenda',
                         alterarSenha = '$alterarSenha',
                         usuarios = '$usuarios',
-                        consultaPessoal = '$consultaPessoal'
+                        consultaPessoal = '$consultaPessoal',
+                        setor = '$setor'
             WHERE CPF = '$cpf'";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
@@ -234,7 +227,8 @@ class Usuario extends Generica{
     if(is_numeric($dado)){
       $call = "SELECT * FROM usuario WHERE cpf = '$dado'";
     }else{
-      $call = "SELECT * FROM usuario WHERE nome like '%$dado%'";
+      $nome = str_replace(' ', '%', $dado);
+      $call = "SELECT * FROM usuario WHERE nome like '%$nome%'";
     }
     return $exec = Conexao::Inst()->prepare($call);
   }
@@ -249,6 +243,7 @@ class Usuario extends Generica{
                   usuario.atendimentoAgenda,
                   usuario.alterarSenha,
                   usuario.usuarios,
+                  usuario.setor,
                   usuario.dataHora,
                   usuario.status,
                   usuario_log.data_hora as ultimoLogin
@@ -273,25 +268,6 @@ class Usuario extends Generica{
      $exec = Conexao::Inst()->prepare($call);
      $exec->execute();
      return $exec->fetchAll(PDO::FETCH_ASSOC);
-  }
-  function validaCPF($cpf) {
-      $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
-      if (strlen($cpf) != 11) {
-          return false;
-      }
-      if (preg_match('/(\d)\1{10}/', $cpf)) {
-          return false;
-      }
-      for ($t = 9; $t < 11; $t++) {
-          for ($d = 0, $c = 0; $c < $t; $c++) {
-              $d += $cpf[$c] * (($t + 1) - $c);
-          }
-          $d = ((10 * $d) % 11) % 10;
-          if ($cpf[$c] != $d) {
-              return false;
-          }
-      }
-      return true;
   }
 }
 ?>

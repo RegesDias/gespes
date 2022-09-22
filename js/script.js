@@ -10,6 +10,15 @@ function msn(icon, title) {
       title: title
     });
 };
+function addZero(num, len) {
+    var numberWithZeroes = String(num);
+    var counter = numberWithZeroes.length;
+    while(counter < len) {
+        numberWithZeroes = "0" + numberWithZeroes;
+        counter++;
+    }
+    return numberWithZeroes;
+}
 function selectDouble(a,b){
   for (var i=0,j=a.options.length; i<j; i++){
       b.options[i].selected=a.options[i].selected;
@@ -68,6 +77,10 @@ $("#consultausuario").on("click", function() {
   $('#principal').load( 'html/usuario/consultar.html' );
   $('#logoDireita').show();
 });
+$("#consultaSetores").on("click", function() {
+  $('#principal').load( 'html/setores/consultar.html' );
+  $('#logoDireita').show();
+});
 $("#atendimentoAgenda").on("click", function() {
   $('#principal').load( 'html/atendimento/agenda.html' );
   $('#logoDireita').show();
@@ -107,5 +120,7 @@ $(document).ready(function(){
   if((login.atendimentoEntrada == 0)&(login.atendimentoAgenda == 0)){
     $('#dropdownSubMenuAtendimento').hide();
   }
-  dropdownSubMenuAtendimento
+  if((login.usuarios == 0)&(login.setor == 0)){
+    $('#dropdownSubMenuAdministrar').hide();
+  }
 });

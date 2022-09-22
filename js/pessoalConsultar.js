@@ -44,7 +44,7 @@ function getPessoalMatriculaCpfNome(dado){
     }).done(function(result){
         var total = result.length;
         var size = result.length+1;
-        if (total>0 && result!='erro'){
+        if (total>0){
             msn('success','Total de '+total+' encontrado(s)!');
             $("#listaPessoal").empty();
             $("#listaPessoalNome").empty();

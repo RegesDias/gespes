@@ -15,6 +15,7 @@ if(Conexao::verificaLogin('consultaPessoal')){
         $s->gravaLog('Busca Pessoal: '.$dado);
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));
     } else {
-        echo json_encode('Nenhum comentário encontrado');
+        $retorno = array('codigo' => 0, 'mensagem' => 'Nenhum servidor encontrado!');
+        echo json_encode($retorno);
     }
 }
