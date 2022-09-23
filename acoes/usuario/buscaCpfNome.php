@@ -1,9 +1,11 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Usuario.php');
-$dado = $_GET['dado'];
 $u = new Usuario;
+
+$dado = $u->setDado($_GET['dado']);
+
 $u->verificaPreenchimentoCampo($dado, 'busca');
 $exec = $u->buscaCpfNome($dado);
 

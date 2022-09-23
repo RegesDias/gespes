@@ -1,7 +1,6 @@
 function msn(icon, title) {
   var Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
     showConfirmButton: false,
     timer: 3000
   });
@@ -102,6 +101,7 @@ $(document).ready(function(){
   $('#carregando').hide();
   $('#logoDireita').hide();
   $('#nomeUsuarioLogado').html(login.nome);
+  $('#versao').html(login.versao);
   if(login.consultaPessoal == 0){
     $('#consultaPessoal').hide();
   }

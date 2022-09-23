@@ -1,13 +1,15 @@
 <?php
-//header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Setor.php');
-$nome = strtoupper((isset($_POST['nome'])) ? $_POST['nome'] : '' );
-$status = (isset($_POST['status'])) ? $_POST['status'] : '' ;
-$u = new Setor;
-$u->verificaPreenchimentoCampo($nome,'nome');
-$u->verificaPreenchimentoCampo($status, 'status');
-$u->insereNovo($nome, $status);
+$s = new Setor;
+
+$nome = strtoupper($s->setDado($_POST['nome']));
+$status = $s->setDado($_POST['status']);
+
+$s->verificaPreenchimentoCampo($nome,'nome');
+$s->verificaPreenchimentoCampo($status, 'status');
+$s->insereNovo($nome, $status);
 
 if(Conexao::verificaLogin('setor')){
     $exec->execute();

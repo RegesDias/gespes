@@ -1,8 +1,9 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Setor.php');
 $s = new Setor;
+
 $exec = $s->listarPorNome();
 
 if(Conexao::verificaLogin('setor')){

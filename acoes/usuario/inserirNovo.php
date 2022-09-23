@@ -1,23 +1,23 @@
 <?php
+
 header('Content-Type: application/json');
-
 require_once('../../class/Usuario.php');
-$cpf = (isset($_POST['cpf'])) ? $_POST['cpf'] : '' ;
-$nome = strtoupper((isset($_POST['nome'])) ? $_POST['nome'] : '' );
-$chave = (isset($_POST['email'])) ? $_POST['email'] : '';
-$status = (isset($_POST['status'])) ? $_POST['status'] : '' ;
-$atendimentoEntrada =(isset($_POST['atendimentoEntrada'])) ? $_POST['atendimentoEntrada'] : '' ;
-$atendimentoAgenda = (isset($_POST['atendimentoAgenda'])) ? $_POST['atendimentoAgenda'] : '';
-$alterarSenha = (isset($_POST['alterarSenha'])) ? $_POST['alterarSenha'] : '';
-$usuarios = (isset($_POST['usuarios'])) ? $_POST['usuarios'] : '';
-$setor = (isset($_POST['setor'])) ? $_POST['setor'] : '';
-$consultaPessoal = (isset($_POST['consultaPessoal'])) ? $_POST['consultaPessoal'] : '';
-
-$senha = (isset($_POST['senha'])) ? $_POST['senha'] : '';
-$senha2 = (isset($_POST['senha2'])) ? $_POST['senha2'] : '';
-
-
 $u = new Usuario;
+
+$cpf = $u->setDado($_POST['cpf']);
+$nome = $u->setDado($_POST['nome']);
+$chave = $u->setDado($_POST['email']);
+$status = $u->setDado($_POST['status']);
+$atendimentoEntrada = $u->setDado($_POST['atendimentoEntrada']);
+$atendimentoAgenda = $u->setDado($_POST['atendimentoAgenda']);
+$alterarSenha = $u->setDado($_POST['alterarSenha']);
+$usuarios = $u->setDado($_POST['usuarios']);
+$setor = $u->setDado($_POST['setor']);
+$consultaPessoal = $u->setDado($_POST['consultaPessoal']);
+
+$senha = $u->setDado($_POST['senha']);
+$senha2 = $u->setDado($_POST['senha2']);
+
 $u->verificaPreenchimentoCampo($cpf,'cpf');
 $u->verificaPreenchimentoCpf($cpf);
 $u->verificaPreenchimentoCampo($nome,'nome');

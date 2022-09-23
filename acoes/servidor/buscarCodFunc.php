@@ -1,9 +1,11 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Servidor.php');
-$codfunc = $_GET['codfunc'];
 $s = new Servidor;
+
+$codfunc = $s->setDado($_GET['codfunc']);
+
 $exec = $s->buscaCodFunc($codfunc);
 
 if(Conexao::verificaLogin('consultaPessoal')){

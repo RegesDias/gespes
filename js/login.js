@@ -30,7 +30,8 @@
 								'atendimentoAgenda': response.atendimentoAgenda,
 								'alterarSenha': response.alterarSenha,
 								'usuarios': response.usuarios,
-								'setor': response.setor
+								'setor': response.setor,
+								'versao':versao
 							};
 					log = JSON.stringify(log);
 					sessionStorage.setItem('login', log);
@@ -72,6 +73,8 @@
 	$(document).ready(function(){
 		$('#exibeNovaSenha').hide();
 		$('#exibeNovaSenha2').hide();
+		versao= '0.3';
+		$('#versao').html(versao);
 	});
 	function msn(icon, title) {
 		var Toast = Swal.mixin({

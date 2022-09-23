@@ -16,8 +16,8 @@
             <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
                 <div class="container">
                   <a href="#" class="navbar-brand">
-                    <img src="img/Icone_5 milhões.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light"><b>GESPES</b>web 0.2</span>
+                    <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light"><b>GESPES</b>web <b id="versao">0.0</b></span>
                   </a>
             
                   <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,8 +74,19 @@
                         </ul>
                       </li>
                     </ul>
-                    <div id="nomeUsuarioLogado" class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    <div id="nomeUsuarioLogado" class="collapse navbar-collapse order-3">
                       Nome do usuario logado
+                    </div>
+                    <div class="progress collapse navbar-collapse  order-3" style="width: 20%;">
+                      <div  class="progress-bar bg-primary progress-bar-striped" 
+                            role="progressbar" 
+                            aria-valuenow="0" 
+                            aria-valuemin="0" 
+                            aria-valuemax="0" 
+                            style="width: 0%; height: 20px"
+                            id="barraCarregamento"
+                        >
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -85,10 +96,10 @@
                     </li>
                   </ul>
               </nav>
-        <div class="content-wrapper card card-danger">
+        <div class="content-wrapper card card-danger" id="corpo">
             <div class="content-header">
             </div>
-            <div class="container">
+            <div class="container card card-danger">
                   <div class="row" id='principal'>
                   </div>
             </div>

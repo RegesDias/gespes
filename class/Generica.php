@@ -41,6 +41,9 @@ class Generica {
       return $novaDataHora->format('d-m-Y H:i:s');
     }
   }
+  function setDado($dado){
+    return (isset($dado)) ? $dado : '' ;
+  }
   function validaCPF($cpf) {
     $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
     if (strlen($cpf) != 11) {

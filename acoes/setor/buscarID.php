@@ -1,9 +1,10 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Setor.php');
-$codFunc = $_GET['codFunc'];
 $s = new Setor;
+
+$codFunc = $s->setDado($_GET['codFunc']);
 $exec = $s->buscaID($codFunc);
 
 if(Conexao::verificaLogin('setor')){

@@ -1,8 +1,9 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Servidor.php');
 $s = new Servidor;
+
 $exec = $s->listarPorNome();
 
 if(Conexao::verificaLogin('consultaPessoal')){

@@ -1,8 +1,9 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Setor.php');
 $s = new Setor;
+
 $exec = $s->ListarAtivos();
 
 if(Conexao::verificaLogin('setor')){

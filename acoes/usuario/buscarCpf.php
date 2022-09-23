@@ -1,9 +1,10 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Usuario.php');
-$codFunc = $_GET['codFunc'];
 $u = new Usuario;
+
+$codFunc = $u->setDado($_GET['codFunc']);
 $exec = $u->buscaCPF($codFunc);
 
 if(Conexao::verificaLogin('usuarios')){

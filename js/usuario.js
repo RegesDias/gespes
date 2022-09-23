@@ -61,8 +61,8 @@ function getUsuarioCpfNome(dado){
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length+1;
-        var size = total-1;
+        var total = result.length;
+        var size = result.length+1;
         if (total>0){
             msn('success','Total de '+total+' encontrado(s)!');
             $("#listaUsuario").empty();
@@ -117,9 +117,12 @@ function preenchimentoSelectSetor(result){
 
 function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
+        $( '#barraCarregamento' ).css( "width", (100*i)/result.length+"%");
         $('#listaUsuario').prepend('<option value='+ result[i].CPF +'> '+result[i].CPF+'</option>');
         $('#listaUsuarioNome').prepend('<option value='+ result[i].CPF +'> '+result[i].nome+'</option>');
     }
+    $( '#barraCarregamento' ).css( "width", "100%");
+    setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
 };
 
 function salvarAlteracoesUsuario(data){

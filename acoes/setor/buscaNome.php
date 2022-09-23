@@ -1,9 +1,11 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Setor.php');
-$dado = $_GET['dado'];
 $s = new Setor;
+
+$dado = $s->setDado($_GET['dado']);
+
 $s->verificaPreenchimentoCampo($dado, 'busca');
 $exec = $s->buscaNome($dado);
 

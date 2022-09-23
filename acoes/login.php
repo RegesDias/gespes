@@ -1,12 +1,12 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 require_once('../class/Usuario.php');
-
-// Recebe os dados do formulário
-$email = (isset($_POST['email'])) ? $_POST['email'] : '' ;
-$senha = (isset($_POST['senha'])) ? $_POST['senha'] : '' ;
-
 $u = new Usuario;
+
+$email = $u->setDado($_POST['email']);
+$senha = $u->setDado($_POST['senha']);
+
 $u->verificaPreenchimentoCampo($email,'chave');
 $u->verificaPreenchimentoCampo($senha, 'senha');
 

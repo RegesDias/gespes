@@ -1,8 +1,9 @@
 <?php
-header('Content-Type: application/json');
 
+header('Content-Type: application/json');
 require_once('../../class/Usuario.php');
 $u = new Usuario;
+
 $exec = $u->listarPorNome();
 
 if(Conexao::verificaLogin('usuarios')){

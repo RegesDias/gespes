@@ -87,9 +87,12 @@ function getDados(codFunc){
 };
 function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
+        $( '#barraCarregamento' ).css( "width", (100*i)/result.length+"%");
         $('#lista').prepend('<option value='+ result[i].id +'> '+addZero(result[i].id, 6)+'</option>');
         $('#listaNome').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');
     }
+    $( '#barraCarregamento' ).css( "width", "100%");
+    setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
 };
 
 function salvarAlteracoes(data){

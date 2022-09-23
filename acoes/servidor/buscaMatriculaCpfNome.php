@@ -1,11 +1,11 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 
+header('Content-Type: application/json');
 require_once('../../class/Servidor.php');
-$dado = (isset($_GET['dado'])) ? $_GET['dado'] : '' ;
 $s = new Servidor;
+
+$dado = $s->setDado($_GET['dado']);
+
 $s->verificaPreenchimentoCampo($dado, 'busca');
 $exec = $s->buscaMatriculaCpfNome($dado);
 
