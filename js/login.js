@@ -25,6 +25,7 @@
                     msn('success',response.mensagem);
 					var log = {
 								'nome': response.nome,
+								'CPF': response.CPF,
 								'consultaPessoal': response.consultaPessoal,
 								'atendimentoEntrada': response.atendimentoEntrada,
 								'atendimentoAgenda': response.atendimentoAgenda,

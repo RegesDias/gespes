@@ -100,6 +100,7 @@ $(document).ready(function(){
   var login = JSON.parse(sessionStorage.getItem('login'));
   $('#carregando').hide();
   $('#logoDireita').hide();
+  $('#fotoUsuarioLogado').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+login.CPF+'.bmp');
   $('#nomeUsuarioLogado').html(login.nome);
   $('#versao').html(login.versao);
   if(login.consultaPessoal == 0){

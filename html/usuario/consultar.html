@@ -1,22 +1,17 @@
-<div class="col-lg-12">
-  <div class="content-header">
-    <div class="container">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0"> Controle de Acesso <small> Usuários</small></h1>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Iniciar</a></li>
-            <li class="breadcrumb-item"><a href="#">Administrar</a></li>
-            <li class="breadcrumb-item active">Usuários</li>
-          </ol>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+<div class="card ">
+  <div class="card-header">
+    <h3 class="card-title">Controle de Acesso Usuários</h3>
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
   </div>
+  <div class="card-body">
   <div class="card card-outline">
-    <div class="card-body">
       <form name="moose">
         <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
           <label class="btn btn-secondary active col-3">
@@ -41,7 +36,6 @@
           </div>
         </div>
       </form>
-    </div>
   </div>
   <div class="input-group mb-3">
     <div class="input-group-prepend">
@@ -61,16 +55,14 @@
   <div class="modal fade" id="modal-Usuario">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header ">
+          <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
             <h4><div id="chaveLabel" ></div></h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="card-body">
-          <div class="col-12">
-            <!-- Custom Tabs -->
             <div class="card">
               <div class="card-header d-flex p-0">
                 <h3 class="card-title p-3">Dados do Usuário</h3>
@@ -85,6 +77,13 @@
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
                     <div class="form-group">
+                      <div class="row">
+                        <div class="col-2">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-bordered-sm" id="imgFoto" src="imagem"  style="opacity: .8; height: 90px">
+                            </div>
+                        </div>
+                        <div class="col-10">
                       <div class="row">
                         <div class="col-3">
                           <label>CPF</label>
@@ -102,7 +101,9 @@
                             <option>Bloqueado</option>
                           </select>
                       </div>
+                    </div>
                       </div>
+                    </div>
                    </div>
                    <div class="form-group" id="camposCriarUsuario">
                       <div class="row">
@@ -207,12 +208,9 @@
                     </div>
                   </div>
                   <!-- /.tab-pane -->
-                </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
             </div>
-            <!-- ./card -->
-          </div>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal"><i class="nav-icon fas fa-times"></i>

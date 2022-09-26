@@ -27,6 +27,7 @@ if ($_SESSION['logado'] == 'SIM'):
 						'codigo' => 1, 
 						'mensagem' => 'Logado com sucesso!', 
 						'nome' => $retorno[0]->nome,
+						'CPF' => $retorno[0]->CPF,
 						'consultaPessoal' => $retorno[0]->consultaPessoal,
 						'atendimentoEntrada' => $retorno[0]->atendimentoEntrada,
 						'atendimentoAgenda' => $retorno[0]->atendimentoAgenda,

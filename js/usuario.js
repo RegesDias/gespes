@@ -86,6 +86,7 @@ function getUsuarioDados(codFunc){
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosUsuario){
+        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosUsuario[0].CPF+'.bmp');
         $('#UsuarioNome').val(dadosUsuario[0].nome);
         $('#UsuarioCpfs').val(dadosUsuario[0].CPF);
         $('#UsuarioStatus').val(dadosUsuario[0].status);

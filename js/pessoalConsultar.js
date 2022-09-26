@@ -67,6 +67,7 @@ function getPessoaDadosFuncionais(codfunc){
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosPessoal){
+        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
         $('#pessoalNome').val(dadosPessoal[0].nome);
         $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
         $('#pessoalCpfs').val(dadosPessoal[0].cpfs);
@@ -87,8 +88,7 @@ function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
         $( '#barraCarregamento' ).css( "width", (100*i)/result.length+"%");
         $('#listaPessoal').prepend('<option value='+ result[i].codfunc +'> '+result[i].codfunc+'</option>');
-        $('#listaPessoalNome').prepend('<option value='+ result[i].codfunc +'> '+result[i].nome+'</option>');
-    }
+        $('#listaPessoalNome').prepend('<option value='+ result[i].codfunc +'> '+result[i].nome+'</option>');    }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
 };

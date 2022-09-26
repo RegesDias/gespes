@@ -8,3 +8,6 @@
     background-image:linear-gradient( rgba(255,255,255,.8) 0%,rgba(255,255,255,.8) 100%), url(../img/BrasaoMacae.png); 
 
   }
+  #versao{
+    font-size:15px;
+  }
