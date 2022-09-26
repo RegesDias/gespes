@@ -6,7 +6,7 @@ $u = new Usuario;
 
 $cpf = $u->setDado($_POST['cpf']);
 $nome = $u->setDado($_POST['nome']);
-$status = $u->setDado($_GET['status']);
+$status = $u->setDado($_POST['status']);
 $atendimentoEntrada = $u->setDado($_POST['atendimentoEntrada']);
 $atendimentoAgenda = $u->setDado($_POST['atendimentoAgenda']);
 $alterarSenha = $u->setDado($_POST['alterarSenha']);

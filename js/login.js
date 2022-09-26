@@ -54,7 +54,7 @@
 	function alterarSenha(data){
 		$.ajax({
 			type : 'POST',
-			url  : 'acoes/usuario/trocarSenha.php',
+			url  : 'acoes/trocarSenha.php',
 			data : data,
 			dataType: 'json',
 			}).done(function(response){					

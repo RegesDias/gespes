@@ -19,10 +19,8 @@ $u->isValidPassword($senhaNovaSenha);
 $retorno = $u->buscaEmail($email);
 $u->verificaSenha($retorno[0], $senha);
 if ($_SESSION['logado'] == 'SIM'){
-	if(Conexao::verificaLogin('alterarSenha')){
-		$u->gravaLog('Usuario trocou sua senha');
-		$u->insereNovaSenha($senhaNovaSenha,$email);
-	}
+	$u->gravaLog('Usuario trocou sua senha');
+	$u->insereNovaSenha($senhaNovaSenha,$email);
 }else{
 	$u->verificaBloqueio();
 }

@@ -42,40 +42,42 @@ class Servidor extends Generica{
   public function buscaCodFunc($codfunc){
       $codfunc = str_pad($codfunc , 6 , '0' , STR_PAD_LEFT);
       $call = self::$sql."AND 
-                              historico_funcional.matricula = '$codfunc'
-                          ORDER BY 
-                              historico_funcional.matricula LIMIT 1000";
-                              
-      return $exec = Conexao::InstSDGC()->prepare($call);
+                              historico_funcional.matricula = '$codfunc'";
+    return $exec = Conexao::InstSDGC()->prepare($call);  
   }
-
-  public function buscaNome($nome){
+  public function buscaMatricula($dado,$order){
+    $dado = str_pad($dado , 6 , '0' , STR_PAD_LEFT);
+    $call = self::$sql."AND 
+                            historico_funcional.matricula = '$dado'";
+    return $call;
+}
+  public function buscaNome($nome,$order){
     $nome = str_replace(' ', '%', $nome);
     $call = self::$sql."AND 
-                            info_pessoal.nome Like '%$nome%'
-                        ORDER BY 
-                            info_pessoal.nome LIMIT 1000";
-
-    return $exec = Conexao::InstSDGC()->prepare($call);
+                            info_pessoal.nome Like '%$nome%'";
+    if($order!=''){
+      $call = $call." ORDER BY ".$order." DESC";
+    }
+    return $call;  
   }
 
-  public function buscaCPF($cpf){
+  public function buscaCPF($cpf,$order){
     $call = self::$sql."AND 
-                            info_pessoal.cpf = '$cpf'
-                        ORDER BY 
-                        info_pessoal.nome LIMIT 1000";
-    return $exec = Conexao::InstSDGC()->prepare($call);
+                            info_pessoal.cpf = '$cpf'";
+    return $call;                   
+    
   }
 
-  public function buscaMatriculaCpfNome($dado){
+  public function buscaMatriculaCpfNome($dado, $order){
     if(is_numeric($dado)){
         if(strlen($dado) == 11){
-          return $this->buscaCPF($dado);
+          return $call  = $this->buscaCPF($dado, $order);
         }else{
-          return $this->buscaCodFunc($dado);
+
+          return $call = $this->buscaMatricula($dado,$order);
         }
     }
-      return $this->buscaNome($dado);
+    return $call = $this->buscaNome($dado, $order);
   }
 
 }

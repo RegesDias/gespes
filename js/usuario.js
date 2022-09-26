@@ -2,7 +2,7 @@
 function getListaSetoresAtivos() {
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/setor/listarAtivos.php',
+        url: 'acoes/usuario/listarSetoresAtivos.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){

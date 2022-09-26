@@ -35,24 +35,24 @@ function getPessoalNome() {
         $('#carregando').hide();
     });
 };
-function getPessoalMatriculaCpfNome(dado){
+function getPessoalMatriculaCpfNome(dado,order){
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/servidor/buscaMatriculaCpfNome.php?dado='+dado,
+        url: 'acoes/servidor/buscaMatriculaCpfNome.php?dado='+dado+'&order='+order,
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var total = result.length;
-        var size = result.length+1;
-        if (total>0){
-            msn('success','Total de '+total+' encontrado(s)!');
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            var size = result.exec.length+1;
+            console.log('entrou2');
+            //msn('success',result.mensagem);
             $("#listaPessoal").empty();
             $("#listaPessoalNome").empty();
             $('#listaPessoal').attr("size", size);
             $('#listaPessoalNome').attr("size", size);
-            preenchimentoSelect(result);
-        }else{
-            msn('error',result.mensagem);
+            preenchimentoSelect(result.exec);
         }
     }).fail(function() {
         $(location).attr('href', 'index.html');
@@ -76,7 +76,6 @@ function getPessoaDadosFuncionais(codfunc){
         $('#pessoalPrefixos').val(dadosPessoal[0].prefixos);
         $('#pessoalSecoes').val(dadosPessoal[0].secoes);
         $('#pessoalSecretarias').val(dadosPessoal[0].secretarias);
-        $('#textMatriculaCpfNome').val('');
         $('#modal-pessoal').modal('show');
     }).fail(function() {
         $(location).attr('href', 'index.html');
@@ -95,15 +94,19 @@ function preenchimentoSelect(result){
 
 //###############################Ações###########################################
 
+$("#btnLimpar").on("click", function() {
+    getPessoalNome();
+    $('#textMatriculaCpfNome').val('');
+});
+
 $("#visualizarServidor").on("click", function() {
     var codfunc =  $('#listaPessoal option:selected').val();
     getPessoaDadosFuncionais(codfunc);
 });
 
 $('#btnMatriculaCpfNome').on("click", function(){
-    var textMatriculaCpfNome = $('#textMatriculaCpfNome').val();
-    getPessoalMatriculaCpfNome(textMatriculaCpfNome);
-    $('#textMatriculaCpfNome').val('');
+    var dado = $('#textMatriculaCpfNome').val();
+    getPessoalMatriculaCpfNome(dado,'');
     $('#visualizarServidor').attr("disabled","disabled");
 });
 $('#textMatriculaCpfNome').keyup(function(){
@@ -111,27 +114,32 @@ $('#textMatriculaCpfNome').keyup(function(){
     $('#visualizarServidor').attr("disabled","disabled");
 });
 $('#optionPessoalCodigo').on("click", function(){
-    getPessoalCodigo();
+    var dado = $('#textMatriculaCpfNome').val();
+    if(dado){
+        getPessoalMatriculaCpfNome(dado, 'matricula');
+    }else{
+        getPessoalCodigo();
+    }
     $('#visualizarServidor').attr("disabled","disabled");
-    $('#btnMatriculaCpfNome').attr("disabled","disabled");
-    $('#textMatriculaCpfNome').val('');
 });
 $('#optionPessoalNome').on("click", function(){
-    getPessoalNome();
+    var dado = $('#textMatriculaCpfNome').val();
+    if(dado){
+        getPessoalMatriculaCpfNome(dado, 'nome');
+    }else{
+        getPessoalNome();
+    }
     $('#visualizarServidor').attr("disabled","disabled");
-    $('#btnMatriculaCpfNome').attr("disabled","disabled");
-    $('#textMatriculaCpfNome').val('');
 });
 $('#listaPessoal').change(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
-    $('#textMatriculaCpfNome').val('');
 });
 $('#listaPessoalNome').change(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
-    $('#textMatriculaCpfNome').val('');
+
 });
 $(document).ready(function(){
-    getPessoalCodigo();
+    getPessoalNome();
 });

@@ -118,6 +118,12 @@ $(document).ready(function(){
   if(login.alterarSenha == 0){
     $('#alterarSenha').hide();
   }
+  if(login.usuarios == 0){
+    $('#consultausuario').hide();
+  }
+  if(login.setor == 0){
+    $('#consultaSetores').hide();
+  }
   if((login.atendimentoEntrada == 0)&(login.atendimentoAgenda == 0)){
     $('#dropdownSubMenuAtendimento').hide();
   }

@@ -4,9 +4,18 @@ require_once('Generica.php');
 
 class  Usuario extends Generica{
   function isValidPassword($senha) {
-    $pattern = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d].\S{8,36}$/";
-    if(!preg_match($pattern, $senha)){
-      $retorno = array('codigo' => 0, 'mensagem' => ' Senha não atende ao nível minimo de complexidade!');
+    if (ctype_alpha($senha)){
+      $retorno = array('codigo' => 0, 'mensagem' => 'É obrigatorio conter números !');
+      echo json_encode($retorno);
+      exit();
+    }
+    if (is_numeric($senha)){
+      $retorno = array('codigo' => 0, 'mensagem' => 'É obrigatorio conter letras !');
+      echo json_encode($retorno);
+      exit();
+    }
+    if ((strlen($senha))<9){
+      $retorno = array('codigo' => 0, 'mensagem' => 'Precisa ter no minimo 8 caracteres !');
       echo json_encode($retorno);
       exit();
     }
