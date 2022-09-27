@@ -79,6 +79,27 @@ function getUsuarioCpfNome(dado){
         $('#carregando').hide();
     });
 };
+function getUsuarioSDGCcpf(dado){
+    $.ajax({
+        url: 'acoes/usuario/buscaCpfSDGC.php?dado='+dado,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        var total = result.length;
+        var size = result.length+1;
+        if (total>0){
+            console.log(result);
+            $('#UsuarioNome').val(result[0].nome);
+            $('#emailUsuario').val(result[0].login);
+        }else{
+            msn('error','Nenhum servidor encontrado!');
+        }
+    }).fail(function() {
+        //$(location).attr('href', 'index.html');
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
 function getUsuarioDados(codFunc){
     $('#carregando').show();
     $.ajax({
@@ -86,6 +107,7 @@ function getUsuarioDados(codFunc){
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosUsuario){
+        console.log(dadosUsuario[0]);
         $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosUsuario[0].CPF+'.bmp');
         $('#UsuarioNome').val(dadosUsuario[0].nome);
         $('#UsuarioCpfs').val(dadosUsuario[0].CPF);
@@ -102,8 +124,8 @@ function getUsuarioDados(codFunc){
         $('#dataCriacaoLabel').html(converteDataHoraBr(dadosUsuario[0].dataHora));
         $('#dataUltimoLoginLabel').html(converteDataHoraBr(dadosUsuario[0].ultimoLogin));
         $('#ultimaAcaoLabel').html(dadosUsuario[0].ultimaAcao);
-        getListaSetoresAtivos();
-        
+        $('#ultimaAcaoLabel').html(dadosUsuario[0].ultimaAcao);
+        $('#setorSelect').val(dadosUsuario[0].idSetor).change();
     }).fail(function() {
         $(location).attr('href', 'index.html');
     }).always(function() {
@@ -136,7 +158,7 @@ function salvarAlteracoesUsuario(data){
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
                 $('#modal-Usuario').modal('hide');
-                getUsuarioCodigo();
+                getUsuarioNome();
             }
             else{		
                 msn('error',response.mensagem);
@@ -181,6 +203,10 @@ function renovarSenhaUsuario(data){
 };
 
 //###############################Ações###########################################
+$("#btnLimpar").on("click", function() {
+    getUsuarioNome();
+    $('#textMatriculaCpfNome').val('');
+});
 $('#renovarSenha').on("click", function(){
     var UsuarioCpf = $('#UsuarioCpfs').val();
     var chave = $('#chaveLabel').html();
@@ -195,6 +221,7 @@ $('#salvarAlteracoesUsuario').on("click", function(){
     var UsuarioCpf = $('#UsuarioCpfs').val();
     var usuarioNome = $('#UsuarioNome').val();
     var usuarioStatus = $("#UsuarioStatus option:selected").val();
+    var setorSelect = $("#setorSelect option:selected").val();
     var consultaPessoalheckbox = converteBooleanEmNumero($('#consultaPessoalheckbox').is(':checked'));
     var atendimentoEntradaCheckbox = converteBooleanEmNumero($('#atendimentoEntradaCheckbox').is(':checked'));
     var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
@@ -211,6 +238,7 @@ $('#salvarAlteracoesUsuario').on("click", function(){
                 alterarSenha:alterarSenhaCheckbox, 
                 usuarios:usuariosCheckbox, 
                 setor:setorCheckbox, 
+                idSetor:setorSelect
             }
     salvarAlteracoesUsuario(data);
 });
@@ -218,6 +246,7 @@ $('#inserirUsuario').on("click", function(){
     var UsuarioCpf = $('#UsuarioCpfs').val();
     var usuarioNome = $('#UsuarioNome').val();
     var usuarioStatus = $("#UsuarioStatus option:selected").val();
+    var setorSelect = $("#setorSelect option:selected").val();
     var consultaPessoalheckbox = converteBooleanEmNumero($('#consultaPessoalheckbox').is(':checked'));
     var atendimentoEntradaCheckbox = converteBooleanEmNumero($('#atendimentoEntradaCheckbox').is(':checked'));
     var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
@@ -239,7 +268,8 @@ $('#inserirUsuario').on("click", function(){
                 setor:setorCheckbox, 
                 email:emailUsuario,
                 senha:senhaUsuario,
-                senha2:senha2Usuario
+                senha2:senha2Usuario,
+                idSetor:setorSelect
             }
         inserirUsuario(data);
 });
@@ -277,7 +307,38 @@ $("#btnInserir").on("click", function() {
     $('#UsuarioCpfs').val('');
     $("#dadosGeral").trigger('click');
     $('#renovarSenha').hide();
+    $('#imgFoto').attr('src', '');
     
+});
+$("#UsuarioCpfs").on("focusout", function() {
+    cpf = $("#UsuarioCpfs").val();
+    if(validarCPF(cpf)){
+        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+cpf+'.bmp');
+        getUsuarioSDGCcpf(cpf);
+        $('#UsuarioNome').prop('disabled', false);
+        $('#UsuarioStatus').prop('disabled', false);
+        $('#emailUsuario').prop('disabled', false);
+        $('#senhaUsuario').prop('disabled', false);
+        $('#senha2Usuario').prop('disabled', false);
+
+        $('#inserirUsuario').show();
+        $('#dadosacesso').show();
+        $('#dadosSetores').show();
+        $('#dadosDaConta').show();
+    }else{
+        msn('error','CPF inválido!');
+        $('#imgFoto').attr('src', '');
+        $('#UsuarioNome').prop('disabled', true).val('');
+        $('#UsuarioStatus').prop('disabled', true).val('');
+        $('#emailUsuario').prop('disabled', true).val('');
+        $('#senhaUsuario').prop('disabled', true).val('');
+        $('#senha2Usuario').prop('disabled', true).val('');
+
+        $('#inserirUsuario').hide();
+        $('#dadosacesso').hide();
+        $('#dadosSetores').hide();
+        $('#dadosDaConta').hide();
+    }
 });
 
 $('#btnMatriculaCpfNome').on("click", function(){
@@ -316,5 +377,6 @@ $('#listaUsuarioNome').change(function(){
 $(document).ready(function(){
     data = new Date();
     $('#dataAgenda').val(converteDataUS(data));
-    getUsuarioCodigo();
+    getListaSetoresAtivos();
+    getUsuarioNome();
 });

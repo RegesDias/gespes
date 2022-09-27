@@ -46,8 +46,7 @@ function getPessoalMatriculaCpfNome(dado,order){
             msn('error',result.mensagem);
         }else{
             var size = result.exec.length+1;
-            console.log('entrou2');
-            //msn('success',result.mensagem);
+            msn('success',result.mensagem);
             $("#listaPessoal").empty();
             $("#listaPessoalNome").empty();
             $('#listaPessoal').attr("size", size);
@@ -97,6 +96,8 @@ function preenchimentoSelect(result){
 $("#btnLimpar").on("click", function() {
     getPessoalNome();
     $('#textMatriculaCpfNome').val('');
+    $('#textMatriculaCpfNomeOrder').val('');
+    console.log('teste');
 });
 
 $("#visualizarServidor").on("click", function() {
@@ -106,38 +107,44 @@ $("#visualizarServidor").on("click", function() {
 
 $('#btnMatriculaCpfNome').on("click", function(){
     var dado = $('#textMatriculaCpfNome').val();
+    $('#textMatriculaCpfNomeOrder').val(dado);
     getPessoalMatriculaCpfNome(dado,'');
     $('#visualizarServidor').attr("disabled","disabled");
+    $('#textMatriculaCpfNome').val('');
 });
 $('#textMatriculaCpfNome').keyup(function(){
     $('#btnMatriculaCpfNome').removeAttr('disabled');
     $('#visualizarServidor').attr("disabled","disabled");
 });
 $('#optionPessoalCodigo').on("click", function(){
-    var dado = $('#textMatriculaCpfNome').val();
+    var dado = $('#textMatriculaCpfNomeOrder').val();
     if(dado){
         getPessoalMatriculaCpfNome(dado, 'matricula');
     }else{
         getPessoalCodigo();
     }
     $('#visualizarServidor').attr("disabled","disabled");
+    $('#textMatriculaCpfNome').val('');
 });
 $('#optionPessoalNome').on("click", function(){
-    var dado = $('#textMatriculaCpfNome').val();
+    var dado = $('#textMatriculaCpfNomeOrder').val();
     if(dado){
         getPessoalMatriculaCpfNome(dado, 'nome');
     }else{
         getPessoalNome();
     }
     $('#visualizarServidor').attr("disabled","disabled");
+    $('#textMatriculaCpfNome').val('');
 });
 $('#listaPessoal').change(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
+    $('#textMatriculaCpfNome').val('');
 });
 $('#listaPessoalNome').change(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
+    $('#textMatriculaCpfNome').val('');
 
 });
 $(document).ready(function(){

@@ -14,6 +14,7 @@ $alterarSenha = $u->setDado($_POST['alterarSenha']);
 $usuarios = $u->setDado($_POST['usuarios']);
 $setor = $u->setDado($_POST['setor']);
 $consultaPessoal = $u->setDado($_POST['consultaPessoal']);
+$idSetor = $u->setDado($_POST['idSetor']);
 
 $senha = $u->setDado($_POST['senha']);
 $senha2 = $u->setDado($_POST['senha2']);
@@ -25,7 +26,7 @@ $u->verificaPreenchimentoChave($chave,'chave');
 $u->verificaPreenchimentoCampo($status, 'status');
 $u->verificaSenhasCoincidem($senha, $senha2);
 $senha = $u->substituirSenhaPorCPF($senha,$cpf);
-$u->insereNovo($chave,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$setor,$consultaPessoal);
+$u->insereNovo($chave,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$setor,$consultaPessoal,$idSetor);
 
 if(Conexao::verificaLogin('usuarios')){
     $exec->execute();

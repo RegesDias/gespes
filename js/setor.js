@@ -1,5 +1,5 @@
 //###############################Funções##########################################
-function getCodigo() {
+function getOndenaCodigo() {
     $('#carregando').show();
     $.ajax({
         url: 'acoes/setor/listarCodigo.php',
@@ -19,7 +19,7 @@ function getCodigo() {
         $('#carregando').hide();
     });
 };
-function getNome() {
+function getOrdenaNome() {
     $('#carregando').show();
     $.ajax({
         url: 'acoes/setor/listarNome.php',
@@ -104,7 +104,7 @@ function salvarAlteracoes(data){
         success :  function(response){						
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
-                getCodigo();
+                getOndenaCodigo();
                 $('#modal').modal('hide');
             }
             else{		
@@ -123,7 +123,7 @@ function inserir(data){
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
                 $('#modal').modal('hide');
-                getCodigo();
+                getOndenaCodigo();
             }
             else{			
                 msn('error',response.mensagem);
@@ -150,6 +150,10 @@ function renovarSenha(data){
 };
 
 //###############################Ações###########################################
+$("#btnLimpar").on("click", function() {
+    getOrdenaNome();
+    $('#textMatriculaCpfNome').val('');
+});
 $('#renovarSenha').on("click", function(){
     var Cpf = $('#Cpfs').val();
     var chave = $('#chaveLabel').html();
@@ -228,13 +232,13 @@ $('#textMatriculaCpfNome').keyup(function(){
     $('#visualizarServidor').attr("disabled","disabled");
 });
 $('#optionCodigo').on("click", function(){
-    getCodigo();
+    getOndenaCodigo();
     $('#visualizarServidor').attr("disabled","disabled");
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
 $('#optionNome').on("click", function(){
-    getNome();
+    getOrdenaNome();
     $('#visualizarServidor').attr("disabled","disabled");
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
@@ -253,5 +257,5 @@ $('#listaNome').change(function(){
 $(document).ready(function(){
     data = new Date();
     $('#dataAgenda').val(converteDataUS(data));
-    getCodigo();
+    getOndenaCodigo();
 });

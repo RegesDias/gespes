@@ -169,7 +169,7 @@ class  Usuario extends Generica{
     echo json_encode($retorno);
     exit();
   }
-  public function insereNovo($email,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$setor,$consultaPessoal){
+  public function insereNovo($email,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$setor,$consultaPessoal,$idSetor){
     $senha = md5($senha);
     $sql = "INSERT INTO usuario
                           (
@@ -184,6 +184,7 @@ class  Usuario extends Generica{
                             alterarSenha,
                             usuarios,
                             setor,
+                            idSetor,
                             dataHora
                           )VALUES(
                             '$cpf',
@@ -197,6 +198,7 @@ class  Usuario extends Generica{
                             '$alterarSenha',
                             '$usuarios',
                             '$setor',
+                            '$idSetor',
                               NOW())";
       $stm = Conexao::Inst()->prepare($sql);
       $stm->execute();
@@ -204,7 +206,7 @@ class  Usuario extends Generica{
       echo json_encode($retorno);
       exit();
     }
-  public function atualizarDados($cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal,$setor){
+  public function atualizarDados($cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal,$setor,$idSetor){
   $sql = "UPDATE usuario SET 
                         nome = '$nome',
                         status = '$status',
@@ -213,7 +215,8 @@ class  Usuario extends Generica{
                         alterarSenha = '$alterarSenha',
                         usuarios = '$usuarios',
                         consultaPessoal = '$consultaPessoal',
-                        setor = '$setor'
+                        setor = '$setor',
+                        idSetor = '$idSetor'
             WHERE CPF = '$cpf'";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
@@ -228,7 +231,7 @@ class  Usuario extends Generica{
   }
 
   public function listarPorNome(){
-    $call = "SELECT * FROM usuario ORDER BY nome LIMIT 1000";
+    $call = "SELECT * FROM usuario ORDER BY nome DESC LIMIT 1000";
     return $exec = Conexao::Inst()->prepare($call);
   }
 
@@ -255,7 +258,8 @@ class  Usuario extends Generica{
                   usuario.setor,
                   usuario.dataHora,
                   usuario.status,
-                  usuario_log.data_hora as ultimoLogin
+                  usuario_log.data_hora as ultimoLogin,
+                  usuario.idSetor
               FROM 
                   usuario LEFT JOIN usuario_log
                   ON usuario.email = usuario_log.email
@@ -267,6 +271,17 @@ class  Usuario extends Generica{
                       usuario_log.data_hora DESC
               LIMIT 1";
     return $exec = Conexao::Inst()->prepare($call);
+  }
+  public function buscaCpfSDGC($cpf){
+    $call = "SELECT
+                  login,
+                  nome
+              FROM 
+                  userlogin
+              WHERE
+                      userlogin.CPF = '$cpf'
+              LIMIT 1";
+    return $exec = Conexao::InstSDGC()->prepare($call);
   }
   public function ultimoLogin($email){
     $call = "SELECT * FROM usuario_log WHERE sucessoLogin = 'login' AND email = '$email' ORDER BY data_hora LIMIT 1 ";

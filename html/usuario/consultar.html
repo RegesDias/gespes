@@ -51,6 +51,9 @@
       <button id='btnInserir' type="button" class="btn btn-secondary"><i class="nav-icon fas fa-plus"></i>
         Inserir</button>
     </div>
+    <div class="input-group-prepend">
+      <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-check"></i> Limpar</button>
+    </div>
   </div>
   <div class="modal fade" id="modal-Usuario">
     <div class="modal-dialog modal-lg">
@@ -68,8 +71,8 @@
                 <h3 class="card-title p-3">Dados do Usuário</h3>
                 <ul class="nav nav-pills ml-auto p-2">
                   <li class="nav-item"><a id="dadosGeral" class="nav-link active" href="#tab_1" data-toggle="tab">Geral</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Acesso</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_4" data-toggle="tab">Setores</a></li>
+                  <li class="nav-item"><a id="dadosacesso" class="nav-link" href="#tab_2" data-toggle="tab">Acesso</a></li>
+                  <li class="nav-item"><a id="dadosSetores" class="nav-link" href="#tab_4" data-toggle="tab">Setores</a></li>
                   <li class="nav-item" id="dadosDaConta" ><a class="nav-link" href="#tab_3" data-toggle="tab">Logs</a></li>
                 </ul>
               </div><!-- /.card-header -->

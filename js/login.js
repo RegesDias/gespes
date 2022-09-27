@@ -71,12 +71,6 @@
 				msn('error', 'Falha Geral! error#999');
 			});
 	};
-	$(document).ready(function(){
-		$('#exibeNovaSenha').hide();
-		$('#exibeNovaSenha2').hide();
-		versao= '0.3';
-		$('#versao').html(versao);
-	});
 	function msn(icon, title) {
 		var Toast = Swal.mixin({
 		  toast: true,
@@ -89,3 +83,9 @@
 			title: title
 		  });
 	  };
+	$(document).ready(function(){
+		$('#exibeNovaSenha').hide();
+		$('#exibeNovaSenha2').hide();
+		versao= '0.4';
+		$('#versao').html(versao);
+	});

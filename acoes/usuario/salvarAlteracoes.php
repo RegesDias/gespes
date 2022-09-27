@@ -13,12 +13,13 @@ $alterarSenha = $u->setDado($_POST['alterarSenha']);
 $usuarios = $u->setDado($_POST['usuarios']);
 $setor = $u->setDado($_POST['setor']);
 $consultaPessoal = $u->setDado($_POST['consultaPessoal']);
+$idSetor = $u->setDado($_POST['idSetor']);
 
 $u->verificaPreenchimentoCampo($nome,'nome');
 $u->verificaPreenchimentoCampo($status, 'status');
 
 if(Conexao::verificaLogin('usuarios')){
         $u->gravaLog('Modificado os dados do usuário com o cpf: '.$cpf);
-        $u->atualizarDados($cpf,$nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal,$setor);
+        $u->atualizarDados($cpf,$nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal,$setor,$idSetor);
         echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));
 }
