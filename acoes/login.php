@@ -20,9 +20,9 @@ if ($retorno[0]->status != 'Ativo'){
 	exit();
 }
 $u->verificaSenha($retorno[0], $senha);
-$u->verificaSeSenhaIgualCPF($senha,$retorno[0]->CPF,$retorno[0]->nome);
 
 if ($_SESSION['logado'] == 'SIM'):
+	$u->verificaSeSenhaIgualCPF($senha,$retorno[0]->CPF,$retorno[0]->nome);
 	$retorno = array(
 						'codigo' => 1, 
 						'mensagem' => 'Logado com sucesso!', 

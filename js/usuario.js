@@ -88,7 +88,6 @@ function getUsuarioSDGCcpf(dado){
         var total = result.length;
         var size = result.length+1;
         if (total>0){
-            console.log(result);
             $('#UsuarioNome').val(result[0].nome);
             $('#emailUsuario').val(result[0].login);
         }else{
@@ -107,7 +106,6 @@ function getUsuarioDados(codFunc){
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosUsuario){
-        console.log(dadosUsuario[0]);
         $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosUsuario[0].CPF+'.bmp');
         $('#UsuarioNome').val(dadosUsuario[0].nome);
         $('#UsuarioCpfs').val(dadosUsuario[0].CPF);
@@ -157,8 +155,6 @@ function salvarAlteracoesUsuario(data){
         success :  function(response){						
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
-                $('#modal-Usuario').modal('hide');
-                getUsuarioNome();
             }
             else{		
                 msn('error',response.mensagem);
@@ -184,6 +180,26 @@ function inserirUsuario(data){
         }
     });
 };
+function alterarSenha(data){
+    $.ajax({
+        type : 'POST',
+        url  : 'acoes/usuario/trocarSenha.php',
+        data : data,
+        dataType: 'json',
+        }).done(function(response){					
+            if(response.codigo == "1"){
+                var log = {'nome': response.nome};
+                log = JSON.stringify(log);
+                sessionStorage.setItem('nome', log);
+                msn('success',response.mensagem);
+                setTimeout(() => {  window.location.href = "home.html" }, 1000);
+            }else{
+                msn('error',response.mensagem);
+            }
+        }).fail(function() {
+            msn('error', 'Falha Geral! error#999');
+        });
+};
 function renovarSenhaUsuario(data){
     $.ajax({
         type : 'POST',
@@ -193,7 +209,6 @@ function renovarSenhaUsuario(data){
         success :  function(response){						
             if(response.codigo == "1"){
                 msn('success',response.mensagem);
-                $('#modal-Usuario').modal('hide');
             }
             else{			
                 msn('error',response.mensagem);
@@ -372,6 +387,14 @@ $('#listaUsuarioNome').change(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
+});
+$('#btn-alterar-senha').on("click", function(){
+    var vemail = $('#email').val();
+    var vsenha = $('#senha').val();
+    var vsenhaNovaSenha = $('#senhaNovaSenha').val();
+    var vsenhaNovaSenha2 = $('#senhaNovaSenha2').val();
+    var data = {email:vemail, senha:vsenha, senhaNovaSenha:vsenhaNovaSenha, senhaNovaSenha2:vsenhaNovaSenha2 }
+    alterarSenha(data);
 });
 
 $(document).ready(function(){

@@ -1,9 +1,8 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require_once('../../class/Usuario.php');
+require_once('../class/Usuario.php');
 $u = new Usuario;
-
 $email = $u->setDado($_POST['email']);
 $senha = $u->setDado($_POST['senha']);
 $senhaNovaSenha = $u->setDado($_POST['senhaNovaSenha']);

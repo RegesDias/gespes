@@ -5,17 +5,17 @@ require_once('Generica.php');
 class  Usuario extends Generica{
   function isValidPassword($senha) {
     if (ctype_alpha($senha)){
-      $retorno = array('codigo' => 0, 'mensagem' => 'É obrigatorio conter números !');
+      $retorno = array('codigo' => 0, 'mensagem' => 'É obrigatorio conter números!');
       echo json_encode($retorno);
       exit();
     }
     if (is_numeric($senha)){
-      $retorno = array('codigo' => 0, 'mensagem' => 'É obrigatorio conter letras !');
+      $retorno = array('codigo' => 0, 'mensagem' => 'É obrigatorio conter letras!');
       echo json_encode($retorno);
       exit();
     }
     if ((strlen($senha))<9){
-      $retorno = array('codigo' => 0, 'mensagem' => 'Precisa ter no minimo 8 caracteres !');
+      $retorno = array('codigo' => 0, 'mensagem' => 'Precisa ter no minimo 8 caracteres!');
       echo json_encode($retorno);
       exit();
     }
@@ -157,11 +157,20 @@ class  Usuario extends Generica{
       exit();
     }
   }
-
+  public function renovaSenha($senhaNovaSenha, $email){
+    $senhaNovaSenhaMD5 = md5($senhaNovaSenha);
+    $sql = "UPDATE usuario SET senha = '$senhaNovaSenhaMD5' WHERE email = '$email'";
+    $stm = Conexao::Inst()->prepare($sql);
+    $stm->execute();
+    $retorno = $this->buscaEmail($email);
+    $retorno = array('codigo' => 1, 'mensagem' =>'Senha redefinida com sucesso!', 'nome' => $retorno[0]->nome);
+    echo json_encode($retorno);
+    exit();
+  }
   public function insereNovaSenha($senhaNovaSenha, $email){
     $token = $_SESSION['token'];
-    $senhaNovaSenha = md5($senhaNovaSenha);
-    $sql = "UPDATE usuario SET senha = '$senhaNovaSenha' WHERE token = '$token'";
+    $senhaNovaSenhaMD5 = md5($senhaNovaSenha);
+    $sql = "UPDATE usuario SET senha = '$senhaNovaSenhaMD5' WHERE token = '$token'";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
     $retorno = $this->buscaEmail($email);

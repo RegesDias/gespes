@@ -57,7 +57,7 @@
 			url  : 'acoes/trocarSenha.php',
 			data : data,
 			dataType: 'json',
-			}).done(function(response){					
+			}).done(function(response){
 				if(response.codigo == "1"){
 					var log = {'nome': response.nome};
 					log = JSON.stringify(log);
