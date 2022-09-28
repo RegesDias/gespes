@@ -7,11 +7,22 @@
     $dado = $g->setDado($_GET['dado']);
     $link = $g->setDado($_GET['link']);
     $mesAno = $g->setDado($_GET['mesAno']);
+    $mesAnoFinal = $g->setDado($_GET['mesAnoFinal']);
+
     $tipo='html';
-    $cBusc = array($dado,$tipo);
+    if ($mesAnoFinal != ''){
+        $cBusc = array($mesAno,$mesAnoFinal,$dado,$tipo);
+        $lista = $g->getRest($link,$cBusc);
+        echo $g->do_html($lista['url']);
+        exit;
+    }
     if ($mesAno != ''){
         $cBusc = array($dado,$mesAno."-01",$tipo);
+        $lista = $g->getRest($link,$cBusc);
+        echo $g->do_html($lista['url']);
+        exit;
     }
+    $cBusc = array($dado,$tipo);
     $lista = $g->getRest($link,$cBusc);
     echo $g->do_html($lista['url']);
 ?>

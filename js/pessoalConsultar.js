@@ -187,12 +187,44 @@ $('#contraChequeImprimir').click(function(){
         setTimeout(() => { $('#carregandoModal').hide() }, 2000);
     }
 });
+$('#folhaDePontoImprimir').click(function(){
+    $('#modal-ponto').modal('hide');
+    pessoalCodFunc = $('#pessoalCodFunc').val();
+    mesAnoInicial = $('#mesAnoInicial').val();
+    mesAnoFinal = $('#mesAnoFinal').val();
+    if (!mesAnoInicial){
+        msn('error','Preencha o campo data inicial');
+    }else{
+        if (!mesAnoFinal){
+            msn('error','Preencha o campo data final');
+        }else{
+            link = 'relatorio/getRelMarcacaoServidorEmLote';
+            $('#carregandoModal').show();
+            $('#print-iframe').attr('src', 'acoes/print.php?dado='+pessoalCodFunc+'&link='+link+'&mesAno='+mesAnoInicial+'&mesAnoFinal='+mesAnoFinal);
+            $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
+            setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
+            setTimeout(() => { $('#carregandoModal').hide() }, 2000);
+        }
+    }
+});
+
+
+
+
+//$cBusc = array($mesAnoInicial, $mesAnoFinal, $matricula, $tipo);
+//$lista = getRest('relatorio/getRelMarcacaoServidorEmLote',$cBusc);
+$('#folhaDePonto').click(function(){
+    $('#modal-ponto').modal('show');
+});
 $('#contraCheque').click(function(){
     $('#modal-data').modal('show');
 });
 $('#fechaModalData').click(function(){
     $('#modal-data').modal('hide');
+});
+$('#fechaModalPonto').click(function(){
+    $('#modal-ponto').modal('hide');
 });
 $('#fechaModalPessoal').click(function(){
     $('#modal-data').modal('hide');
