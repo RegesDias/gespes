@@ -4,6 +4,16 @@ class Generica {
   public static $tentativasAceitas = '5';
   public static $minutosBolqueio = '30'; 
 
+  function do_html($url) {
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, True);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl,CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:7.0.1) Gecko/20100101 Firefox/7.0.1');
+    $return = curl_exec($curl);
+    curl_close($curl);
+    return $return;
+  }
+  
   public function verificaPreenchimentoCampo($dado, $campo){
     if (empty($dado)):
       $retorno = array('codigo' => 0, 'mensagem' => 'Preencha o campo '.$campo.' !');
@@ -41,10 +51,10 @@ class Generica {
       return $novaDataHora->format('d-m-Y H:i:s');
     }
   }
-  function setDado($dado){
+  public function setDado($dado){
     return (isset($dado)) ? $dado : '' ;
   }
-  function validaCPF($cpf) {
+  public function validaCPF($cpf) {
     $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
     if (strlen($cpf) != 11) {
         return false;
@@ -63,5 +73,43 @@ class Generica {
     }
     return true;
   }
+  public function getRest($pf, $data = null, $adress= null) {
+    $gappv = 'fc86c6d3bfdfe121791b280f2d87dd49';
+    $gurl = "http://10.40.10.236:8080/api/rest/";
+    $chave = '18b95f8643dd18ee5f06d530937e3068';
+    if($adress == null){
+        $gurl;
+    }else{
+        global $eurl;
+        $gurl = $eurl;
+    }
+    $curl = curl_init();
+    $url = $gurl . $pf;
+    foreach ($data as $campos) {
+        $q = curl_escape($curl, $campos);
+        $url = $url . '/' . $q;
+    }
+    $options = array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => $url,
+        CURLOPT_SSL_VERIFYPEER => false, // If You have https://
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            'app:sdgc',
+            'chave:' . $chave,
+            'ip:' . $_SERVER["REMOTE_ADDR"],
+            'appv:'. $gappv
+    ));
+    curl_setopt_array($curl, $options);
+    $resp = curl_exec($curl);
+    if(($resp == 'Usuário com a chave enviada não encontrado')){
+        //session_destroy();
+        //header('Location: login.php');
+    }
+    curl_close($curl);
+    $r = json_decode($resp, true);
+    return $r;
+}
 }
 ?>

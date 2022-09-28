@@ -72,7 +72,9 @@
                 <div class="row">
                     <div class="col-3">
                         <label>CPF</label>
-                        <input disabled="disabled" id='pessoalCpfs' type="text" class="form-control" placeholder="CPF">
+                        <input disabled="disabled" id='idInfo' type="text" class="form-control">
+
+                        <input disabled="disabled" id='pessoalCpfs' type="text" class="d-none" placeholder="CPF">
                     </div>
                     <div class="col-9">
                         <label>Nome</label>
@@ -109,6 +111,15 @@
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span> Fechar</button>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" id="fichaFuncional"><span aria-hidden="true">&times;</span> Ficha Funcional</button>
+          </div>
+          <iframe src="" id='print-iframe' name='print-frame-name' class="d-none">
+
+          </iframe>
+          <div id="carregandoModal" class="overlay dark hidden">
+            <img src="img/loading.gif">
           </div>
         </div>
         <!-- /.modal-content -->

@@ -75,6 +75,7 @@ function getPessoaDadosFuncionais(codfunc){
         $('#pessoalPrefixos').val(dadosPessoal[0].prefixos);
         $('#pessoalSecoes').val(dadosPessoal[0].secoes);
         $('#pessoalSecretarias').val(dadosPessoal[0].secretarias);
+        $('#idInfo').val(dadosPessoal[0].idInfo);
         $('#modal-pessoal').modal('show');
     }).fail(function() {
         $(location).attr('href', 'index.html');
@@ -147,6 +148,16 @@ $('#listaPessoalNome').change(function(){
     $('#textMatriculaCpfNome').val('');
 
 });
+$('#fichaFuncional').click(function(){
+    idInfo = $('#idInfo').val();
+    $('#carregandoModal').show();
+    $('#print-iframe').attr('src', 'acoes/print.php?dado='+idInfo);
+    $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
+
+    setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 500);
+    setTimeout(() => { $('#carregandoModal').hide() }, 500);
+});
 $(document).ready(function(){
+    $('#carregandoModal').hide();
     getPessoalNome();
 });
