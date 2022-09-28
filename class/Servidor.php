@@ -10,7 +10,8 @@ class Servidor extends Generica{
                             historico_funcional.data_admissao as dataadmis,
                             info_pessoal.cpf as cpfs,
                             situacao.nome_situacao as secoes,
-                            info_pessoal.id as idInfo
+                            info_pessoal.id as idInfo,
+                            historico_funcional.id as idHistFunc
                           FROM
                             info_pessoal
                           INNER JOIN historico_funcional

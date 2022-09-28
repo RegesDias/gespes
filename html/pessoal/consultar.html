@@ -55,7 +55,7 @@
           <div class="modal-header">
             <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
             <h4 class="modal-title"> Dados Funcionais</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" id="fechaModalPessoal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -72,52 +72,74 @@
                 <div class="row">
                     <div class="col-3">
                         <label>CPF</label>
-                        <input disabled="disabled" id='idInfo' type="text" class="form-control">
-
-                        <input disabled="disabled" id='pessoalCpfs' type="text" class="d-none" placeholder="CPF">
-                    </div>
-                    <div class="col-9">
-                        <label>Nome</label>
-                        <input disabled="disabled" id="pessoalNome" type="text" class="form-control" placeholder="nome">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-3">
-                        <label>Matrícula</label>
-                        <input disabled="disabled" id='pessoalCodFunc' type="text" class="form-control" placeholder="CodFunc">
+                        <input disabled="disabled" class="form-control" id='pessoalCpfs' type="text" placeholder="CPF">
                     </div>
                     <div class="col-3">
-                        <label>Data Admissão</label>
-                        <input disabled="disabled" id="pessoalDataAdmis" type="text" class="form-control" placeholder="Data Admissão">
+                      <label>Matrícula</label>
+                      <input disabled="disabled" id='pessoalCodFunc' type="text" class="form-control" placeholder="CodFunc">
                     </div>
-                    <div class="col-6">
-                        <label>Cargo</label>
-                        <input disabled="disabled" id="pessoalNomeCarg" type="text" class="form-control" placeholder="Nome do cargo">
+                    <div class="col-3">
+                      <label>Data Admissão</label>
+                      <input disabled="disabled" id="pessoalDataAdmis" type="text" class="form-control" placeholder="Data Admissão">
                     </div>
+                    <div class="col-3">
+                      <label>Situação</label>
+                      <input disabled="disabled" id="pessoalSecoes" type="text" class="form-control" placeholder="Sessões">
+                  </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
-                        <label>Lotação</label>
-                        <input disabled="disabled" id='pessoalSecretarias' type="text" class="form-control" placeholder="Lotação">
-                    </div>
-                    <div class="col-6">
-                        <label>Situação</label>
-                        <input disabled="disabled" id="pessoalSecoes" type="text" class="form-control" placeholder="Sessões">
-                    </div>
+                  <div class="col-12">
+                    <label>Nome</label>
+                    <input disabled="disabled" id="pessoalNome" type="text" class="form-control" placeholder="nome">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label>Cargo</label>
+                    <input disabled="disabled" id="pessoalNomeCarg" type="text" class="form-control" placeholder="Nome do cargo">
+                </div>
+              </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label>Lotação</label>
+                    <input disabled="disabled" id='pessoalSecretarias' type="text" class="form-control" placeholder="Lotação">
+                </div>
                 </div>
               </div>
               </div>
+              <!--Campos Ocultos-->
+              <input id='idInfo' type="text" class="d-none">
+              <input id='idHistFunc' type="text" class="d-none">
             </div>
           </div>
           <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal"><span aria-hidden="true">&times;</span> Fechar</button>
+            <button type="button" class="btn btn-secondary" id="fichaFuncional"><i class="nav-icon fas fa-print"></i> Ficha Funcional</button>
+            <button type="button" class="btn btn-secondary" id="atribuicaoDeCargo"><i class="nav-icon fas fa-print"></i> Atribuições do Cargo</button>
+            <button type="button" class="btn btn-secondary" id="contraCheque"><i class="nav-icon fas fa-print"></i> Contra Cheque</button>
           </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" id="fichaFuncional"><span aria-hidden="true">&times;</span> Ficha Funcional</button>
+          <iframe src="" id='print-iframe' name='print-frame-name' class="d-none"></iframe>
+          <div class="modal fade" id="modal-data" style="margin-top:60px">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header"> 
+                    <h4 class="modal-title"> Defina a data:</h4>
+                    <button type="button" class="close" id="fechaModalData" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <input class="form-control" id='mesAno' type="month">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" id="contraChequeImprimir"><i class="nav-icon fas fa-print"></i> Imprimir</button>
+                  </div>
+              </div>
           </div>
-          <iframe src="" id='print-iframe' name='print-frame-name' class="d-none">
-
-          </iframe>
+        </div>
           <div id="carregandoModal" class="overlay dark hidden">
             <img src="img/loading.gif">
           </div>

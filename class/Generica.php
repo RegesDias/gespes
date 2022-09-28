@@ -104,8 +104,8 @@ class Generica {
     curl_setopt_array($curl, $options);
     $resp = curl_exec($curl);
     if(($resp == 'Usuário com a chave enviada não encontrado')){
-        //session_destroy();
-        //header('Location: login.php');
+        session_destroy();
+        header('Location: login.php');
     }
     curl_close($curl);
     $r = json_decode($resp, true);

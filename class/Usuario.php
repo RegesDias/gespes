@@ -68,9 +68,9 @@ class  Usuario extends Generica{
   }
 
   public function bloqueiaContaExcedeuTentativasLogin($retorno){
-    if (!empty($retorno->tentativas) && intval($retorno->minutos) <= MINUTOS_BLOQUEIO):
+    if (!empty($retorno->tentativas) && intval($retorno->minutos) <= self::$minutosBolqueio):
       $_SESSION['tentativas'] = 0;
-      $retorno = array('codigo' => 0, 'mensagem' => 'Você excedeu o limite de '.TENTATIVAS_ACEITAS.' tentativas, login bloqueado por '.MINUTOS_BLOQUEIO.' minutos!');
+      $retorno = array('codigo' => 0, 'mensagem' => 'Você excedeu o limite de '.self::$tentativasAceitas.' tentativas, login bloqueado por '.self::$minutosBolqueio.' minutos!');
       echo json_encode($retorno);
       exit();
     endif;
