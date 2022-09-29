@@ -70,7 +70,7 @@ function getPessoaDadosFuncionais(codfunc){
         $('#pessoalNome').val(dadosPessoal[0].nome);
         $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
         $('#pessoalCpfs').val(dadosPessoal[0].cpfs);
-        $('#pessoalDataAdmis').val(dadosPessoal[0].dataadmis);
+        $('#pessoalDataAdmis').val(converteDataBr(dadosPessoal[0].dataadmis));
         $('#pessoalNomeCarg').val(dadosPessoal[0].nome_carg);
         $('#pessoalPrefixos').val(dadosPessoal[0].prefixos);
         $('#pessoalSecoes').val(dadosPessoal[0].secoes);

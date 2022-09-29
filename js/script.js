@@ -51,12 +51,15 @@ function selectDouble(a,b){
       b.options[i].selected=a.options[i].selected;
   }
 }
-function converteDataUS(data){
-  dia = String(data.getDate()).padStart(2, '0');
-  mes = String(data.getMonth() + 1).padStart(2, '0');
-  ano = data.getFullYear();
-  dataConvertida = ano + '-' + mes + '-' + dia;
-  return dataConvertida;
+function converteDataUS(d){
+  let date = d.split('-');
+  dataHoraBr = date[0]+'-'+date[1]+'-'+date[2];
+  return dataHoraBr;
+}
+function converteDataBr(d){
+  let date = d.split('-');
+  dataHoraBr = date[2]+'-'+date[1]+'-'+date[0];
+  return dataHoraBr;
 }
 function converteDataHoraBr(d) {
     if(d != undefined) {
