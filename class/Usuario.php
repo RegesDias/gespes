@@ -1,5 +1,4 @@
 <?php
-require_once('Conexao.php');
 require_once('Generica.php');
 
 class  Usuario extends Generica{
@@ -178,7 +177,7 @@ class  Usuario extends Generica{
     echo json_encode($retorno);
     exit();
   }
-  public function insereNovo($email,$senha,$cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$setor,$consultaPessoal,$idSetor){
+  public function insereNovo($email,$senha,$cpf, $nome,$status,$protocolo,$atendimentoAgenda,$alterarSenha,$usuarios,$setor,$consultaPessoal,$idSetor,$relatFichaFuncional,$relatAtribuicoesCargo,$relatFolhaPonto,$relatContraCheque){
     $senha = md5($senha);
     $sql = "INSERT INTO usuario
                           (
@@ -188,12 +187,16 @@ class  Usuario extends Generica{
                             senha,
                             status,
                             consultaPessoal,
-                            atendimentoEntrada,
+                            protocolo,
                             atendimentoAgenda,
                             alterarSenha,
                             usuarios,
                             setor,
                             idSetor,
+                            relatFichaFuncional,
+                            relatAtribuicoesCargo,
+                            relatFolhaPonto,
+                            relatContraCheque,
                             dataHora
                           )VALUES(
                             '$cpf',
@@ -202,12 +205,16 @@ class  Usuario extends Generica{
                             '$senha',
                             '$status',
                             '$consultaPessoal',
-                            '$atendimentoEntrada',
+                            '$protocolo',
                             '$atendimentoAgenda',
                             '$alterarSenha',
                             '$usuarios',
                             '$setor',
                             '$idSetor',
+                            '$relatFichaFuncional',
+                            '$relatAtribuicoesCargo',
+                            '$relatFolhaPonto',
+                            '$relatContraCheque',
                               NOW())";
       $stm = Conexao::Inst()->prepare($sql);
       $stm->execute();
@@ -215,17 +222,21 @@ class  Usuario extends Generica{
       echo json_encode($retorno);
       exit();
     }
-  public function atualizarDados($cpf, $nome,$status,$atendimentoEntrada,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal,$setor,$idSetor){
+  public function atualizarDados($cpf, $nome,$status,$protocolo,$atendimentoAgenda,$alterarSenha,$usuarios,$consultaPessoal,$setor,$idSetor,$relatFichaFuncional,$relatAtribuicoesCargo,$relatFolhaPonto,$relatContraCheque){
   $sql = "UPDATE usuario SET 
                         nome = '$nome',
                         status = '$status',
-                        atendimentoEntrada = '$atendimentoEntrada',
+                        protocolo = '$protocolo',
                         atendimentoAgenda = '$atendimentoAgenda',
                         alterarSenha = '$alterarSenha',
                         usuarios = '$usuarios',
                         consultaPessoal = '$consultaPessoal',
                         setor = '$setor',
-                        idSetor = '$idSetor'
+                        idSetor = '$idSetor',
+                        relatFichaFuncional = '$relatFichaFuncional',
+                        relatAtribuicoesCargo = '$relatAtribuicoesCargo',
+                        relatFolhaPonto = '$relatFolhaPonto',
+                        relatContraCheque = '$relatContraCheque'
             WHERE CPF = '$cpf'";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
@@ -260,7 +271,7 @@ class  Usuario extends Generica{
                   usuario.nome,
                   usuario.email,
                   usuario.consultaPessoal,
-                  usuario.atendimentoEntrada,
+                  usuario.protocolo,
                   usuario.atendimentoAgenda,
                   usuario.alterarSenha,
                   usuario.usuarios,
@@ -268,7 +279,11 @@ class  Usuario extends Generica{
                   usuario.dataHora,
                   usuario.status,
                   usuario_log.data_hora as ultimoLogin,
-                  usuario.idSetor
+                  usuario.idSetor,
+                  relatFichaFuncional,
+                  relatAtribuicoesCargo,
+                  relatFolhaPonto,
+                  relatContraCheque
               FROM 
                   usuario LEFT JOIN usuario_log
                   ON usuario.email = usuario_log.email

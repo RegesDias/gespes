@@ -1,5 +1,4 @@
 <?php
-require_once('Conexao.php');
 require_once('Generica.php');
 class Setor extends Generica{
     public static $sql = "SELECT

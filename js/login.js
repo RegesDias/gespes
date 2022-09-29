@@ -27,12 +27,16 @@
 								'nome': response.nome,
 								'CPF': response.CPF,
 								'consultaPessoal': response.consultaPessoal,
-								'atendimentoEntrada': response.atendimentoEntrada,
+								'protocolo': response.protocolo,
 								'atendimentoAgenda': response.atendimentoAgenda,
 								'alterarSenha': response.alterarSenha,
 								'usuarios': response.usuarios,
 								'setor': response.setor,
-								'versao':versao
+								'versao': versao,
+								'relatFichaFuncional':response.relatFichaFuncional,
+								'relatAtribuicoesCargo':response.relatAtribuicoesCargo,
+								'relatFolhaPonto': response.relatFolhaPonto,
+								'relatContraCheque': response.relatContraCheque,
 							};
 					log = JSON.stringify(log);
 					sessionStorage.setItem('login', log);
@@ -86,6 +90,6 @@
 	$(document).ready(function(){
 		$('#exibeNovaSenha').hide();
 		$('#exibeNovaSenha2').hide();
-		versao= '0.4';
+		versao= '0.5';
 		$('#versao').html(versao);
 	});

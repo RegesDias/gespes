@@ -91,6 +91,9 @@ function preenchimentoSelect(result){
         $('#listaPessoalNome').prepend('<option value='+ result[i].codfunc +'> '+result[i].nome+'</option>');    }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
+    if(result.length == 1){
+        setTimeout(() => { getPessoaDadosFuncionais(result[0].codfunc); }, 1000);
+    }
 };
 
 //###############################Ações###########################################
@@ -113,6 +116,11 @@ $('#btnMatriculaCpfNome').on("click", function(){
     getPessoalMatriculaCpfNome(dado,'');
     $('#visualizarServidor').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
+});
+$("#textMatriculaCpfNome").keypress(function(event) {
+    if (event.keyCode === 13) {
+        $("#btnMatriculaCpfNome").click();
+    }
 });
 $('#textMatriculaCpfNome').keyup(function(){
     $('#btnMatriculaCpfNome').removeAttr('disabled');
@@ -153,7 +161,7 @@ $('#fichaFuncional').click(function(){
     idInfo = $('#idInfo').val();
     link = 'relatorio/getRelHistoricoFuncional';
     $('#carregandoModal').show();
-    $('#print-iframe').attr('src', 'acoes/print.php?dado='+idInfo+'&link='+link);
+    $('#print-iframe').attr('src', 'acoes/print.php?0='+idInfo+'&link='+link+'&acesso=relatFichaFuncional');
     $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
     setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
@@ -164,7 +172,7 @@ $('#atribuicaoDeCargo').click(function(){
     idHistFunc = $('#idHistFunc').val();
     link = 'relatorio/getRelAtribuicoesCargoPorFuncional';
     $('#carregandoModal').show();
-    $('#print-iframe').attr('src', 'acoes/print.php?dado='+idHistFunc+'&link='+link);
+    $('#print-iframe').attr('src', 'acoes/print.php?0='+idHistFunc+'&link='+link+'&acesso=relatAtribuicoesCargo');
     $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
     setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
@@ -180,7 +188,7 @@ $('#contraChequeImprimir').click(function(){
     }else{
         link = 'relatorio/getRelContraCheque';
         $('#carregandoModal').show();
-        $('#print-iframe').attr('src', 'acoes/print.php?dado='+pessoalCodFunc+'&link='+link+'&mesAno='+mesAno);
+        $('#print-iframe').attr('src', 'acoes/print.php?0='+pessoalCodFunc+'&1='+mesAno+'-01&link='+link+'&acesso=relatContraCheque');
         $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
         setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
@@ -200,7 +208,7 @@ $('#folhaDePontoImprimir').click(function(){
         }else{
             link = 'relatorio/getRelMarcacaoServidorEmLote';
             $('#carregandoModal').show();
-            $('#print-iframe').attr('src', 'acoes/print.php?dado='+pessoalCodFunc+'&link='+link+'&mesAno='+mesAnoInicial+'&mesAnoFinal='+mesAnoFinal);
+            $('#print-iframe').attr('src', 'acoes/print.php?0='+mesAnoInicial+'&1='+mesAnoFinal+'&2='+pessoalCodFunc+'&link='+link+'&acesso=relatFolhaPonto');
             $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
             setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
@@ -209,11 +217,6 @@ $('#folhaDePontoImprimir').click(function(){
     }
 });
 
-
-
-
-//$cBusc = array($mesAnoInicial, $mesAnoFinal, $matricula, $tipo);
-//$lista = getRest('relatorio/getRelMarcacaoServidorEmLote',$cBusc);
 $('#folhaDePonto').click(function(){
     $('#modal-ponto').modal('show');
 });
@@ -235,4 +238,17 @@ $('#fechaModalPessoal').click(function(){
 $(document).ready(function(){
     $('#carregandoModal').hide();
     getPessoalNome();
+    var login = JSON.parse(sessionStorage.getItem('login'));
+    if(login.relatFichaFuncional == 0){
+        $('#fichaFuncional').hide();
+    }
+    if(login.relatAtribuicoesCargo == 0){
+        $('#atribuicaoDeCargo').hide();
+    }
+    if(login.relatFolhaPonto == 0){
+        $('#folhaDePonto').hide();
+    }
+    if(login.relatContraCheque == 0){
+        $('#contraCheque').hide();
+    }
 });

@@ -1,5 +1,5 @@
 <?php
-
+require_once('Conexao.php');
 class Generica {
   public static $tentativasAceitas = '5';
   public static $minutosBolqueio = '30'; 

@@ -112,11 +112,15 @@ function getUsuarioDados(codFunc){
         $('#UsuarioStatus').val(dadosUsuario[0].status);
         $('#UsuarioDataCriacao').val(converteDataHoraBr(dadosUsuario[0].dataHora));
         $('#consultaPessoalheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].consultaPessoal));
-        $('#atendimentoEntradaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].atendimentoEntrada));
+        $('#protocoloCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].protocolo));
         $('#atendimentoAgendaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].atendimentoAgenda));
         $('#alterarSenhaCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].alterarSenha));
         $('#usuariosCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].usuarios));
         $('#setorCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].setor));
+        $('#relatFichaFuncionalcheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].relatFichaFuncional));
+        $('#relatAtribuicoesCargoCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].relatAtribuicoesCargo));
+        $('#relatFolhaPontoCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].relatFolhaPonto));
+        $('#relatContraChequeCheckbox').prop("checked", converteNumeroEmBoolean(dadosUsuario[0].relatContraCheque));
         $('#modal-Usuario').modal('show');
         $('#chaveLabel').html(dadosUsuario[0].email);
         $('#dataCriacaoLabel').html(converteDataHoraBr(dadosUsuario[0].dataHora));
@@ -162,24 +166,6 @@ function salvarAlteracoesUsuario(data){
         }
     });
 };
-function inserirUsuario(data){
-    $.ajax({
-        type : 'POST',
-        url  : 'acoes/usuario/inserirNovo.php',
-        data : data,
-        dataType: 'json',
-        success :  function(response){						
-            if(response.codigo == "1"){
-                msn('success',response.mensagem);
-                $('#modal-Usuario').modal('hide');
-                getUsuarioCodigo();
-            }
-            else{			
-                msn('error',response.mensagem);
-            }
-        }
-    });
-};
 function alterarSenha(data){
     $.ajax({
         type : 'POST',
@@ -216,6 +202,24 @@ function renovarSenhaUsuario(data){
         }
     });
 };
+function inserirUsuario(data){
+    $.ajax({
+        type : 'POST',
+        url  : 'acoes/usuario/inserirNovo.php',
+        data : data,
+        dataType: 'json',
+        success :  function(response){						
+            if(response.codigo == "1"){
+                msn('success',response.mensagem);
+                $('#modal-Usuario').modal('hide');
+                getUsuarioNome();
+            }
+            else{			
+                msn('error',response.mensagem);
+            }
+        }
+    });
+};
 
 //###############################Ações###########################################
 $("#btnLimpar").on("click", function() {
@@ -238,22 +242,30 @@ $('#salvarAlteracoesUsuario').on("click", function(){
     var usuarioStatus = $("#UsuarioStatus option:selected").val();
     var setorSelect = $("#setorSelect option:selected").val();
     var consultaPessoalheckbox = converteBooleanEmNumero($('#consultaPessoalheckbox').is(':checked'));
-    var atendimentoEntradaCheckbox = converteBooleanEmNumero($('#atendimentoEntradaCheckbox').is(':checked'));
+    var protocoloCheckbox = converteBooleanEmNumero($('#protocoloCheckbox').is(':checked'));
     var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
     var alterarSenhaCheckbox = converteBooleanEmNumero($('#alterarSenhaCheckbox').is(':checked'));
     var usuariosCheckbox = converteBooleanEmNumero($('#usuariosCheckbox').is(':checked'));
     var setorCheckbox = converteBooleanEmNumero($('#setorCheckbox').is(':checked'));
+    var relatFichaFuncionalcheckbox = converteBooleanEmNumero($('#relatFichaFuncionalcheckbox').is(':checked'));
+    var relatAtribuicoesCargoCheckbox = converteBooleanEmNumero($('#relatAtribuicoesCargoCheckbox').is(':checked'));
+    var relatFolhaPontoCheckbox = converteBooleanEmNumero($('#relatFolhaPontoCheckbox').is(':checked'));
+    var relatContraChequeCheckbox = converteBooleanEmNumero($('#relatContraChequeCheckbox').is(':checked'));
     var data = {
                 cpf:UsuarioCpf,
                 nome:usuarioNome, 
                 status:usuarioStatus, 
                 consultaPessoal:consultaPessoalheckbox, 
-                atendimentoEntrada:atendimentoEntradaCheckbox,
+                protocolo:protocoloCheckbox,
                 atendimentoAgenda:atendimentoAgendaCheckbox, 
                 alterarSenha:alterarSenhaCheckbox, 
                 usuarios:usuariosCheckbox, 
                 setor:setorCheckbox, 
-                idSetor:setorSelect
+                idSetor:setorSelect,
+                relatFichaFuncional:relatFichaFuncionalcheckbox,
+                relatAtribuicoesCargo:relatAtribuicoesCargoCheckbox,
+                relatFolhaPonto:relatFolhaPontoCheckbox,
+                relatContraCheque:relatContraChequeCheckbox
             }
     salvarAlteracoesUsuario(data);
 });
@@ -263,7 +275,7 @@ $('#inserirUsuario').on("click", function(){
     var usuarioStatus = $("#UsuarioStatus option:selected").val();
     var setorSelect = $("#setorSelect option:selected").val();
     var consultaPessoalheckbox = converteBooleanEmNumero($('#consultaPessoalheckbox').is(':checked'));
-    var atendimentoEntradaCheckbox = converteBooleanEmNumero($('#atendimentoEntradaCheckbox').is(':checked'));
+    var protocoloCheckbox = converteBooleanEmNumero($('#protocoloCheckbox').is(':checked'));
     var atendimentoAgendaCheckbox = converteBooleanEmNumero($('#atendimentoAgendaCheckbox').is(':checked'));
     var alterarSenhaCheckbox = converteBooleanEmNumero($('#alterarSenhaCheckbox').is(':checked'));
     var usuariosCheckbox = converteBooleanEmNumero($('#usuariosCheckbox').is(':checked'));
@@ -271,12 +283,16 @@ $('#inserirUsuario').on("click", function(){
     var emailUsuario = $('#emailUsuario').val();
     var senhaUsuario = $('#senhaUsuario').val();
     var senha2Usuario = $('#senha2Usuario').val();
+    var relatFichaFuncionalcheckbox = converteBooleanEmNumero($('#relatFichaFuncionalcheckbox').is(':checked'));
+    var relatAtribuicoesCargoCheckbox = converteBooleanEmNumero($('#relatAtribuicoesCargoCheckbox').is(':checked'));
+    var relatFolhaPontoCheckbox = converteBooleanEmNumero($('#relatFolhaPontoCheckbox').is(':checked'));
+    var relatContraChequeCheckbox = converteBooleanEmNumero($('#relatContraChequeCheckbox').is(':checked'));
     var data = {
                 cpf:UsuarioCpf,
                 nome:usuarioNome, 
                 status:usuarioStatus, 
                 consultaPessoal:consultaPessoalheckbox, 
-                atendimentoEntrada:atendimentoEntradaCheckbox,
+                protocolo:protocoloCheckbox,
                 atendimentoAgenda:atendimentoAgendaCheckbox, 
                 alterarSenha:alterarSenhaCheckbox, 
                 usuarios:usuariosCheckbox, 
@@ -284,7 +300,11 @@ $('#inserirUsuario').on("click", function(){
                 email:emailUsuario,
                 senha:senhaUsuario,
                 senha2:senha2Usuario,
-                idSetor:setorSelect
+                idSetor:setorSelect,
+                relatFichaFuncional:relatFichaFuncionalcheckbox,
+                relatAtribuicoesCargo:relatAtribuicoesCargoCheckbox,
+                relatFolhaPonto:relatFolhaPontoCheckbox,
+                relatContraCheque:relatContraChequeCheckbox
             }
         inserirUsuario(data);
 });
@@ -313,11 +333,16 @@ $("#btnInserir").on("click", function() {
     $('#dadosDaConta').hide();
     $('#camposCriarUsuario').show();
     $('#consultaPessoalheckbox').prop("checked", false);
-    $('#atendimentoEntradaCheckbox').prop("checked", false);
+    $('#protocoloCheckbox').prop("checked", false);
     $('#atendimentoAgendaCheckbox').prop("checked", false);
     $('#alterarSenhaCheckbox').prop("checked", false);
     $('#usuariosCheckbox').prop("checked", false);
     $('#setorCheckbox').prop("checked", false);
+    $('#relatFichaFuncionalcheckbox').prop('checked',false);
+    $('#relatAtribuicoesCargoCheckbox').prop('checked',false);
+    $('#relatFolhaPontoCheckbox').prop('checked',false);
+    $('#relatContraChequeCheckbox').prop('checked',false);
+
     $('#UsuarioNome').val('');
     $('#UsuarioCpfs').val('');
     $("#dadosGeral").trigger('click');

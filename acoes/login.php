@@ -29,10 +29,14 @@ if ($_SESSION['logado'] == 'SIM'):
 						'nome' => $retorno[0]->nome,
 						'CPF' => $retorno[0]->CPF,
 						'consultaPessoal' => $retorno[0]->consultaPessoal,
-						'atendimentoEntrada' => $retorno[0]->atendimentoEntrada,
+						'protocolo' => $retorno[0]->protocolo,
 						'atendimentoAgenda' => $retorno[0]->atendimentoAgenda,
 						'alterarSenha' => $retorno[0]->alterarSenha,
 						'usuarios'  => $retorno[0]->usuarios,
+						'relatFichaFuncional'  => $retorno[0]->relatFichaFuncional,
+						'relatAtribuicoesCargo'  => $retorno[0]->relatAtribuicoesCargo,
+						'relatFolhaPonto'  => $retorno[0]->relatFolhaPonto,
+						'relatContraCheque'  => $retorno[0]->relatContraCheque,
 						'setor'  => $retorno[0]->setor
 					);
 	echo json_encode($retorno);

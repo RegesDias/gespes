@@ -3,28 +3,21 @@
     //ini_set('display_errors', 1);
     require_once('../class/Generica.php');
     $g = new Generica;
-
-    $dado = $g->setDado($_GET['dado']);
-    $link = $g->setDado($_GET['link']);
-    $mesAno = $g->setDado($_GET['mesAno']);
-    $mesAnoFinal = $g->setDado($_GET['mesAnoFinal']);
-
     $tipo='html';
-    if ($mesAnoFinal != ''){
-        $cBusc = array($mesAno,$mesAnoFinal,$dado,$tipo);
+    $link = $g->setDado($_GET['link']);
+    $acesso = $g->setDado($_GET['acesso']);
+    if(Conexao::verificaLogin($acesso)){
+        $cBusc = $_GET;
+        unset($cBusc['link']);
+        unset($cBusc['acesso']);
+        $cBusc[] = $tipo;
         $lista = $g->getRest($link,$cBusc);
         echo $g->do_html($lista['url']);
-        exit;
+    }else{
+        session_start();
+        session_destroy();
+        echo '<h1>Acesso Negado...</h1>';
     }
-    if ($mesAno != ''){
-        $cBusc = array($dado,$mesAno."-01",$tipo);
-        $lista = $g->getRest($link,$cBusc);
-        echo $g->do_html($lista['url']);
-        exit;
-    }
-    $cBusc = array($dado,$tipo);
-    $lista = $g->getRest($link,$cBusc);
-    echo $g->do_html($lista['url']);
 ?>
 
 

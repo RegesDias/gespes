@@ -126,9 +126,9 @@ $("#sairSistema").on("click", function() {
 });
 $(document).ready(function(){
   var login = JSON.parse(sessionStorage.getItem('login'));
+  $('#fotoUsuarioLogado').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+login.CPF+'.bmp');
   $('#carregando').hide();
   $('#logoDireita').hide();
-  $('#fotoUsuarioLogado').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+login.CPF+'.bmp');
   $('#nomeUsuarioLogado').html(login.nome);
   $('#versao').html(login.versao);
   if(login.consultaPessoal == 0){
@@ -140,8 +140,8 @@ $(document).ready(function(){
   if(login.atendimentoEntrada == 0){
     $('#atendimentoEntrada').hide();
   }
-  if(login.atendimentoAgenda == 0){
-    $('#atendimentoAgenda').hide();
+  if(login.protocolo == 0){
+    $('#protocolo').hide();
   }
   if(login.alterarSenha == 0){
     $('#alterarSenha').hide();
@@ -152,7 +152,7 @@ $(document).ready(function(){
   if(login.setor == 0){
     $('#consultaSetores').hide();
   }
-  if((login.atendimentoEntrada == 0)&(login.atendimentoAgenda == 0)){
+  if((login.protocolo == 0)&(login.atendimentoAgenda == 0)){
     $('#dropdownSubMenuAtendimento').hide();
   }
   if((login.usuarios == 0)&(login.setor == 0)){

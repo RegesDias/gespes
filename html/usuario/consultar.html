@@ -72,6 +72,7 @@
                 <ul class="nav nav-pills ml-auto p-2">
                   <li class="nav-item"><a id="dadosGeral" class="nav-link active" href="#tab_1" data-toggle="tab">Geral</a></li>
                   <li class="nav-item"><a id="dadosacesso" class="nav-link" href="#tab_2" data-toggle="tab">Acesso</a></li>
+                  <li class="nav-item"><a id="dadosacesso" class="nav-link" href="#tab_5" data-toggle="tab">Relatório</a></li>
                   <li class="nav-item"><a id="dadosSetores" class="nav-link" href="#tab_4" data-toggle="tab">Setores</a></li>
                   <li class="nav-item" id="dadosDaConta" ><a class="nav-link" href="#tab_3" data-toggle="tab">Logs</a></li>
                 </ul>
@@ -137,8 +138,8 @@
                         </div>
                         <div class="form-group">
                           <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" id="atendimentoEntradaCheckbox" value="option1">
-                            <label for="atendimentoEntradaCheckbox" class="custom-control-label">Atendimento Entrada</label>
+                            <input class="custom-control-input" type="checkbox" id="protocoloCheckbox" value="option1">
+                            <label for="protocoloCheckbox" class="custom-control-label">Protocolo</label>
                           </div>
                         </div>
                         <div class="form-group">
@@ -170,6 +171,82 @@
                     </div>
                 </div>
                 </div>
+<div class="tab-pane" id="tab_2">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="consultaPessoalheckbox" value="option1">
+                            <label for="consultaPessoalheckbox" class="custom-control-label">Consulta Pessoal</label>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="protocoloCheckbox" value="option1">
+                            <label for="protocoloCheckbox" class="custom-control-label">Protocolo</label>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="atendimentoAgendaCheckbox" value="option1">
+                            <label for="atendimentoAgendaCheckbox" class="custom-control-label">Atendimento Agenda</label>
+                          </div>
+                        </div>
+                      </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="alterarSenhaCheckbox" value="option1">
+                          <label for="alterarSenhaCheckbox" class="custom-control-label">Alterar Senha</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="usuariosCheckbox" value="option1">
+                          <label for="usuariosCheckbox" class="custom-control-label">Usuários</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="setorCheckbox" value="option1">
+                          <label for="setorCheckbox" class="custom-control-label">Setor</label>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </div>
+                <div class="tab-pane" id="tab_5">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="relatFichaFuncionalcheckbox" value="option1">
+                          <label for="relatFichaFuncionalcheckbox" class="custom-control-label">Ficha Funcional</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="relatAtribuicoesCargoCheckbox" value="option1">
+                          <label for="relatAtribuicoesCargoCheckbox" class="custom-control-label">Atribuições do Cargo</label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" type="checkbox" id="relatFolhaPontoCheckbox" value="option1">
+                          <label for="relatFolhaPontoCheckbox" class="custom-control-label">Folha de Ponto</label>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" type="checkbox" id="relatContraChequeCheckbox" value="option1">
+                        <label for="relatContraChequeCheckbox" class="custom-control-label">Contra Cheque</label>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="tab_4">
                     <div class="form-group">
@@ -177,7 +254,7 @@
                         <div class="col-12">
                           <div class="col-12">
                             <div class="col-12">
-                              <label>Status</label>
+                              <label>Setor de Acesso</label>
                               <select id='setorSelect' class="form-control select2" style="width: 100%;">
                                 <option></option>
                               </select>
