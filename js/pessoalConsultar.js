@@ -95,6 +95,11 @@ function preenchimentoSelect(result){
         setTimeout(() => { getPessoaDadosFuncionais(result[0].codfunc); }, 1000);
     }
 };
+function fechaTodosModais(){
+    $('#modal-data').modal('hide');
+    $('#modal-pessoal').modal('hide');
+    $('#modal-pesspontooal').modal('hide');
+}
 
 //###############################Ações###########################################
 
@@ -121,6 +126,10 @@ $("#textMatriculaCpfNome").keypress(function(event) {
     if (event.keyCode === 13) {
         $("#btnMatriculaCpfNome").click();
     }
+    if (event.keyCode === 32) {
+        fechaTodosModais();
+    }
+
 });
 $('#textMatriculaCpfNome').keyup(function(){
     $('#btnMatriculaCpfNome').removeAttr('disabled');
@@ -230,8 +239,7 @@ $('#fechaModalPonto').click(function(){
     $('#modal-ponto').modal('hide');
 });
 $('#fechaModalPessoal').click(function(){
-    $('#modal-data').modal('hide');
-    $('#modal-pessoal').modal('hide');
+    fechaTodosModais();
 });
 
 
