@@ -111,8 +111,8 @@ $("#consultaSetores").on("click", function() {
   $('#principal').load( 'html/setores/consultar.html' );
   $('#logoDireita').show();
 });
-$("#atendimentoAgenda").on("click", function() {
-  $('#principal').load( 'html/atendimento/agenda.html' );
+$("#protocolo").on("click", function() {
+  $('#principal').load( 'html/protocolo/consultar.html' );
   $('#logoDireita').show();
 });
 $("#atendimentoEntrada").on("click", function() {
