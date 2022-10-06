@@ -37,7 +37,8 @@ if ($_SESSION['logado'] == 'SIM'):
 						'relatAtribuicoesCargo'  => $retorno[0]->relatAtribuicoesCargo,
 						'relatFolhaPonto'  => $retorno[0]->relatFolhaPonto,
 						'relatContraCheque'  => $retorno[0]->relatContraCheque,
-						'setor'  => $retorno[0]->setor
+						'idSetor'  => $retorno[0]->idSetor,
+						'setor'  => $retorno[0]->setor,
 					);
 	echo json_encode($retorno);
 	exit();

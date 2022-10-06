@@ -12,61 +12,46 @@
     </div>
   </div>
   <div class="card-body">
-    <div class="form-group">
+    <div class="form-group" id='formFiltro'>
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="form-group">
             <label>Ano</label>
-            <select class="form-control select2" style="width: 100%;">
-              <option selected="selected">2022</option>
-              <option>2022</option>
-              <option>2021</option>
-              <option>2020</option>
-              <option>2019</option>
-              <option>2018</option>
-              <option>2017</option>
+            <select id='formFiltroSelectAno' class="form-control select2" style="width: 100%;">
             </select>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <label>Tipo</label>
-            <select class="form-control select2" style="width: 100%;">
-              <option selected="selected">Todos</option>
-              <option>2021</option>
-              <option>2020</option>
-              <option>2019</option>
-              <option>2018</option>
-              <option>2017</option>
+            <select id='formFiltroSelectTipo' class="form-control select2" style="width: 100%;">
+              <option value="tds">TODOS</option>
             </select>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <div class="form-group">
             <label>Status</label>
-            <select class="form-control select2" style="width: 100%;">
-              <option selected="selected">Todos</option>
-              <option>Manhã</option>
-              <option>Tarde</option>
-              <option>Noite</option>
+            <select id='formFiltroSelectStatus' class="form-control select2" style="width: 100%;">
+              <option value="tds">TODOS</option>
             </select>
           </div>
         </div>
-        <div class="col-md-3">
+      </div>
+      <div class="row">
+        <div class="col-md-10">
           <div class="form-group">
-            <label>Local</label>
-            <select class="form-control select2" style="width: 100%;">
-              <option selected="selected">Documentos do setor</option>
-              <option>Meus documentos</option>
-              <option>Todos</option>
+            <select id='formFiltroSelectSetor' class="form-control select2" style="width: 100%;">
+              <option value="user">MEUS DOCUMENTOS</option>
+              <option value="tds">TODOS</option>
             </select>
           </div>
         </div>
         <div class="col-md-2">
-          <label>&nbsp;</label>
           <div class="form-group">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
-                class="nav-icon fas fa-filter"></i> Filtrar</button>
+            <button id="formFiltroBtn" type="button" class="btn btn-block btn-secondary" data-dismiss="modal">
+              <i class="nav-icon fas fa-filter"></i> Filtrar
+            </button>
           </div>
         </div>
       </div>
@@ -74,20 +59,20 @@
     <div class="card card-outline">
         <form name="moose">
             <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active col-3">
-                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Matrícula
+                <label class="btn btn-secondary active col-2">
+                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Número
                 </label>
                 <label class="btn btn-secondary">
-                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Nome
+                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Origem
                 </label>
             </div>
             <div class="card-body" style="height:300px;width:100%;overflow:auto;">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <select class='selectDouble' id="listaPessoal" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
                         </select>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         <select class='selectDouble' id="listaPessoalNome" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
                         </select>
                     </div>
@@ -99,7 +84,7 @@
     <div class="input-group-prepend">
         <button id='visualizarServidor' type="button" disabled class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
     </div>
-    <input type="text" id='textMatriculaCpfNome' placeholder="Busca por CPF, Nome ou Matrícula" class="form-control">
+    <input type="text" id='textMatriculaCpfNome' placeholder="Número do Documento" class="form-control">
     <input type="text" id='textMatriculaCpfNomeOrder' class="d-none">
       <div class="input-group-prepend">
         <button id='btnMatriculaCpfNome' type="button" disabled  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Buscar</button>
@@ -237,5 +222,7 @@
   </div>
 </div>
 <script src="js/protocolo.js"></script>
+<script>
+</script>
 </div>
 </div>

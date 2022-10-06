@@ -23,9 +23,11 @@
 		}).done(function(response){				
 				if(response.codigo == "1"){
                     msn('success',response.mensagem);
+					console.log(response);
 					var log = {
 								'nome': response.nome,
 								'CPF': response.CPF,
+								'idSetor': response.idSetor,
 								'consultaPessoal': response.consultaPessoal,
 								'protocolo': response.protocolo,
 								'atendimentoAgenda': response.atendimentoAgenda,

@@ -107,6 +107,7 @@ class  Usuario extends Generica{
   public function atualizarToken($retorno){
     $token = uniqid();
     $_SESSION['id'] = $retorno->id;
+    $_SESSION['idSetor'] = $retorno->idSetor;
     $_SESSION['nome'] = $retorno->nome;
     $_SESSION['email'] = $retorno->email;
     $_SESSION['token'] = $token;

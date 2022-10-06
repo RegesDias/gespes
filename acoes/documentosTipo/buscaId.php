@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
-require_once '../../class/TipoControle.php';
-$m = new TipoControle;
+require_once '../../class/DocumentosTipo.php';
+$m = new DocumentosTipo;
 $id = $m->setDado($_GET['id']);
 $exec = $m->buscaId($id);
 //if(Conexao::verificaLogin('consultaPessoal')){

@@ -52,12 +52,12 @@ function selectDouble(a,b){
   }
 }
 function converteDataUS(d){
-  let date = d.split('-');
+  let date = d.toString().split('-');
   dataHoraBr = date[0]+'-'+date[1]+'-'+date[2];
   return dataHoraBr;
 }
 function converteDataBr(d){
-  let date = d.split('-');
+  let date = d.toString().split('-');
   dataHoraBr = date[2]+'-'+date[1]+'-'+date[0];
   return dataHoraBr;
 }
@@ -99,6 +99,15 @@ function sair() {
       $('#carregando').hide();
   });
 };
+function carregarSelect2() {
+  //Initialize Select2 Elements
+  $('.select2').select2()
+
+  //Initialize Select2 Elements
+  $('.select2bs4').select2({
+    theme: 'bootstrap4'
+  })
+}
 $("#consultaPessoal").on("click", function() {
     $('#principal').load( 'html/pessoal/consultar.html' );
     $('#logoDireita').show();
@@ -120,7 +129,7 @@ $("#atendimentoEntrada").on("click", function() {
   $('#logoDireita').show();
 });
 $("#alterarSenha").on("click", function() {
-  $('#principal').load( 'html/usuario/alterarSenha.html' );
+  $('#principal').load( 'html/usuario/alterarSenha.html');
   $('#logoDireita').show();
 });
 
