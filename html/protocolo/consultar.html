@@ -18,6 +18,7 @@
           <div class="form-group">
             <label>Ano</label>
             <select id='formFiltroSelectAno' class="form-control select2" style="width: 100%;">
+              <option value="tds">TODOS</option>
             </select>
           </div>
         </div>
@@ -63,7 +64,7 @@
                 <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Número
                 </label>
                 <label class="btn btn-secondary">
-                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Origem
+                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Assunto
                 </label>
             </div>
             <div class="card-body" style="height:300px;width:100%;overflow:auto;">
@@ -84,13 +85,13 @@
     <div class="input-group-prepend">
         <button id='visualizarServidor' type="button" disabled class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
     </div>
-    <input type="text" id='textMatriculaCpfNome' placeholder="Número do Documento" class="form-control">
+    <input type="text" id='textMatriculaCpfNome' placeholder="Número do Documento ou Assunto" class="form-control">
     <input type="text" id='textMatriculaCpfNomeOrder' class="d-none">
       <div class="input-group-prepend">
         <button id='btnMatriculaCpfNome' type="button" disabled  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Buscar</button>
       </div>
       <div class="input-group-prepend">
-        <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-check"></i> Limpar</button>
+        <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-check"></i> Ordenar por Entrada</button>
       </div>
   </div>
   <div class="modal fade" id="modal-pessoal">
@@ -98,7 +99,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
-            <h4 class="modal-title"> Dados Funcionais</h4>
+            <h4 class="modal-title"> Documento</h4>
             <button type="button" class="close" id="fechaModalPessoal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -106,49 +107,47 @@
           <div class="modal-body">
             <div class="card-body">
               <div class="row">
-              <div class="col-2">
-                <br><br>
-                  <div class="text-center">
-                      <img class="profile-user-img img-fluid img-bordered-sm" id="imgFoto" src="imagem"  style="opacity: .8; height: 100px">
-                  </div>
-              </div>
-              <div class="col-10">
-                <div class="row">
-                    <div class="col-3">
-                        <label>CPF</label>
-                        <input disabled="disabled" class="form-control" id='pessoalCpfs' type="text" placeholder="CPF">
-                    </div>
-                    <div class="col-3">
-                      <label>Matrícula</label>
-                      <input disabled="disabled" id='pessoalCodFunc' type="text" class="form-control" placeholder="CodFunc">
-                    </div>
-                    <div class="col-3">
-                      <label>Data Admissão</label>
-                      <input disabled="disabled" id="pessoalDataAdmis" type="text" class="form-control" placeholder="Data Admissão">
-                    </div>
-                    <div class="col-3">
-                      <label>Situação</label>
-                      <input disabled="disabled" id="pessoalSecoes" type="text" class="form-control" placeholder="Sessões">
-                  </div>
+                <div class="col-4">
+                  <label>Tipo</label>
+                  <input disabled="disabled" id='tipo' type="text" class="form-control" placeholder="Lotação">
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>Nome</label>
-                    <input disabled="disabled" id="pessoalNome" type="text" class="form-control" placeholder="nome">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>Cargo</label>
-                    <input disabled="disabled" id="pessoalNomeCarg" type="text" class="form-control" placeholder="Nome do cargo">
+                <div class="col-8">
+                  <label>Origem</label>
+                  <input disabled="disabled" id='origem' type="text" class="form-control" placeholder="Lotação">
                 </div>
               </div>
+              <div class="row">
+              <div class="col-12">
+                <div class="row">
+                    <div class="col-3">
+                      <label>Número</label>
+                      <input disabled="disabled" id='numero_documento' type="text" class="form-control" placeholder="CodFunc">
+                    </div>
+                    <div class="col-3">
+                      <label>Data Inclussão</label>
+                      <input disabled="disabled" id="data_inclusao" type="text" class="form-control" placeholder="Data Admissão">
+                    </div>
+                    <div class="col-3">
+                      <label>Encaminhado</label>
+                      <input disabled="disabled" id="data_entrada" type="text" class="form-control" placeholder="Data Admissão">
+                    </div>
+                    <div class="col-3">
+                      <label>Status</label>
+                      <input disabled="disabled" id="status" type="text" class="form-control" placeholder="Sessões">
+                  </div>
+                </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>Lotação</label>
-                    <input disabled="disabled" id='pessoalSecretarias' type="text" class="form-control" placeholder="Lotação">
+                    <label>Assunto</label>
+                    <input disabled="disabled" id="assunto" type="text" class="form-control" placeholder="nome">
+                  </div>
                 </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label>Responsável</label>
+                    <input disabled="disabled" id="resposavel" type="text" class="form-control" placeholder="Nome do cargo">
                 </div>
+              </div>
               </div>
               </div>
               <!--Campos Ocultos-->
@@ -157,10 +156,6 @@
             </div>
           </div>
           <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-secondary" id="fichaFuncional"><i class="nav-icon fas fa-print"></i> Ficha Funcional</button>
-            <button type="button" class="btn btn-secondary" id="atribuicaoDeCargo"><i class="nav-icon fas fa-print"></i> Atribuições do Cargo</button>
-            <button type="button" class="btn btn-secondary" id="folhaDePonto"><i class="nav-icon fas fa-print"></i> Folha de Ponto</button>
-            <button type="button" class="btn btn-secondary" id="contraCheque"><i class="nav-icon fas fa-print"></i> Contra Cheque</button>
           </div>
           <div class="modal fade" id="modal-data" style="margin-top:60px">
             <div class="modal-dialog">

@@ -57,7 +57,8 @@ function converteDataUS(d){
   return dataHoraBr;
 }
 function converteDataBr(d){
-  let date = d.toString().split('-');
+  let removeHora = d.toString().split(' ');
+  let date = removeHora[0].toString().split('-');
   dataHoraBr = date[2]+'-'+date[1]+'-'+date[0];
   return dataHoraBr;
 }

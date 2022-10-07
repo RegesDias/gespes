@@ -1,106 +1,91 @@
 <?php
 require_once('Generica.php');
 class Documentos extends Generica{
-    public function listarOrigem(){
-        $idSetor= $_SESSION['idSetor'];
-        $sql = "SELECT
-                    tb_documentos.id as id,
-                    tb_documentos.numero_documento as numero_documento,
-                    tb_documentos.ano_documento as ano_documento,
-                    tb_documentos.origem as origem
-                FROM
-                    tb_documentos
-                LEFT JOIN
-                    tb_movimentacao
-                    ON tb_documentos.id = tb_movimentacao.documento_id
-                WHERE
-                    ano_documento = YEAR(NOW()) AND
-                    tb_movimentacao.setor_id = '$idSetor' AND
-                    ativo = 1
-                ORDER BY
-                    origem
-                LIMIT
-                    1000
-                ";
-        return $exec = Conexao::InstControle()->prepare($sql);
-    }
-    public function listarNumero(){
-        $idSetor= $_SESSION['idSetor'];
-        $sql = "SELECT
-                    tb_documentos.id,
-                    tb_documentos.numero_documento,
-                    tb_documentos.ano_documento,
-                    tb_documentos.origem
-                FROM
-                    tb_documentos
-                LEFT JOIN
-                    tb_movimentacao
-                    ON tb_documentos.id = tb_movimentacao.documento_id
-                WHERE
-                    ano_documento = YEAR(NOW()) AND
-                    tb_movimentacao.setor_id = '$idSetor'AND
-                    ativo = 1
-                ORDER BY
-                    tb_documentos.numero_documento
-                LIMIT
-                    1000
-                ";
-        return $exec = Conexao::InstControle()->prepare($sql);
-    }
+    public static $sql = "SELECT
+                                tb_documentos.id,
+                                tb_documentos.ano_documento,
+                                tb_documentos.numero_documento,
+                                tb_documentos.assunto,
+                                tb_documentos.origem,
+                                tb_documentos.data_inclusao,
+                                tb_documentos.status
+                            FROM
+                                tb_documentos
+                            LEFT JOIN
+                                tb_movimentacao
+                                ON tb_documentos.id = tb_movimentacao.documento_id
+                                WHERE ";
+
     public function buscaId($id){
-        $sql = "SELECT * FROM
-                    tb_documentos 
-                WHERE 
-                    id = '$id'";
+        $sql = "SELECT
+                                tb_documentos.id,
+                                tb_documentos.ano_documento,
+                                tb_documentos.numero_documento,
+                                tb_documentos.assunto,
+                                tb_documentos.origem,
+                                tb_documentos.data_inclusao,
+                                tb_status.nome as status,
+                                tb_usuarios.nome as resposavel,
+                                tb_tipo.nome as tipo,
+                                tb_movimentacao.data_entrada
+                            FROM
+                                tb_documentos
+                            LEFT JOIN
+                                tb_movimentacao
+                                ON tb_documentos.id = tb_movimentacao.documento_id
+                            LEFT JOIN
+                                tb_status
+                                ON tb_status.id = tb_documentos.status
+                            LEFT JOIN
+                                tb_usuarios
+                                ON tb_usuarios.id = tb_movimentacao.usuario_id
+                            LEFT JOIN
+                                tb_tipo
+                                ON tb_tipo.id = tb_documentos.tipo
+                            WHERE 
+                                tb_documentos.id = '$id' AND tb_movimentacao.ativo = 1";
         return $exec = Conexao::InstControle()->prepare($sql);
     }
-    public function buscaNumeroAnoTipoStatusLocal($ano,$tipo, $status,$idSetor){
-        $sql = "SELECT
-                    tb_documentos.id,
-                    tb_documentos.numero_documento,
-                    tb_documentos.ano_documento,
-                    tb_documentos.origem
-                FROM
-                    tb_documentos
-                LEFT JOIN
-                    tb_movimentacao
-                    ON tb_documentos.id = tb_movimentacao.documento_id
-                WHERE 
-                tb_documentos.ano_documento = '$ano'";
-    if($status != ''){}
-              $sql .= "tb_documentos.status = '$status' AND";
-
-              $sql .= "tb_documentos.tipo = '$tipo' AND";
-
-        echo $sql;
+    public function buscaNumeroAnoTipoStatusLocal($ano,$tipo, $status,$idSetor,$order){
+        $sql = self::$sql." tb_movimentacao.ativo = '1' ";
+        if(($ano != '') AND ($ano !='tds')){
+            $sql .= " AND tb_documentos.ano_documento = '$ano' ";
+        }
+        if(($status != '') AND ($status !='tds')){
+            $sql .= " AND tb_documentos.status = '$status' ";
+        }
+        if(($tipo != '') AND ($tipo !='tds')){
+            $sql .= " AND tb_documentos.tipo = '$tipo'";
+        }
+        if(($idSetor != '') AND ($idSetor !='tds')){
+            if($idSetor =='user'){
+                $usuario_id = $_SESSION['id'];
+                $sql .= " AND tb_movimentacao.usuario_id = '$usuario_id'";
+            }else{
+                $sql .= " AND tb_movimentacao.setor_id = '$idSetor'";
+            }
+        }
+        if($order != ''){
+            $sql .= " ORDER BY ".$order." DESC ";
+        }
         return $exec = Conexao::InstControle()->prepare($sql);
     }
-    public function buscaNumeroAnoStatus($numero,$ano, $status){
-        $sql = "SELECT
-                    tb_documentos.id,
-                    tb_documentos.numero_documento,
-                    tb_documentos.ano_documento,
-                    tb_documentos.origem
-                FROM
-                    tb_documentos
-                LEFT JOIN
-                    tb_movimentacao
-                    ON tb_documentos.id = tb_movimentacao.documento_id 
-                WHERE ";
+    public function buscaNumeroAno($numero,$ano){
         if($numero != ''){
-            $sql .= " numero_documento = '$numero' ";
+            $sql = self::$sql .= " numero_documento = '$numero' ";
         }
         if($ano != ''){
             if($numero != ''){
-                $sql .= " AND "; 
+                $sql = self::$sql .= " AND "; 
             }
-            $sql .= " ano_documento = '$ano' ";
+            $sql = self::$sql .= " ano_documento = '$ano' ";
         }
-        if($status != ''){
-            if(($numero != '') OR ($ano != '')){
-                $sql .= " AND "; 
-            }
-            $sql .= " status = '$status' ";
+        return $exec = Conexao::InstControle()->prepare($sql);
+    }
+    public function buscaAssunto($assunto, $order){
+        if($assunto != ''){
+            $sql = self::$sql .= " assunto like '%$assunto%' 
+                ORDER BY $order DESC";
         }
         return $exec = Conexao::InstControle()->prepare($sql);
     }

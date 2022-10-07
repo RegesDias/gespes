@@ -39,50 +39,6 @@ function formFiltroTipo(){
     });
 
 }
-function getProtocoloOrigem() {
-    $('#carregando').show();
-    $.ajax({
-        url: 'acoes/documentos/listarOrigem.php',
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(result){
-        var size = result.length+2;
-        $('#listaPessoal').attr("size", size);
-        $('#listaPessoalNome').attr("size", size);
-        if(result.length == 0){
-            msn('success','Caixa de entrada está vazia');
-        }else{
-            msn('success','Ordenado por Origem!');
-            preenchimentoSelect(result);
-        }
-    }).fail(function() {
-       $(location).attr('href', 'index.html');
-    }).always(function() {
-        $('#carregando').hide();
-    });
-};
-function getProtocoloNumero() {
-    $('#carregando').show();
-    $.ajax({
-        url: 'acoes/documentos/listarNumero.php',
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(result){
-        var size = result.length+2;
-        $('#listaPessoal').attr("size", size);
-        $('#listaPessoalNome').attr("size", size);
-        if(result.length == 0){
-            msn('success','Caixa de entrada está vazia');
-        }else{
-            msn('success','Ordenado por número!');
-            preenchimentoSelect(result);
-        }
-    }).fail(function() {
-        $(location).attr('href', 'index.html');
-    }).always(function() {
-        $('#carregando').hide();
-    });
-};
 function getDocumentoNumeroAno(dado,order){
     $('#carregando').show();
     $.ajax({
@@ -107,15 +63,18 @@ function getDocumentoNumeroAno(dado,order){
         $('#carregando').hide();
     });
 };
-function getDocumentoAnoTipoStatusLocal(data){
+function getDocumentoAnoTipoStatusLocal(data, order){
+    $('#carregando').show();
     $.ajax({
         type : 'GET',
-        url  : 'acoes/documentos/buscaNumeroAnoStatus.php',
+        url  : 'acoes/documentos/buscaNumeroAnoStatus.php?order='+order,
         data : data,
         dataType: 'json',
         }).done(function(result){				
             if (result.codigo==0){
                 msn('error',result.mensagem);
+                $("#listaPessoal").empty();
+                $("#listaPessoalNome").empty();
             }else{
                 var size = result.exec.length+1;
                 msn('success',result.mensagem);
@@ -126,55 +85,29 @@ function getDocumentoAnoTipoStatusLocal(data){
                 preenchimentoSelect(result.exec);
             }
             }).fail(function() {
-                //$(location).attr('href', 'index.html');
+                $(location).attr('href', 'index.html');
             }).always(function() {
                 $('#carregando').hide();
             });
 };
-/*
-function getDocumentoAnoTipoStatusLocal(ano,tipo,status,local,order){
+function getDocumentoId(codfunc){
     $('#carregando').show();
+    console.log(codfunc);
     $.ajax({
-        url: 'acoes/documentos/buscaNumeroAnoStatus.php?ano='+ano+'tipo='+tipo+'&status='+status+'&local='+local+'&order='+order,
+        url: 'acoes/documentos/buscaId.php?id='+codfunc,
         method: 'GET',
         dataType: 'json'
-    }).done(function(result){
-        if (result.codigo==0){
-            msn('error',result.mensagem);
-        }else{
-            var size = result.exec.length+1;
-            msn('success',result.mensagem);
-            $("#listaPessoal").empty();
-            $("#listaPessoalNome").empty();
-            $('#listaPessoal').attr("size", size);
-            $('#listaPessoalNome').attr("size", size);
-            preenchimentoSelect(result.exec);
-        }
-    }).fail(function() {
-        $(location).attr('href', 'index.html');
-    }).always(function() {
-        $('#carregando').hide();
-    });
-};
-*/
-function getPessoaDadosFuncionais(codfunc){
-    $('#carregando').show();
-    $.ajax({
-        url: 'acoes/servidor/buscarCodFunc.php?codfunc='+codfunc,
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(dadosPessoal){
-        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
-        $('#pessoalNome').val(dadosPessoal[0].nome);
-        $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
-        $('#pessoalCpfs').val(dadosPessoal[0].cpfs);
-        $('#pessoalDataAdmis').val(converteDataBr(dadosPessoal[0].dataadmis));
-        $('#pessoalNomeCarg').val(dadosPessoal[0].nome_carg);
-        $('#pessoalPrefixos').val(dadosPessoal[0].prefixos);
-        $('#pessoalSecoes').val(dadosPessoal[0].secoes);
-        $('#pessoalSecretarias').val(dadosPessoal[0].secretarias);
-        $('#idInfo').val(dadosPessoal[0].idInfo);
-        $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
+    }).done(function(documento){
+        console.log(documento);
+        $('#ano_documento').val(documento[0].ano_documento);
+        $('#numero_documento').val(documento[0].numero_documento+'/'+documento[0].ano_documento);
+        $('#assunto').val(documento[0].assunto);
+        $('#origem').val(documento[0].origem);
+        $('#data_inclusao').val(converteDataBr(documento[0].data_inclusao));
+        $('#status').val(documento[0].status);
+        $('#resposavel').val(documento[0].resposavel);
+        $('#tipo').val(documento[0].tipo);
+        $('#data_entrada').val(converteDataBr(documento[0].data_entrada));
         $('#modal-pessoal').modal('show');
     }).fail(function() {
         $(location).attr('href', 'index.html');
@@ -200,17 +133,17 @@ function getListaSetoresAtivos() {
 function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
         numeroDocumento = addZero(result[i].numero_documento, 6);
-        if (result[i].origem == ''){
-            origem = 'NÃO INFORMADO';
+        if (result[i].assunto == ''){
+            origem = '*NÃO INFORMADO';
         }else{
-            origem = result[i].origem.substr(0,70);
+            origem = result[i].assunto.substr(0,70);
         }
         $('#listaPessoal').prepend('<option value='+ result[i].id +'> '+numeroDocumento+'/'+result[i].ano_documento+'</option>');
         $('#listaPessoalNome').prepend('<option value='+ result[i].id +'> '+origem+'</option>');    }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
     if(result.length == 1){
-        //setTimeout(() => { getPessoaDadosFuncionais(result[0].codfunc); }, 1000);
+        //setTimeout(() => { getDocumentoId(result[0].codfunc); }, 1000);
     }
 };
 
@@ -242,15 +175,7 @@ function fechaTodosModais(){
     $('#modal-pessoal').modal('hide');
     $('#modal-pesspontooal').modal('hide');
 }
-
-//###############################Ações###########################################
-
-$("#btnLimpar").on("click", function() {
-    getProtocoloNumero();
-    $('#textMatriculaCpfNome').val('');
-    $('#textMatriculaCpfNomeOrder').val('');
-});
-$('#formFiltroBtn').on("click", function(){
+function carregaDadosFiltro(){
     let anoVal = $('#formFiltroSelectAno option:selected').val();
     let tipoVal = $('#formFiltroSelectTipo option:selected').val();
     let statusVal = $('#formFiltroSelectStatus option:selected').val();
@@ -261,20 +186,32 @@ $('#formFiltroBtn').on("click", function(){
         status:statusVal, 
         idSetor:idSetorVal
     }
-    console.log(data);
-    getDocumentoAnoTipoStatusLocal(data);
+    return data;
+}
+//###############################Ações###########################################
+
+$("#btnLimpar").on("click", function() {
+    data = carregaDadosFiltro();
+    getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
+    $('#textMatriculaCpfNome').val('');
+    $('#textMatriculaCpfNomeOrder').val('');
+});
+$('#formFiltroBtn').on("click", function(){
+    data = carregaDadosFiltro();
+    $('#textMatriculaCpfNomeOrder').val('');
+    getDocumentoAnoTipoStatusLocal(data, '');
     
 //salvarAlteracoesUsuario(data);
 });
 $("#visualizarServidor").on("click", function() {
     var codfunc =  $('#listaPessoal option:selected').val();
-    getPessoaDadosFuncionais(codfunc);
+    getDocumentoId(codfunc);
 });
 
 $('#btnMatriculaCpfNome').on("click", function(){
     var dado = $('#textMatriculaCpfNome').val();
     $('#textMatriculaCpfNomeOrder').val(dado);
-    getDocumentoNumeroAno(dado,'');
+    getDocumentoNumeroAno(dado,'data_entrada');
     $('#visualizarServidor').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
@@ -294,9 +231,10 @@ $('#textMatriculaCpfNome').keyup(function(){
 $('#optionPessoalCodigo').on("click", function(){
     var dado = $('#textMatriculaCpfNomeOrder').val();
     if(dado){
-        getDocumentoNumeroAno(dado, 'matricula');
+        getDocumentoNumeroAno(dado, 'numero_documento');
     }else{
-        getProtocoloNumero();
+        data = carregaDadosFiltro();
+        getDocumentoAnoTipoStatusLocal(data, 'numero_documento');
     }
     $('#visualizarServidor').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
@@ -304,9 +242,10 @@ $('#optionPessoalCodigo').on("click", function(){
 $('#optionPessoalNome').on("click", function(){
     var dado = $('#textMatriculaCpfNomeOrder').val();
     if(dado){
-        getDocumentoNumeroAno(dado, 'nome');
+        getDocumentoNumeroAno(dado, 'assunto');
     }else{
-        getProtocoloOrigem();
+        data = carregaDadosFiltro();
+        getDocumentoAnoTipoStatusLocal(data,'assunto');
     }
     $('#visualizarServidor').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
@@ -404,8 +343,11 @@ $(document).ready(function(){
     formFiltroAno();
     formFiltroTipo();
     formFiltroStatus();
-    getProtocoloNumero();
     getListaSetoresAtivos();
     carregarSelect2();
+    setTimeout(() => { 
+        data = carregaDadosFiltro();
+        getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
+     }, 100);
 
 });
