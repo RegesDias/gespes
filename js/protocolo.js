@@ -7,7 +7,7 @@ function formFiltroStatus(){
     }).done(function(result){
         preenchimentoSelectStatus(result);
     }).fail(function() {
-       //$(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -20,7 +20,7 @@ function formFiltroAno(){
     }).done(function(result){
         preenchimentoSelectAno(result);
     }).fail(function() {
-       //$(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -33,7 +33,7 @@ function formFiltroTipo(){
     }).done(function(result){
         preenchimentoSelectTipo(result);
     }).fail(function() {
-       //$(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -58,9 +58,47 @@ function getDocumentoNumeroAno(dado,order){
             preenchimentoSelect(result.exec);
         }
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
+    });
+};
+function getDocumentoMovimentacaoId(id,order){
+    $.ajax({
+        url: 'acoes/documentos/movimentacao.php?id='+id+'&order='+order,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            var size = result.length+1;
+            $("#listaResponsavel").empty();
+            $("#listaDataEntrega").empty();
+            $('#listaResponsavel').attr("size", size);
+            $('#listaDataEntrega').attr("size", size);
+            preenchimentoSelectMovimentacao(result);
+        }
+    }).fail(function() {
+        msn('error', 'Falha Geral! error#999');
+    }).always(function() {
+    });
+};
+function geMovimentacaoId(id){
+    $.ajax({
+        url: 'acoes/documentos/movimentacaoDetalhamento.php?id='+id,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            $('#verEncaminhamento').val(result[0].encaminhamento);
+            $('#verEncaminhado').val(result[0].encaminhado);
+        }
+    }).fail(function() {
+        msn('error', 'Falha Geral! error#999');
+    }).always(function() {
     });
 };
 function getDocumentoAnoTipoStatusLocal(data, order){
@@ -85,20 +123,18 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 preenchimentoSelect(result.exec);
             }
             }).fail(function() {
-                $(location).attr('href', 'index.html');
+                msn('error', 'Falha Geral! error#999');
             }).always(function() {
                 $('#carregando').hide();
             });
 };
 function getDocumentoId(codfunc){
     $('#carregando').show();
-    console.log(codfunc);
     $.ajax({
         url: 'acoes/documentos/buscaId.php?id='+codfunc,
         method: 'GET',
         dataType: 'json'
     }).done(function(documento){
-        console.log(documento);
         $('#ano_documento').val(documento[0].ano_documento);
         $('#numero_documento').val(documento[0].numero_documento+'/'+documento[0].ano_documento);
         $('#assunto').val(documento[0].assunto);
@@ -108,9 +144,11 @@ function getDocumentoId(codfunc){
         $('#resposavel').val(documento[0].resposavel);
         $('#tipo').val(documento[0].tipo);
         $('#data_entrada').val(converteDataBr(documento[0].data_entrada));
+        $('#idDocumento').val(documento[0].id);
+        idDocumento
         $('#modal-pessoal').modal('show');
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -125,7 +163,7 @@ function getListaSetoresAtivos() {
         var size = result.length+1;
         preenchimentoSelectSetor(result);
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -138,13 +176,20 @@ function preenchimentoSelect(result){
         }else{
             origem = result[i].assunto.substr(0,70);
         }
-        $('#listaPessoal').prepend('<option value='+ result[i].id +'> '+numeroDocumento+'/'+result[i].ano_documento+'</option>');
+        $('#listaPessoal').prepend('<option value='+ result[i].id +'> '+result[i].sigla+'-'+numeroDocumento+'/'+result[i].ano_documento+'</option>');
         $('#listaPessoalNome').prepend('<option value='+ result[i].id +'> '+origem+'</option>');    }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
     if(result.length == 1){
-        //setTimeout(() => { getDocumentoId(result[0].codfunc); }, 1000);
+        setTimeout(() => { getDocumentoId(result[0].id); }, 1000);
     }
+};
+function preenchimentoSelectMovimentacao(result){
+    for (var i = 0; i < result.length; i++) {
+        $('#listaResponsavel').prepend('<option value='+ result[i].id +'> '+result[i].responsavel+'</option>');
+        $('#listaDataEntrega').prepend('<option value='+ result[i].id +'> '+converteDataBr(result[i].data_entrada)+'</option>');    }
+    $( '#barraCarregamento' ).css( "width", "100%");
+    setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
 };
 
 function preenchimentoSelectStatus(result){
@@ -173,7 +218,7 @@ function preenchimentoSelectSetor(result){
 function fechaTodosModais(){
     $('#modal-data').modal('hide');
     $('#modal-pessoal').modal('hide');
-    $('#modal-pesspontooal').modal('hide');
+    $('#modal-ponto').modal('hide');
 }
 function carregaDadosFiltro(){
     let anoVal = $('#formFiltroSelectAno option:selected').val();
@@ -190,6 +235,18 @@ function carregaDadosFiltro(){
 }
 //###############################Ações###########################################
 
+
+$("#visualizarDocumento").on("click", function() {
+    var id =  $('#listaDataEntrega option:selected').val();
+    geMovimentacaoId(id);
+    $('#modal-ponto').modal('show');
+});
+
+$("#movimentacaoTab").on("click", function() {
+    let id = $('#idDocumento').val();
+    getDocumentoMovimentacaoId(id,'');
+});
+
 $("#btnLimpar").on("click", function() {
     data = carregaDadosFiltro();
     getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
@@ -205,6 +262,7 @@ $('#formFiltroBtn').on("click", function(){
 });
 $("#visualizarServidor").on("click", function() {
     var codfunc =  $('#listaPessoal option:selected').val();
+    $('#documentoClick').trigger('click');
     getDocumentoId(codfunc);
 });
 

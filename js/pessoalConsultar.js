@@ -12,7 +12,7 @@ function getPessoalCodigo() {
         msn('success','Servidores ordenados por codigo!');
         preenchimentoSelect(result);
     }).fail(function() {
-       $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -30,7 +30,7 @@ function getPessoalNome() {
         msn('success','Servidores ordenados por nome!');
         preenchimentoSelect(result);
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -54,7 +54,7 @@ function getPessoalMatriculaCpfNome(dado,order){
             preenchimentoSelect(result.exec);
         }
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -79,7 +79,7 @@ function getPessoaDadosFuncionais(codfunc){
         $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
         $('#modal-pessoal').modal('show');
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -98,7 +98,7 @@ function preenchimentoSelect(result){
 function fechaTodosModais(){
     $('#modal-data').modal('hide');
     $('#modal-pessoal').modal('hide');
-    $('#modal-pesspontooal').modal('hide');
+    $('#modal-ponto').modal('hide');
 }
 
 //###############################Ações###########################################

@@ -60,8 +60,8 @@
     <div class="card card-outline">
         <form name="moose">
             <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active col-2">
-                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Número
+                <label class="btn btn-secondary active col-3">
+                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Protocolo Interno
                 </label>
                 <label class="btn btn-secondary">
                 <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Assunto
@@ -69,11 +69,11 @@
             </div>
             <div class="card-body" style="height:300px;width:100%;overflow:auto;">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <select class='selectDouble' id="listaPessoal" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
                         </select>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <select class='selectDouble' id="listaPessoalNome" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
                         </select>
                     </div>
@@ -99,91 +99,120 @@
         <div class="modal-content">
           <div class="modal-header">
             <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
-            <h4 class="modal-title"> Documento</h4>
+            <h4 class="modal-title">Informações do Documento</h4>
             <button type="button" class="close" id="fechaModalPessoal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-4">
-                  <label>Tipo</label>
-                  <input disabled="disabled" id='tipo' type="text" class="form-control" placeholder="Lotação">
-                </div>
-                <div class="col-8">
-                  <label>Origem</label>
-                  <input disabled="disabled" id='origem' type="text" class="form-control" placeholder="Lotação">
-                </div>
-              </div>
-              <div class="row">
-              <div class="col-12">
-                <div class="row">
-                    <div class="col-3">
-                      <label>Número</label>
-                      <input disabled="disabled" id='numero_documento' type="text" class="form-control" placeholder="CodFunc">
+
+        <div class="card">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item"><a class="nav-link active" id='documentoClick' href="#documento" data-toggle="tab">Documento</a></li>
+              <li class="nav-item"><a class="nav-link" href="#movimentacoes" data-toggle="tab" id="movimentacaoTab">Movimentações</a></li>
+              <li class="nav-item"><a class="nav-link" href="#observacoes" data-toggle="tab">Observações</a></li>
+            </ul>
+          </div><!-- /.card-header -->
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="active tab-pane" id="documento"> 
+                  <div class="row">
+                    <div class="col-4">
+                      <label>Tipo</label>
+                      <input disabled="disabled" id='tipo' type="text" class="form-control" placeholder="Lotação">
                     </div>
-                    <div class="col-3">
-                      <label>Data Inclussão</label>
-                      <input disabled="disabled" id="data_inclusao" type="text" class="form-control" placeholder="Data Admissão">
+                    <div class="col-8">
+                      <label>Origem</label>
+                      <input disabled="disabled" id='origem' type="text" class="form-control" placeholder="Lotação">
                     </div>
-                    <div class="col-3">
-                      <label>Encaminhado</label>
-                      <input disabled="disabled" id="data_entrada" type="text" class="form-control" placeholder="Data Admissão">
-                    </div>
-                    <div class="col-3">
-                      <label>Status</label>
-                      <input disabled="disabled" id="status" type="text" class="form-control" placeholder="Sessões">
                   </div>
+                  <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                              <label>Número</label>
+                              <input disabled="disabled" id='numero_documento' type="text" class="form-control" placeholder="CodFunc">
+                            </div>
+                            <div class="col-4">
+                              <label>Data Inclussão</label>
+                              <input disabled="disabled" id="data_inclusao" type="text" class="form-control" placeholder="Data Admissão">
+                            </div>
+                            <div class="col-4">
+                              <label>Status</label>
+                              <input disabled="disabled" id="status" type="text" class="form-control" placeholder="Sessões">
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <label>Assunto</label>
+                            <input disabled="disabled" id="assunto" type="text" class="form-control" placeholder="nome">
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <!--Campos Ocultos-->
+                  <input id='idInfo' type="text" class="d-none">
+                  <input id='idHistFunc' type="text" class="d-none">
                 </div>
+
+              <div class="tab-pane" id="movimentacoes">
                 <div class="row">
                   <div class="col-12">
-                    <label>Assunto</label>
-                    <input disabled="disabled" id="assunto" type="text" class="form-control" placeholder="nome">
-                  </div>
+                        <div class="card card-outline">
+                            <form name="moose">
+                                <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary active col-md-3" >
+                                    <input type="radio" name="optionsM" id="optionListaDataEntrega" autocomplete="off" checked> Data Entraga
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                    <input type="radio" name="optionsM" id="optionListaResponsavel" autocomplete="off"> Responsável
+                                    </label>
+                                </div>
+                                <div class="card-body" style="height:100px;width:100%;overflow:auto;">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <select class='selectDouble' id="listaDataEntrega" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <select class='selectDouble' id="listaResponsavel" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                              <button id='visualizarDocumento' type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
+                          </div>
+                          <div class="input-group-prepend">
+                              <button id='encaminharDocumento' type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Encaminhar</button>
+                          </div>
+                          <input disabled="disabled" id="idDocumento" type="text" class="d-none" placeholder="Oculto">
+                        </div>
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>Responsável</label>
-                    <input disabled="disabled" id="resposavel" type="text" class="form-control" placeholder="Nome do cargo">
-                </div>
-              </div>
-              </div>
-              </div>
-              <!--Campos Ocultos-->
-              <input id='idInfo' type="text" class="d-none">
-              <input id='idHistFunc' type="text" class="d-none">
-            </div>
+          </div>
+        </div>
+
+      <div class="tab-pane" id="observacoes">
+          1
+      </div>
+    </div>
+    </div>
+    <!-- /.tab-content -->
+  </div><!-- /.card-body -->
+</div>
           </div>
           <div class="modal-footer justify-content-between">
           </div>
-          <div class="modal fade" id="modal-data" style="margin-top:60px">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header"> 
-                    <h4 class="modal-title"> Defina a data:</h4>
-                    <button type="button" class="close" id="fechaModalData" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col-12">
-                        <input class="form-control" id='mesAno' type="month">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" id="contraChequeImprimir"><i class="nav-icon fas fa-print"></i> Imprimir</button>
-                  </div>
-              </div>
-          </div>
-        </div>
         <div class="modal fade" id="modal-ponto" style="margin-top:60px">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header"> 
-                  <h4 class="modal-title"> Defina a data Inicial e Final</h4>
+                  <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+                  <h4 class="modal-title">Detalhe da Movimentação</h4>
                   <button type="button" class="close" id="fechaModalPonto" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -191,17 +220,15 @@
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-12">
-                      <label>Data Inicial</label>
-                      <input class="form-control" id='mesAnoInicial' type="month">
+                      <label>Encaminhado Por:</label>
+                      <input disabled class="form-control" id='verEncaminhado' type="text">
                     </div>
                     <div class="col-12">
-                      <label>Data Final</label>
-                      <input class="form-control" id='mesAnoFinal' type="month">
+                      <label>Dados do encaminhamento:</label>
+                      <textarea class="form-control" rows="3" disabled id='verEncaminhamento'>
+                      </textarea>
                     </div>
                   </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-secondary" id="folhaDePontoImprimir"><i class="nav-icon fas fa-print"></i> Imprimir</button>
                 </div>
             </div>
         </div>
@@ -211,13 +238,9 @@
             <img src="img/loading.gif">
           </div>
         </div>
-        <!-- /.modal-content -->
       </div>
-    <!-- /.modal-dialog -->
   </div>
 </div>
 <script src="js/protocolo.js"></script>
-<script>
-</script>
 </div>
 </div>

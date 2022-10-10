@@ -23,7 +23,6 @@
 		}).done(function(response){				
 				if(response.codigo == "1"){
                     msn('success',response.mensagem);
-					console.log(response);
 					var log = {
 								'nome': response.nome,
 								'CPF': response.CPF,

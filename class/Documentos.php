@@ -1,23 +1,27 @@
 <?php
 require_once('Generica.php');
 class Documentos extends Generica{
-    public static $sql = "SELECT
+    public static $sql = "SELECT DISTINCT
                                 tb_documentos.id,
                                 tb_documentos.ano_documento,
                                 tb_documentos.numero_documento,
                                 tb_documentos.assunto,
                                 tb_documentos.origem,
                                 tb_documentos.data_inclusao,
-                                tb_documentos.status
+                                tb_documentos.status,
+                                tb_tipo.sigla as sigla
                             FROM
                                 tb_documentos
                             LEFT JOIN
                                 tb_movimentacao
                                 ON tb_documentos.id = tb_movimentacao.documento_id
+                            LEFT JOIN
+                                tb_tipo
+                                ON tb_tipo.id = tb_documentos.tipo
                                 WHERE ";
 
     public function buscaId($id){
-        $sql = "SELECT
+        $sql = "SELECT DISTINCT
                                 tb_documentos.id,
                                 tb_documentos.ano_documento,
                                 tb_documentos.numero_documento,
@@ -26,6 +30,7 @@ class Documentos extends Generica{
                                 tb_documentos.data_inclusao,
                                 tb_status.nome as status,
                                 tb_usuarios.nome as resposavel,
+                                tb_tipo.sigla as sigla,
                                 tb_tipo.nome as tipo,
                                 tb_movimentacao.data_entrada
                             FROM

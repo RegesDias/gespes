@@ -14,7 +14,7 @@ function getOndenaCodigo() {
         msn('success','Servidores ordenados por codigo!');
         preenchimentoSelect(result);
     }).fail(function() {
-       $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -34,7 +34,7 @@ function getOrdenaNome() {
         msn('success','Servidores ordenados por nome!');
         preenchimentoSelect(result);
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -61,7 +61,7 @@ function getNome(dado){
             }
         }
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
@@ -80,7 +80,7 @@ function getDados(codFunc){
         $('#modal').modal('show');
         
     }).fail(function() {
-        $(location).attr('href', 'index.html');
+        msn('error', 'Falha Geral! error#999');
     }).always(function() {
         $('#carregando').hide();
     });
