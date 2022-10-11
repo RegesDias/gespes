@@ -91,6 +91,6 @@
 	$(document).ready(function(){
 		$('#exibeNovaSenha').hide();
 		$('#exibeNovaSenha2').hide();
-		versao= '0.5';
+		versao= '0.6';
 		$('#versao').html(versao);
 	});

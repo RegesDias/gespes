@@ -61,7 +61,7 @@
         <form name="moose">
             <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary active col-3">
-                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Protocolo Interno
+                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Documento
                 </label>
                 <label class="btn btn-secondary">
                 <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Assunto
@@ -95,7 +95,7 @@
       </div>
   </div>
   <div class="modal fade" id="modal-pessoal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
             <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
@@ -110,8 +110,8 @@
           <div class="card-header p-2">
             <ul class="nav nav-pills">
               <li class="nav-item"><a class="nav-link active" id='documentoClick' href="#documento" data-toggle="tab">Documento</a></li>
-              <li class="nav-item"><a class="nav-link" href="#movimentacoes" data-toggle="tab" id="movimentacaoTab">Movimentações</a></li>
-              <li class="nav-item"><a class="nav-link" href="#observacoes" data-toggle="tab">Observações</a></li>
+              <li class="nav-item"><a class="nav-link" id="movimentacaoTab" href="#movimentacoes" data-toggle="tab" id="movimentacaoTab">Movimentações</a></li>
+              <li class="nav-item"><a class="nav-link" id="observacaoTab" href="#observacoes" data-toggle="tab">Observações</a></li>
             </ul>
           </div><!-- /.card-header -->
           <div class="card-body">
@@ -162,8 +162,8 @@
                         <div class="card card-outline">
                             <form name="moose">
                                 <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary active col-md-3" >
-                                    <input type="radio" name="optionsM" id="optionListaDataEntrega" autocomplete="off" checked> Data Entraga
+                                    <label class="btn btn-secondary active col-md-2" >
+                                    <input type="radio" name="optionsM" id="optionListaDataEntrega" autocomplete="off" checked> Data
                                     </label>
                                     <label class="btn btn-secondary">
                                     <input type="radio" name="optionsM" id="optionListaResponsavel" autocomplete="off"> Responsável
@@ -171,11 +171,11 @@
                                 </div>
                                 <div class="card-body" style="height:100px;width:100%;overflow:auto;">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <select class='selectDouble' id="listaDataEntrega" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
                                             </select>
                                         </div>
-                                        <div class="col-md-9">
+                                        <div class="col-md-10">
                                             <select class='selectDouble' id="listaResponsavel" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
                                             </select>
                                         </div>
@@ -185,19 +185,55 @@
                         </div>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
-                              <button id='visualizarDocumento' type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
+                              <button id='visualizarDocumento' disabled type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
                           </div>
                           <div class="input-group-prepend">
-                              <button id='encaminharDocumento' type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Encaminhar</button>
+                              <button id='movimentarDocumento'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Movimentar</button>
                           </div>
                           <input disabled="disabled" id="idDocumento" type="text" class="d-none" placeholder="Oculto">
                         </div>
-                </div>
-          </div>
+                  </div>
+            </div>
         </div>
 
       <div class="tab-pane" id="observacoes">
-          1
+        <div class="row">
+          <div class="col-12">
+                <div class="card card-outline">
+                    <form name="moose">
+                        <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-secondary active col-md-2" >
+                            <input type="radio" name="optionsO" id="optionListaObservacaoData" autocomplete="off" checked> Data
+                            </label>
+                            <label class="btn btn-secondary">
+                            <input type="radio" name="optionsO" id="optionListaObservacaoNome" autocomplete="off"> Descrição
+                            </label>
+                        </div>
+                        <div class="card-body" style="height:100px;width:100%;overflow:auto;">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <select class='selectDouble' id="listaObservacaoData" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
+                                    </select>
+                                </div>
+                                <div class="col-md-10">
+                                    <select class='selectDouble' id="listaObservacao" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                      <button id='visualizarObservacao' disabled type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
+                  </div>
+                  <div class="input-group-prepend">
+                      <button id='criarObservacao' type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Escrever</button>
+                  </div>
+                  <input disabled="disabled" id="idDocumento" type="text" class="d-none" placeholder="Oculto">
+                </div>
+          </div>
+        </div>
       </div>
     </div>
     </div>
@@ -205,14 +241,14 @@
   </div><!-- /.card-body -->
 </div>
           </div>
-          <div class="modal-footer justify-content-between">
-          </div>
+        <div class="modal-footer justify-content-between">
+        </div>
         <div class="modal fade" id="modal-ponto" style="margin-top:60px">
-          <div class="modal-dialog modal-lg">
+          <div class="modal-dialog modal-xl">
               <div class="modal-content">
                 <div class="modal-header"> 
                   <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
-                  <h4 class="modal-title">Detalhe da Movimentação</h4>
+                  <h4 class="modal-title" id="detalhamentoModalTitulo">detalhamentoModalTitulo</h4>
                   <button type="button" class="close" id="fechaModalPonto" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -220,11 +256,11 @@
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-12">
-                      <label>Encaminhado Por:</label>
+                      <label id="detalhamentoModalLabel1" >detalhamentoModalLabel1</label>
                       <input disabled class="form-control" id='verEncaminhado' type="text">
                     </div>
                     <div class="col-12">
-                      <label>Dados do encaminhamento:</label>
+                      <label id="detalhamentoModalLabel2">detalhamentoModalLabel2</label>
                       <textarea class="form-control" rows="3" disabled id='verEncaminhamento'>
                       </textarea>
                     </div>
@@ -233,6 +269,66 @@
             </div>
         </div>
       </div>
+      <div class="modal fade" id="modal-movimentar" style="margin-top:30px">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header"> 
+                <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+                <h4 class="modal-title" id="encaminharModalTitulo">Encaminhar Documento</h4>
+                <button type="button" class="close" id="fechaModalMovimenta" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div id='divMovimentacao' class="col-12">
+                    <label >Movimentação</label>
+                    <select id='movimentacoesTipo' class="form-control select2" style="width: 100%;">
+                      <option value="" selected></option>
+                      <option value="encaminhamento" >ENCAMINHAMENTO</option>
+                      <option value="saida" >SAÍDA</option>
+                    </select>
+                  </div>
+                  <div id='divDataEntrada' class="col-6 d-none">
+                    <label>Data entrada</label>
+                    <input type="date" name="optionsM" id="encaminharDataEntrada" class="form-control" autocomplete="off">
+                  </div>
+                  <div id='divDataSaida' class="col-6 d-none">
+                    <label>Data Saida</label>
+                    <input type="date" name="optionsM" id="encaminharDataSaida" class="form-control" autocomplete="off">
+                  </div>
+                  <div id='divDestino' class="col-12 d-none">
+                    <label>Destino</label>
+                    <input type="text" name="optionsM" id="encaminharDestino" class="form-control" autocomplete="off">
+                  </div>
+                  <div id='divSetor' class="col-12 d-none">
+                    <label>Setor</label>
+                    <select id='movimentacoesSetor' class="form-control select2" style="width: 100%;">
+                      <option value=""  selected ></option>
+                    </select>
+                  </div>
+                  <div id='divResponsavel' class="col-12 d-none">
+                    <label>Responsável</label>
+                    <select id='encaminharResponsavel' class="form-control select2" style="width: 100%;">
+                      <option value=""  selected ></option>
+                    </select>                  
+                  </div>
+                  <div id='divEncaminhamento' class="col-12 d-none">
+                    <label>Encaminhamento</label>
+                    <textarea class="form-control" rows="3"  id='encaminharTexto'></textarea>            
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+              <div class="input-group-prepend">
+                <button id='executarMovimentacao'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Encaminhar</button>
+              </div>
+              <div class="input-group-prepend">
+                <button id='executarSaida'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Arquivar</button>
+              </div>
+          </div>
+      </div>
+    </div>
       <iframe src="" id='print-iframe' name='print-frame-name' class="d-none"></iframe>
           <div id="carregandoModal" class="overlay dark hidden">
             <img src="img/loading.gif">

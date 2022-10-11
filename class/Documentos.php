@@ -29,26 +29,26 @@ class Documentos extends Generica{
                                 tb_documentos.origem,
                                 tb_documentos.data_inclusao,
                                 tb_status.nome as status,
-                                tb_usuarios.nome as resposavel,
+                                usuario.nome as resposavel,
                                 tb_tipo.sigla as sigla,
                                 tb_tipo.nome as tipo,
                                 tb_movimentacao.data_entrada
                             FROM
-                                tb_documentos
+                                controle_docs.tb_documentos
                             LEFT JOIN
-                                tb_movimentacao
+                                controle_docs.tb_movimentacao
                                 ON tb_documentos.id = tb_movimentacao.documento_id
                             LEFT JOIN
-                                tb_status
+                                controle_docs.tb_status
                                 ON tb_status.id = tb_documentos.status
                             LEFT JOIN
-                                tb_usuarios
-                                ON tb_usuarios.id = tb_movimentacao.usuario_id
+                                gespes.usuario
+                                ON gespes.usuario.id = tb_movimentacao.usuario_id
                             LEFT JOIN
-                                tb_tipo
+                                controle_docs.tb_tipo
                                 ON tb_tipo.id = tb_documentos.tipo
                             WHERE 
-                                tb_documentos.id = '$id' AND tb_movimentacao.ativo = 1";
+                                tb_documentos.id = '$id'";
         return $exec = Conexao::InstControle()->prepare($sql);
     }
     public function buscaNumeroAnoTipoStatusLocal($ano,$tipo, $status,$idSetor,$order){

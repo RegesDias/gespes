@@ -51,6 +51,18 @@ function selectDouble(a,b){
       b.options[i].selected=a.options[i].selected;
   }
 }
+function dataAtual(tipo,tag) {
+  var data = new Date(),
+      dia  = data.getDate(),
+      mes  = data.getMonth() + 1,
+      ano  = data.getFullYear();
+      if (tipo == 'br'){
+        return [dia, mes, ano].join(tag);
+      }
+      if (tipo == 'us'){
+        return [ano, mes, dia].join(tag);
+      }
+}
 function converteDataUS(d){
   let date = d.toString().split('-');
   dataHoraBr = date[0]+'-'+date[1]+'-'+date[2];
