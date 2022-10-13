@@ -149,6 +149,7 @@ $("#alterarSenha").on("click", function() {
 $("#sairSistema").on("click", function() {
   sair()
 });
+
 $(document).ready(function(){
   var login = JSON.parse(sessionStorage.getItem('login'));
   $('#fotoUsuarioLogado').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+login.CPF+'.bmp');

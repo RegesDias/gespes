@@ -213,6 +213,45 @@ function getListaSetoresAtivos() {
         $('#carregando').hide();
     });
 };
+function getListaSecretarias() {
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/secretaria/listar.php',
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        var size = result.length+1;
+        preenchimentoAutoCompleteSecretaria(result);
+    }).fail(function() {
+        msn('error', 'Falha Geral! error#999');
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
+function getUsuarioIdSetor(dado){
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/usuario/listarIdSetor.php?dado='+dado,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            preenchimentoSelectUsuarioIdSetor(result);
+        }
+    }).fail(function() {
+        msn('error', 'Falha Geral! error#999');
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
+function preenchimentoSelectUsuarioIdSetor(result){
+    console.log(result);
+    for (var i = 0; i < result.length; i++) {
+        $('#encaminharResponsavel').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
+    }
+};
 function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
         numeroDocumento = addZero(result[i].numero_documento, 6);
@@ -222,15 +261,30 @@ function preenchimentoSelect(result){
             origem = result[i].assunto.substr(0,70);
         }
         $('#listaPessoal').prepend('<option value='+ result[i].id +'> '+result[i].sigla+'-'+numeroDocumento+'/'+result[i].ano_documento+'</option>');
-        $('#listaPessoalNome').prepend('<option value='+ result[i].id +'> '+origem+'</option>');    }
+        $('#listaPessoalNome').prepend('<option value='+ result[i].data_recebido+'*'+result[i].setor_id+'> '+origem+'</option>');   
+    }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
     if(result.length == 1){
         $('#visualizarDocumento').prop('disabled', true);
         $('#visualizarObservacao').prop('disabled', true);
-        setTimeout(() => { getDocumentoId(result[0].id); }, 1000);
+        var login = JSON.parse(sessionStorage.getItem('login'));
+        if((result[0].data_recebido === 'null')&&(result[0].setor_id[1]  == login.idSetor)){
+            setTimeout(() => { getDocumentoId(result[0].id); }, 1000);
+        }
     }
 };
+function verificaSeDeveSerRecebido(){
+    d = $('#listaPessoalNome option:selected').val();
+    dado = d.toString().split('*');
+    var login = JSON.parse(sessionStorage.getItem('login'));
+    if((dado[0] === 'null')&&(dado[1]  == login.idSetor)){
+        console.log(dado);
+        $('#visualizarServidor').html('<i class="nav-icon fas fa-check"></i> Receber');
+    }else{
+        $('#visualizarServidor').html('<i class="nav-icon fas fa-search"></i> Visualizar');
+    }
+}
 
 function preenchimentoSelectObservacao(result){
     for (var i = 0; i < result.length; i++) {
@@ -271,6 +325,14 @@ function preenchimentoSelectSetor(result){
     var login = JSON.parse(sessionStorage.getItem('login'));
     $('#formFiltroSelectSetor').val(login.idSetor).change()
 };
+function preenchimentoAutoCompleteSecretaria(result){
+    var keys = [];
+    for (var i = 0; i < result.length; i++) {
+        keys.push(result[i].nome_lotacao);
+    }
+    autocompleteEncaminharDestino(keys);
+};
+
 function fechaTodosModais(){
     $('#modal-data').modal('hide');
     $('#modal-pessoal').modal('hide');
@@ -319,6 +381,11 @@ function limparFormularioSaida(){
     $('#divEncaminhamento').addClass('d-none');
     $('#executarSaida').addClass('d-none');
 }
+function autocompleteEncaminharDestino(availableTags) {
+    $("#encaminharDestino").autocomplete({
+        source: availableTags
+    });
+};
 //###############################Ações###########################################
 
 
@@ -332,8 +399,13 @@ $("#movimentarDocumento").on("click", function() {
     $('#encaminharDataEntrada').val(date);
     $('#encaminharDataSaida').val(date);
 });
+$('#movimentacoesSetor').change(function(){
+    dado = $('#movimentacoesSetor option:selected').val();
+    getUsuarioIdSetor(dado);
+});
+
+
 $('#movimentacoesTipo').change(function(){
-    console.log('lugar certo!');
     mudar = $('#movimentacoesTipo option:selected').val();
     if(mudar == 'encaminhamento'){
         limparFormularioSaida();
@@ -385,10 +457,10 @@ $("#observacaoTab").on("click", function() {
     getDocumentoObservacaoIdDocumento(id,'');
     
 });
-$('#listaDataEntrega').change(function(){
+$('#listaDataEntrega').click(function(){
     $('#visualizarDocumento').removeAttr('disabled');
 });
-$('#listaObservacaoData').change(function(){
+$('#listaObservacaoData').click(function(){
     $('#visualizarObservacao').removeAttr('disabled');
 });
 
@@ -453,15 +525,18 @@ $('#optionPessoalNome').on("click", function(){
     $('#visualizarServidor').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#listaPessoal').change(function(){
+$('#listaPessoal').click(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
+    verificaSeDeveSerRecebido();
+
 });
-$('#listaPessoalNome').change(function(){
+$('#listaPessoalNome').click(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
+    verificaSeDeveSerRecebido();
 
 });
 $('#fichaFuncional').click(function(){
@@ -551,9 +626,9 @@ $(document).ready(function(){
     formFiltroStatus();
     getListaSetoresAtivos();
     carregarSelect2();
+    getListaSecretarias();
     setTimeout(() => { 
         data = carregaDadosFiltro();
         getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
      }, 100);
-
 });

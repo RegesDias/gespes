@@ -155,12 +155,12 @@ $('#optionPessoalNome').on("click", function(){
     $('#visualizarServidor').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#listaPessoal').change(function(){
+$('#listaPessoal').click(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#listaPessoalNome').change(function(){
+$('#listaPessoalNome').click(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');

@@ -46,5 +46,13 @@ class Movimentacao extends Generica{
                     ativo = '1' ";
         return $exec = Conexao::InstControle()->prepare($sql);
     }
+    public function listarEncaminhamento($id){
+        $sql = "SELECT DISTINCT encaminhamento FROM
+                    tb_movimentacao 
+                WHERE 
+                    usuario_id = '$id' AND
+                    ativo = '1' ";
+        return $exec = Conexao::InstControle()->prepare($sql);
+    }
 }
 ?>

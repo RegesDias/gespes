@@ -9,7 +9,9 @@ class Documentos extends Generica{
                                 tb_documentos.origem,
                                 tb_documentos.data_inclusao,
                                 tb_documentos.status,
-                                tb_tipo.sigla as sigla
+                                tb_tipo.sigla as sigla,
+                                tb_movimentacao.data_recebido,
+                                tb_movimentacao.setor_id
                             FROM
                                 tb_documentos
                             LEFT JOIN

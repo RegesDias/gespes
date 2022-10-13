@@ -250,6 +250,11 @@ class  Usuario extends Generica{
     $call = "SELECT *  FROM usuario ORDER BY id LIMIT 1000";
     return $exec = Conexao::Inst()->prepare($call);
   }
+  
+  public function listarIdSetor($idSetor){
+    $call = "SELECT id, nome  FROM usuario WHERE idSetor = '$idSetor' AND status = 'Ativo' ORDER BY id LIMIT 1000";
+    return $exec = Conexao::Inst()->prepare($call);
+  }
 
   public function listarPorNome(){
     $call = "SELECT * FROM usuario ORDER BY nome DESC LIMIT 1000";
