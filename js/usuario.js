@@ -183,7 +183,8 @@ function alterarSenha(data){
                 msn('error',response.mensagem);
             }
         }).fail(function() {
-            msn('error', 'Falha Geral! error#999');
+            msn('error','Sua sessão expirou');
+            setTimeout(() => {  window.location.href = "home.html" }, 1000);
         });
 };
 function renovarSenhaUsuario(data){

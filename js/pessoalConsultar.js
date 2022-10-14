@@ -12,7 +12,8 @@ function getPessoalCodigo() {
         msn('success','Servidores ordenados por codigo!');
         preenchimentoSelect(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -30,7 +31,8 @@ function getPessoalNome() {
         msn('success','Servidores ordenados por nome!');
         preenchimentoSelect(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -54,7 +56,8 @@ function getPessoalMatriculaCpfNome(dado,order){
             preenchimentoSelect(result.exec);
         }
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -79,7 +82,8 @@ function getPessoaDadosFuncionais(codfunc){
         $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
         $('#modal-pessoal').modal('show');
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });

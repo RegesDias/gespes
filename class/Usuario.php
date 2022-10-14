@@ -219,7 +219,7 @@ class  Usuario extends Generica{
                               NOW())";
       $stm = Conexao::Inst()->prepare($sql);
       $stm->execute();
-      $retorno = array('codigo' => 1, 'mensagem' => 'Usuário '.$sql.' criado com sucesso!');
+      $retorno = array('codigo' => 1, 'mensagem' => 'Usuário '.$nome.' criado com sucesso!');
       echo json_encode($retorno);
       exit();
     }

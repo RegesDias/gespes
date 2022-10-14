@@ -11,7 +11,8 @@ class Documentos extends Generica{
                                 tb_documentos.status,
                                 tb_tipo.sigla as sigla,
                                 tb_movimentacao.data_recebido,
-                                tb_movimentacao.setor_id
+                                tb_movimentacao.setor_id,
+                                tb_movimentacao.id as idMovimentacao
                             FROM
                                 tb_documentos
                             LEFT JOIN
@@ -34,20 +35,22 @@ class Documentos extends Generica{
                                 usuario.nome as resposavel,
                                 tb_tipo.sigla as sigla,
                                 tb_tipo.nome as tipo,
-                                tb_movimentacao.data_entrada
+                                tb_movimentacao.data_entrada,
+                                tb_movimentacao.setor_id,
+                                tb_movimentacao.id as idMovimentacao
                             FROM
-                                controle_docs.tb_documentos
+                                controle_docs_teste.tb_documentos
                             LEFT JOIN
-                                controle_docs.tb_movimentacao
+                                controle_docs_teste.tb_movimentacao
                                 ON tb_documentos.id = tb_movimentacao.documento_id
                             LEFT JOIN
-                                controle_docs.tb_status
+                                controle_docs_teste.tb_status
                                 ON tb_status.id = tb_documentos.status
                             LEFT JOIN
                                 gespes.usuario
                                 ON gespes.usuario.id = tb_movimentacao.usuario_id
                             LEFT JOIN
-                                controle_docs.tb_tipo
+                                controle_docs_teste.tb_tipo
                                 ON tb_tipo.id = tb_documentos.tipo
                             WHERE 
                                 tb_documentos.id = '$id'";
@@ -72,7 +75,7 @@ class Documentos extends Generica{
                 $sql .= " AND tb_movimentacao.setor_id = '$idSetor'";
             }
         }
-        if($order != ''){
+        if(($order != '')AND ($order != 'NAO')){
             $sql .= " ORDER BY ".$order." DESC ";
         }
         return $exec = Conexao::InstControle()->prepare($sql);
@@ -110,8 +113,50 @@ class Documentos extends Generica{
         }
         return $result;
     }
-
-
+    public function recebe($idMovimentacao){
+        $idUser = $_SESSION['id'];
+        $sql = "UPDATE tb_movimentacao SET 
+                        usuario_id = '$idUser', 
+                        data_recebido = NOW() 
+                WHERE 
+                    id = '$idMovimentacao'";
+        $stm = Conexao::InstControle()->prepare($sql);
+        $stm->execute();
+        $retorno = array('codigo' => 1, 'mensagem' => 'Documento recebido com sucesso!');
+        echo json_encode($retorno);
+        exit();
+    }
+    public function movimentarExecutar($idDocumento,$encaminharResponsavel,$movimentacoesSetor,$encaminharTexto){
+        $idUser = $_SESSION['id'];
+        $sql = "INSERT INTO tb_movimentacao(
+                                    documento_id,
+                                    usuario_id,
+                                    setor_id,
+                                    encaminhamento,
+                                    ativo,
+                                    log_user_id,
+                                    data_entrada
+                                )VALUES(
+                                    '$idDocumento',
+                                    '$encaminharResponsavel',
+                                    '$movimentacoesSetor',
+                                    '$encaminharTexto',
+                                    '1',
+                                    '$idUser',
+                                    NOW())";
+                $stm = Conexao::InstControle()->prepare($sql);
+                $stm->execute();
+    }
+    public function finalizarMovimento($idMovimentacao){
+        $sql = "UPDATE tb_movimentacao SET
+                        ativo = 0,
+                        data_saida = NOW()
+                WHERE 
+                    id = '$idMovimentacao'";
+        $stm = Conexao::InstControle()->prepare($sql);
+        $stm->execute();
+    }
+    
     
 }
 ?>

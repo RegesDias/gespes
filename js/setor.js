@@ -14,7 +14,8 @@ function getOndenaCodigo() {
         msn('success','Servidores ordenados por codigo!');
         preenchimentoSelect(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "home.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -34,7 +35,8 @@ function getOrdenaNome() {
         msn('success','Servidores ordenados por nome!');
         preenchimentoSelect(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "home.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -61,7 +63,8 @@ function getNome(dado){
             }
         }
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "home.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -80,7 +83,8 @@ function getDados(codFunc){
         $('#modal').modal('show');
         
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "home.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });

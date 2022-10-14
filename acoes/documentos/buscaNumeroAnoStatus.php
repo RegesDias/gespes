@@ -32,11 +32,16 @@ if($dado != ''){
         $m->gravaLog('Busca Documentos: '.$ano.'-'.$numero);
         $exec = $exec->fetchAll(PDO::FETCH_ASSOC);
         $total = count($exec);
-        if ($order ==''){
-            $retorno = array('codigo' => 1, 'exec' => $exec, 'mensagem' => 'Total de '.$total.' documentos encontrados');
-            echo json_encode($retorno);
+        if ($order != 'NAO'){
+            if ($order ==''){
+                $retorno = array('codigo' => 1, 'exec' => $exec, 'mensagem' => 'Total de '.$total.' documentos encontrados');
+                echo json_encode($retorno);
+            }else{
+                $retorno = array('codigo' => 1, 'exec' => $exec, 'mensagem' => 'Busca ordenada por  '.$order.' !');
+                echo json_encode($retorno);
+            }
         }else{
-            $retorno = array('codigo' => 1, 'exec' => $exec, 'mensagem' => 'Busca ordenada por  '.$order.' !');
+            $retorno = array('codigo' => 2, 'exec' => $exec);
             echo json_encode($retorno);
         }
     } else {

@@ -7,7 +7,8 @@ function formFiltroStatus(){
     }).done(function(result){
         preenchimentoSelectStatus(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -20,7 +21,8 @@ function formFiltroAno(){
     }).done(function(result){
         preenchimentoSelectAno(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -33,7 +35,8 @@ function formFiltroTipo(){
     }).done(function(result){
         preenchimentoSelectTipo(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -50,7 +53,9 @@ function getDocumentoNumeroAno(dado,order){
             msn('error',result.mensagem);
         }else{
             var size = result.exec.length+1;
-            msn('success',result.mensagem);
+            if (result.codigo!=2){
+                msn('success',result.mensagem);
+            }
             $("#listaPessoal").empty();
             $("#listaPessoalNome").empty();
             $('#listaPessoal').attr("size", size);
@@ -58,7 +63,8 @@ function getDocumentoNumeroAno(dado,order){
             preenchimentoSelect(result.exec);
         }
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -123,7 +129,8 @@ function geMovimentacaoId(id){
             $('#verEncaminhado').val(result[0].encaminhado);
         }
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
     });
 };
@@ -143,7 +150,8 @@ function geObservacaoId(id){
             $('#verEncaminhado').val(result[0].nome);
         }
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
     });
 };
@@ -161,7 +169,9 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 $("#listaPessoalNome").empty();
             }else{
                 var size = result.exec.length+1;
-                msn('success',result.mensagem);
+                if (result.codigo==1){
+                    msn('success',result.mensagem);
+                }
                 $("#listaPessoal").empty();
                 $("#listaPessoalNome").empty();
                 $('#listaPessoal').attr("size", size);
@@ -169,7 +179,8 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 preenchimentoSelect(result.exec);
             }
             }).fail(function() {
-                msn('error', 'Falha Geral! error#999');
+                msn('error','Sua sessão expirou');
+                setTimeout(() => {  window.location.href = "index.html" }, 1000);
             }).always(function() {
                 $('#carregando').hide();
             });
@@ -191,9 +202,20 @@ function getDocumentoId(codfunc){
         $('#tipo').val(documento[0].tipo);
         $('#data_entrada').val(converteDataBr(documento[0].data_entrada));
         $('#idDocumento').val(documento[0].id);
+        $('#idMovimentacao').val(documento[0].idMovimentacao);
+        var login = JSON.parse(sessionStorage.getItem('login'));
+        if(documento[0].setor_id != login.idSetor){
+            $('#movimentarDocumento').addClass('d-none');
+            $('#criarObservacao').addClass('d-none');
+        }else{
+            $('#movimentarDocumento').removeClass('d-none');
+            $('#criarObservacao').removeClass('d-none');
+
+        }
         $('#modal-pessoal').modal('show');
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -208,7 +230,8 @@ function getListaSetoresAtivos() {
         var size = result.length+1;
         preenchimentoSelectSetor(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -223,7 +246,8 @@ function getListaSecretarias() {
         var size = result.length+1;
         preenchimentoAutoCompleteSecretaria(result);
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -241,13 +265,13 @@ function getUsuarioIdSetor(dado){
             preenchimentoSelectUsuarioIdSetor(result);
         }
     }).fail(function() {
-        msn('error', 'Falha Geral! error#999');
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
 };
 function preenchimentoSelectUsuarioIdSetor(result){
-    console.log(result);
     for (var i = 0; i < result.length; i++) {
         $('#encaminharResponsavel').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
     }
@@ -261,7 +285,7 @@ function preenchimentoSelect(result){
             origem = result[i].assunto.substr(0,70);
         }
         $('#listaPessoal').prepend('<option value='+ result[i].id +'> '+result[i].sigla+'-'+numeroDocumento+'/'+result[i].ano_documento+'</option>');
-        $('#listaPessoalNome').prepend('<option value='+ result[i].data_recebido+'*'+result[i].setor_id+'> '+origem+'</option>');   
+        $('#listaPessoalNome').prepend('<option value='+ result[i].data_recebido+'*'+result[i].setor_id+'*'+result[i].idMovimentacao+'> '+origem+'</option>');   
     }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
@@ -279,12 +303,46 @@ function verificaSeDeveSerRecebido(){
     dado = d.toString().split('*');
     var login = JSON.parse(sessionStorage.getItem('login'));
     if((dado[0] === 'null')&&(dado[1]  == login.idSetor)){
-        console.log(dado);
         $('#visualizarServidor').html('<i class="nav-icon fas fa-check"></i> Receber');
+        $('#visualizarServidorTipoAcao').val(dado[2]);
     }else{
         $('#visualizarServidor').html('<i class="nav-icon fas fa-search"></i> Visualizar');
+        $('#visualizarServidorTipoAcao').val('visualizar');
     }
 }
+$("#visualizarServidor").on("click", function() {
+    var codfunc =  $('#listaPessoal option:selected').val();
+    $('#documentoClick').trigger('click');
+    var acao = $('#visualizarServidorTipoAcao').val();
+    if(acao == 'visualizar'){
+        getDocumentoId(codfunc);
+    }else{
+        $('#visualizarServidor').html('<i class="nav-icon fas fa-search"></i> Visualizar');
+        $('#visualizarServidorTipoAcao').val('visualizar');
+        getRecebeDocumento(acao);
+    }
+});
+function getRecebeDocumento(dado){
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/documentos/recebe.php?dado='+dado,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            msn('success',result.mensagem);
+            data = carregaDadosFiltro();
+            getDocumentoAnoTipoStatusLocal(data, 'NAO');
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
 
 function preenchimentoSelectObservacao(result){
     for (var i = 0; i < result.length; i++) {
@@ -386,8 +444,48 @@ function autocompleteEncaminharDestino(availableTags) {
         source: availableTags
     });
 };
-//###############################Ações###########################################
 
+function movimentarDocumentoExecutar(data) {
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/documentos/movimentarDocumentoExecutar.php',
+        method: 'GET',
+        data: data, 
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            msn('success',result.mensagem);
+            data = carregaDadosFiltro();
+            getDocumentoAnoTipoStatusLocal(data, 'NAO');
+            fechaTodosModais();
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
+$("#executarMovimentacao").on("click", function() {
+    vidDocumento = $('#idDocumento').val();
+    vidMovimentacao = $('#idMovimentacao').val();
+    console.log(vidMovimentacao);
+    vencaminharResponsavel = $('#encaminharResponsavel option:selected').val();
+    vmovimentacoesSetor = $('#movimentacoesSetor option:selected').val();
+    vencaminharTexto = $('#encaminharTexto').val();
+    var data = {
+        idDocumento:vidDocumento,
+        idMovimentacao:vidMovimentacao,
+        encaminharResponsavel:vencaminharResponsavel,
+        movimentacoesSetor:vmovimentacoesSetor,
+        encaminharTexto:vencaminharTexto
+    }
+
+    movimentarDocumentoExecutar(data);
+    
+});
 
 $("#movimentarDocumento").on("click", function() {
     $('#modal-movimentar').modal('show');
@@ -477,11 +575,7 @@ $('#formFiltroBtn').on("click", function(){
     
 //salvarAlteracoesUsuario(data);
 });
-$("#visualizarServidor").on("click", function() {
-    var codfunc =  $('#listaPessoal option:selected').val();
-    $('#documentoClick').trigger('click');
-    getDocumentoId(codfunc);
-});
+
 
 $('#btnMatriculaCpfNome').on("click", function(){
     var dado = $('#textMatriculaCpfNome').val();
