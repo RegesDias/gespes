@@ -9,10 +9,7 @@ class Documentos extends Generica{
                                 tb_documentos.origem,
                                 tb_documentos.data_inclusao,
                                 tb_documentos.status,
-                                tb_tipo.sigla as sigla,
-                                tb_movimentacao.data_recebido,
-                                tb_movimentacao.setor_id,
-                                tb_movimentacao.id as idMovimentacao
+                                tb_tipo.sigla as sigla
                             FROM
                                 tb_documentos
                             LEFT JOIN
@@ -26,18 +23,20 @@ class Documentos extends Generica{
     public function buscaId($id){
         $sql = "SELECT DISTINCT
                                 tb_documentos.id,
+                                tb_movimentacao.id as idMovimentacao,
                                 tb_documentos.ano_documento,
                                 tb_documentos.numero_documento,
                                 tb_documentos.assunto,
                                 tb_documentos.origem,
                                 tb_documentos.data_inclusao,
                                 tb_status.nome as status,
+                                tb_status.id as idStatus,
                                 usuario.nome as resposavel,
                                 tb_tipo.sigla as sigla,
                                 tb_tipo.nome as tipo,
                                 tb_movimentacao.data_entrada,
-                                tb_movimentacao.setor_id,
-                                tb_movimentacao.id as idMovimentacao
+                                tb_movimentacao.data_recebido,
+                                tb_movimentacao.setor_id
                             FROM
                                 controle_docs_teste.tb_documentos
                             LEFT JOIN
@@ -53,7 +52,10 @@ class Documentos extends Generica{
                                 controle_docs_teste.tb_tipo
                                 ON tb_tipo.id = tb_documentos.tipo
                             WHERE 
-                                tb_documentos.id = '$id'";
+                                tb_documentos.id = '$id'
+                            ORDER BY 
+                                tb_movimentacao.id DESC
+                            LIMIT 1";
         return $exec = Conexao::InstControle()->prepare($sql);
     }
     public function buscaNumeroAnoTipoStatusLocal($ano,$tipo, $status,$idSetor,$order){
@@ -147,12 +149,83 @@ class Documentos extends Generica{
                 $stm = Conexao::InstControle()->prepare($sql);
                 $stm->execute();
     }
-    public function finalizarMovimento($idMovimentacao){
+    public function saidaExecutar($idDocumento,$destino,$encaminharTexto){
+        $idUser = $_SESSION['id'];
+        $idSetor = $_SESSION['idSetor'];
+        $sql = "INSERT INTO tb_movimentacao(
+                                    documento_id,
+                                    usuario_id,
+                                    setor_id,
+                                    encaminhamento,
+                                    ativo,
+                                    log_user_id,
+                                    data_entrada,
+                                    data_recebido,
+                                    destino,
+                                    data_saida
+                                )VALUES(
+                                    '$idDocumento',
+                                    '$idUser',
+                                    '$idSetor',
+                                    '$encaminharTexto',
+                                    '0',
+                                    '$idUser',
+                                    NOW(),
+                                    NOW(),
+                                    '$destino',
+                                    NOW())";
+                $stm = Conexao::InstControle()->prepare($sql);
+                $stm->execute();
+    }
+    public function entradaExecutar($idDocumento,$encaminharTexto){
+        $idUser = $_SESSION['id'];
+        $idSetor = $_SESSION['idSetor'];
+        $sql = "INSERT INTO tb_movimentacao(
+                                    documento_id,
+                                    usuario_id,
+                                    setor_id,
+                                    encaminhamento,
+                                    ativo,
+                                    log_user_id,
+                                    data_entrada,
+                                    data_recebido
+                                )VALUES(
+                                    '$idDocumento',
+                                    '$idUser',
+                                    '$idSetor',
+                                    '$encaminharTexto',
+                                    '1',
+                                    '$idUser',
+                                    NOW(),
+                                    NOW()
+                                    )";
+                $stm = Conexao::InstControle()->prepare($sql);
+                $stm->execute();
+    }
+    public function finalizarMovimento($idDocumento){
         $sql = "UPDATE tb_movimentacao SET
                         ativo = 0,
                         data_saida = NOW()
                 WHERE 
-                    id = '$idMovimentacao'";
+                    id = '$idDocumento'";
+        $stm = Conexao::InstControle()->prepare($sql);
+        $stm->execute();
+    }
+    public function arquivarDocumento($idDocumento){
+        $sql = "UPDATE tb_documentos SET
+                        status = 2,
+                        data_baixa = NOW()
+                WHERE 
+                    id = '$idDocumento'";
+        $stm = Conexao::InstControle()->prepare($sql);
+        $stm->execute();
+    }
+    public function desarquivarDocumento($idDocumento){
+        $sql = "UPDATE tb_documentos SET
+                        status = 1,
+                        data_baixa = NULL
+                WHERE 
+                    id = '$idDocumento'";
         $stm = Conexao::InstControle()->prepare($sql);
         $stm->execute();
     }

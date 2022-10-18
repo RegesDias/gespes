@@ -111,7 +111,6 @@ $("#btnLimpar").on("click", function() {
     getPessoalNome();
     $('#textMatriculaCpfNome').val('');
     $('#textMatriculaCpfNomeOrder').val('');
-    console.log('teste');
 });
 
 $("#visualizarServidor").on("click", function() {

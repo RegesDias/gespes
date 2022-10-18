@@ -191,6 +191,12 @@
                           <div class="input-group-prepend">
                               <button id='movimentarDocumento'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Movimentar</button>
                           </div>
+                          <div class="input-group-prepend">
+                            <button id='arquivarDocumento'   type="button"  class="btn btn-primary "><i class="nav-icon fas fa-file-export"></i> Arquivar</button>
+                        </div>
+                        <div class="input-group-prepend">
+                          <button id='desarquivarDocumento'   type="button"  class="btn btn-primary "><i class="nav-icon fas fa-file-import"></i> Desarquivar</button>
+                      </div>
                         </div>
                   </div>
             </div>
@@ -270,6 +276,35 @@
             </div>
         </div>
       </div>
+
+      <div class="modal fade" id="modal-observacao" style="margin-top:60px">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header"> 
+                <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+                <h4 class="modal-title" id="detalhamentoModalTitulo">Observações</h4>
+                <button type="button" class="close" id="fechaModalObservacao" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-12">
+                    <label id="detalhamentoModalLabel2">Descrição:</label>
+                    <textarea class="form-control" rows="3" disabled id='observacaoTexto'>
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <div class="input-group-prepend">
+                  <button id='salvarObservacao'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Salvar</button>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
       <div class="modal fade" id="modal-movimentar" style="margin-top:30px">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">

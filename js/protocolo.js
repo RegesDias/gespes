@@ -51,6 +51,8 @@ function getDocumentoNumeroAno(dado,order){
     }).done(function(result){
         if (result.codigo==0){
             msn('error',result.mensagem);
+            $('#listaPessoal').attr("size", 2);
+            $('#listaPessoalNome').attr("size", 2);
         }else{
             var size = result.exec.length+1;
             if (result.codigo!=2){
@@ -167,6 +169,9 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 msn('error',result.mensagem);
                 $("#listaPessoal").empty();
                 $("#listaPessoalNome").empty();
+                $('#listaPessoal').attr("size", 2);
+                $('#listaPessoalNome').attr("size", 2);
+                01/11
             }else{
                 var size = result.exec.length+1;
                 if (result.codigo==1){
@@ -211,6 +216,20 @@ function getDocumentoId(codfunc){
             $('#movimentarDocumento').removeClass('d-none');
             $('#criarObservacao').removeClass('d-none');
 
+        }
+        if (documento[0].idStatus == 2){
+            $('#movimentarDocumento').addClass('d-none');
+            $('#criarObservacao').addClass('d-none');
+            $('#status').addClass('is-invalid');
+            $('#arquivarDocumento').addClass('d-none');
+            $('#desarquivarDocumento').removeClass('d-none');
+            
+        }
+        if (documento[0].idStatus == 1){
+            $('#status').removeClass('is-invalid');
+            $('#status').addClass('is-valid');
+            $('#arquivarDocumento').removeClass('d-none');
+            $('#desarquivarDocumento').addClass('d-none');
         }
         $('#modal-pessoal').modal('show');
     }).fail(function() {
@@ -285,7 +304,7 @@ function preenchimentoSelect(result){
             origem = result[i].assunto.substr(0,70);
         }
         $('#listaPessoal').prepend('<option value='+ result[i].id +'> '+result[i].sigla+'-'+numeroDocumento+'/'+result[i].ano_documento+'</option>');
-        $('#listaPessoalNome').prepend('<option value='+ result[i].data_recebido+'*'+result[i].setor_id+'*'+result[i].idMovimentacao+'> '+origem+'</option>');   
+        $('#listaPessoalNome').prepend('<option value='+ result[i].id+'> '+origem+'</option>');   
     }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
@@ -298,18 +317,8 @@ function preenchimentoSelect(result){
         }
     }
 };
-function verificaSeDeveSerRecebido(){
-    d = $('#listaPessoalNome option:selected').val();
-    dado = d.toString().split('*');
-    var login = JSON.parse(sessionStorage.getItem('login'));
-    if((dado[0] === 'null')&&(dado[1]  == login.idSetor)){
-        $('#visualizarServidor').html('<i class="nav-icon fas fa-check"></i> Receber');
-        $('#visualizarServidorTipoAcao').val(dado[2]);
-    }else{
-        $('#visualizarServidor').html('<i class="nav-icon fas fa-search"></i> Visualizar');
-        $('#visualizarServidorTipoAcao').val('visualizar');
-    }
-}
+
+
 $("#visualizarServidor").on("click", function() {
     var codfunc =  $('#listaPessoal option:selected').val();
     $('#documentoClick').trigger('click');
@@ -344,6 +353,89 @@ function getRecebeDocumento(dado){
     });
 };
 
+$("#criarObservacao").on("click", function() {
+    $('#modal-observacao').modal('show');
+    $('#observacaoTexto').removeAttr('disabled');
+    $('#observacaoTexto').val('');
+});
+$('#fechaModalObservacao').click(function(){
+    $('#modal-observacao').modal('hide');
+});
+$('#salvarObservacao').click(function(){
+    idDocumento = $('#idDocumento').val();
+    observacaoTexto = $('#observacaoTexto').val();
+    var data = {
+        documento_id:idDocumento,
+        observacao:observacaoTexto
+    }
+    salvarObservacaoDocumento(data);
+    setTimeout(() => { getDocumentoObservacaoIdDocumento(idDocumento, '')},1000);
+});
+function salvarObservacaoDocumento(data) {
+    $.ajax({
+        url: 'acoes/documentos/escreverObservacao.php',
+        method: 'GET',
+        data: data, 
+        dataType: 'json'
+    }).done(function(data){
+        $('#modal-observacao').modal('hide');
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+    });
+};
+
+function arquivarDocumento(data) {
+    $.ajax({
+        url: 'acoes/documentos/arquivar.php',
+        method: 'GET',
+        data: data, 
+        dataType: 'json'
+    }).done(function(result){
+        getDocumentoId(data.idDocumento);
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+    });
+};
+$("#arquivarDocumento").on("click", function() {
+    vidDocumento = $('#idDocumento').val();
+    vidMovimentacao = $('#idMovimentacao').val();
+    var data = {
+        idDocumento:vidDocumento,
+        idMovimentacao:vidMovimentacao
+    }
+    arquivarDocumento(data);
+    setTimeout(() => { getDocumentoMovimentacaoId(vidDocumento, '')},1000);
+    
+});
+function desarquivarDocumento(data) {
+    $.ajax({
+        url: 'acoes/documentos/desarquivar.php',
+        method: 'GET',
+        data: data, 
+        dataType: 'json'
+    }).done(function(result){
+        getDocumentoId(data.idDocumento);
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+    });
+};
+$("#desarquivarDocumento").on("click", function() {
+    vidDocumento = $('#idDocumento').val();
+    vidMovimentacao = $('#idMovimentacao').val();
+    var data = {
+        idDocumento:vidDocumento,
+        idMovimentacao:vidMovimentacao
+    }
+    desarquivarDocumento(data);
+    setTimeout(() => { getDocumentoMovimentacaoId(vidDocumento,'')},1000);
+    
+});
 function preenchimentoSelectObservacao(result){
     for (var i = 0; i < result.length; i++) {
         $('#listaObservacao').prepend('<option value='+ result[i].id +'> '+result[i].observacao.substr(0,70)+'</option>');
@@ -396,6 +488,8 @@ function fechaTodosModais(){
     $('#modal-pessoal').modal('hide');
     $('#modal-ponto').modal('hide');
     $('#modal-movimentar').modal('hide');
+    $('#modal-observacao').modal('hide');
+
 }
 function carregaDadosFiltro(){
     let anoVal = $('#formFiltroSelectAno option:selected').val();
@@ -471,7 +565,6 @@ function movimentarDocumentoExecutar(data) {
 $("#executarMovimentacao").on("click", function() {
     vidDocumento = $('#idDocumento').val();
     vidMovimentacao = $('#idMovimentacao').val();
-    console.log(vidMovimentacao);
     vencaminharResponsavel = $('#encaminharResponsavel option:selected').val();
     vmovimentacoesSetor = $('#movimentacoesSetor option:selected').val();
     vencaminharTexto = $('#encaminharTexto').val();
@@ -486,6 +579,44 @@ $("#executarMovimentacao").on("click", function() {
     movimentarDocumentoExecutar(data);
     
 });
+function saidaDocumentoExecutar(data) {
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/documentos/saidaDocumentoExecutar.php',
+        method: 'GET',
+        data: data, 
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            msn('success',result.mensagem);
+            data = carregaDadosFiltro();
+            getDocumentoAnoTipoStatusLocal(data, 'NAO');
+            fechaTodosModais();
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
+$("#executarSaida").on("click", function() {
+    vDestino = $('#encaminharDestino').val();
+    vencaminharTexto = $('#encaminharTexto').val();
+    vidDocumento = $('#idDocumento').val();
+    vidMovimentacao = $('#idMovimentacao').val();
+    var data = {
+        destino:vDestino,
+        idDocumento:vidDocumento,
+        idMovimentacao:vidMovimentacao,
+        encaminharTexto:vencaminharTexto
+    }
+    saidaDocumentoExecutar(data);
+    
+});
+
 
 $("#movimentarDocumento").on("click", function() {
     $('#modal-movimentar').modal('show');
@@ -493,6 +624,7 @@ $("#movimentarDocumento").on("click", function() {
     $('#movimentacoesSetor').val("").change();
     $('#encaminharResponsavel').val("").change();
     $('#encaminharTexto').val("");
+    $('#encaminharDestino').val("");
     let date = dataAtual('us','-');
     $('#encaminharDataEntrada').val(date);
     $('#encaminharDataSaida').val(date);
@@ -619,18 +751,41 @@ $('#optionPessoalNome').on("click", function(){
     $('#visualizarServidor').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
 });
+function verificaSeDeveSerRecebido(dado){
+    $.ajax({
+        url: 'acoes/documentos/buscaId.php?id='+dado,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(documento){
+        var login = JSON.parse(sessionStorage.getItem('login'));
+        if((documento[0].data_recebido == null)&&(documento[0].setor_id  == login.idSetor)){
+            $('#visualizarServidor').html('<i class="nav-icon fas fa-check"></i> Receber');
+            $('#visualizarServidorTipoAcao').val(documento[0].idMovimentacao);
+        }else{
+            $('#visualizarServidor').html('<i class="nav-icon fas fa-search"></i> Visualizar');
+            $('#visualizarServidorTipoAcao').val('visualizar');
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
 $('#listaPessoal').click(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
-    verificaSeDeveSerRecebido();
+    dado = $('#listaPessoal option:selected').val();
+    verificaSeDeveSerRecebido(dado);
 
 });
 $('#listaPessoalNome').click(function(){
     $('#visualizarServidor').removeAttr('disabled');
     $('#btnMatriculaCpfNome').attr("disabled","disabled");
     $('#textMatriculaCpfNome').val('');
-    verificaSeDeveSerRecebido();
+    dado = $('#listaPessoalNome option:selected').val();
+    verificaSeDeveSerRecebido(dado);
 
 });
 $('#fichaFuncional').click(function(){

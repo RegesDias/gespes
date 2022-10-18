@@ -15,6 +15,13 @@ $d->verificaPreenchimentoCampo($encaminharResponsavel, 'Responsável');
 $d->verificaPreenchimentoCampo($encaminharTexto, 'Encaminhamento');
 
 
+if($movimentacoesSetor == $_SESSION['idSetor']){
+    $retorno = array('codigo' => 1, 'mensagem' => 'Destino e origem não podem ser o mesmo!');
+    echo json_encode($retorno);
+    exit();
+}
+
+
 if ($m->validaMovimentacao($idMovimentacao)){
     //if(Conexao::verificaLogin('consultaPessoal')){
         $d->finalizarMovimento($idMovimentacao);
