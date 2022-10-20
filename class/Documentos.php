@@ -38,18 +38,18 @@ class Documentos extends Generica{
                                 tb_movimentacao.data_recebido,
                                 tb_movimentacao.setor_id
                             FROM
-                                controle_docs_teste.tb_documentos
+                            controle_docs_teste.tb_documentos
                             LEFT JOIN
-                                controle_docs_teste.tb_movimentacao
+                                controle_docs.tb_movimentacao
                                 ON tb_documentos.id = tb_movimentacao.documento_id
                             LEFT JOIN
-                                controle_docs_teste.tb_status
+                            controle_docs_teste.tb_status
                                 ON tb_status.id = tb_documentos.status
                             LEFT JOIN
                                 gespes.usuario
                                 ON gespes.usuario.id = tb_movimentacao.usuario_id
                             LEFT JOIN
-                                controle_docs_teste.tb_tipo
+                            controle_docs_teste.tb_tipo
                                 ON tb_tipo.id = tb_documentos.tipo
                             WHERE 
                                 tb_documentos.id = '$id'
@@ -58,7 +58,7 @@ class Documentos extends Generica{
                             LIMIT 1";
         return $exec = Conexao::InstControle()->prepare($sql);
     }
-    public function buscaNumeroAnoTipoStatusLocal($ano,$tipo, $status,$idSetor,$order){
+    public function buscaNumeroAnoTipoStatusLocal($ano,$tipo, $status,$idSetor,$idUsuario,$order){
         $sql = self::$sql." tb_movimentacao.ativo = '1' ";
         if(($ano != '') AND ($ano !='tds')){
             $sql .= " AND tb_documentos.ano_documento = '$ano' ";
@@ -76,6 +76,9 @@ class Documentos extends Generica{
             }else{
                 $sql .= " AND tb_movimentacao.setor_id = '$idSetor'";
             }
+        }
+        if(($idUsuario != '') AND ($idUsuario !='tds')){
+            $sql .= " AND tb_movimentacao.usuario_id = '$idUsuario'";
         }
         if(($order != '')AND ($order != 'NAO')){
             $sql .= " ORDER BY ".$order." DESC ";
@@ -229,7 +232,86 @@ class Documentos extends Generica{
         $stm = Conexao::InstControle()->prepare($sql);
         $stm->execute();
     }
-    
-    
+    public function analizandoDocumentosPorData($ano,$tipo, $status,$idSetor,$idUsuario,$order){
+        $sql = "SELECT DISTINCT
+        data_inclusao ,COUNT(data_inclusao) as total 
+    FROM
+        tb_documentos
+    LEFT JOIN
+        tb_movimentacao
+        ON tb_documentos.id = tb_movimentacao.documento_id
+    LEFT JOIN
+        tb_tipo
+        ON tb_tipo.id = tb_documentos.tipo
+        WHERE tb_movimentacao.ativo = '1'";
+        if(($ano != '') AND ($ano !='tds')){
+            $sql .= " AND tb_documentos.ano_documento = '$ano' ";
+        }
+        if(($status != '') AND ($status !='tds')){
+            $sql .= " AND tb_documentos.status = '$status' ";
+        }
+        if(($tipo != '') AND ($tipo !='tds')){
+            $sql .= " AND tb_documentos.tipo = '$tipo'";
+        }
+        if(($idSetor != '') AND ($idSetor !='tds')){
+            if($idSetor =='user'){
+                $usuario_id = $_SESSION['id'];
+                $sql .= " AND tb_movimentacao.usuario_id = '$usuario_id'";
+            }else{
+                $sql .= " AND tb_movimentacao.setor_id = '$idSetor'";
+            }
+        }
+        if(($idUsuario != '') AND ($idUsuario !='tds')){
+            $sql .= " AND tb_movimentacao.usuario_id = '$idUsuario'";
+        }
+        $sql .="GROUP BY data_inclusao";
+        if(($order != '')AND ($order != 'NAO')){
+            $sql .= " ORDER BY ".$order." DESC ";
+        }
+        return $exec = Conexao::InstControle()->prepare($sql);
+    }
+    public function analizandoDocumentosPorUsuario($ano,$tipo, $status,$idSetor,$idUsuario,$order){
+        $sql = "SELECT DISTINCT
+        gespes.usuario.nome as data_inclusao ,
+        SUBSTRING_INDEX(gespes.usuario.nome, ' ', 1) as nome,
+        SUBSTRING_INDEX(gespes.usuario.nome, ' ', -1) as sobrenome,
+        COUNT(data_inclusao) as total 
+    FROM
+        controle_docs_teste.tb_documentos
+    LEFT JOIN controle_docs_teste.tb_movimentacao
+        ON tb_documentos.id = tb_movimentacao.documento_id
+    LEFT JOIN controle_docs_teste.tb_tipo
+        ON tb_tipo.id = tb_documentos.tipo
+    LEFT JOIN
+        gespes.usuario
+        ON gespes.usuario.id = tb_movimentacao.usuario_id
+        WHERE tb_movimentacao.ativo = '1'";
+        if(($ano != '') AND ($ano !='tds')){
+            $sql .= " AND tb_movimentacao.ano_documento = '$ano' ";
+        }
+        if(($status != '') AND ($status !='tds')){
+            $sql .= " AND tb_documentos.status = '$status' ";
+        }
+        if(($tipo != '') AND ($tipo !='tds')){
+            $sql .= " AND tb_documentos.tipo = '$tipo'";
+        }
+        if(($idSetor != '') AND ($idSetor !='tds')){
+            if($idSetor =='user'){
+                $usuario_id = $_SESSION['id'];
+                $sql .= " AND tb_movimentacao.usuario_id = '$usuario_id'";
+            }else{
+                $sql .= " AND tb_movimentacao.setor_id = '$idSetor'";
+            }
+        }
+        if(($idUsuario != '') AND ($idUsuario !='tds')){
+            $sql .= " AND tb_movimentacao.usuario_id = '$idUsuario'";
+        }
+        $sql .="GROUP BY usuario_id";
+        if(($order != '')AND ($order != 'NAO')){
+            $sql .= " ORDER BY ".$order." DESC ";
+        }
+        //echo $sql ;
+        return $exec = Conexao::InstControle()->prepare($sql);
+    }
 }
 ?>

@@ -153,7 +153,7 @@ function geObservacaoId(id){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
     });
 };
@@ -171,7 +171,6 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 $("#listaPessoalNome").empty();
                 $('#listaPessoal').attr("size", 2);
                 $('#listaPessoalNome').attr("size", 2);
-                01/11
             }else{
                 var size = result.exec.length+1;
                 if (result.codigo==1){
@@ -181,11 +180,16 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 $("#listaPessoalNome").empty();
                 $('#listaPessoal').attr("size", size);
                 $('#listaPessoalNome').attr("size", size);
+                $("#totalEncontrados").html(result.total);
+                var label = geraLabel(result.grafico);
+                var data = geraData(result.grafico);
+                //var nome = geraNome(result.grafico);
+                geraGraficoArea(label,data,result.tipo);
                 preenchimentoSelect(result.exec);
             }
             }).fail(function() {
                 msn('error','Sua sessão expirou');
-                setTimeout(() => {  window.location.href = "index.html" }, 1000);
+               // setTimeout(() => {  window.location.href = "index.html" }, 1000);
             }).always(function() {
                 $('#carregando').hide();
             });
@@ -291,8 +295,33 @@ function getUsuarioIdSetor(dado){
     });
 };
 function preenchimentoSelectUsuarioIdSetor(result){
+    $("#encaminharResponsavel").empty();
     for (var i = 0; i < result.length; i++) {
         $('#encaminharResponsavel').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
+    }
+};
+function getUsuarios(){
+    $.ajax({
+        url: 'acoes/usuario/listarNome.php',
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            preenchimentoSelectUsuario(result);
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
+function preenchimentoSelectUsuario(result){
+    $("#encaminharResponsavel").empty();
+    for (var i = 0; i < result.length; i++) {
+        $('#formFiltroSelectUsuario').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
     }
 };
 function preenchimentoSelect(result){
@@ -381,7 +410,7 @@ function salvarObservacaoDocumento(data) {
         $('#modal-observacao').modal('hide');
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
     });
 };
@@ -496,11 +525,13 @@ function carregaDadosFiltro(){
     let tipoVal = $('#formFiltroSelectTipo option:selected').val();
     let statusVal = $('#formFiltroSelectStatus option:selected').val();
     let idSetorVal = $('#formFiltroSelectSetor option:selected').val();
+    let idUsuarioVal = $('#formFiltroSelectUsuario option:selected').val();
     var data = {
         ano:anoVal,
         tipo:tipoVal, 
         status:statusVal, 
-        idSetor:idSetorVal
+        idSetor:idSetorVal,
+        idUsuario:idUsuarioVal
     }
     return data;
 }
@@ -631,6 +662,7 @@ $("#movimentarDocumento").on("click", function() {
 });
 $('#movimentacoesSetor').change(function(){
     dado = $('#movimentacoesSetor option:selected').val();
+    console.log(dado);
     getUsuarioIdSetor(dado);
 });
 
@@ -876,8 +908,33 @@ $(document).ready(function(){
     getListaSetoresAtivos();
     carregarSelect2();
     getListaSecretarias();
+    getUsuarios();
     setTimeout(() => { 
         data = carregaDadosFiltro();
         getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
      }, 100);
 });
+
+function geraLabel(result){
+    var keys = [];
+    for (var i = 0; i < result.length; i++) {
+        keys.push(result[i].data_inclusao);
+    }
+    return keys;
+};
+function geraData(result){
+    var keys = [];
+    for (var i = 0; i < result.length; i++) {
+        keys.push(result[i].total);
+    }
+    return keys;
+};
+function geraNome(result){
+    var keys = [];
+    for (var i = 0; i < result.length; i++) {
+        keys.push(result[i].nome+' '+result[i].sobrenome);
+    }
+    return keys;
+};
+
+

@@ -40,10 +40,18 @@
         </div>
       </div>
       <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <select id='formFiltroSelectUsuario' class="form-control select2" style="width: 100%;">
+              <option value="tds">TODOS OS USUÁRIOS</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-10">
           <div class="form-group">
             <select id='formFiltroSelectSetor' class="form-control select2" style="width: 100%;">
-              <option value="user">MEUS DOCUMENTOS</option>
               <option value="tds">TODOS</option>
             </select>
           </div>
@@ -58,6 +66,24 @@
       </div>
     </div>
     <div class="card card-outline">
+                  <div class="card card-secondary collapsed-card">
+              <div class="card-header">
+                <h3 class="card-title"><b id="totalEncontrados">></b> documentos encontrados</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body" style="display: none;">
+                <div class="chart">
+                  <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            
         <form name="moose">
             <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary active col-3">

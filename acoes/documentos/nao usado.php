@@ -1,13 +1,14 @@
+Carregando... a\sddasdasd
 <?php
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 require_once '../../class/Documentos.php';
 $m = new Documentos;
 $dado = $m->setDado($_GET['dado']);
 $order = $m->setDado($_GET['order']);
 $numeroAno =str_replace('/', ' ', $dado);
 $numeroAno =str_replace('-', ' ', $dado);
-
 if($dado != ''){
+    echo 'entrou',
     $pieces = explode(" ", $numeroAno);
     $numero = ltrim($pieces[0], '0');
     $ano = $pieces[1];
@@ -16,39 +17,27 @@ if($dado != ''){
     }else{
         $exec = $m->buscaAssunto($dado,$order);
     }
-}else if (!isset($_GET['dado'])){
+}else{
+    echo 'entrou2';
     $ano = $m->setDado($_GET['ano']);
     $tipo = $m->setDado($_GET['tipo']);
     $status = $m->setDado($_GET['status']);
     $idSetor = $m->setDado($_GET['idSetor']);
     $idUsuario = $m->setDado($_GET['idUsuario']);
-    $exec = $m->buscaNumeroAnoTipoStatusLocal($ano, $tipo, $status, $idSetor, $idUsuario,$order);
-    if($idUsuario != 'tds'){
-        $tipoGrafico = 'line';
-        $grafico = $m->analizandoDocumentosPorData($ano, $tipo, $status, $idSetor,$idUsuario,$order); 
-    }else{
-        $tipoGrafico = 'bar';
-        $grafico = $m->analizandoDocumentosPorUsuario($ano, $tipo, $status, $idSetor,$idUsuario,$order);
-    }
-    
-}else{
-    $retorno = array('codigo' => 0, 'mensagem' => 'Nenhum Documento encontrado!');
-    echo json_encode($retorno);
+    //$exec = $m->analizaNumeroAnoStatus($ano, $tipo, $status, $idSetor,$idUsuario,$order);
 }
 //if(Conexao::verificaLogin('consultaPessoal')){
     $exec->execute();
-    $grafico->execute();
     if ($exec->rowCount() >= 1) {
         $m->gravaLog('Busca Documentos: '.$ano.'-'.$numero);
         $exec = $exec->fetchAll(PDO::FETCH_ASSOC);
-        $grafico = $grafico->fetchAll(PDO::FETCH_ASSOC);
         $total = count($exec);
         if ($order != 'NAO'){
             if ($order ==''){
-                $retorno = array('codigo' => 1, 'tipo'=> $tipoGrafico, 'total'=> $total, 'exec' => $exec, 'grafico' => $grafico,'mensagem' => 'Total de '.$total.' documentos encontrados');
+                $retorno = array('codigo' => 1, 'exec' => $exec, 'mensagem' => 'Total de '.$total.' documentos encontrados');
                 echo json_encode($retorno);
             }else{
-                $retorno = array('codigo' => 1, 'tipo'=> $tipoGrafico, 'total'=> $total,'exec' => $exec, 'grafico' => $grafico, 'mensagem' => 'Busca ordenada por  '.$order.' !');
+                $retorno = array('codigo' => 1, 'exec' => $exec, 'mensagem' => 'Busca ordenada por  '.$order.' !');
                 echo json_encode($retorno);
             }
         }else{
