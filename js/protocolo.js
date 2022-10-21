@@ -66,7 +66,7 @@ function getDocumentoNumeroAno(dado,order){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+       // setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -124,11 +124,26 @@ function geMovimentacaoId(id){
         if (result.codigo==0){
             msn('error',result.mensagem);
         }else{  
+            $('#MovDataEntrada').val('');
+            $('#MovDataRecebido').val('');
+            $('#MovDataSaida').val('');
+            $('#MovResponsavel').val('');
+            $('#verEncaminhamento').val('');
+            $('#verEncaminhado').val('');
+            console.log(result);
+            console.log(id);
+
             $('#detalhamentoModalTitulo').html('Detalhe da Movimentação');
             $('#detalhamentoModalLabel1').html('Encaminhado Por:');
             $('#detalhamentoModalLabel2').html('Dados do encaminhamento');
             $('#verEncaminhamento').val(result[0].encaminhamento);
             $('#verEncaminhado').val(result[0].encaminhado);
+
+            $('#divDetalhamentoMovimentacao').removeClass('d-none');
+            $('#MovDataEntrada').val(converteDataBr(result[0].data_entrada));
+            $('#MovDataRecebido').val(converteDataBr(result[0].data_recebido));
+            $('#MovDataSaida').val(converteDataBr(result[0].data_saida));
+            $('#MovResponsavel').val(result[0].responsavel);
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -145,11 +160,21 @@ function geObservacaoId(id){
         if (result.codigo==0){
             msn('error',result.mensagem);
         }else{
+
+            $('#MovDataEntrada').val('');
+            $('#MovDataRecebido').val('');
+            $('#MovDataSaida').val('');
+            $('#MovResponsavel').val('');
+            $('#verEncaminhamento').val('');
+            $('#verEncaminhado').val('');
+
+
             $('#detalhamentoModalTitulo').html('Detalhe das Observações');
             $('#detalhamentoModalLabel1').html('Inserido Por:');
             $('#detalhamentoModalLabel2').html('Descrição:');
             $('#verEncaminhamento').val(result[0].observacao);
             $('#verEncaminhado').val(result[0].nome);
+            $('#divDetalhamentoMovimentacao').addClass('d-none');
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -172,6 +197,8 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 $('#listaPessoal').attr("size", 2);
                 $('#listaPessoalNome').attr("size", 2);
             }else{
+                $('#divCanvas').html('asdasdasdasd;');
+                $('#divCanvas').html('<canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>'); 
                 var size = result.exec.length+1;
                 if (result.codigo==1){
                     msn('success',result.mensagem);
@@ -183,8 +210,7 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 $("#totalEncontrados").html(result.total);
                 var label = geraLabel(result.grafico);
                 var data = geraData(result.grafico);
-                //var nome = geraNome(result.grafico);
-                geraGraficoArea(label,data,result.tipo);
+                setTimeout(() => {  geraGraficoArea(label,data,result.tipo) }, 1000);
                 preenchimentoSelect(result.exec);
             }
             }).fail(function() {
@@ -474,8 +500,9 @@ function preenchimentoSelectObservacao(result){
 };
 function preenchimentoSelectMovimentacao(result){
     for (var i = 0; i < result.length; i++) {
-        $('#listaResponsavel').prepend('<option value='+ result[i].id +'> '+result[i].responsavel+'</option>');
-        $('#listaDataEntrega').prepend('<option value='+ result[i].id +'> '+converteDataBr(result[i].data_entrada)+'</option>');    }
+        $('#listaDataEntrega').prepend('<option value='+ result[i].id +'> '+converteDataBr(result[i].data_entrada)+'</option>');    
+        $('#listaResponsavel').prepend('<option value='+ result[i].id +'> '+result[i].encaminhamento+'</option>');
+    }
     $( '#barraCarregamento' ).css( "width", "100%");
     setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
 };
@@ -662,7 +689,6 @@ $("#movimentarDocumento").on("click", function() {
 });
 $('#movimentacoesSetor').change(function(){
     dado = $('#movimentacoesSetor option:selected').val();
-    console.log(dado);
     getUsuarioIdSetor(dado);
 });
 

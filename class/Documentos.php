@@ -21,41 +21,40 @@ class Documentos extends Generica{
                                 WHERE ";
 
     public function buscaId($id){
-        $sql = "SELECT DISTINCT
-                                tb_documentos.id,
-                                tb_movimentacao.id as idMovimentacao,
-                                tb_documentos.ano_documento,
-                                tb_documentos.numero_documento,
-                                tb_documentos.assunto,
-                                tb_documentos.origem,
-                                tb_documentos.data_inclusao,
-                                tb_status.nome as status,
-                                tb_status.id as idStatus,
-                                usuario.nome as resposavel,
-                                tb_tipo.sigla as sigla,
-                                tb_tipo.nome as tipo,
-                                tb_movimentacao.data_entrada,
-                                tb_movimentacao.data_recebido,
-                                tb_movimentacao.setor_id
-                            FROM
-                            controle_docs_teste.tb_documentos
-                            LEFT JOIN
-                                controle_docs.tb_movimentacao
-                                ON tb_documentos.id = tb_movimentacao.documento_id
-                            LEFT JOIN
-                            controle_docs_teste.tb_status
-                                ON tb_status.id = tb_documentos.status
-                            LEFT JOIN
-                                gespes.usuario
-                                ON gespes.usuario.id = tb_movimentacao.usuario_id
-                            LEFT JOIN
-                            controle_docs_teste.tb_tipo
-                                ON tb_tipo.id = tb_documentos.tipo
-                            WHERE 
-                                tb_documentos.id = '$id'
-                            ORDER BY 
-                                tb_movimentacao.id DESC
-                            LIMIT 1";
+                            $sql = "SELECT DISTINCT
+                                        tb_documentos.id,
+                                        tb_movimentacao.id as idMovimentacao,
+                                        tb_documentos.ano_documento,
+                                        tb_documentos.numero_documento,
+                                        tb_documentos.assunto,
+                                        tb_documentos.origem,
+                                        tb_documentos.data_inclusao,
+                                        tb_movimentacao.data_entrada,
+                                        tb_movimentacao.data_recebido,
+                                        tb_status.nome as status,
+                                        tb_status.id as idStatus,
+                                        usuario.nome as resposavel,
+                                        tb_tipo.sigla as sigla,
+                                        tb_tipo.nome as tipo
+                                    FROM
+                                        controle_docs_teste.tb_movimentacao
+                                    LEFT JOIN
+                                        controle_docs_teste.tb_documentos
+                                        ON tb_documentos.id = tb_movimentacao.documento_id
+                                    LEFT JOIN
+                                    controle_docs_teste.tb_status
+                                        ON tb_status.id = tb_documentos.status
+                                    LEFT JOIN
+                                        gespes.usuario
+                                        ON gespes.usuario.id = tb_movimentacao.usuario_id
+                                    LEFT JOIN
+                                    controle_docs_teste.tb_tipo
+                                        ON tb_tipo.id = tb_documentos.tipo
+                                    WHERE 
+                                        tb_movimentacao.documento_id = '$id'
+                                    ORDER BY 
+                                        tb_movimentacao.id DESC
+                                        LIMIT 1";
         return $exec = Conexao::InstControle()->prepare($sql);
     }
     public function buscaNumeroAnoTipoStatusLocal($ano,$tipo, $status,$idSetor,$idUsuario,$order){
@@ -81,7 +80,7 @@ class Documentos extends Generica{
             $sql .= " AND tb_movimentacao.usuario_id = '$idUsuario'";
         }
         if(($order != '')AND ($order != 'NAO')){
-            $sql .= " ORDER BY ".$order." DESC ";
+            $sql .= " ORDER BY ".$order." DESC";
         }
         return $exec = Conexao::InstControle()->prepare($sql);
     }
@@ -272,9 +271,7 @@ class Documentos extends Generica{
     }
     public function analizandoDocumentosPorUsuario($ano,$tipo, $status,$idSetor,$idUsuario,$order){
         $sql = "SELECT DISTINCT
-        gespes.usuario.nome as data_inclusao ,
-        SUBSTRING_INDEX(gespes.usuario.nome, ' ', 1) as nome,
-        SUBSTRING_INDEX(gespes.usuario.nome, ' ', -1) as sobrenome,
+        CONCAT(SUBSTRING_INDEX(gespes.usuario.nome, ' ', 1),' ', SUBSTRING_INDEX(gespes.usuario.nome, ' ', -1) ) as data_inclusao,
         COUNT(data_inclusao) as total 
     FROM
         controle_docs_teste.tb_documentos
@@ -306,11 +303,10 @@ class Documentos extends Generica{
         if(($idUsuario != '') AND ($idUsuario !='tds')){
             $sql .= " AND tb_movimentacao.usuario_id = '$idUsuario'";
         }
-        $sql .="GROUP BY usuario_id";
+        $sql .="GROUP BY gespes.usuario.nome";
         if(($order != '')AND ($order != 'NAO')){
             $sql .= " ORDER BY ".$order." DESC ";
         }
-        //echo $sql ;
         return $exec = Conexao::InstControle()->prepare($sql);
     }
 }

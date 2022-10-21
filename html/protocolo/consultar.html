@@ -68,7 +68,7 @@
     <div class="card card-outline">
                   <div class="card card-secondary collapsed-card">
               <div class="card-header">
-                <h3 class="card-title"><b id="totalEncontrados">></b> documentos encontrados</h3>
+                <h3 class="card-title">Total de documentos encontrados: <b id="totalEncontrados">0</b> </h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -77,8 +77,10 @@
                 </div>
               </div>
               <div class="card-body" style="display: none;">
-                <div class="chart">
-                  <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <div class="chart" >
+                  <div id='divCanvas'>
+                    <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div> 
                 </div>
               </div>
               <!-- /.card-body -->
@@ -193,7 +195,7 @@
                                     <input type="radio" name="optionsM" id="optionListaDataEntrega" autocomplete="off" checked> Data
                                     </label>
                                     <label class="btn btn-secondary">
-                                    <input type="radio" name="optionsM" id="optionListaResponsavel" autocomplete="off"> Responsável
+                                    <input type="radio" name="optionsM" id="optionListaResponsavel" autocomplete="off"> Descrição
                                     </label>
                                 </div>
                                 <div class="card-body" style="height:100px;width:100%;overflow:auto;">
@@ -292,10 +294,31 @@
                       <label id="detalhamentoModalLabel1" >detalhamentoModalLabel1</label>
                       <input disabled class="form-control" id='verEncaminhado' type="text">
                     </div>
+                  </div>
+                  <div class="row">
                     <div class="col-12">
                       <label id="detalhamentoModalLabel2">detalhamentoModalLabel2</label>
                       <textarea class="form-control" rows="3" disabled id='verEncaminhamento'>
                       </textarea>
+                    </div>
+                </div>
+                  <div id='divDetalhamentoMovimentacao' class="row d-none">
+                    <div class="col-4">
+                      <label id="MovDataEntradaLabel" > Data Entrada</label>
+                      <input disabled class="form-control" id='MovDataEntrada' type="text">
+                    </div>
+                    <div class="col-4">
+                      <label id="MovDataRecebidoLabel" >Data Recebido</label>
+                      <input disabled class="form-control" id='MovDataRecebido' type="text">
+                    </div>
+                    <div class="col-4">
+                      <label id="MovDataRecebidoLabel" >Data Saída</label>
+                      <input disabled class="form-control" id='MovDataSaida' type="text">
+                    </div>
+                    <div class="col-12">
+                      <label id="MovResponsavelLabel" >Responsável:</label>
+                      <input disabled class="form-control" id='MovResponsavel' type="text">
+                    </div>
                     </div>
                   </div>
                 </div>

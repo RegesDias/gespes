@@ -37,6 +37,18 @@ function msn(icon, title) {
       title: title
     });
 };
+$(function(){
+   $(".limit").each(function (i) {
+       var text = $(this).text();
+       var len = text.length;
+       if (len > 80) {
+           var query = text.split(" ", 10);
+           query.push('...');
+           res = query.join(' ');
+           $(this).text(res);
+       }
+    });
+});
 function addZero(num, len) {
     var numberWithZeroes = String(num);
     var counter = numberWithZeroes.length;
@@ -69,6 +81,7 @@ function converteDataUS(d){
   return dataHoraBr;
 }
 function converteDataBr(d){
+  if(d == null){return d;}
   let removeHora = d.toString().split(' ');
   let date = removeHora[0].toString().split('-');
   dataHoraBr = date[2]+'-'+date[1]+'-'+date[0];
@@ -186,13 +199,12 @@ $(document).ready(function(){
   }
 });
 function geraGraficoArea(label,data, tipo) {
-  var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-
+  var areaChartCanvas = $('#areaChart').get(0).getContext('2d');
   var areaChartData = {
     labels  : label,
     datasets: [
       {
-        label               : 'Digital Goods',
+        label               : 'Documentos',
         backgroundColor     : 'rgba(60,141,188,0.9)',
         borderColor         : 'rgba(60,141,188,0.8)',
         pointRadius          : false,

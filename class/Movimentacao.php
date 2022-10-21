@@ -4,12 +4,18 @@ class Movimentacao extends Generica{
     public function buscaId($id){
         $sql = "SELECT 
                     tb_movimentacao.data_entrada,
+                    tb_movimentacao.data_recebido,
+                    tb_movimentacao.data_saida,
                     usuario.nome as encaminhado,
-                    tb_movimentacao.encaminhamento
+                    tb_movimentacao.encaminhamento,
+                    tb_setores.setor,
+                    (select usuario.nome FROM gespes.usuario WHERE gespes.usuario.id = tb_movimentacao.usuario_id ) as responsavel
                 FROM
                     controle_docs_teste.tb_movimentacao
                 LEFT JOIN gespes.usuario
                 ON usuario.id = log_user_id
+                LEFT JOIN controle_docs_teste.tb_setores
+                ON tb_setores.id = tb_movimentacao.setor_id
             WHERE 
                     tb_movimentacao.id = '$id'
             ORDER BY tb_movimentacao.id";
@@ -38,7 +44,7 @@ class Movimentacao extends Generica{
                     tb_movimentacao.id,
                     tb_movimentacao.data_entrada,
                     usuario.nome as responsavel,
-                    tb_movimentacao.encaminhamento
+                    LEFT(tb_movimentacao.encaminhamento, 60) as encaminhamento
                 FROM
                     controle_docs_teste.tb_movimentacao
                 LEFT JOIN gespes.usuario

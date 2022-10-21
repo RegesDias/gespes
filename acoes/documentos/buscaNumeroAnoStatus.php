@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: application/json');
 require_once '../../class/Documentos.php';
 $m = new Documentos;
 $dado = $m->setDado($_GET['dado']);
@@ -25,10 +24,14 @@ if($dado != ''){
     $exec = $m->buscaNumeroAnoTipoStatusLocal($ano, $tipo, $status, $idSetor, $idUsuario,$order);
     if($idUsuario != 'tds'){
         $tipoGrafico = 'line';
-        $grafico = $m->analizandoDocumentosPorData($ano, $tipo, $status, $idSetor,$idUsuario,$order); 
+        $grafico = $m->analizandoDocumentosPorData($ano, $tipo, $status, $idSetor,$idUsuario,$order);
+        $grafico->execute();
+        $grafico = $grafico->fetchAll(PDO::FETCH_ASSOC);
     }else{
         $tipoGrafico = 'bar';
         $grafico = $m->analizandoDocumentosPorUsuario($ano, $tipo, $status, $idSetor,$idUsuario,$order);
+        $grafico->execute();
+        $grafico = $grafico->fetchAll(PDO::FETCH_ASSOC);
     }
     
 }else{
@@ -37,11 +40,9 @@ if($dado != ''){
 }
 //if(Conexao::verificaLogin('consultaPessoal')){
     $exec->execute();
-    $grafico->execute();
     if ($exec->rowCount() >= 1) {
         $m->gravaLog('Busca Documentos: '.$ano.'-'.$numero);
         $exec = $exec->fetchAll(PDO::FETCH_ASSOC);
-        $grafico = $grafico->fetchAll(PDO::FETCH_ASSOC);
         $total = count($exec);
         if ($order != 'NAO'){
             if ($order ==''){
