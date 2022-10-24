@@ -2,8 +2,8 @@
 header('Content-Type: application/json');
 require_once '../../class/Observacao.php';
 $o = new Observacao;
-$documento_id = $o->setDado($_GET['documento_id']);
-$observacao = $o->setDado($_GET['observacao']);
+$documento_id = $o->setDado($_POST['documento_id']);
+$observacao = $o->setDado($_POST['observacao']);
 
 $o->verificaPreenchimentoCampo($observacao, 'Observação');
 

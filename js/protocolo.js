@@ -130,13 +130,11 @@ function geMovimentacaoId(id){
             $('#MovResponsavel').val('');
             $('#verEncaminhamento').val('');
             $('#verEncaminhado').val('');
-            console.log(result);
-            console.log(id);
 
             $('#detalhamentoModalTitulo').html('Detalhe da Movimentação');
             $('#detalhamentoModalLabel1').html('Encaminhado Por:');
             $('#detalhamentoModalLabel2').html('Dados do encaminhamento');
-            $('#verEncaminhamento').val(result[0].encaminhamento);
+            $('#verEncaminhamento').html(result[0].encaminhamento);
             $('#verEncaminhado').val(result[0].encaminhado);
 
             $('#divDetalhamentoMovimentacao').removeClass('d-none');
@@ -172,7 +170,7 @@ function geObservacaoId(id){
             $('#detalhamentoModalTitulo').html('Detalhe das Observações');
             $('#detalhamentoModalLabel1').html('Inserido Por:');
             $('#detalhamentoModalLabel2').html('Descrição:');
-            $('#verEncaminhamento').val(result[0].observacao);
+            $('#verEncaminhamento').html(result[0].observacao);
             $('#verEncaminhado').val(result[0].nome);
             $('#divDetalhamentoMovimentacao').addClass('d-none');
         }
@@ -411,10 +409,13 @@ function getRecebeDocumento(dado){
 $("#criarObservacao").on("click", function() {
     $('#modal-observacao').modal('show');
     $('#observacaoTexto').removeAttr('disabled');
-    $('#observacaoTexto').val('');
+    $('#observacaoTexto').summernote('reset');
 });
 $('#fechaModalObservacao').click(function(){
     $('#modal-observacao').modal('hide');
+});
+$('#fecharModalInserir').click(function(){
+    $('#modal-inserir').modal('hide');
 });
 $('#salvarObservacao').click(function(){
     idDocumento = $('#idDocumento').val();
@@ -429,14 +430,14 @@ $('#salvarObservacao').click(function(){
 function salvarObservacaoDocumento(data) {
     $.ajax({
         url: 'acoes/documentos/escreverObservacao.php',
-        method: 'GET',
+        method: 'POST',
         data: data, 
         dataType: 'json'
     }).done(function(data){
         $('#modal-observacao').modal('hide');
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
     });
 };
@@ -520,12 +521,14 @@ function preenchimentoSelectAno(result){
 };
 function preenchimentoSelectTipo(result){
     for (var i = 0; i < result.length; i++) {
-        $('#formFiltroSelectTipo').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
+        $('#formFiltroSelectTipo').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');  
+        $('#filtroModalInserir').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
     }
 };
 function preenchimentoSelectSetor(result){
     for (var i = 0; i < result.length; i++) {
         $('#formFiltroSelectSetor').prepend('<option value='+result[i].id+'>'+result[i].nome+'</option>');
+        $('#setorModalInserir').prepend('<option value='+result[i].id+'>'+result[i].nome+'</option>');
         $('#movimentacoesSetor').prepend('<option value='+result[i].id+'>'+result[i].nome+'</option>');
     }
     var login = JSON.parse(sessionStorage.getItem('login'));
@@ -545,7 +548,7 @@ function fechaTodosModais(){
     $('#modal-ponto').modal('hide');
     $('#modal-movimentar').modal('hide');
     $('#modal-observacao').modal('hide');
-
+    $('#modal-inserir').modal('hide');
 }
 function carregaDadosFiltro(){
     let anoVal = $('#formFiltroSelectAno option:selected').val();
@@ -592,9 +595,13 @@ function limparFormularioSaida(){
     $('#executarSaida').addClass('d-none');
 }
 function autocompleteEncaminharDestino(availableTags) {
+    $("#assuntoModalInserir").autocomplete({
+        source: availableTags
+    });
     $("#encaminharDestino").autocomplete({
         source: availableTags
     });
+
 };
 
 function movimentarDocumentoExecutar(data) {
@@ -681,7 +688,7 @@ $("#movimentarDocumento").on("click", function() {
     $('#movimentacoesTipo').val("").change();
     $('#movimentacoesSetor').val("").change();
     $('#encaminharResponsavel').val("").change();
-    $('#encaminharTexto').val("");
+    $('#encaminharTexto').summernote('reset');
     $('#encaminharDestino').val("");
     let date = dataAtual('us','-');
     $('#encaminharDataEntrada').val(date);
@@ -757,6 +764,10 @@ $("#btnLimpar").on("click", function() {
     getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
     $('#textMatriculaCpfNome').val('');
     $('#textMatriculaCpfNomeOrder').val('');
+});
+$("#btnInserir").on("click", function() {
+    $('#modal-inserir').modal('show');
+
 });
 $('#formFiltroBtn').on("click", function(){
     data = carregaDadosFiltro();
@@ -925,22 +936,6 @@ $('#fechaModalPessoal').click(function(){
     fechaTodosModais();
 });
 
-
-$(document).ready(function(){
-    $('#carregandoModal').hide();
-    formFiltroAno();
-    formFiltroTipo();
-    formFiltroStatus();
-    getListaSetoresAtivos();
-    carregarSelect2();
-    getListaSecretarias();
-    getUsuarios();
-    setTimeout(() => { 
-        data = carregaDadosFiltro();
-        getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
-     }, 100);
-});
-
 function geraLabel(result){
     var keys = [];
     for (var i = 0; i < result.length; i++) {
@@ -962,5 +957,36 @@ function geraNome(result){
     }
     return keys;
 };
+function anoCadastroDocumento(){
+    const dataAtual = new Date();
+    const anoAtual = dataAtual.getFullYear();
+    const anoAnteriror = dataAtual.getFullYear()-1;
+    $('#anoModalInserir').prepend('<option value='+ anoAtual +'> '+anoAtual+'</option>');
+    $('#anoModalInserir').prepend('<option value='+ anoAnteriror +'> '+anoAnteriror+'</option>');   
+};
+
+$(document).ready(function(){
+    $('#carregandoModal').hide();
+    $("#encaminharTexto").summernote({
+        lang: 'pt-BR'
+    });
+    $("#observacaoTexto").summernote({
+        lang: 'pt-BR'
+    });
+    anoCadastroDocumento();
+    formFiltroAno();
+    formFiltroTipo();
+    formFiltroStatus();
+    getListaSetoresAtivos();
+    carregarSelect2();
+    getListaSecretarias();
+    getUsuarios();
+    setTimeout(() => { 
+        data = carregaDadosFiltro();
+        getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
+     }, 100);
+});
+
+
 
 

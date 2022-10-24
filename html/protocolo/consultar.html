@@ -11,6 +11,7 @@
       </button>
     </div>
   </div>
+  
   <div class="card-body">
     <div class="form-group" id='formFiltro'>
       <div class="row">
@@ -52,7 +53,7 @@
         <div class="col-md-10">
           <div class="form-group">
             <select id='formFiltroSelectSetor' class="form-control select2" style="width: 100%;">
-              <option value="tds">TODOS</option>
+              <option value="tds">TODOS OS SETORES</option>
             </select>
           </div>
         </div>
@@ -89,10 +90,10 @@
         <form name="moose">
             <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary active col-3">
-                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Documento
+                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> <i class="nav-icon fas fa-filter"></i> Documento
                 </label>
                 <label class="btn btn-secondary">
-                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Assunto
+                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> <i class="nav-icon fas fa-filter"></i> Assunto
                 </label>
             </div>
             <div class="card-body" style="height:300px;width:100%;overflow:auto;">
@@ -120,9 +121,79 @@
         <button id='btnMatriculaCpfNome' type="button" disabled  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Buscar</button>
       </div>
       <div class="input-group-prepend">
-        <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-check"></i> Data Entrada</button>
+        <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-filter"></i> Data entrada</button>
+      </div>
+      <div class="input-group-prepend">
+        <button id='btnInserir' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-plus"></i> Inserir</button>
       </div>
   </div>
+  <div class="modal fade" id="modal-inserir">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header"> 
+            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+            <h4 class="modal-title" id="tituloModalInserir">Cadastrar Documento</h4>
+            <button type="button" class="close" id="fecharModalInserir" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Tipo</label>
+                  <select id='filtroModalInserir' class="form-control select2" style="width: 100%;">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <label>Número</label>
+                <input  id='numeroModalInserir' type="text" class="form-control" placeholder="Número do documento">
+              </div>
+              <div class="col-4">
+                <label>Ano</label>
+                <select id='anoModalInserir' class="form-control select2" style="width: 100%;">
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label>Assunto</label>
+                <input  id='assuntoModalInserir' type="text" class="form-control">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label>Origem</label>
+                <input  id='assuntoModalInserir' type="text" class="form-control" autocomplete="off">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label>Setor</label>
+                <select id='setorModalInserir' class="form-control select2" style="width: 100%;">
+                  <option value=""  selected ></option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label>Responsável</label>
+                <select id='responsavelModalInserir' class="form-control select2" style="width: 100%;">
+                  <option value=""  selected ></option>
+                </select>                  
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <div class="input-group-prepend">
+              <button id='salvarModalInserir'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Salvar</button>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
   <div class="modal fade" id="modal-pessoal">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -275,7 +346,7 @@
     <!-- /.tab-content -->
   </div><!-- /.card-body -->
 </div>
-          </div>
+</div>
         <div class="modal-footer justify-content-between">
         </div>
         <div class="modal fade" id="modal-ponto" style="margin-top:60px">
@@ -295,13 +366,6 @@
                       <input disabled class="form-control" id='verEncaminhado' type="text">
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-12">
-                      <label id="detalhamentoModalLabel2">detalhamentoModalLabel2</label>
-                      <textarea class="form-control" rows="3" disabled id='verEncaminhamento'>
-                      </textarea>
-                    </div>
-                </div>
                   <div id='divDetalhamentoMovimentacao' class="row d-none">
                     <div class="col-4">
                       <label id="MovDataEntradaLabel" > Data Entrada</label>
@@ -319,6 +383,13 @@
                       <label id="MovResponsavelLabel" >Responsável:</label>
                       <input disabled class="form-control" id='MovResponsavel' type="text">
                     </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <label id="detalhamentoModalLabel2">detalhamentoModalLabel2</label>
+                            <div class="card-body  bg-gray" id='verEncaminhamento'>
+                            </div>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -340,7 +411,7 @@
                 <div class="row">
                   <div class="col-12">
                     <label id="detalhamentoModalLabel2">Descrição:</label>
-                    <textarea class="form-control" rows="3" disabled id='observacaoTexto'>
+                    <textarea class="form-control" rows="3"  id='observacaoTexto'>
                     </textarea>
                   </div>
                 </div>
@@ -353,7 +424,6 @@
           </div>
       </div>
     </div>
-
       <div class="modal fade" id="modal-movimentar" style="margin-top:30px">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
