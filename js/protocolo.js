@@ -27,6 +27,33 @@ function formFiltroAno(){
         $('#carregando').hide();
     });
 }
+function formFiltroAssuntos(){
+    $.ajax({
+        url: 'acoes/documentos/listaAssuntos.php',
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        preenchimentoAutoCompleteAssunto(result);
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+}
+function preenchimentoAutoCompleteAssunto(result){
+    var keys = [];
+    for (var i = 0; i < result.length; i++) {
+        keys.push(result[i].assunto);
+    }
+    autocompleteEncaminharAssunto(keys);
+};
+function autocompleteEncaminharAssunto(availableTags) {
+    $("#assuntoModalInserir").autocomplete({
+        source: availableTags
+    });
+
+};
 function formFiltroTipo(){
     $.ajax({
         url: 'acoes/documentosTipo/listar.php',
@@ -324,6 +351,12 @@ function preenchimentoSelectUsuarioIdSetor(result){
         $('#encaminharResponsavel').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
     }
 };
+function preenchimentoSelectUsuarioIdSetorCadastra(result){
+    $("#responsavelModalInserir").empty();
+    for (var i = 0; i < result.length; i++) {
+        $('#responsavelModalInserir').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
+    }
+};
 function getUsuarios(){
     $.ajax({
         url: 'acoes/usuario/listarNome.php',
@@ -550,6 +583,61 @@ function fechaTodosModais(){
     $('#modal-observacao').modal('hide');
     $('#modal-inserir').modal('hide');
 }
+//INSERIR DOCUMENTO---------------------------------------------------------------------------------------------
+function inserirDocumento(data) {
+    $.ajax({
+        url: 'acoes/documentos/inserirDocumento.php',
+        method: 'GET',
+        data: data, 
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            msn('success',result.mensagem);
+            //getDocumentoId(result[0].id)
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+    });
+};
+$('#salvarModalInserir').on("click", function(){
+    data = carregaDadosInserirDocumentos();
+    inserirDocumento(data);
+    
+});
+$("#btnInserir").on("click", function() {
+    $('#modal-inserir').modal('show');
+    $('#filtroModalInserir').val("").change();
+    $('#numeroModalInserir').val("");
+    $('#assuntoModalInserir').val("");
+    $('#origemModalInserir').val("");
+    $('#setorModalInserir').val("").change();
+    $('#responsavelModalInserir').val("").change();
+
+});
+
+function carregaDadosInserirDocumentos(){
+    let tipoVal = $('#filtroModalInserir option:selected').val();
+    let numeroVal = $('#numeroModalInserir').val();
+    let anoVal = $('#anoModalInserir option:selected').val();
+    let assuntoVal = $('#assuntoModalInserir').val();
+    let origemVal = $('#origemModalInserir').val();
+    let idSetorVal = $('#setorModalInserir option:selected').val();
+    let idUsuarioVal = $('#responsavelModalInserir option:selected').val();
+    var data = {
+        tipo:tipoVal, 
+        numero:numeroVal, 
+        ano:anoVal,
+        assunto:assuntoVal,
+        origem:origemVal,
+        idSetor:idSetorVal,
+        idUsuario:idUsuarioVal
+    }
+    return data;
+}
 function carregaDadosFiltro(){
     let anoVal = $('#formFiltroSelectAno option:selected').val();
     let tipoVal = $('#formFiltroSelectTipo option:selected').val();
@@ -595,7 +683,7 @@ function limparFormularioSaida(){
     $('#executarSaida').addClass('d-none');
 }
 function autocompleteEncaminharDestino(availableTags) {
-    $("#assuntoModalInserir").autocomplete({
+    $("#origemModalInserir").autocomplete({
         source: availableTags
     });
     $("#encaminharDestino").autocomplete({
@@ -698,6 +786,29 @@ $('#movimentacoesSetor').change(function(){
     dado = $('#movimentacoesSetor option:selected').val();
     getUsuarioIdSetor(dado);
 });
+function getUsuarioIdSetorCadastra(dado){
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/usuario/listarIdSetor.php?dado='+dado,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            preenchimentoSelectUsuarioIdSetorCadastra(result);
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
+$('#setorModalInserir').change(function(){
+    dado = $('#setorModalInserir option:selected').val();
+    getUsuarioIdSetorCadastra(dado);
+});
 
 
 $('#movimentacoesTipo').change(function(){
@@ -765,18 +876,11 @@ $("#btnLimpar").on("click", function() {
     $('#textMatriculaCpfNome').val('');
     $('#textMatriculaCpfNomeOrder').val('');
 });
-$("#btnInserir").on("click", function() {
-    $('#modal-inserir').modal('show');
-
-});
 $('#formFiltroBtn').on("click", function(){
     data = carregaDadosFiltro();
     $('#textMatriculaCpfNomeOrder').val('');
     getDocumentoAnoTipoStatusLocal(data, '');
-    
-//salvarAlteracoesUsuario(data);
 });
-
 
 $('#btnMatriculaCpfNome').on("click", function(){
     var dado = $('#textMatriculaCpfNome').val();
@@ -977,6 +1081,7 @@ $(document).ready(function(){
     formFiltroAno();
     formFiltroTipo();
     formFiltroStatus();
+    formFiltroAssuntos();
     getListaSetoresAtivos();
     carregarSelect2();
     getListaSecretarias();

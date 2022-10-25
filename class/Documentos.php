@@ -118,6 +118,10 @@ class Documentos extends Generica{
         }
         return $result;
     }
+    public function listaAssuntos(){
+        $sql = "SELECT DISTINCT assunto FROM tb_documentos";
+        return $exec = Conexao::InstControle()->prepare($sql);
+    }
     public function recebe($idMovimentacao){
         $idUser = $_SESSION['id'];
         $sql = "UPDATE tb_movimentacao SET 
@@ -179,6 +183,29 @@ class Documentos extends Generica{
                                     NOW())";
                 $stm = Conexao::InstControle()->prepare($sql);
                 $stm->execute();
+    }
+    public function inserirDocumento($tipo,$numero_documento,$ano_documento,$assunto,$origem){
+        $sql = "INSERT INTO tb_documentos(
+                                        tipo,
+                                        numero_documento,
+                                        ano_documento,
+                                        assunto,
+                                        origem,
+                                        status, 
+                                        data_inclusao
+                                    )VALUES(
+                                        '$tipo',
+                                        '$numero_documento',
+                                        '$ano_documento',
+                                        '$assunto',
+                                        '$origem',
+                                        '1',
+                                        NOW()
+                                    )";
+                $stm = Conexao::InstControle()->prepare($sql);
+                $stm->execute();
+                $id = Conexao::InstControle()->lastInsertId();
+                return $id;
     }
     public function entradaExecutar($idDocumento,$encaminharTexto){
         $idUser = $_SESSION['id'];
