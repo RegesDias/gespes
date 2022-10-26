@@ -24,7 +24,6 @@ function formFiltroAno(){
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
-        $('#carregando').hide();
     });
 }
 function formFiltroAssuntos(){
@@ -69,35 +68,7 @@ function formFiltroTipo(){
     });
 
 }
-function getDocumentoNumeroAno(dado,order){
-    $('#carregando').show();
-    $.ajax({
-        url: 'acoes/documentos/buscaNumeroAnoStatus.php?dado='+dado+'&order='+order,
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(result){
-        if (result.codigo==0){
-            msn('error',result.mensagem);
-            $('#listaPessoal').attr("size", 2);
-            $('#listaPessoalNome').attr("size", 2);
-        }else{
-            var size = result.exec.length+1;
-            if (result.codigo!=2){
-                msn('success',result.mensagem);
-            }
-            $("#listaPessoal").empty();
-            $("#listaPessoalNome").empty();
-            $('#listaPessoal').attr("size", size);
-            $('#listaPessoalNome').attr("size", size);
-            preenchimentoSelect(result.exec);
-        }
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-       // setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
-        $('#carregando').hide();
-    });
-};
+
 function getDocumentoMovimentacaoId(id,order){
     $.ajax({
         url: 'acoes/documentos/movimentacao.php?id='+id+'&order='+order,
@@ -233,6 +204,9 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 $('#listaPessoal').attr("size", size);
                 $('#listaPessoalNome').attr("size", size);
                 $("#totalEncontrados").html(result.total);
+                $("#areaChart").removeClass('d-none');
+                $("#barraGraficoExibir").removeClass('d-none');
+                $("#barraGraficoBotao").addClass('fas fa-plus');
                 var label = geraLabel(result.grafico);
                 var data = geraData(result.grafico);
                 setTimeout(() => {  geraGraficoArea(label,data,result.tipo) }, 1000);
@@ -244,6 +218,40 @@ function getDocumentoAnoTipoStatusLocal(data, order){
             }).always(function() {
                 $('#carregando').hide();
             });
+};
+function getDocumentoNumeroAno(dado,order){
+    $('#carregando').show();
+    $.ajax({
+        url: 'acoes/documentos/buscaNumeroAnoStatus.php?dado='+dado+'&order='+order,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+            $('#listaPessoal').attr("size", 2);
+            $('#listaPessoalNome').attr("size", 2);
+        }else{
+            var size = result.exec.length+1;
+            if (result.codigo!=2){
+                msn('success',result.mensagem);
+            }
+            $("#listaPessoal").empty();
+            $("#listaPessoalNome").empty();
+            $('#listaPessoal').attr("size", size);
+            $('#listaPessoalNome').attr("size", size);
+            $("#totalEncontrados").html(result.total);
+            $("#areaChart").addClass('d-none');
+            $("#barraGraficoCorpo").css({ display: "none" });
+            $("#barraGraficoExibir").addClass('d-none');
+            $("#barraGrafico").addClass('collapsed-card');
+            preenchimentoSelect(result.exec);
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+       // setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
 };
 function getDocumentoId(codfunc){
     $('#carregando').show();
@@ -267,10 +275,11 @@ function getDocumentoId(codfunc){
         if(documento[0].setor_id != login.idSetor){
             $('#movimentarDocumento').addClass('d-none');
             $('#criarObservacao').addClass('d-none');
+            $('#arquivarDesarquivar').addClass('d-none');
         }else{
             $('#movimentarDocumento').removeClass('d-none');
             $('#criarObservacao').removeClass('d-none');
-
+            $('#arquivarDesarquivar').removeClass('d-none');
         }
         if (documento[0].idStatus == 2){
             $('#movimentarDocumento').addClass('d-none');
@@ -429,7 +438,7 @@ function getRecebeDocumento(dado){
         }else{
             msn('success',result.mensagem);
             data = carregaDadosFiltro();
-            getDocumentoAnoTipoStatusLocal(data, 'NAO');
+            getDocumentoAnoTipoStatusLocal(data, ' tb_documentos.id ');
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -595,7 +604,8 @@ function inserirDocumento(data) {
             msn('error',result.mensagem);
         }else{
             msn('success',result.mensagem);
-            //getDocumentoId(result[0].id)
+            getDocumentoNumeroAno(result.documento,' tb_documentos.id DESC LIMIT 1');
+            $('#modal-inserir').modal('hide');
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -608,15 +618,38 @@ $('#salvarModalInserir').on("click", function(){
     inserirDocumento(data);
     
 });
+function anoCadastroDocumento(tipo){
+    $("#anoModalInserir").empty();
+    const dataAtual = new Date();
+    if(tipo == 2){
+        const anoAtual = dataAtual.getFullYear();
+        const anoAnteriror = dataAtual.getFullYear()-1;
+        $('#anoModalInserir').prepend('<option value='+ anoAtual +'> '+anoAtual+'</option>');
+        $('#anoModalInserir').prepend('<option value='+ anoAnteriror +'> '+anoAnteriror+'</option>');   
+    }else{
+        const anoAtual = dataAtual.getFullYear();
+        $('#anoModalInserir').prepend('<option value='+ anoAtual +'> '+anoAtual+'</option>');
+        for (var i = 0; i < 20; i++) {
+            const ano = dataAtual.getFullYear()-i;
+            $('#anoModalInserir').prepend('<option value='+ ano +'> '+ano+'</option>');
+         }
+    }
+};
+
+$("#filtroModalInserir").on("change", function() {
+    let tipo = $('#filtroModalInserir option:selected').val();
+    anoCadastroDocumento(tipo);
+});
+
 $("#btnInserir").on("click", function() {
-    $('#modal-inserir').modal('show');
     $('#filtroModalInserir').val("").change();
     $('#numeroModalInserir').val("");
     $('#assuntoModalInserir').val("");
     $('#origemModalInserir').val("");
     $('#setorModalInserir').val("").change();
     $('#responsavelModalInserir').val("").change();
-
+    $('#textoModalInserir').summernote('reset');
+    $('#modal-inserir').modal('show');
 });
 
 function carregaDadosInserirDocumentos(){
@@ -627,6 +660,7 @@ function carregaDadosInserirDocumentos(){
     let origemVal = $('#origemModalInserir').val();
     let idSetorVal = $('#setorModalInserir option:selected').val();
     let idUsuarioVal = $('#responsavelModalInserir option:selected').val();
+    let textoModalInserirVal = $('#textoModalInserir').val();
     var data = {
         tipo:tipoVal, 
         numero:numeroVal, 
@@ -634,7 +668,8 @@ function carregaDadosInserirDocumentos(){
         assunto:assuntoVal,
         origem:origemVal,
         idSetor:idSetorVal,
-        idUsuario:idUsuarioVal
+        idUsuario:idUsuarioVal,
+        textoModalInserir:textoModalInserirVal
     }
     return data;
 }
@@ -705,7 +740,7 @@ function movimentarDocumentoExecutar(data) {
         }else{
             msn('success',result.mensagem);
             data = carregaDadosFiltro();
-            getDocumentoAnoTipoStatusLocal(data, 'NAO');
+            getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
             fechaTodosModais();
         }
     }).fail(function() {
@@ -745,7 +780,7 @@ function saidaDocumentoExecutar(data) {
         }else{
             msn('success',result.mensagem);
             data = carregaDadosFiltro();
-            getDocumentoAnoTipoStatusLocal(data, 'NAO');
+            getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
             fechaTodosModais();
         }
     }).fail(function() {
@@ -879,7 +914,7 @@ $("#btnLimpar").on("click", function() {
 $('#formFiltroBtn').on("click", function(){
     data = carregaDadosFiltro();
     $('#textMatriculaCpfNomeOrder').val('');
-    getDocumentoAnoTipoStatusLocal(data, '');
+    getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
 });
 
 $('#btnMatriculaCpfNome').on("click", function(){
@@ -1039,7 +1074,6 @@ $('#fechaModalMovimenta').click(function(){
 $('#fechaModalPessoal').click(function(){
     fechaTodosModais();
 });
-
 function geraLabel(result){
     var keys = [];
     for (var i = 0; i < result.length; i++) {
@@ -1061,13 +1095,7 @@ function geraNome(result){
     }
     return keys;
 };
-function anoCadastroDocumento(){
-    const dataAtual = new Date();
-    const anoAtual = dataAtual.getFullYear();
-    const anoAnteriror = dataAtual.getFullYear()-1;
-    $('#anoModalInserir').prepend('<option value='+ anoAtual +'> '+anoAtual+'</option>');
-    $('#anoModalInserir').prepend('<option value='+ anoAnteriror +'> '+anoAnteriror+'</option>');   
-};
+
 
 $(document).ready(function(){
     $('#carregandoModal').hide();
@@ -1077,7 +1105,9 @@ $(document).ready(function(){
     $("#observacaoTexto").summernote({
         lang: 'pt-BR'
     });
-    anoCadastroDocumento();
+    $("#textoModalInserir").summernote({
+        lang: 'pt-BR'
+    });
     formFiltroAno();
     formFiltroTipo();
     formFiltroStatus();
@@ -1089,9 +1119,6 @@ $(document).ready(function(){
     setTimeout(() => { 
         data = carregaDadosFiltro();
         getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
-     }, 100);
+     }, 650);
 });
-
-
-
 

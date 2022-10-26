@@ -21,6 +21,8 @@
       <!-- CodeMirror -->
       <link rel="stylesheet" href="plugins/codemirror/codemirror.css">
       <link rel="stylesheet" href="plugins/codemirror/theme/monokai.css">
+        <!-- fullCalendar -->
+      <link rel="stylesheet" href="plugins/fullcalendar/main.css">
       <style>
         .ui-front{
           z-index: 1051;
@@ -74,7 +76,7 @@
                                 <a tabindex="-1" id="protocolo" style="cursor: pointer;" class="dropdown-item"><i class="nav-icon fas fa-book"></i> Protocolo</a>
                               </li>
                               <li>
-                                <a tabindex="-1" id="atendimentoAgenda" style="cursor: pointer;" class="dropdown-item">Agenda</a>
+                                <a tabindex="-1" id="atendimentoAgenda" style="cursor: pointer;" class="dropdown-item"><i class="nav-icon fas fa-calendar"></i> Agenda</a>
                               </li>
                               <!--
                               <li class="dropdown-submenu">
@@ -157,8 +159,10 @@
         <script src="plugins/codemirror/mode/css/css.js"></script>
         <script src="plugins/codemirror/mode/xml/xml.js"></script>
         <script src="plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-        <script>
-        </script>
+        <!-- fullCalendar 2.2.5 -->
+        <script src="plugins/moment/moment.min.js"></script>
+        <script src="plugins/fullcalendar/main.js"></script>
+     
         <script src="js/script.js"></script>
     </body>
 </html>

@@ -134,6 +134,11 @@ function carregarSelect2() {
     theme: 'bootstrap4'
   })
 }
+$("#atendimentoAgenda").on("click", function() {
+  $('#principal').load( 'html/agenda/consultar.html' );
+  $('#logoDireita').show();
+});
+
 $("#consultaPessoal").on("click", function() {
     $('#principal').load( 'html/pessoal/consultar.html' );
     $('#logoDireita').show();

@@ -85,7 +85,7 @@ class Documentos extends Generica{
         }
         return $exec = Conexao::InstControle()->prepare($sql);
     }
-    public function buscaNumeroAno($numero,$ano){
+    public function buscaNumeroAno($numero,$ano,$order=''){
         if($numero != ''){
             $sql = self::$sql .= " numero_documento = '$numero' ";
         }
@@ -94,6 +94,9 @@ class Documentos extends Generica{
                 $sql = self::$sql .= " AND "; 
             }
             $sql = self::$sql .= " ano_documento = '$ano' ";
+        }
+        if($order != ''){
+            $sql .= " ORDER BY ".$order;
         }
         return $exec = Conexao::InstControle()->prepare($sql);
     }
@@ -152,6 +155,31 @@ class Documentos extends Generica{
                                     '$encaminharTexto',
                                     '1',
                                     '$idUser',
+                                    NOW())";
+                $stm = Conexao::InstControle()->prepare($sql);
+                $stm->execute();
+    }
+    public function movimentarExecutarEntrada($idDocumento,$encaminharResponsavel,$movimentacoesSetor,$encaminharTexto){
+        $idUser = $_SESSION['id'];
+        $sql = "INSERT INTO tb_movimentacao(
+                                    documento_id,
+                                    usuario_id,
+                                    setor_id,
+                                    encaminhamento,
+                                    ativo,
+                                    log_user_id,
+                                    data_entrada,
+                                    data_recebido,
+                                    data_saida
+                                )VALUES(
+                                    '$idDocumento',
+                                    '$encaminharResponsavel',
+                                    '$movimentacoesSetor',
+                                    '$encaminharTexto',
+                                    '0',
+                                    '$idUser',
+                                    NOW(),
+                                    NOW(),
                                     NOW())";
                 $stm = Conexao::InstControle()->prepare($sql);
                 $stm->execute();

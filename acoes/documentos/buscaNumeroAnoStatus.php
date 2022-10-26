@@ -1,17 +1,17 @@
 <?php
+header('Content-Type: application/json');
 require_once '../../class/Documentos.php';
 $m = new Documentos;
 $dado = $m->setDado($_GET['dado']);
 $order = $m->setDado($_GET['order']);
-$numeroAno =str_replace('/', ' ', $dado);
-$numeroAno =str_replace('-', ' ', $dado);
+$numeroAno =preg_replace('/[^0-9]/', ' ', $dado);
 
 if($dado != ''){
-    $pieces = explode(" ", $numeroAno);
+    $pieces = explode(' ', $numeroAno);
     $numero = ltrim($pieces[0], '0');
     $ano = $pieces[1];
     if(is_numeric($numero)){
-        $exec = $m->buscaNumeroAno($numero, $ano);
+        $exec = $m->buscaNumeroAno($numero, $ano, $order);
     }else{
         $exec = $m->buscaAssunto($dado,$order);
     }

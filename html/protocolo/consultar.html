@@ -67,25 +67,24 @@
       </div>
     </div>
     <div class="card card-outline">
-                  <div class="card card-secondary collapsed-card">
-              <div class="card-header">
-                <h3 class="card-title">Total de documentos encontrados: <b id="totalEncontrados">0</b> </h3>
+          <div id="barraGrafico" class="card card-secondary collapsed-card">
+            <div class="card-header">
+              <h3 class="card-title">Total de documentos encontrados: <b id="totalEncontrados">0</b> </h3>
 
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
+              <div class="card-tools" id="barraGraficoExibir">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i id="barraGraficoBotao" class="fas fa-plus"></i>
+                </button>
               </div>
-              <div class="card-body" style="display: none;">
-                <div class="chart" >
-                  <div id='divCanvas'>
-                    <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                  </div> 
-                </div>
-              </div>
-              <!-- /.card-body -->
             </div>
+            <div id="barraGraficoCorpo" class="card-body" style="display: none;">
+              <div class="chart" >
+                <div id='divCanvas'>
+                  <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div> 
+              </div>
+            </div>
+        </div>
             
         <form name="moose">
             <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
@@ -187,7 +186,12 @@
                   <option value=""  selected ></option>
                 </select>                  
               </div>
-            </div>
+                <div class="col-12">
+                  <label>Descrição:</label>
+                  <textarea class="form-control" rows="3"  id='textoModalInserir'>
+                  </textarea>
+                </div>
+              </div>
           </div>
           <div class="modal-footer justify-content-between">
             <div class="input-group-prepend">
@@ -288,17 +292,15 @@
                         </div>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
-                              <button id='visualizarDocumento' disabled type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
+                              <button id='visualizarDocumento' disabled type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Visualizar</button>
                           </div>
                           <div class="input-group-prepend">
-                              <button id='movimentarDocumento'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Movimentar</button>
+                              <button id='movimentarDocumento'   type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-arrow-circle-right"></i> Movimentar</button>
                           </div>
-                          <div class="input-group-prepend">
-                            <button id='arquivarDocumento'   type="button"  class="btn btn-primary "><i class="nav-icon fas fa-file-export"></i> Arquivar</button>
-                        </div>
-                        <div class="input-group-prepend">
-                          <button id='desarquivarDocumento'   type="button"  class="btn btn-primary "><i class="nav-icon fas fa-file-import"></i> Desarquivar</button>
-                      </div>
+                          <div class="input-group-prepend" id="arquivarDesarquivar">
+                            <button id='arquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-export"></i> Arquivar</button>
+                            <button id='desarquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-import"></i> Desarquivar</button>
+                          </div>
                         </div>
                   </div>
             </div>
@@ -413,7 +415,7 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-12">
-                    <label id="detalhamentoModalLabel2">Descrição:</label>
+                    <label>Descrição:</label>
                     <textarea class="form-control" rows="3"  id='observacaoTexto'>
                     </textarea>
                   </div>
