@@ -24,8 +24,6 @@
                   <div class="card-body">
                     <!-- the events -->
                     <div id="external-events">
-                      <div class="external-event bg-success">Almoço</div>
-                      <div class="external-event bg-warning">Ir para Casa</div>
                       <div class="external-event bg-info">Reunião</div>
                       <div class="external-event bg-primary">Reunião Externa</div>
                       <div class="external-event bg-danger">Atendimento</div>
@@ -87,6 +85,49 @@
       <!-- /.content -->
 
   </div>
-    <!-- /.modal-dialog -->
+  
+<div class="modal fade" id="calendarModal">
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header"> 
+          <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+          <h4 class="modal-title" id="modalTitle">Dados do Evento</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-8">
+              <label>Título</label>
+              <input class="form-control" id='title' type="text">
+            </div>
+            <div class="col-4">
+              <label>Cor</label>
+              <input class="form-control" id='color' type="color">
+            </div>
+          </div>
+            <div class="row">
+              <div id='divStart' class="col-5">
+                <label>Data Inicial</label>
+                <input class="form-control" id='start' type="datetime-local">
+              </div>
+              <div id='divEnd' class="col-5">
+                <label>Data Final</label>
+                <input class="form-control" id='end' type="datetime-local">
+              </div>
+              <div class="col-2">
+                <label>Dia inteiro</label>
+                <input class="form-control" id='allDay' type="checkbox">
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <div class="input-group-prepend">
+            <button id='salvarObservacao'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Salvar</button>
+          </div>
+      </div>
+    </div>
+</div>
   </div>
   <script src="js/agenda.js"></script>

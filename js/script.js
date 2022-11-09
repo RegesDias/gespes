@@ -75,6 +75,21 @@ function dataAtual(tipo,tag) {
         return [ano, mes, dia].join(tag);
       }
 }
+function dataPrimeiroDiaDoMes(tipo,tag) {
+  var data = new Date(),
+      dia  = '01',
+      mes  = data.getMonth() + 1,
+      ano  = data.getFullYear();
+      if (tipo == 'br'){
+        return [dia, mes, ano].join(tag);
+      }
+      if (tipo == 'us'){
+        return [ano, mes, dia].join(tag);
+      }
+}
+function conversaoDataString(data) {
+  return data.replace('T',' ').substr(0, data.length - 6);
+}
 function converteDataUS(d){
   let date = d.toString().split('-');
   dataHoraBr = date[0]+'-'+date[1]+'-'+date[2];
