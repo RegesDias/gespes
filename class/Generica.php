@@ -51,6 +51,13 @@ class Generica {
       return $novaDataHora->format('d-m-Y H:i:s');
     }
   }
+  public function convertDataPrimeiroDiaMes($dataHora){
+    if(isset($dataHora)){
+      $pieces = explode("-", $dataHora);
+      $pdm = $pieces[0]."-".$pieces[1]."-01";
+      return $pdm;
+    }
+  }
   public function setDado($dado){
     return (isset($dado)) ? $dado : '' ;
   }

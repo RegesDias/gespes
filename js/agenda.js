@@ -1,5 +1,7 @@
 $(document).ready(function(){
-  
+    let user = '43';
+    carregarSelect2();
+    getUsuarios(user);
 
     /* initialize the calendar
      -----------------------------------------------------------------*/
@@ -42,6 +44,9 @@ $(document).ready(function(){
           dataType: 'json'
       }).done(function(result){
           for (var i = 0; i < result.length; i++) {
+            if (result[i].allDay == 0){
+              result[i].allDay = null;
+            }
             calendar.addEvent(
               result[i]
             );
@@ -65,6 +70,8 @@ $(document).ready(function(){
       locales: 'l57',
       //eventLimit: true,
       editable  : true,
+      forceEventDuration: true,
+      defaultTimedEventDuration: '01:00',
       droppable : true, // this allows things to be dropped onto the calendar !!!
       drop      : function(info) {
         // is the "remove after drop" checkbox checked?
@@ -74,25 +81,36 @@ $(document).ready(function(){
         }
       },
       eventReceive: function(event) {
-        //console.log(event.event);
-        console.log('id '+event.event.id);
-        console.log('allDay '+event.event.allDay);
-        console.log('backgroundColor '+event.event.backgroundColor);
-        console.log('borderColor '+event.event.borderColor);
-        console.log('endStr '+event.event.endStr);
-        console.log('startStr '+event.event.startStr);
-        console.log('title '+ event.event.title);
+        console.log('eventReceive');
+        let usuario = $('#formFiltroSelectUsuario').val();
+        var dado = {
+          id:event.event.id,
+          allDay:event.event.allDay,
+          backgroundColor:event.event.backgroundColor,
+          borderColor:event.event.borderColor,
+          end:event.event.endStr,
+          start:event.event.startStr,
+          title:event.event.title,
+          usuario:usuario
+        }
+        insereEvento(dado, event.event);
       },
       eventDrop:function(event) {
-        console.log('id '+event.event.id);
-        console.log('allDay '+event.event.allDay);
-        console.log('backgroundColor '+event.event.backgroundColor);
-        console.log('borderColor '+event.event.borderColor);
-        console.log('endStr '+event.event.endStr);
-        console.log('startStr '+event.event.startStr);
-        console.log('title '+ event.event.title);
+        let usuario = $('#formFiltroSelectUsuario').val();
+        var dado = {
+          id:event.event.id,
+          allDay:event.event.allDay,
+          backgroundColor:event.event.backgroundColor,
+          borderColor:event.event.borderColor,
+          end:event.event.endStr,
+          start:event.event.startStr,
+          title:event.event.title,
+          usuario:usuario
+        }
+        moveEvento(dado);
       },
       eventResize:function(event) {
+        console.log('eventResize');
         console.log('id '+event.event.id);
         console.log('allDay '+event.event.allDay);
         console.log('backgroundColor '+event.event.backgroundColor);
@@ -102,19 +120,21 @@ $(document).ready(function(){
         console.log('title '+ event.event.title);
       },
       eventClick:  function(event) {
+        console.log('eventClick');
         $('#divStart').attr('class', 'col-5');
         $('#divEnd').attr('class', 'col-5');
         $('#title').val(event.event.title);
         $('#start').attr('type', 'datetime-local');
+        $('#end').attr('type', 'datetime-local');
         $('#start').val(conversaoDataString(event.event.startStr));
         $('#end').val(conversaoDataString(event.event.endStr));
-        $('#color').val(event.event.backgroundColor);
+        $('#color').val(rgb2hex(event.event.backgroundColor));
         $('#allDay').prop('checked', event.event.allDay);
         if(event.event.allDay == true){
           $('#start').attr('type', 'date');
           $('#start').val(event.event.startStr);
-          $('#divStart').attr('class', 'col-10');
-          $('#divEnd').attr('class', 'd-none');
+          $('#end').attr('type', 'date');
+          $('#end').val(event.event.endStr);
         }
         $('#calendarModal').modal();
       },
@@ -182,3 +202,55 @@ $(document).ready(function(){
     // Remove event from text input
     $('#new-event').val('')
   });
+  function insereEvento(dado, event){
+    $.ajax({
+        url: 'acoes/agenda/insereEvento.php',
+        method: 'POST',
+        data: dado,
+        dataType: 'json'
+    }).done(function(result){
+        console.log(result);
+        event.setProp('id', result.id)
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    });
+};
+function moveEvento(dado){
+  $.ajax({
+      url: 'acoes/agenda/moveEvento.php',
+      method: 'POST',
+      data: dado,
+      dataType: 'json'
+  }).done(function(result){
+        console.log(result);
+  }).fail(function() {
+      //msn('error','Sua sessão expirou');
+      //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+  });
+};
+function getUsuarios(user){
+    $.ajax({
+        url: 'acoes/usuario/listarNome.php',
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            preenchimentoSelectUsuario(result);
+            $("#formFiltroSelectUsuario").val(user);
+        }
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+};
+function preenchimentoSelectUsuario(result){
+  $("#encaminharResponsavel").empty();
+  for (var i = 0; i < result.length; i++) {
+      $('#formFiltroSelectUsuario').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
+  }
+};

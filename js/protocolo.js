@@ -805,7 +805,6 @@ $("#executarSaida").on("click", function() {
     
 });
 
-
 $("#movimentarDocumento").on("click", function() {
     $('#modal-movimentar').modal('show');
     $('#movimentacoesTipo').val("").change();
