@@ -107,34 +107,36 @@ $(document).ready(function(){
           title:event.event.title,
           usuario:usuario
         }
-        moveEvento(dado);
+        redefinirEvento(dado);
       },
       eventResize:function(event) {
-        console.log('eventResize');
-        console.log('id '+event.event.id);
-        console.log('allDay '+event.event.allDay);
-        console.log('backgroundColor '+event.event.backgroundColor);
-        console.log('borderColor '+event.event.borderColor);
-        console.log('endStr '+event.event.endStr);
-        console.log('startStr '+event.event.startStr);
-        console.log('title '+ event.event.title);
+        let usuario = $('#formFiltroSelectUsuario').val();
+        var dado = {
+          id:event.event.id,
+          allDay:event.event.allDay,
+          backgroundColor:event.event.backgroundColor,
+          borderColor:event.event.borderColor,
+          end:event.event.endStr,
+          start:event.event.startStr,
+          title:event.event.title,
+          usuario:usuario
+        }
+        redefinirEvento(dado);
       },
       eventClick:  function(event) {
         console.log('eventClick');
+        allDayFormChange(event.event);
         $('#divStart').attr('class', 'col-5');
         $('#divEnd').attr('class', 'col-5');
         $('#title').val(event.event.title);
-        $('#start').attr('type', 'datetime-local');
-        $('#end').attr('type', 'datetime-local');
-        $('#start').val(conversaoDataString(event.event.startStr));
-        $('#end').val(conversaoDataString(event.event.endStr));
+        //$('#start').attr('type', 'datetime-local');
+        //$('#end').attr('type', 'datetime-local');
         $('#color').val(rgb2hex(event.event.backgroundColor));
         $('#allDay').prop('checked', event.event.allDay);
+        $('#idEvento').val(event.event.id);
         if(event.event.allDay == true){
-          $('#start').attr('type', 'date');
-          $('#start').val(event.event.startStr);
-          $('#end').attr('type', 'date');
-          $('#end').val(event.event.endStr);
+          //$('#start').attr('type', 'date');
+          //$('#end').attr('type', 'date');
         }
         $('#calendarModal').modal();
       },
@@ -145,7 +147,49 @@ $(document).ready(function(){
       }
     });
     calendar.render();
+    $('#alterarEvento').click(function(){
+      var ev = new Object();
+        ev.id = $('#idEvento').val();
+        ev.start = $('#start').val();
+        ev.end = $('#end').val();
+        ev.allDay = $('#allDay').is(':checked');
+        ev.title = $('#title').val();
+        color = $('#color').val();
+        var x = document.getElementById("color");
+        var defaultVal = x.defaultValue;
+        var currentVal = x.value;
+        //console.log(ev);
+        console.log('currentVal '+ currentVal);
+        ev.color = hex2rgb(currentVal);
+
+      var event = calendar.getEventById(ev.id);
+        event.setStart(ev.start);
+        event.setEnd(ev.end);
+        event.setProp('title',ev.title)
+        event.setProp('color',ev.color)
+    });
+    $('#allDay').change(function(){
+      var id = $('#idEvento').val();
+      var allDay = $('#allDay').is(':checked');
+      var event = calendar.getEventById(id);
+      event.setAllDay(allDay);
+      allDayFormChange(event);
+    });
   });
+  function allDayFormChange(event){
+    if(event.allDay == true){
+      $('#start').attr('type', 'date');
+      $('#end').attr('type', 'date');
+      $('#start').val(event.startStr);
+      $('#end').val(event.endStr);
+    }else{
+      $('#start').attr('type', 'datetime-local');
+      $('#end').attr('type', 'datetime-local');
+      $('#start').val(conversaoDataString(event.startStr));
+      $('#end').val(conversaoDataString(event.endStr));
+    }
+
+  }
   var currColor = '#3c8dbc' //Red by default
   $('#color-chooser > li > a').click(function (e) {
     e.preventDefault()
@@ -202,31 +246,44 @@ $(document).ready(function(){
     // Remove event from text input
     $('#new-event').val('')
   });
-  function insereEvento(dado, event){
+function insereEvento(dado, event){
     $.ajax({
         url: 'acoes/agenda/insereEvento.php',
         method: 'POST',
         data: dado,
         dataType: 'json'
     }).done(function(result){
-        console.log(result);
+        //console.log(result);
         event.setProp('id', result.id)
     }).fail(function() {
         msn('error','Sua sessão expirou');
         //setTimeout(() => {  window.location.href = "index.html" }, 1000);
     });
 };
-function moveEvento(dado){
+function redefinirEvento(dado){
   $.ajax({
-      url: 'acoes/agenda/moveEvento.php',
+      url: 'acoes/agenda/redefinirEvento.php',
       method: 'POST',
       data: dado,
       dataType: 'json'
   }).done(function(result){
-        console.log(result);
+        //console.log(result);
   }).fail(function() {
-      //msn('error','Sua sessão expirou');
-      //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+      msn('error','Sua sessão expirou');
+      setTimeout(() => {  window.location.href = "index.html" }, 1000);
+  });
+};
+function alterarEvento(dado){
+  $.ajax({
+      url: 'acoes/agenda/redefinirEvento.php',
+      method: 'POST',
+      data: dado,
+      dataType: 'json'
+  }).done(function(result){
+        //console.log(result);
+  }).fail(function() {
+      msn('error','Sua sessão expirou');
+      setTimeout(() => {  window.location.href = "index.html" }, 1000);
   });
 };
 function getUsuarios(user){
@@ -254,3 +311,4 @@ function preenchimentoSelectUsuario(result){
       $('#formFiltroSelectUsuario').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
   }
 };
+

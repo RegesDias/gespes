@@ -41,7 +41,7 @@ class Agenda extends Generica{
                 $stm->execute();
                 return Conexao::Inst()->lastInsertId();
     }
-    public function moveEvento($dados){
+    public function modificaEvento($dados){
         $d = (object) $dados;
         $sql = "UPDATE agenda SET 
                         mes= '$d->mes',

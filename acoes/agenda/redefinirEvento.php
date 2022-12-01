@@ -35,7 +35,7 @@ $dados = array(
     'mes' => $mes
 );
 //if(Conexao::verificaLogin('consultaPessoal')){
-    $teste = $ag->moveEvento($dados);
+    $teste = $ag->modificaEvento($dados);
     echo json_encode($dados);
 //}
 ?>

@@ -33,6 +33,13 @@ function rgb2hex(rgb){
    ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
    ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
  }
+ function hex2rgb (hex){
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return 'rgb('+r+','+g+','+b+')';
+  //return { r, g, b };
+}
 function msn(icon, title) {
   var Toast = Swal.mixin({
     toast: true,
