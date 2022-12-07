@@ -61,6 +61,14 @@ $(document).ready(function(){
   getAgendamentoMensal(dataPrimeiroDiaDoMes('us','-'));
 
     var calendar = new Calendar(calendarEl, {
+      customButtons: {
+        myCustomButton: {
+          text: 'prev',
+          click: function() {
+            alert('clicked the custom button!');
+          }
+        }
+      },
       headerToolbar: {
         left  : 'prev,next today',
         center: 'title',
@@ -70,6 +78,7 @@ $(document).ready(function(){
       locales: 'l57',
       //eventLimit: true,
       editable  : true,
+      navLinks: true,
       forceEventDuration: true,
       defaultTimedEventDuration: '01:00',
       droppable : true, // this allows things to be dropped onto the calendar !!!
@@ -124,7 +133,6 @@ $(document).ready(function(){
         redefinirEvento(dado);
       },
       eventClick:  function(event) {
-        console.log('eventClick');
         allDayFormChange(event.event);
         $('#divStart').attr('class', 'col-5');
         $('#divEnd').attr('class', 'col-5');
@@ -139,11 +147,6 @@ $(document).ready(function(){
           //$('#end').attr('type', 'date');
         }
         $('#calendarModal').modal();
-      },
-      dateClick:function(event) {
-
-        $(this).css('background-color', 'red');
-    
       }
     });
     calendar.render();
@@ -158,8 +161,6 @@ $(document).ready(function(){
         var x = document.getElementById("color");
         var defaultVal = x.defaultValue;
         var currentVal = x.value;
-        //console.log(ev);
-        console.log('currentVal '+ currentVal);
         ev.color = hex2rgb(currentVal);
 
       var event = calendar.getEventById(ev.id);
@@ -167,6 +168,15 @@ $(document).ready(function(){
         event.setEnd(ev.end);
         event.setProp('title',ev.title)
         event.setProp('color',ev.color)
+        atualizaEvento(ev);
+        $('#calendarModal').modal('hide');
+    });
+    $('#RemoverEvento').click(function(){
+      id = $('#idEvento').val();
+      var event = calendar.getEventById(id);
+      event.remove(id);
+      removerEvento(id);
+     $('#calendarModal').modal('hide');
     });
     $('#allDay').change(function(){
       var id = $('#idEvento').val();
@@ -176,6 +186,31 @@ $(document).ready(function(){
       allDayFormChange(event);
     });
   });
+  function removerEvento(id){
+    $.ajax({
+        url: 'acoes/agenda/removerEvento.php?id='+id,
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+      $('#calendarModal').modal('hide');
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    });
+};
+  function modificarEvento(dado){
+    $.ajax({
+        url: 'acoes/agenda/AtualizaEvento.php',
+        method: 'POST',
+        data: dado,
+        dataType: 'json'
+    }).done(function(result){
+        //console.log(result);
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    });
+};
   function allDayFormChange(event){
     if(event.allDay == true){
       $('#start').attr('type', 'date');

@@ -13,7 +13,8 @@ class Agenda extends Generica{
                 FROM
                     agenda
                 WHERE 
-                    mes = '$mes'
+                    mes = '$mes' AND
+                    ativo =  '1'
                 ";
         return $exec = Conexao::Inst()->prepare($sql);
     }
@@ -42,11 +43,36 @@ class Agenda extends Generica{
                 return Conexao::Inst()->lastInsertId();
     }
     public function modificaEvento($dados){
+        $sql = "UPDATE agenda SET 
+                        mes= '$dados->mes',
+                        start= '$dados->start',
+                        end= '$dados->end'
+                    WHERE 
+                        id='$dados->id'";
+                $stm = Conexao::Inst()->prepare($sql);
+                $stm->execute();
+    }
+    public function removeEvento($id){
+        $sql = "UPDATE agenda SET 
+                        ativo = 0
+                    WHERE 
+                        id='$id'";
+                $stm = Conexao::Inst()->prepare($sql);
+                $stm->execute();
+    }
+
+    public function AtualizaEvento($dados){
         $d = (object) $dados;
         $sql = "UPDATE agenda SET 
                         mes= '$d->mes',
+                        title= '$d->title',
                         start= '$d->start',
-                        end= '$d->end'
+                        end= '$d->end',
+                        backgroundColor= '$d->backgroundColor',
+                        borderColor= '$d->borderColor',
+                        allDay= '$d->allDay',
+                        url= '$d->url',
+                        usuario= '$d->usuario',
                     WHERE 
                         id='$d->id'";
                 $stm = Conexao::Inst()->prepare($sql);
@@ -66,8 +92,7 @@ class Agenda extends Generica{
                             WHERE 
                                 id = '$id')";
                 $stm = Conexao::Inst()->prepare($sql);
-                $stm->execute();
+                 $stm->execute();
     }
-
 }
 ?>
