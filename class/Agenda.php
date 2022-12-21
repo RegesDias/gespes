@@ -28,7 +28,8 @@ class Agenda extends Generica{
                                     backgroundColor, 
                                     borderColor, 
                                     allDay,
-                                    usuario
+                                    usuario,
+                                    ativo
                             )VALUES(
                                     '$d->mes',
                                     '$d->title',
@@ -37,20 +38,23 @@ class Agenda extends Generica{
                                     '$d->backgroundColor',
                                     '$d->borderColor',
                                     '$d->allDay',
-                                    '$d->usuario')";
+                                    '$d->usuario',
+                                    '1')";
                 $stm = Conexao::Inst()->prepare($sql);
                 $stm->execute();
                 return Conexao::Inst()->lastInsertId();
     }
-    public function modificaEvento($dados){
+    public function redefinirEvento($dados){
+        $d = (object) $dados;
         $sql = "UPDATE agenda SET 
-                        mes= '$dados->mes',
-                        start= '$dados->start',
-                        end= '$dados->end'
+                        mes= '$d->mes',
+                        start= '$d->start',
+                        end= '$d->end'
                     WHERE 
-                        id='$dados->id'";
+                        id='$d->id'";
                 $stm = Conexao::Inst()->prepare($sql);
                 $stm->execute();
+        return $sql;
     }
     public function removeEvento($id){
         $sql = "UPDATE agenda SET 
@@ -64,35 +68,19 @@ class Agenda extends Generica{
     public function AtualizaEvento($dados){
         $d = (object) $dados;
         $sql = "UPDATE agenda SET 
-                        mes= '$d->mes',
                         title= '$d->title',
                         start= '$d->start',
                         end= '$d->end',
-                        backgroundColor= '$d->backgroundColor',
-                        borderColor= '$d->borderColor',
+                        backgroundColor= '$d->color',
+                        borderColor= '$d->color',
                         allDay= '$d->allDay',
-                        url= '$d->url',
-                        usuario= '$d->usuario',
+                        mes= '$d->mes',
+                        usuario= '$d->usuario'
                     WHERE 
                         id='$d->id'";
                 $stm = Conexao::Inst()->prepare($sql);
                 $stm->execute();
-    }
-    public function atualizarEvento($id,$mes,$title,$start,$end,$color,$allDay,$url,$usuario){
-        $sql = "UPDATE agenda SET
-                                mes=$mes,
-                                title=$title,
-                                start=$start,
-                                end=$end,
-                                backgroundColor=$color,
-                                borderColor=$color,
-                                allDay=$allDay,
-                                url=$url,
-                                usuario=$usuario
-                            WHERE 
-                                id = '$id')";
-                $stm = Conexao::Inst()->prepare($sql);
-                 $stm->execute();
+                return $sql;
     }
 }
 ?>

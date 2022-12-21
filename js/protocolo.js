@@ -17,9 +17,13 @@ function formFiltroAno(){
     $.ajax({
         url: 'acoes/documentos/buscaAnos.php',
         method: 'GET',
-        dataType: 'json'
+        dataType: 'json',
+        success: function (){
+            console.log('teste');
+            return 'teste';
+        }
     }).done(function(result){
-        preenchimentoSelectAno(result);
+        preenchimentoSelectAno(result)
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -312,6 +316,7 @@ function getListaSetoresAtivos() {
     }).done(function(result){
         var size = result.length+1;
         preenchimentoSelectSetor(result);
+        return true;
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -328,6 +333,7 @@ function getListaSecretarias() {
     }).done(function(result){
         var size = result.length+1;
         preenchimentoAutoCompleteSecretaria(result);
+        return true;
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -376,6 +382,7 @@ function getUsuarios(){
             msn('error',result.mensagem);
         }else{
             preenchimentoSelectUsuario(result);
+            return true;
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -1107,6 +1114,8 @@ $(document).ready(function(){
     $("#textoModalInserir").summernote({
         lang: 'pt-BR'
     });
+    //var ffa = formFiltroAno();
+    //console.log(ffa);
     formFiltroAno();
     formFiltroTipo();
     formFiltroStatus();
@@ -1120,4 +1129,5 @@ $(document).ready(function(){
         getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
      }, 650);
 });
+
 

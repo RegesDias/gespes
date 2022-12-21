@@ -61,14 +61,6 @@ $(document).ready(function(){
   getAgendamentoMensal(dataPrimeiroDiaDoMes('us','-'));
 
     var calendar = new Calendar(calendarEl, {
-      customButtons: {
-        myCustomButton: {
-          text: 'prev',
-          click: function() {
-            alert('clicked the custom button!');
-          }
-        }
-      },
       headerToolbar: {
         left  : 'prev,next today',
         center: 'title',
@@ -83,9 +75,7 @@ $(document).ready(function(){
       defaultTimedEventDuration: '01:00',
       droppable : true, // this allows things to be dropped onto the calendar !!!
       drop      : function(info) {
-        // is the "remove after drop" checkbox checked?
         if (checkbox.checked) {
-          // if so, remove the element from the "Draggable Events" list
           info.draggedEl.parentNode.removeChild(info.draggedEl);
         }
       },
@@ -105,6 +95,7 @@ $(document).ready(function(){
         insereEvento(dado, event.event);
       },
       eventDrop:function(event) {
+        console.log('eventDrop');
         let usuario = $('#formFiltroSelectUsuario').val();
         var dado = {
           id:event.event.id,
@@ -119,6 +110,7 @@ $(document).ready(function(){
         redefinirEvento(dado);
       },
       eventResize:function(event) {
+        console.log('eventResize');
         let usuario = $('#formFiltroSelectUsuario').val();
         var dado = {
           id:event.event.id,
@@ -151,24 +143,24 @@ $(document).ready(function(){
     });
     calendar.render();
     $('#alterarEvento').click(function(){
-      var ev = new Object();
-        ev.id = $('#idEvento').val();
-        ev.start = $('#start').val();
-        ev.end = $('#end').val();
-        ev.allDay = $('#allDay').is(':checked');
-        ev.title = $('#title').val();
-        color = $('#color').val();
+      var novosDados = new Object();
+        novosDados.id = $('#idEvento').val();
+        novosDados.start = $('#start').val();
+        novosDados.end = $('#end').val();
+        novosDados.allDay = $('#allDay').is(':checked');
+        novosDados.title = $('#title').val();
         var x = document.getElementById("color");
-        var defaultVal = x.defaultValue;
         var currentVal = x.value;
-        ev.color = hex2rgb(currentVal);
+        novosDados.color = hex2rgb(currentVal);
+        novosDados.usuario = $('#formFiltroSelectUsuario').val();
 
-      var event = calendar.getEventById(ev.id);
-        event.setStart(ev.start);
-        event.setEnd(ev.end);
-        event.setProp('title',ev.title)
-        event.setProp('color',ev.color)
-        atualizaEvento(ev);
+      var event = calendar.getEventById(novosDados.id);
+        event.setStart(novosDados.start);
+        event.setEnd(novosDados.end);
+        event.setProp('title',novosDados.title)
+        event.setProp('color',novosDados.color)
+        
+        atualizaEvento(novosDados);
         $('#calendarModal').modal('hide');
     });
     $('#RemoverEvento').click(function(){
@@ -198,14 +190,14 @@ $(document).ready(function(){
         //setTimeout(() => {  window.location.href = "index.html" }, 1000);
     });
 };
-  function modificarEvento(dado){
+  function atualizaEvento(dado){
     $.ajax({
-        url: 'acoes/agenda/AtualizaEvento.php',
+        url: 'acoes/agenda/atualizaEvento.php',
         method: 'POST',
         data: dado,
         dataType: 'json'
     }).done(function(result){
-        //console.log(result);
+        console.log(result);
     }).fail(function() {
         msn('error','Sua sessão expirou');
         //setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -288,7 +280,7 @@ function insereEvento(dado, event){
         data: dado,
         dataType: 'json'
     }).done(function(result){
-        //console.log(result);
+        console.log(result);
         event.setProp('id', result.id)
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -302,7 +294,7 @@ function redefinirEvento(dado){
       data: dado,
       dataType: 'json'
   }).done(function(result){
-        //console.log(result);
+        console.log(result);
   }).fail(function() {
       msn('error','Sua sessão expirou');
       setTimeout(() => {  window.location.href = "index.html" }, 1000);

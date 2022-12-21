@@ -80,6 +80,12 @@ class Generica {
     }
     return true;
   }
+  public function trueFalse($dado){
+    if($dado == "false"){
+      return 0;
+    }
+    return 1;
+  }
   public function getRest($pf, $data = null, $adress= null) {
     $gappv = 'fc86c6d3bfdfe121791b280f2d87dd49';
     $gurl = "http://10.40.10.236:8080/api/rest/";

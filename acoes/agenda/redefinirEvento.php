@@ -6,6 +6,7 @@ $ag = new Agenda;
 $id = $ag->setDado($_POST['id']);
 $end = $ag->setDado($_POST['end']);
 $start = $ag->setDado($_POST['start']);
+$allDay =  $ag->trueFalse($ag->setDado($_POST['allDay']));
 
 
 //Modificando dadas para o banco
@@ -35,7 +36,8 @@ $dados = array(
     'mes' => $mes
 );
 //if(Conexao::verificaLogin('consultaPessoal')){
-    $teste = $ag->modificaEvento($dados);
+    $sql = $ag->redefinirEvento($dados);
+    //echo json_encode('redefinirEvento Ok');
     echo json_encode($dados);
 //}
 ?>
