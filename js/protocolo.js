@@ -1129,5 +1129,3 @@ $(document).ready(function(){
         getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
      }, 650);
 });
-
-
