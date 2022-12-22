@@ -1,48 +1,74 @@
 //###############################Funções###########################################
-function formFiltroStatus(){
-    $.ajax({
-        url: 'acoes/documentosStatus/listar.php',
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(result){
-        preenchimentoSelectStatus(result);
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
-        $('#carregando').hide();
-    });
+function successFunction(){
+    return 'teste';
 }
 function formFiltroAno(){
     $.ajax({
         url: 'acoes/documentos/buscaAnos.php',
         method: 'GET',
         dataType: 'json',
-        success: function (){
-            console.log('teste');
-            return 'teste';
-        }
+        async: false
     }).done(function(result){
         preenchimentoSelectAno(result)
+        validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
+        //codigo...
     });
+    return validar;
 }
-function formFiltroAssuntos(){
+function formFiltroTipo(){
     $.ajax({
-        url: 'acoes/documentos/listaAssuntos.php',
+        url: 'acoes/documentosTipo/listar.php',
         method: 'GET',
-        dataType: 'json'
+        dataType: 'json',
+        async: false
     }).done(function(result){
-        preenchimentoAutoCompleteAssunto(result);
+        preenchimentoSelectTipo(result);
+        validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
+    return validar;
+}
+function formFiltroStatus(){
+    $.ajax({
+        url: 'acoes/documentosStatus/listar.php',
+        method: 'GET',
+        dataType: 'json',
+        async: false
+    }).done(function(result){
+        preenchimentoSelectStatus(result);
+        validar = new Promise(function(resolve, reject) {resolve(1);});
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+    return validar;
+}
+function formFiltroAssuntos(){
+    $.ajax({
+        url: 'acoes/documentos/listaAssuntos.php',
+        method: 'GET',
+        dataType: 'json',
+        async: false
+    }).done(function(result){
+        preenchimentoAutoCompleteAssunto(result);
+        validar = new Promise(function(resolve, reject) {resolve(1);});
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+        $('#carregando').hide();
+    });
+    return validar;
 }
 function preenchimentoAutoCompleteAssunto(result){
     var keys = [];
@@ -57,22 +83,60 @@ function autocompleteEncaminharAssunto(availableTags) {
     });
 
 };
-function formFiltroTipo(){
+function getListaSetoresAtivos() {
     $.ajax({
-        url: 'acoes/documentosTipo/listar.php',
+        url: 'acoes/usuario/listarSetoresAtivos.php',
+        method: 'GET',
+        dataType: 'json',
+        async: false
+    }).done(function(result){
+        var size = result.length+1;
+        preenchimentoSelectSetor(result);
+        validar = new Promise(function(resolve, reject) {resolve(1);});
+        return true;
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+    });
+    return validar;
+};
+function getListaSecretarias() {
+    $.ajax({
+        url: 'acoes/secretaria/listar.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        preenchimentoSelectTipo(result);
+        var size = result.length+1;
+        preenchimentoAutoCompleteSecretaria(result);
+        validar = new Promise(function(resolve, reject) {resolve(1);});
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    }).always(function() {
+    });
+    return validar;
+};
+function getUsuarios(){
+    $.ajax({
+        url: 'acoes/usuario/listarNome.php',
+        method: 'GET',
+        dataType: 'json'
+    }).done(function(result){
+        if (result.codigo==0){
+            msn('error',result.mensagem);
+        }else{
+            preenchimentoSelectUsuario(result);
+            validar = new Promise(function(resolve, reject) {resolve(1);});
+        }
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
     });
-
-}
-
+    return validar;
+};
 function getDocumentoMovimentacaoId(id,order){
     $.ajax({
         url: 'acoes/documentos/movimentacao.php?id='+id+'&order='+order,
@@ -307,40 +371,6 @@ function getDocumentoId(codfunc){
         $('#carregando').hide();
     });
 };
-function getListaSetoresAtivos() {
-    $('#carregando').show();
-    $.ajax({
-        url: 'acoes/usuario/listarSetoresAtivos.php',
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(result){
-        var size = result.length+1;
-        preenchimentoSelectSetor(result);
-        return true;
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
-        $('#carregando').hide();
-    });
-};
-function getListaSecretarias() {
-    $('#carregando').show();
-    $.ajax({
-        url: 'acoes/secretaria/listar.php',
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(result){
-        var size = result.length+1;
-        preenchimentoAutoCompleteSecretaria(result);
-        return true;
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
-        $('#carregando').hide();
-    });
-};
 function getUsuarioIdSetor(dado){
     $('#carregando').show();
     $.ajax({
@@ -371,25 +401,6 @@ function preenchimentoSelectUsuarioIdSetorCadastra(result){
     for (var i = 0; i < result.length; i++) {
         $('#responsavelModalInserir').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
     }
-};
-function getUsuarios(){
-    $.ajax({
-        url: 'acoes/usuario/listarNome.php',
-        method: 'GET',
-        dataType: 'json'
-    }).done(function(result){
-        if (result.codigo==0){
-            msn('error',result.mensagem);
-        }else{
-            preenchimentoSelectUsuario(result);
-            return true;
-        }
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
-        $('#carregando').hide();
-    });
 };
 function preenchimentoSelectUsuario(result){
     $("#encaminharResponsavel").empty();
@@ -1114,18 +1125,21 @@ $(document).ready(function(){
     $("#textoModalInserir").summernote({
         lang: 'pt-BR'
     });
-    //var ffa = formFiltroAno();
-    //console.log(ffa);
-    formFiltroAno();
-    formFiltroTipo();
-    formFiltroStatus();
-    formFiltroAssuntos();
-    getListaSetoresAtivos();
+    //função para carregamento do select com busca interativa 
     carregarSelect2();
-    getListaSecretarias();
-    getUsuarios();
-    setTimeout(() => { 
-        data = carregaDadosFiltro();
-        getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
-     }, 650);
+    //carregamento encadeado das funcoes do formulario
+    formFiltroAno().then(
+        formFiltroTipo().then(
+            formFiltroStatus().then(
+                getListaSetoresAtivos().then(
+                    getUsuarios().then(function(){
+                        data = carregaDadosFiltro();
+                        getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
+                    })
+                )
+            )
+        )
+    )
 });
+
+
