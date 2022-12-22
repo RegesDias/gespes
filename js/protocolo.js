@@ -1126,7 +1126,10 @@ $(document).ready(function(){
         lang: 'pt-BR'
     });
     //função para carregamento do select com busca interativa 
-    carregarSelect2();
+    carregarSelect2()
+    formFiltroAssuntos()
+    getListaSecretarias()
+
     //carregamento encadeado das funcoes do formulario
     formFiltroAno().then(
         formFiltroTipo().then(
