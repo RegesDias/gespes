@@ -33,23 +33,20 @@ $(document).ready(function(){
       }
     });
 
-  function getAgendamentoMensal(date) {
-      $('#carregando').show();
-      if(date == '') {
-        date = dataPrimeiroDiaDoMes('us','-');
-      }
+  function getAgendamentoMensal(dado) {
+      eventos = []
       $.ajax({
-          url: 'acoes/agenda/buscaMes.php?date='+date,
-          method: 'GET',
-          dataType: 'json'
+          url: 'acoes/agenda/buscaMesStartEnd.php',
+          method: 'POST',
+          dataType: 'json',
+          async: false,
+          data: dado
       }).done(function(result){
           for (var i = 0; i < result.length; i++) {
             if (result[i].allDay == 0){
               result[i].allDay = null;
             }
-            calendar.addEvent(
-              result[i]
-            );
+            eventos.push(result[i]);
           }
           msn('success','Agenda Carregada com sucesso!');
       }).fail(function() {
@@ -57,8 +54,8 @@ $(document).ready(function(){
       }).always(function() {
           $('#carregando').hide();
       });
+      return eventos
   };
-  getAgendamentoMensal(dataPrimeiroDiaDoMes('us','-'));
 
     var calendar = new Calendar(calendarEl, {
       headerToolbar: {
@@ -79,8 +76,17 @@ $(document).ready(function(){
           info.draggedEl.parentNode.removeChild(info.draggedEl);
         }
       },
+      events:function(info, successCallback) {
+        startStr = conversaoDataString(info.startStr)
+        endStr = conversaoDataString(info.endStr)
+        var str = new Object();
+        str.start = startStr
+        str.end = endStr
+        successCallback(
+          getAgendamentoMensal(str)
+        )
+      },
       eventReceive: function(event) {
-        console.log('eventReceive');
         let usuario = $('#formFiltroSelectUsuario').val();
         var dado = {
           id:event.event.id,
@@ -95,7 +101,6 @@ $(document).ready(function(){
         insereEvento(dado, event.event);
       },
       eventDrop:function(event) {
-        console.log('eventDrop');
         let usuario = $('#formFiltroSelectUsuario').val();
         var dado = {
           id:event.event.id,
@@ -110,7 +115,6 @@ $(document).ready(function(){
         redefinirEvento(dado);
       },
       eventResize:function(event) {
-        console.log('eventResize');
         let usuario = $('#formFiltroSelectUsuario').val();
         var dado = {
           id:event.event.id,
@@ -197,7 +201,6 @@ $(document).ready(function(){
         data: dado,
         dataType: 'json'
     }).done(function(result){
-        console.log(result);
     }).fail(function() {
         msn('error','Sua sessão expirou');
         //setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -280,7 +283,6 @@ function insereEvento(dado, event){
         data: dado,
         dataType: 'json'
     }).done(function(result){
-        console.log(result);
         event.setProp('id', result.id)
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -294,7 +296,6 @@ function redefinirEvento(dado){
       data: dado,
       dataType: 'json'
   }).done(function(result){
-        console.log(result);
   }).fail(function() {
       msn('error','Sua sessão expirou');
       setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -307,7 +308,6 @@ function alterarEvento(dado){
       data: dado,
       dataType: 'json'
   }).done(function(result){
-        //console.log(result);
   }).fail(function() {
       msn('error','Sua sessão expirou');
       setTimeout(() => {  window.location.href = "index.html" }, 1000);

@@ -18,6 +18,24 @@ class Agenda extends Generica{
                 ";
         return $exec = Conexao::Inst()->prepare($sql);
     }
+    public function agendamentosMesStartEnd($start, $end){
+        $sql = "SELECT
+                    id,
+                    title,
+                    start, 
+                    end,
+                    backgroundColor,
+                    borderColor,
+                    allDay
+                FROM
+                    agenda
+                WHERE 
+                    start >= '$start' AND
+                    end <= '$end' AND
+                    ativo =  '1'
+                ";
+        return $exec = Conexao::Inst()->prepare($sql);
+    }
     public function insereEvento($dados){
         $d = (object) $dados;
         $sql = "INSERT INTO agenda(

@@ -104,10 +104,14 @@ function dataPrimeiroDiaDoMes(tipo,tag) {
 function conversaoDataString(data) {
   return data.replace('T',' ').substr(0, data.length - 6);
 }
+function conversaoDataStringSemHora(data) {
+  return data.replace('T',' ').substr(0, data.length - 15);
+}
+
 function converteDataUS(d){
   let date = d.toString().split('-');
-  dataHoraBr = date[0]+'-'+date[1]+'-'+date[2];
-  return dataHoraBr;
+  dataUS = date[0]+'-'+date[1]+'-'+date[2];
+  return dataUS;
 }
 function converteDataBr(d){
   if(d == null){return d;}
