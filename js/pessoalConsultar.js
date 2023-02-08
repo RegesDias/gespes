@@ -71,6 +71,7 @@ function getPessoaDadosFuncionais(codfunc){
     }).done(function(dadosPessoal){
         $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
         $('#pessoalNome').val(dadosPessoal[0].nome);
+        $('#pessoalNomeFoto').html(primeiroUltimoNome(dadosPessoal[0].nome));
         $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
         $('#pessoalCpfs').val(dadosPessoal[0].cpfs);
         $('#pessoalDataAdmis').val(converteDataBr(dadosPessoal[0].dataadmis));

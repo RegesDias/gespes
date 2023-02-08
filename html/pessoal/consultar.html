@@ -13,170 +13,474 @@
   </div>
   <div class="card-body">
     <div class="card card-outline">
-        <form name="moose">
-            <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active col-3">
-                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> Matrícula
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> Nome
-                </label>
+      <form name="moose">
+        <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary active col-3">
+            <input
+              type="radio"
+              name="options"
+              id="optionPessoalCodigo"
+              autocomplete="off"
+              checked
+            />
+            Matrícula
+          </label>
+          <label class="btn btn-secondary">
+            <input
+              type="radio"
+              name="options"
+              id="optionPessoalNome"
+              autocomplete="off"
+            />
+            Nome
+          </label>
+        </div>
+        <div
+          class="card-body"
+          style="height: 300px; width: 100%; overflow: auto"
+        >
+          <div class="row">
+            <div class="col-md-3">
+              <select
+                class="selectDouble"
+                id="listaPessoal"
+                style="overflow: visible; width: 100%"
+                name="S1"
+                onchange="selectDouble(S1, S2)"
+              ></select>
             </div>
-            <div class="card-body" style="height:300px;width:100%;overflow:auto;">
-                <div class="row">
-                    <div class="col-md-3">
-                        <select class='selectDouble' id="listaPessoal" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
-                        </select>
-                    </div>
-                    <div class="col-md-9">
-                        <select class='selectDouble' id="listaPessoalNome" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
-                        </select>
-                    </div>
-                </div>
+            <div class="col-md-9">
+              <select
+                class="selectDouble"
+                id="listaPessoalNome"
+                style="overflow: visible; width: 100%"
+                name="S2"
+                onchange="selectDouble(S2, S1)"
+              ></select>
             </div>
-        </form>
+          </div>
+        </div>
+      </form>
     </div>
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <button id='visualizarServidor' type="button" disabled class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
-    </div>
-    <input type="text" id='textMatriculaCpfNome' placeholder="Busca por CPF, Nome ou Matrícula" class="form-control">
-    <input type="text" id='textMatriculaCpfNomeOrder' class="d-none">
+    <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <button id='btnMatriculaCpfNome' type="button" disabled  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Buscar</button>
+        <button
+          id="visualizarServidor"
+          type="button"
+          disabled
+          class="btn btn-secondary"
+        >
+          <i class="nav-icon fas fa-search"></i> Visualizar
+        </button>
+      </div>
+      <input
+        type="text"
+        id="textMatriculaCpfNome"
+        placeholder="Busca por CPF, Nome ou Matrícula"
+        class="form-control"
+      />
+      <input type="text" id="textMatriculaCpfNomeOrder" class="d-none" />
+      <div class="input-group-prepend">
+        <button
+          id="btnMatriculaCpfNome"
+          type="button"
+          disabled
+          class="btn btn-secondary"
+        >
+          <i class="nav-icon fas fa-search"></i> Buscar
+        </button>
       </div>
       <div class="input-group-prepend">
-        <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-check"></i> Limpar</button>
+        <button id="btnLimpar" type="button" class="btn btn-secondary">
+          <i class="nav-icon fas fa-check"></i> Limpar
+        </button>
       </div>
-  </div>
-  <div class="modal fade" id="modal-pessoal">
-    <div class="modal-dialog modal-lg">
+    </div>
+    <div class="modal fade" id="modal-pessoal">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
-            <h4 class="modal-title"> Dados Funcionais</h4>
-            <button type="button" class="close" id="fechaModalPessoal" aria-label="Close">
+            <img
+              src="img/BrasaoMacae.png"
+              alt="AdminLTE Logo"
+              class="brand-image img-circle elevation-3"
+              style="opacity: 0.8; height: 40px; margin-right: 10px"
+            />
+            <h4 class="modal-title">Dados Funcionais</h4>
+            <button
+              type="button"
+              class="close"
+              id="fechaModalPessoal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <div class="card-body">
+          <section class="content">
+            <div class="container-fluid">
               <div class="row">
-              <div class="col-2">
-                <br><br>
-                  <div class="text-center">
-                      <img class="profile-user-img img-fluid img-bordered-sm" id="imgFoto" src="imagem"  style="opacity: .8; height: 100px">
-                  </div>
-              </div>
-              <div class="col-10">
-                <div class="row">
-                    <div class="col-3">
-                        <label>CPF</label>
-                        <input disabled="disabled" class="form-control" id='pessoalCpfs' type="text" placeholder="CPF">
+                <div class="col-md-3">
+      
+                  <!-- Profile Image -->
+                  <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                      <div class="text-center">
+                             <img
+                             class="profile-user-img img-fluid img-bordered-sm"
+                             id="imgFoto"
+                             src="imagem"
+                             style="opacity: 0.8; height: 100px"
+                           />
+                      </div>
+                      <div class="profile-muted text-center" id="pessoalNomeFoto">
+                        Carregando...
+                      </div>      
+                      <p class="text-username text-center"><b>Relatórios</b></p>
+
+                        <a href="#" 
+                            class="btn btn-primary btn-block"
+                            id="fichaFuncional"
+                          >
+                            <b>Ficha Funcional</b>
+                        </a>
+                        <a href="#"
+                          type="button"
+                          class="btn btn-primary btn-block"
+                          id="atribuicaoDeCargo"
+                        >
+                        <b>Atribuições</b>
+                      </a>
+                        <a href="#"
+                          type="button"
+                          class="btn btn-primary btn-block"
+                          id="folhaDePonto"
+                        >
+                        <b>Folha de Ponto</b>
+                    </a>
+                        <a href="#"
+                          type="button"
+                          class="btn btn-primary btn-block"
+                          id="contraCheque"
+                        >
+                        <b>Contra Cheque</b>
+                  </a>
+                        
+                      <div class="modal-footer justify-content-between">
+
+
+                      </div>
                     </div>
-                    <div class="col-3">
-                      <label>Matrícula</label>
-                      <input disabled="disabled" id='pessoalCodFunc' type="text" class="form-control" placeholder="CodFunc">
-                    </div>
-                    <div class="col-3">
-                      <label>Data Admissão</label>
-                      <input disabled="disabled" id="pessoalDataAdmis" type="text" class="form-control" placeholder="Data Admissão">
-                    </div>
-                    <div class="col-3">
-                      <label>Situação</label>
-                      <input disabled="disabled" id="pessoalSecoes" type="text" class="form-control" placeholder="Sessões">
+                    <!-- /.card-body -->
                   </div>
+                  <!-- /.card -->
+      
+                  
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>Nome</label>
-                    <input disabled="disabled" id="pessoalNome" type="text" class="form-control" placeholder="nome">
-                  </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                  <div class="card">
+                      <div class="card">
+                        <div class="card-header p-2">
+                          <ul class="nav nav-pills">
+                            <li class="nav-item">
+                              <a class="nav-link active" href="#gestao" data-toggle="tab"
+                                >Gestão</a
+                              >
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#agenda" data-toggle="tab"
+                                >Agenda</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          <div class="tab-content">
+                            <div class="active tab-pane" id="gestao">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-12">
+                                    <div class="row">
+                                      <div class="col-3">
+                                        <label>CPF</label>
+                                        <input
+                                          disabled="disabled"
+                                          class="form-control"
+                                          id="pessoalCpfs"
+                                          type="text"
+                                          placeholder="CPF"
+                                        />
+                                      </div>
+                                      <div class="col-3">
+                                        <label>Matrícula</label>
+                                        <input
+                                          disabled="disabled"
+                                          id="pessoalCodFunc"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="CodFunc"
+                                        />
+                                      </div>
+                                      <div class="col-3">
+                                        <label>Data Admissão</label>
+                                        <input
+                                          disabled="disabled"
+                                          id="pessoalDataAdmis"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Data Admissão"
+                                        />
+                                      </div>
+                                      <div class="col-3">
+                                        <label>Situação</label>
+                                        <input
+                                          disabled="disabled"
+                                          id="pessoalSecoes"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Sessões"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label>Nome</label>
+                                        <input
+                                          disabled="disabled"
+                                          id="pessoalNome"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="nome"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label>Cargo</label>
+                                        <input
+                                          disabled="disabled"
+                                          id="pessoalNomeCarg"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Nome do cargo"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label>Lotação</label>
+                                        <input
+                                          disabled="disabled"
+                                          id="pessoalSecretarias"
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Lotação"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--Campos Ocultos-->
+                                <input id="idInfo" type="text" class="d-none" />
+                                <input id="idHistFunc" type="text" class="d-none" />
+                              </div>
+                            </div>
+                            <div class="tab-pane" id="agenda">
+                              <div class="col-md-12">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label>CEP</label>
+                                                    <input  value='' type="text" name="cep" id="idCep" class="form-control" placeholder="____-___" data-inputmask='"mask": "99999-999"' data-mask>
+                                                </div>
+                                                <div class="col-2">
+                                                    <label>Estado</label>
+                                                    <select  name="estado" size="1"  class="form-control select2" id="idEstado" style="width: 100%;">
+      
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Cidade</label>
+                                                    <select  name="cidade" size="1"  class="form-control select2" id="idCidade" style="width: 100%;">
+        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Bairro</label>
+                                                    <select  name="bairro" size="1"  class="form-control select2" id="idBairro" style="width: 100%;">
+
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label>Logradouro</label>
+                                                    <input   type="text" name="logradouro" id="idLogradouro" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>Número</label>
+                                                    <input   type="text" name="numero" id="idNumero" class="form-control">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <label>Complemento</label>
+                                                    <input   type="text" name="complemento" id="idComplemento" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Celular</label>
+                                                    <input value='' type="text" name="celular" id="idCelular" class="form-control" placeholder="(__) ___-______" data-inputmask='"mask": "(99) 999-999999"' data-mask>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Teletone</label>
+                                                    <input value='' type="text" name="teletone" id="idTelefone" class="form-control" placeholder="(__) ___-_____" data-inputmask='"mask": "(99) 999-99999"' data-mask>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Email</label>
+                                                    <input type="email" name="email" id="idEmail" class="form-control" placeholder="Enter ..." >
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-md-12"><br>
+                                              </div>
+                                              <div class="col-md-12">
+                                                <a href="#" id='enderecoSalvar' class="btn btn-block btn-primary">Salvar</a>
+                                              </div>
+                                            </div>
+                                            <div class="row d-none">
+                                                <div class="col-md-12">
+                                                    <label>Espécie de Solicitação</label>
+                                                    <select  class="form-control select2" id="idRequerimentoSolicitacao" name='idRequerimentoSolicitacao' style="width: 100%;">
+                                                        <option selected='selected'></option>
+                                                            <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                  <!-- /.card -->
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>Cargo</label>
-                    <input disabled="disabled" id="pessoalNomeCarg" type="text" class="form-control" placeholder="Nome do cargo">
-                </div>
+                <!-- /.col -->
               </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>Lotação</label>
-                    <input disabled="disabled" id='pessoalSecretarias' type="text" class="form-control" placeholder="Lotação">
-                </div>
-                </div>
-              </div>
-              </div>
-              <!--Campos Ocultos-->
-              <input id='idInfo' type="text" class="d-none">
-              <input id='idHistFunc' type="text" class="d-none">
+              <!-- /.row -->
+              <div id="carregandoModal" class="overlay dark hidden">
+              <img src="img/loading.gif" />
             </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-secondary" id="fichaFuncional"><i class="nav-icon fas fa-print"></i> Ficha Funcional</button>
-            <button type="button" class="btn btn-secondary" id="atribuicaoDeCargo"><i class="nav-icon fas fa-print"></i> Atribuições do Cargo</button>
-            <button type="button" class="btn btn-secondary" id="folhaDePonto"><i class="nav-icon fas fa-print"></i> Folha de Ponto</button>
-            <button type="button" class="btn btn-secondary" id="contraCheque"><i class="nav-icon fas fa-print"></i> Contra Cheque</button>
-          </div>
-          <div class="modal fade" id="modal-data" style="margin-top:60px">
-            <div class="modal-dialog">
+          </section>
+          <div class="modal-body">
+            <div class="modal fade" id="modal-data" style="margin-top: 60px">
+              <div class="modal-dialog">
                 <div class="modal-content">
-                  <div class="modal-header"> 
-                    <h4 class="modal-title"> Defina a data:</h4>
-                    <button type="button" class="close" id="fechaModalData" aria-label="Close">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Defina a data:</h4>
+                    <button
+                      type="button"
+                      class="close"
+                      id="fechaModalData"
+                      aria-label="Close"
+                    >
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
                     <div class="row">
                       <div class="col-12">
-                        <input class="form-control" id='mesAno' type="month">
+                        <input class="form-control" id="mesAno" type="month" />
                       </div>
                     </div>
                   </div>
                   <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" id="contraChequeImprimir"><i class="nav-icon fas fa-print"></i> Imprimir</button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      id="contraChequeImprimir"
+                    >
+                      <i class="nav-icon fas fa-print"></i> Imprimir
+                    </button>
                   </div>
+                </div>
               </div>
-          </div>
-        </div>
-        <div class="modal fade" id="modal-ponto" style="margin-top:60px">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header"> 
-                  <h4 class="modal-title"> Defina a data Inicial e Final</h4>
-                  <button type="button" class="close" id="fechaModalPonto" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <label>Data Inicial</label>
-                      <input class="form-control" id='mesAnoInicial' type="month">
-                    </div>
-                    <div class="col-12">
-                      <label>Data Final</label>
-                      <input class="form-control" id='mesAnoFinal' type="month">
+            </div>
+            <div class="modal fade" id="modal-ponto" style="margin-top: 60px">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Defina a data Inicial e Final</h4>
+                    <button
+                      type="button"
+                      class="close"
+                      id="fechaModalPonto"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <label>Data Inicial</label>
+                        <input
+                          class="form-control"
+                          id="mesAnoInicial"
+                          type="month"
+                        />
+                      </div>
+                      <div class="col-12">
+                        <label>Data Final</label>
+                        <input
+                          class="form-control"
+                          id="mesAnoFinal"
+                          type="month"
+                        />
+                      </div>
                     </div>
                   </div>
+                  <div class="modal-footer justify-content-between">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      id="folhaDePontoImprimir"
+                    >
+                      <i class="nav-icon fas fa-print"></i> Imprimir
+                    </button>
+                  </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-secondary" id="folhaDePontoImprimir"><i class="nav-icon fas fa-print"></i> Imprimir</button>
-                </div>
+              </div>
             </div>
-        </div>
-      </div>
-      <iframe src="" id='print-iframe' name='print-frame-name' class="d-none"></iframe>
-          <div id="carregandoModal" class="overlay dark hidden">
-            <img src="img/loading.gif">
+            <iframe
+              src=""
+              id="print-iframe"
+              name="print-frame-name"
+              class="d-none"
+            ></iframe>
           </div>
+          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
       </div>
-    <!-- /.modal-dialog -->
+    </div>
+    <script src="js/pessoalConsultar.js"></script>
+    <script src="js/cadastroEndereco.js"></script>
+    <script>
+      $(function () {
+        //Datemask dd/mm/yyyy
+        $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+        //Datemask2 mm/dd/yyyy
+        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+        //Money Euro
+        $('[data-mask]').inputmask()
+      })
+    </script>
   </div>
-</div>
-<script src="js/pessoalConsultar.js"></script>
-</div>
 </div>

@@ -101,6 +101,13 @@ function dataPrimeiroDiaDoMes(tipo,tag) {
         return [ano, mes, dia].join(tag);
       }
 }
+function primeiroUltimoNome(nomeCompleto){
+  var nome = nomeCompleto.split(" ")[0];
+  var qtdnome = nomeCompleto.split(" ").length;
+  var sobrenome = nomeCompleto.split(" ")[qtdnome-1]; 
+  return nome+' '+sobrenome;
+}
+
 function conversaoDataString(data) {
   return data.replace('T',' ').substr(0, data.length - 6);
 }
