@@ -83,7 +83,7 @@ class  Usuario extends Generica{
   }
 
   public function verificaCPFJaCadastrado($cpf){
-    $sql = "SELECT id, cpf, nome, senha, email, status FROM usuario WHERE cpf = '$cpf' LIMIT 1";
+    $sql = "SELECT id, cpf, nome, senha, email, status,CPF FROM usuario WHERE cpf = '$cpf' LIMIT 1";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
     if($stm->rowCount()==1){
@@ -93,7 +93,7 @@ class  Usuario extends Generica{
     }
   }
   public function verificaCPFChaveJaCadastrado($email){
-    $sql = "SELECT id, cpf, nome, senha, email, status FROM usuario WHERE email = '$email' LIMIT 1";
+    $sql = "SELECT id, cpf, nome, senha, email, status, CPF FROM usuario WHERE email = '$email' LIMIT 1";
     $stm = Conexao::Inst()->prepare($sql);
     $stm->execute();
     if($stm->rowCount()==1){
@@ -110,6 +110,7 @@ class  Usuario extends Generica{
     $_SESSION['idSetor'] = $retorno->idSetor;
     $_SESSION['nome'] = $retorno->nome;
     $_SESSION['email'] = $retorno->email;
+    $_SESSION['CPF'] = $retorno->CPF;
     $_SESSION['token'] = $token;
     $sql = "UPDATE usuario SET token = '$token' WHERE id = ?";
     $stm = Conexao::Inst()->prepare($sql);

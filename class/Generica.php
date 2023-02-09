@@ -124,5 +124,13 @@ class Generica {
     $r = json_decode($resp, true);
     return $r;
 }
+function buscaLoginSDGC(){
+  $cpf = $_SESSION['CPF'];
+  $sql = "SELECT * FROM userlogin WHERE cpf = '$cpf'";
+  $stm = Conexao::InstSDGC()->prepare($sql);
+  $stm->execute();
+  $result = (object) $stm->fetch(PDO::FETCH_ASSOC);
+  return $result;
+}
 }
 ?>
