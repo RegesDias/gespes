@@ -11,3 +11,8 @@
   #versao{
     font-size:15px;
   }
+  #toolsExibe {
+    color: #dc3545;
+    display: none;
+    float: right;
+  }

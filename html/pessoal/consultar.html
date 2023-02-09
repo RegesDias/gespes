@@ -193,14 +193,14 @@
                                           <h3 id='cardEnderecoTitulo' class="card-title">Endereço</h3>
 
                                           <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                                class="fas fa-plus"></i>
+                                            <button id='cardEnderecobtn' type="button" class="btn btn-tool" data-card-widget="collapse">
+                                              <i class="fas fa-plus" id='cardEnderecobtn'></i>
                                             </button>
                                           </div>
                                           <!-- /.card-tools -->
                                         </div>
                                         <!-- /.card-header -->
-                                        <div class="card-body">
+                                        <div id='cardEnderecoCorpo' class="card-body">
                                           <div class="row">
                                             <div class="col-4">
                                               <label>CEP</label>
@@ -300,19 +300,8 @@
                                                         <i class="ion ion-clipboard mr-1"></i>
                                                         Solicitações
                                                       </h3>
-                                                      <div class="card-tools">
-                                                        <ul class="pagination pagination-sm">
-                                                          <li class="page-item"><a href="#"
-                                                              class="page-link">&laquo;</a></li>
-                                                          <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                                          <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                                          <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                                          <li class="page-item"><a href="#"
-                                                              class="page-link">&raquo;</a></li>
-                                                        </ul>
-                                                      </div>
                                                     </div>
-                                                    <div class="card-body">
+                                                    <div class="card-body" style="height: 200px; width: 100%; overflow: auto">
                                                       <ul class="todo-list" id='listaSolicitacoesCadastradas'data-widget="todo-list">
                                                       </ul>
                                                     </div>
@@ -344,9 +333,6 @@
                         </div>
                       </div>
                       <!-- /.row -->
-                      <div id="carregandoModal" class="overlay dark hidden">
-                        <img src="img/loading.gif" />
-                      </div>
           </section>
           <div class="modal-body">
             <div class="modal fade" id="modal-data" style="margin-top: 60px">
@@ -402,13 +388,47 @@
                 </div>
               </div>
             </div>
+            <div class="modal fade" id="modalInserirProtocolo" style="margin-top: 60px">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Inserir Protocolo</h4>
+                    <button type="button" class="close" id="fechaInserirProtocolo" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <label>Número Protocolo</label>
+                        <input type="text"  id="idrequerimentoSelectLi">
+                        <input value='' type="text" name="protocolo" id="numeroProtocolo" class="form-control"
+                        placeholder="______-____" data-inputmask='"mask": "999999-9999"' data-mask>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" id="modalInserirProtocoloCadastrar">
+                      <i class="nav-icon fas fa-print"></i> Salvar
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="modalInserirProtocoloImprimir">
+                      <i class="nav-icon fas fa-print"></i> Imprimir
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
           </div>
           <!-- /.modal-content -->
+          <div id="carregandoModal" class="overlay dark hidden">
+            <img src="img/loading.gif" />
+          </div>
         </div>
         <!-- /.modal-dialog -->
       </div>
     </div>
+    
     <script src="js/pessoalConsultar.js"></script>
     <script src="js/cadastroEndereco.js"></script>
     <script src="js/requerimento.js"></script>

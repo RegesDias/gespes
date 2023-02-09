@@ -28932,7 +28932,6 @@ html.maximized-card {
 
 .todo-list > li .tools {
   color: #dc3545;
-  display: none;
   float: right;
 }
 
@@ -28950,6 +28949,7 @@ html.maximized-card {
 
 .todo-list > li:hover .tools {
   display: inline-block;
+  color: #004085;
 }
 
 .todo-list > li.done {

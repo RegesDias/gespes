@@ -50,6 +50,7 @@ $("#enderecoSalvar").on("click", function () {
         $('#enderecoAtualizar').removeClass("d-none");
         $('#cardEndereco').attr("class", "card collapsed-card card-success")
         $('#cardEnderecoTitulo').text("Endereço - Cadastrado")
+        $('#exibeTipoRequerimento').removeClass("d-none");
       }
     })
     .fail(function () {
@@ -112,8 +113,8 @@ function buscaEnderecoIdInfo() {
         buscarCEP(result[0].cep_logradouro)
         $('#enderecoSalvar').addClass("d-none");
         $('#enderecoAtualizar').removeClass("d-none");
-        $('#cardEndereco').attr("class", "card collapsed-card card-success")
         $('#exibeTipoRequerimento').removeClass("d-none");
+        $('#cardEndereco').attr("class", "card collapsed-card card-success")
         $('#cardEnderecoTitulo').text("Endereço - Cadastrado")
 
       }else{
