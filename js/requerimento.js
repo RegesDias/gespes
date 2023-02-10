@@ -42,7 +42,6 @@ $("#solicitacaoSalvar").on("click", function () {
           msn('error','Servidor já possue endereço salvo!');
         }else{
           msn('success','Solicitacao salva com sucesso!');
-          console.log(result);
           listaRequerimentoIdInfo();
         }
       })
@@ -63,7 +62,6 @@ $("#solicitacaoSalvar").on("click", function () {
       .done(function (result) {
         $('#listaSolicitacoesCadastradas').html("");
         for (var i = 0; i < result.length; i++) {
-          console.log (result[i]);
             $("#listaSolicitacoesCadastradas").prepend(
                 "<li value="+result[i].id+">"+
                   "<span class='text'>"+result[i].solicitacao+" - </span>"+
@@ -105,7 +103,34 @@ $("#atendimentoBtn").on("click", function () {
     buscaEnderecoIdInfo()
     listaRequerimentoIdInfo()
     preenchimentoSelectSolicitacao()
+    preenchimentoMedicosAtivos()
 });
+function preenchimentoMedicosAtivos() {
+  $.ajax({
+    url: "acoes/requerimento/listarMedicosAtivos.php",
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (result) {
+      $("#medicosAtivos").prepend(
+        "<option></option>"
+      );
+      for (var i = 0; i < result.length; i++) {
+        console.log('teste');
+        $("#medicosAtivos").prepend(
+          "<option value=" + result[i].id + "> " + result[i].nome + "</option>"
+        );
+      }
+    })
+    .fail(function () {
+      console.log('error');
+      //$(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+}
+
 function limpaLista(objSelect) {
     while (objSelect.lu.length > 0) {
       objSelect.lu[0] = null;

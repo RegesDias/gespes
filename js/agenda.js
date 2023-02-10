@@ -1,7 +1,6 @@
 $(document).ready(function(){
-    let user = '43';
     carregarSelect2();
-    getUsuarios(user);
+    getUsuarios();
 
     /* initialize the calendar
      -----------------------------------------------------------------*/
@@ -56,8 +55,8 @@ $(document).ready(function(){
       });
       return eventos
   };
-
-    var calendar = new Calendar(calendarEl, {
+  $('#formFiltroSelectUsuario').change(function(){
+  var calendar = new Calendar(calendarEl, {
       headerToolbar: {
         left  : 'prev,next today',
         center: 'title',
@@ -82,6 +81,7 @@ $(document).ready(function(){
         var str = new Object();
         str.start = startStr
         str.end = endStr
+        str.usuario = $('#formFiltroSelectUsuario').val();
         successCallback(
           getAgendamentoMensal(str)
         )
@@ -98,6 +98,7 @@ $(document).ready(function(){
           title:event.event.title,
           usuario:usuario
         }
+        console.log(dado);
         insereEvento(dado, event.event);
       },
       eventDrop:function(event) {
@@ -146,6 +147,8 @@ $(document).ready(function(){
       }
     });
     calendar.render();
+    console.log('teste');
+  })
     $('#alterarEvento').click(function(){
       var novosDados = new Object();
         novosDados.id = $('#idEvento').val();
@@ -313,7 +316,7 @@ function alterarEvento(dado){
       setTimeout(() => {  window.location.href = "index.html" }, 1000);
   });
 };
-function getUsuarios(user){
+function getUsuarios(){
     $.ajax({
         url: 'acoes/usuario/listarNome.php',
         method: 'GET',
@@ -323,7 +326,7 @@ function getUsuarios(user){
             msn('error',result.mensagem);
         }else{
             preenchimentoSelectUsuario(result);
-            $("#formFiltroSelectUsuario").val(user);
+            //$("#formFiltroSelectUsuario").val(user);
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -334,8 +337,10 @@ function getUsuarios(user){
 };
 function preenchimentoSelectUsuario(result){
   $("#encaminharResponsavel").empty();
+  $('#formFiltroSelectUsuario').prepend('<option></option>');    
+
   for (var i = 0; i < result.length; i++) {
-      $('#formFiltroSelectUsuario').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
+      $('#formFiltroSelectUsuario').prepend('<option value='+ result[i].CPF +'> '+result[i].nome+'</option>');    
   }
 };
 

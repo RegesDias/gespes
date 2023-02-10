@@ -7,6 +7,21 @@ class Requerimentos extends Generica{
     $sql = "SELECT * FROM requerimento_solicitacao WHERE compativel_sesmit = '1' ORDER BY item";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
+  public function listarMedicosAtivos(){
+    $sql = "SELECT 
+                requerimento_medico.id,
+                requerimento_medico.CRM,
+                info_pessoal.nome
+              FROM 
+                  requerimento_medico
+                              LEFT JOIN historico_funcional
+                              ON historico_funcional.id = requerimento_medico.idHistFunc
+                              LEFT JOIN info_pessoal
+                              ON info_pessoal.id = historico_funcional.id_info
+              WHERE
+                requerimento_medico.ativo = 1";
+      return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
   public function listaRequerimentoIdInfo($id){
     $sql = "SELECT 
             requerimento.id,

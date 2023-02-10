@@ -18,7 +18,7 @@ class Agenda extends Generica{
                 ";
         return $exec = Conexao::Inst()->prepare($sql);
     }
-    public function agendamentosMesStartEnd($start, $end){
+    public function agendamentosMesStartEnd($start, $end, $usuario){
         $sql = "SELECT
                     id,
                     title,
@@ -32,6 +32,7 @@ class Agenda extends Generica{
                 WHERE 
                     start >= '$start' AND
                     end <= '$end' AND
+                    usuario = '$usuario' AND
                     ativo =  '1'
                 ";
         return $exec = Conexao::Inst()->prepare($sql);
