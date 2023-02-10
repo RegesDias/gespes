@@ -6,23 +6,20 @@ $("#modalInserirProtocoloCadastrar").on("click", function () {
   end.protocolo = $("#numeroProtocolo").val()
   end.id_info = $("#idInfo").val();
   end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
-  console.log(end);
   $.ajax({
     url: "acoes/requerimento/inserirNumeroDeProtocolo.php",
     method: "POST",
     dataType: "json",
     data: end,
-  })
-    .done(function (result) {
-      if(result.id == 0){
-        msn('error','Erro protocolo incorreto!');
-      }else{
-        msn('success','Protocolo Cadastrado!');
-        console.log(result);
+  }).done(function (result) {
+        if(result.codigo == 0){
+          result.acao = 'error'
+        }
+        msn(result.acao,result.mensagem);
+        $('#modalInserirProtocolo').modal('hide');
+        $('#numeroProtocolo').val('');
         listaRequerimentoIdInfo();
-      }
-    })
-    .fail(function () {
+    }).fail(function () {
       //$(location).attr('href', 'index.html');
     })
     .always(function () {
@@ -66,16 +63,16 @@ $("#solicitacaoSalvar").on("click", function () {
       .done(function (result) {
         $('#listaSolicitacoesCadastradas').html("");
         for (var i = 0; i < result.length; i++) {
-          $("#listaSolicitacoesCadastradas").prepend(
-            "<li value="+result[i].id+">"+
-              "<span class='text'>"+result[i].solicitacao+"</span>"+
-              "<small class='badge badge-success'>"+result[i].status+"</small>"+
-              "<div class='tools'>"+
-                  "<i class='fas fa-edit'></i>"+
-                  "<i class='fas fa-trash-o'></i>"+
-              "</div>"+
-            "</li>"
-          );
+          console.log (result[i]);
+            $("#listaSolicitacoesCadastradas").prepend(
+                "<li value="+result[i].id+">"+
+                  "<span class='text'>"+result[i].solicitacao+" - </span>"+
+                  "<small class='badge badge-"+result[i].classifica+"'>"+result[i].status+"</small>"+
+                  "<div class='tools'>"+
+                      "<i class='fas fa-"+result[i].btnIcone+"'></i>"+
+                  "</div>"+
+                "</li>"
+            )
         }
       })
       .fail(function () {
@@ -85,13 +82,6 @@ $("#solicitacaoSalvar").on("click", function () {
         $("#carregando").hide();
       });
   }
-$('#listaSolicitacoesCadastradas').on("click", "li", function() {
-  $('#idrequerimentoSelectLi').val($(this).val());
-  $('#modalInserirProtocolo').modal('show');
-});
-$('#fechaInserirProtocolo').click(function(){
-  $('#modalInserirProtocolo').modal('hide');
-});
 $('#modalInserirProtocoloImprimir').click(function(){
   $('#modal-data').modal('hide');
   var end = new Object()
@@ -121,3 +111,19 @@ function limpaLista(objSelect) {
       objSelect.lu[0] = null;
     }
   }
+  $('#listaSolicitacoesCadastradas').on("click", "li", function() {
+    tarefa = $(this).text();
+    acao = tarefa.split(' - ')
+    $('#idrequerimentoSelectLi').val($(this).val())
+    if (acao[1] == 'Aguardando Protocolo'){
+        $('#modalInserirProtocolo').modal('show')
+    }else if(acao[1] == 'Protocolo Entregue'){
+        $('#modalAgendamento').modal('show')
+    }
+  });
+  $('#fechaInserirProtocolo').click(function(){
+    $('#modalInserirProtocolo').modal('hide');
+  });
+  $('#fechaAgendamento').click(function(){
+    $('#modalAgendamento').modal('hide');
+  });

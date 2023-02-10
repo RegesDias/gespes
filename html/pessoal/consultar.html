@@ -401,7 +401,37 @@
                     <div class="row">
                       <div class="col-12">
                         <label>Número Protocolo</label>
-                        <input type="text"  id="idrequerimentoSelectLi">
+                        <input type="text" class='d-none' id="idrequerimentoSelectLi">
+                        <input value='' type="text" name="protocolo" id="numeroProtocolo" class="form-control"
+                        placeholder="______-____" data-inputmask='"mask": "999999-9999"' data-mask>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" id="modalInserirProtocoloCadastrar">
+                      <i class="nav-icon fas fa-print"></i> Salvar
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="modalInserirProtocoloImprimir">
+                      <i class="nav-icon fas fa-print"></i> Imprimir
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="modalAgendamento" style="margin-top: 60px">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Agendamento de Perícia</h4>
+                    <button type="button" class="close" id="fechaAgendamento" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <label>Número Protocolo</label>
+                        <input type="text" class='d-none' id="idrequerimentoSelectLi">
                         <input value='' type="text" name="protocolo" id="numeroProtocolo" class="form-control"
                         placeholder="______-____" data-inputmask='"mask": "999999-9999"' data-mask>
                       </div>

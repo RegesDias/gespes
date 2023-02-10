@@ -10,6 +10,9 @@ class Requerimentos extends Generica{
   public function listaRequerimentoIdInfo($id){
     $sql = "SELECT 
             requerimento.id,
+            requerimento_status.classifica,
+            requerimento_status.btnIcone,
+            requerimento_status.id as idStatus,
             requerimento_status.nome as status,
             requerimento_solicitacao.item as solicitacao
           FROM 
@@ -42,60 +45,57 @@ class Requerimentos extends Generica{
             $this->atualizaRequerimentoHistorico($obj);
             return $obj->id_requerimento;}
 
-public function atualizaRequerimentoHistorico ($obj){
-  if($obj->id_requerimento_status == ''){
-      $sql = "INSERT INTO requerimento_historico(
-              id_requerimento,
-              id_requerimento_medico,
-              id_requerimento_status,
-              userLogin,
-              ativo
-        )VALUES( 
-              '$obj->id_requerimento',
-              '$obj->id_requerimento_medico',
-              '$obj->id_requerimento_status',
-              '$obj->userLogin',
-              '1'
-        )";
-  }else{
+  public function atualizaRequerimentoHistorico ($obj){
+    if($obj->id_requerimento_status == ''){
         $sql = "INSERT INTO requerimento_historico(
-              id_requerimento,
-              id_requerimento_status,
-              id_requerimento_medico,
-              userLogin,
-              ativo
-        )VALUES( 
-              '$obj->id_requerimento',
-              '$obj->id_requerimento_status',
-              NULL,
-              '$obj->userLogin',
-              '1'
-        )";
+                id_requerimento,
+                id_requerimento_medico,
+                id_requerimento_status,
+                userLogin,
+                ativo
+          )VALUES( 
+                '$obj->id_requerimento',
+                '$obj->id_requerimento_medico',
+                '$obj->id_requerimento_status',
+                '$obj->userLogin',
+                '1'
+          )";
+    }else{
+          $sql = "INSERT INTO requerimento_historico(
+                id_requerimento,
+                id_requerimento_status,
+                id_requerimento_medico,
+                userLogin,
+                ativo
+          )VALUES( 
+                '$obj->id_requerimento',
+                '$obj->id_requerimento_status',
+                NULL,
+                '$obj->userLogin',
+                '1'
+          )";
+    }
+      $stm = Conexao::InstSDGC()->prepare($sql);
+      $tei = Conexao::InstSDGC()->lastInsertId();
+      $stm->execute();
+      return $tei;
   }
-    $stm = Conexao::InstSDGC()->prepare($sql);
-    $stm->execute();
-  return $sql;
-}
   //atualizar
   public function inserirNumeroDeProtocolo($obj){
     $sql = "UPDATE requerimento SET 
                     protocolo = '$obj->protocolo'
             WHERE 
-                id = '$obj->id_requerimento'";
-    $stm = Conexao::InstSDGC()->prepare($sql);
-    $stm->execute();
-    return $sql;
+                id = '$obj->id_requerimento' AND
+                id_requerimento_status = '1'";
+    $stm = Conexao::InstSDGC()->exec($sql);
+    return $stm;
   }
   public function atualizarStatus($obj){
     $sql = "UPDATE requerimento SET 
-                    id_requerimento_status = '$obj->id_requerimento_status'
+                  id_requerimento_status = '$obj->id_requerimento_status'
             WHERE 
                 id = '$obj->id_requerimento'";
-    $stm = Conexao::InstSDGC()->prepare($sql);
-    $stm->execute();
-    return $sql;
+    $stm = Conexao::InstSDGC()->exec($sql);
+    return $stm;
   }
-
-
-
 }
