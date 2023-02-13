@@ -80,6 +80,20 @@ $("#solicitacaoSalvar").on("click", function () {
         $("#carregando").hide();
       });
   }
+$('#modalAgendamentoImprimir').click(function(){
+  $('#modal-data').modal('hide');
+  var end = new Object()
+
+  end.matricula = $("#pessoalCodFunc").val()
+  end.matricula = $("#pessoalCodFunc").val()
+  link = 'relatorio/getRelTodosSesmt';
+      $('#carregandoModal').show();
+      $('#print-iframe').attr('src', 'acoes/print.php?0='+end.matricula+'&1='+end.matricula+'&link='+link+'&acesso=relatContraCheque');
+      $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
+
+      setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
+      setTimeout(() => { $('#carregandoModal').hide() }, 2000);
+});
 $('#modalInserirProtocoloImprimir').click(function(){
   $('#modal-data').modal('hide');
   var end = new Object()
@@ -103,8 +117,60 @@ $("#atendimentoBtn").on("click", function () {
     buscaEnderecoIdInfo()
     listaRequerimentoIdInfo()
     preenchimentoSelectSolicitacao()
-    preenchimentoMedicosAtivos()
+    preenchimentoMedicosAtivosCpf()
 });
+$("#medicosAtivos").on("click", function () {
+  let cpf = $("#medicosAtivos").val()
+  console.log(cpf)
+  $("#medicosAtivosDataNaAgenda").html('');
+  preenchimentoMedicosAtivosDataNaAgenda(cpf)
+});
+function preenchimentoMedicosAtivosDataNaAgenda(cpf) {
+  $.ajax({
+    url: "acoes/requerimento/listarMedicosAtivosDataNaAgenda.php?cpf="+cpf,
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (result) {
+      for (var i = 0; i < result.length; i++) {
+        let date = converteDataBr(result[i].start)
+        $("#medicosAtivosDataNaAgenda").prepend(
+          "<option value=" + result[i].id + "> " + date +" - "+ result[i].periodo + "</option>"
+        );
+      }
+    })
+    .fail(function () {
+      //$(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+}
+function preenchimentoMedicosAtivosCpf() {
+  $.ajax({
+    url: "acoes/requerimento/listarMedicosAtivos.php",
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (result) {
+      $("#medicosAtivos").html('')
+      $("#medicosAtivos").prepend(
+        "<option></option>"
+      );
+      for (var i = 0; i < result.length; i++) {
+        $("#medicosAtivos").prepend(
+          "<option value=" + result[i].CPF + "> " + result[i].nome + "</option>"
+        );
+      }
+    })
+    .fail(function () {
+      //$(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+}
+
 function preenchimentoMedicosAtivos() {
   $.ajax({
     url: "acoes/requerimento/listarMedicosAtivos.php",
@@ -116,14 +182,12 @@ function preenchimentoMedicosAtivos() {
         "<option></option>"
       );
       for (var i = 0; i < result.length; i++) {
-        console.log('teste');
         $("#medicosAtivos").prepend(
           "<option value=" + result[i].id + "> " + result[i].nome + "</option>"
         );
       }
     })
     .fail(function () {
-      console.log('error');
       //$(location).attr('href', 'index.html');
     })
     .always(function () {

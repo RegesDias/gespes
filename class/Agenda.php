@@ -1,6 +1,29 @@
 <?php
 require_once('Generica.php');
 class Agenda extends Generica{
+    public function ListaAgendamentosCPF($cpf){
+        $sql = "SELECT
+                    id,
+                    title,
+                    start, 
+                    end,
+                    backgroundColor,
+                    borderColor,
+                    allDay,
+                    periodo
+                FROM
+                    agenda
+                WHERE 
+                    usuario	 = '$cpf' AND
+                    ativo =  '1' AND
+                    allDay = '1' AND
+                    periodo != '' AND
+                    start >= CURRENT_DATE()
+                ORDER BY
+                    start ASC
+                ";
+        return Conexao::InstSDGC()->prepare($sql);   
+    }
     public function agendamentosMes($mes){
         $sql = "SELECT
                     id,
@@ -35,7 +58,15 @@ class Agenda extends Generica{
                     usuario = '$usuario' AND
                     ativo =  '1'
                 ";
-        return $exec = Conexao::Inst()->prepare($sql);
+        return $exec = Conexao::InstSDGC()->prepare($sql);
+    }
+    public function buscaEventoId($id){
+        $sql = "SELECT * FROM agenda WHERE  id = '$id' ";
+        $exec = Conexao::InstSDGC()->prepare($sql);
+        $resp = new stdClass();
+        $resp->exec = $exec;
+        $resp->sql = $sql;
+        return $resp;
     }
     public function insereEvento($dados){
         $d = (object) $dados;
@@ -59,9 +90,9 @@ class Agenda extends Generica{
                                     '$d->allDay',
                                     '$d->usuario',
                                     '1')";
-                $stm = Conexao::Inst()->prepare($sql);
+                $stm = Conexao::InstSDGC()->prepare($sql);
                 $stm->execute();
-                return Conexao::Inst()->lastInsertId();
+                return Conexao::InstSDGC()->lastInsertId();
     }
     public function redefinirEvento($dados){
         $d = (object) $dados;
@@ -71,7 +102,7 @@ class Agenda extends Generica{
                         end= '$d->end'
                     WHERE 
                         id='$d->id'";
-                $stm = Conexao::Inst()->prepare($sql);
+                $stm = Conexao::InstSDGC()->prepare($sql);
                 $stm->execute();
         return $sql;
     }
@@ -80,7 +111,7 @@ class Agenda extends Generica{
                         ativo = 0
                     WHERE 
                         id='$id'";
-                $stm = Conexao::Inst()->prepare($sql);
+                $stm = Conexao::InstSDGC()->prepare($sql);
                 $stm->execute();
     }
 
@@ -94,10 +125,12 @@ class Agenda extends Generica{
                         borderColor= '$d->color',
                         allDay= '$d->allDay',
                         mes= '$d->mes',
-                        usuario= '$d->usuario'
+                        usuario= '$d->usuario',
+                        periodo= '$d->periodo',
+                        numeroAtendimentos= '$d->numeroAtendimentos'
                     WHERE 
                         id='$d->id'";
-                $stm = Conexao::Inst()->prepare($sql);
+                $stm = Conexao::InstSDGC()->prepare($sql);
                 $stm->execute();
                 return $sql;
     }

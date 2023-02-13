@@ -11,7 +11,8 @@ class Requerimentos extends Generica{
     $sql = "SELECT 
                 requerimento_medico.id,
                 requerimento_medico.CRM,
-                info_pessoal.nome
+                info_pessoal.nome,
+                info_pessoal.CPF
               FROM 
                   requerimento_medico
                               LEFT JOIN historico_funcional

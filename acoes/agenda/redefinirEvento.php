@@ -6,6 +6,10 @@ $ag = new Agenda;
 $id = $ag->setDado($_POST['id']);
 $end = $ag->setDado($_POST['end']);
 $start = $ag->setDado($_POST['start']);
+$end = $ag->setDado($_POST['end']);
+$start = $ag->setDado($_POST['start']);
+$periodo = $ag->setDado($_POST['periodo']);
+$numeroAtendimentos = $ag->setDado($_POST['numeroAtendimentos']);
 $allDay =  $ag->trueFalse($ag->setDado($_POST['allDay']));
 
 
@@ -33,7 +37,9 @@ $dados = array(
     'borderColor' => $borderColor,
     'allDay' => $allDay,
     'usuario' => $usuario,
-    'mes' => $mes
+    'mes' => $mes,
+    'numeroAtendimentos' => $numeroAtendimentos,
+    'periodo' => $periodo
 );
 //if(Conexao::verificaLogin('consultaPessoal')){
     $sql = $ag->redefinirEvento($dados);

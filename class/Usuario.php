@@ -261,6 +261,10 @@ class  Usuario extends Generica{
     $call = "SELECT * FROM usuario ORDER BY nome DESC LIMIT 1000";
     return $exec = Conexao::Inst()->prepare($call);
   }
+  public function listarPorNomeAtendimentos(){
+    $call = "SELECT * FROM usuario WHERE atendimento = 1 ORDER BY nome DESC LIMIT 1000";
+    return $exec = Conexao::Inst()->prepare($call);
+  }
 
   public function buscaCpfNome($dado){
     if(is_numeric($dado)){

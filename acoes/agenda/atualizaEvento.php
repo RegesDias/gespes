@@ -10,6 +10,8 @@ $allDay =  $ag->trueFalse($ag->setDado($_POST['allDay']));
 $title = $ag->setDado($_POST['title']);
 $color = $ag->setDado($_POST['color']);
 $usuario = $ag->setDado($_POST['usuario']);
+$periodo = $ag->setDado($_POST['periodo']);
+$numeroAtendimentos = $ag->setDado($_POST['numeroAtendimentos']);
 
 //Modificando dadas para o banco
 $partes = explode("T", $end);
@@ -34,7 +36,9 @@ $dados = array(
                 'title'=>$title,
                 'color'=>$color,
                 'mes'=>$mes,
-                'usuario' => $usuario
+                'usuario' => $usuario,
+                'numeroAtendimentos' => $numeroAtendimentos,
+                'periodo' => $periodo
             );
 $sql =  $ag->AtualizaEvento($dados);
 echo json_encode($sql);

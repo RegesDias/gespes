@@ -1,9 +1,10 @@
 <?php
 
-header('Content-Type: application/json');
-require_once('../../class/Usuario.php');
-    $s = new Usuario;
-    $exec = $s->listarPorNomeAtendimentos();
+//header('Content-Type: application/json');
+require_once('../../class/Agenda.php');
+    $s = new Agenda;
+    $cpf = $s->setDado($_GET['cpf']);
+    $exec = $s->ListaAgendamentosCPF($cpf);
     if(Conexao::verificaLogin('consultaPessoal')){
         $exec->execute();
         if ($exec->rowCount() >= 1) {
