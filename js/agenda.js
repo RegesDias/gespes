@@ -1,11 +1,9 @@
 $(document).ready(function () {
   carregarSelect2();
   getUsuarios();
-  });
-
+});
 $("#formFiltroSelectUsuario").change(function () {
-  /* initialize the calendar
-     -----------------------------------------------------------------*/
+  /* initialize the calendar-----------------------------------------------------------------*/
   //Date for the calendar events (dummy data)
   var date = new Date();
   var d = date.getDate(),
@@ -59,12 +57,13 @@ $("#formFiltroSelectUsuario").change(function () {
         }
       },
       events: function (info, successCallback) {
+        let usuario = $("#formFiltroSelectUsuario").val();
         startStr = conversaoDataString(info.startStr);
         endStr = conversaoDataString(info.endStr);
         var str = new Object();
         str.start = startStr;
         str.end = endStr;
-        str.usuario = $("#formFiltroSelectUsuario").val();
+        str.usuario = usuario;
         successCallback(getAgendamentoMensal(str));
       },
       eventReceive: function (event) {
@@ -82,21 +81,38 @@ $("#formFiltroSelectUsuario").change(function () {
         insereEvento(dado, event.event);
       },
       eventDrop: function (event) {
-        let periodo = $("#periodo").val();
-        let numeroAtendimentos = $("#numeroAtendimentos").val();
-        var dado = {
-          id: event.event.id,
-          allDay: event.event.allDay,
-          backgroundColor: event.event.backgroundColor,
-          borderColor: event.event.borderColor,
-          end: event.event.endStr,
-          start: event.event.startStr,
-          title: event.event.title,
-          usuario: usuario,
-          periodo: periodo,
-          numeroAtendimentos: numeroAtendimentos
-        };
-        redefinirEvento(dado);
+        Swal.fire({
+          title: 'Você tem certeza?',
+          text: "Todos os Agendamento deste evento serão trocados!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sim'
+        }).then((result) => {
+          if (result.value) {
+            Swal.fire( 'Reagendado!','O Evento foi alterado com sucesso.','success');
+            let usuario = $("#formFiltroSelectUsuario").val();
+            let periodo = $("#periodo").val();
+            let numeroAtendimentos = $("#numeroAtendimentos").val();
+            var dado = {
+              id: event.event.id,
+              allDay: event.event.allDay,
+              backgroundColor: event.event.backgroundColor,
+              borderColor: event.event.borderColor,
+              end: event.event.endStr,
+              start: event.event.startStr,
+              title: event.event.title,
+              usuario: usuario,
+              periodo: periodo,
+              numeroAtendimentos: numeroAtendimentos
+            };
+            redefinirEvento(dado);
+          }else{
+            Swal.fire( 'Acão Cancelada!','O Evento não foi alterado.','error');
+            event.revert();
+          }
+        })
       },
       eventResize: function (event) {
         let usuario = $("#formFiltroSelectUsuario").val();
@@ -130,11 +146,28 @@ $("#formFiltroSelectUsuario").change(function () {
     });
     calendar.render();
     $("#RemoverEvento").click(function () {
-      id = $("#idEvento").val();
-      var event = calendar.getEventById(id);
-      event.remove(id);
-      removerEvento(id);
-      $("#calendarModal").modal("hide");
+      Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Não será possivel reverter esta ação!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim'
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire( 'Reagendado!','O Evento foi alterado com sucesso.','success');
+          id = $("#idEvento").val();
+          var event = calendar.getEventById(id);
+          event.remove(id);
+          removerEvento(id);
+          $("#calendarModal").modal("hide");
+          redefinirEvento(dado);
+        }else{
+          Swal.fire( 'Acão Cancelada!','O Evento não foi alterado.','error');
+          event.revert();
+        }
+      })
     });
     $("#alterarEvento").click(function () {
       var novosDados = new Object();
@@ -155,6 +188,8 @@ $("#formFiltroSelectUsuario").change(function () {
       event.setEnd(novosDados.end);
       event.setProp("title", novosDados.title);
       event.setProp("color", novosDados.color);
+
+      msn("success", "Evento alterado com sucesso!");
 
       atualizaEvento(novosDados);
       $("#calendarModal").modal("hide");

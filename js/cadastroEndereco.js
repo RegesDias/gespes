@@ -1,3 +1,9 @@
+$("#atendimentoBtn").on("click", function () {
+  buscapreenchimentoSelectEstadoTodos()
+  buscaEnderecoIdInfo()
+  listaRequerimentoIdInfo()
+  preenchimentoSelectSolicitacao()
+});
 $(document).ready(function () {
   $("#idCep").blur(function () {
     var cep = $(this)
@@ -126,7 +132,7 @@ function buscaEnderecoIdInfo() {
         $("#idEmail").val('')
         $("#idComplemento").val('')
         $('#idEndereco').val('');
-        limpaSelect(idEstado);
+        buscapreenchimentoSelectEstadoTodos();
         limpaSelect(idCidade);
         limpaSelect(idBairro);
         $('#enderecoSalvar').removeClass("d-none");
@@ -188,7 +194,26 @@ function preenchimentoSelectBairroIdCidade(id) {
       $("#carregando").hide();
     });
 }
-
+function buscapreenchimentoSelectEstadoTodos() {
+  $.ajax({
+    url: "acoes/endereco/listaEstadosTodos.php?",
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (result) {
+      for (var i = 0; i < result.length; i++) {
+        $("#idEstado").prepend(
+          "<option value=" + result[i].id + "> " + result[i].UF + "</option>"
+        );
+      }
+    })
+    .fail(function () {
+      $(location).attr("href", "index.html");
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+}
 function buscapreenchimentoSelectEstado(id) {
   $.ajax({
     url: "acoes/endereco/listaEstados.php?id=" + id,
@@ -238,7 +263,7 @@ function preenchimentoSelectEstado() {
     .done(function (result) {
       for (var i = 0; i < result.length; i++) {
         $("#idEstado").prepend(
-          "<option value=" + result[i].id + "> " + result[i].nome + "</option>"
+          "<option value=" + result[i].id + "> " + result[i].UF+ "</option>"
         );
       }
     })

@@ -313,7 +313,7 @@
                                                               </select>
                                                               <span class=" input-group-append">
                                                           <button type="button" id='solicitacaoSalvar'
-                                                            class="btn btn-info btn-flat">Entrada</button>
+                                                            class="btn btn-info btn-flat"><i class="nav-icon fas fa-edit"></i> Entrada</button>
                                                           </span>
                                                       </div>
                                                     </div>
@@ -409,7 +409,7 @@
                   </div>
                   <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" id="modalInserirProtocoloCadastrar">
-                      <i class="nav-icon fas fa-print"></i> Salvar
+                      <i class="nav-icon fas fa-edit"></i> Salvar
                     </button>
                     <button type="button" class="btn btn-secondary" id="modalInserirProtocoloImprimir">
                       <i class="nav-icon fas fa-print"></i> Imprimir
@@ -431,24 +431,31 @@
                     <div class="row">
                       <div class="col-12">
                         <label>Médico</label>
-                        <input type="text" class='d-none' id="idrequerimentoSelectLi">
                         <select name="medicosAtivos" size="1" class="form-control select2" id="medicosAtivos"
                         style="width: 100%;">
                       </select>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12">
-                        <label>Datas Disponíveis</label>
-                        <select name="medicosAtivosDataNaAgenda" size="1" class="form-control select2" id="medicosAtivosDataNaAgenda"
-                        style="width: 100%;">
-                      </select>
+                      <div class="col-8">
+                          <label>Vagas</label>
+                          <select name="medicosAtivosDataNaAgenda" size="1" class="form-control select2" id="medicosAtivosDataNaAgenda"
+                          style="width: 100%;">
+                        </select>
+                      </div>
+                      <div class="col-2">
+                        <label>Disponível</label>
+                        <input type="text" disabled="disabled" id="vagasDisponibilizadas" class="form-control">
+                      </div>
+                      <div class="col-2">
+                        <label>Ocupada</label>
+                        <input type="text" disabled="disabled" id="vagasOcupadas" class="form-control">
                       </div>
                     </div>
                   </div>
                   <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" id="modalAgendamentoCadastrar">
-                      <i class="nav-icon fas fa-print"></i> Salvar
+                      <i class="nav-icon fas fa-edit"></i> Salvar
                     </button>
                     <button type="button" class="btn btn-secondary" id="modalAgendamentoImprimir">
                       <i class="nav-icon fas fa-print"></i> Imprimir
@@ -457,6 +464,50 @@
                 </div>
               </div>
             </div>
+            <div class="modal fade" id="modalDadosDoAgendamento" style="margin-top: 60px">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Dados do Agendamento</h4>
+                    <button type="button" class="close" id="fechaModalDadosDoAgendamento" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title" id="protocoloModalDadosDoAgendamento">
+                          <i class="fas fa-text-width"></i>
+                        </h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <blockquote>
+                          <h3><p id="statusModalDadosDoAgendamento" ></p></h3>
+                          <p id="solicitacaoModalDadosDoAgendamento" ></p>
+                          <p id="medicoModalDadosDoAgendamento" ></p>
+                          <p id="dataModalDadosDoAgendamento" >
+                          </p>
+                        </blockquote>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <div class="input-group input-group-sm">
+                          <select class="form-control select2"
+                            id="idRequerimentoSolicitacao"
+                            name='selectRequerimentosStatusReAgenda'">
+                                </select>
+                                <span class=" input-group-append">
+                            <button type="button" id='reagendarModalDadosDoAgendamento'
+                              class="btn btn-info btn-flat"><i class="nav-icon fas fa-edit"></i> Reagendar</button>
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
           </div>
           <div id="carregandoModal" class="overlay dark hidden">

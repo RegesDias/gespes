@@ -114,4 +114,55 @@ class Requerimentos extends Generica{
     $stm = Conexao::InstSDGC()->exec($sql);
     return $stm;
   }
+  public function vagasOcupadas($id_agenda){
+    $sql = "SELECT COUNT(id_agenda) as total FROM requerimento WHERE requerimento.id_agenda = '$id_agenda' GROUP BY id_agenda";
+    return Conexao::InstSDGC()->prepare($sql);  
+  }
+  public function vagasDisponibilizadas($id_agenda){
+    $sql = "SELECT numeroAtendimentos as total FROM agenda WHERE id = '$id_agenda'";
+    return Conexao::InstSDGC()->prepare($sql);  
+  }
+  public function atualizarIdAgenda($obj){
+    $sql = "UPDATE requerimento SET 
+                  id_agenda = '$obj->id_agenda'
+            WHERE 
+                id = '$obj->id_requerimento'";
+    $stm = Conexao::InstSDGC()->exec($sql);
+    return $stm;
+  }
+  public function resumoAgendamento($id_requerimento){
+    $sql = "SELECT 
+                requerimento.protocolo,
+                requerimento_status.nome as status,
+                requerimento_solicitacao.item as solicitacao,
+                agenda.periodo,
+                agenda.start as data,
+                info_pessoal.nome as medico
+            FROM requerimento
+                LEFT JOIN requerimento_status
+                ON requerimento_status.id = requerimento.id_requerimento_status
+                LEFT JOIN requerimento_solicitacao
+                ON requerimento_solicitacao.id = requerimento.id_requerimento_solicitacao
+                LEFT JOIN agenda
+                ON agenda.id = requerimento.id_agenda
+                LEFT JOIN info_pessoal
+                ON info_pessoal.cpf = agenda.usuario
+            WHERE
+              requerimento.id = '$id_requerimento'
+    ";
+    return Conexao::InstSDGC()->prepare($sql);  
+  }
+  public function requerimentosStatusReAgenda($id_requerimento_status){
+    $sql = "SELECT 
+                requerimento_status.id,
+                requerimento_status.nome
+            FROM 
+                requerimento_status
+            WHERE
+                requerimento_status.id = '$id_requerimento_status'
+    ";
+    return Conexao::InstSDGC()->prepare($sql); 
+  }
+  
 }
+?>
