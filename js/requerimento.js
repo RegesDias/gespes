@@ -88,7 +88,7 @@ $("#solicitacaoSalvar").on("click", function () {
     end.id_requerimento_status = '1';
     end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
     end.id_info = $("#idInfo").val();
-    end.id_historico_funcional = $("#idHistFunc").val();
+    end.matricula = $("#pessoalCodFunc").val();
     $.ajax({
       url: "acoes/requerimento/salvar.php",
       method: "POST",

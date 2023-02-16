@@ -45,6 +45,7 @@ class Requerimentos extends Generica{
     $sql = "SELECT
                 requerimento.id, 
                 requerimento.protocolo,
+                requerimento.matricula,
                 requerimento_status.btnIcone,
                 requerimento_status.classifica,
                 requerimento_status.nome as status,
@@ -76,19 +77,21 @@ class Requerimentos extends Generica{
                                 id_requerimento_status,
                                 id_requerimento_solicitacao,
                                 id_info,
-                                id_historico_funcional,
+                                matricula,
                                 userLogin
                         )VALUES(
                                 '$obj->id_requerimento_status',
                                 '$obj->id_requerimento_solicitacao',
                                 '$obj->id_info',
-                                '$obj->id_historico_funcional',
+                                '$obj->matricula',
                                 '$obj->userLogin')";
             $stm = Conexao::InstSDGC()->prepare($sql);
             $stm->execute();
             $obj->id_requerimento = Conexao::InstSDGC()->lastInsertId();
             $this->atualizaRequerimentoHistorico($obj);
-            return $obj->id_requerimento;}
+            return $sql;
+            //return $obj->id_requerimento;
+          }
 
   public function atualizaRequerimentoHistorico ($obj){
     if($obj->id_requerimento_medico != ''){

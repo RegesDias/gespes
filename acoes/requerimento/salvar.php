@@ -7,7 +7,7 @@ $s = new Requerimentos;
 $obj = new stdClass();
 $obj->id_requerimento_status = $s->setDado($_POST['id_requerimento_status']);
 $obj->id_requerimento_solicitacao = $s->setDado($_POST['id_requerimento_solicitacao']);
-$obj->id_historico_funcional = $s->setDado($_POST['id_historico_funcional']);
+$obj->matricula = $s->setDado($_POST['matricula']);
 $obj->id_info = $s->setDado($_POST['id_info']);
 
 if(Conexao::verificaLogin('consultaPessoal')){
@@ -16,5 +16,5 @@ if(Conexao::verificaLogin('consultaPessoal')){
     $r = array(
         'id' => $id
     );
-   // echo json_encode($r);
+   //echo json_encode($id);
 }

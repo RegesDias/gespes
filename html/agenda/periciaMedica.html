@@ -14,25 +14,24 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-6">
-            <label>Médico</label>
-            <select id='formFiltroSelectMedicoAgenda' class="form-control select2" style="width: 100%;">
-            </select>
+          <label>Médico</label>
+          <select id='formFiltroSelectMedicoAgenda' class="form-control select2" style="width: 100%;">
+          </select>
         </div>
         <div class="col-md-6">
-            <label>Atendimento</label>
-            <select id='formFiltroSelectMedicoAgendaDia' class="form-control select2" style="width: 100%;">
-            </select>
+          <label>Atendimento</label>
+          <select id='formFiltroSelectMedicoAgendaDia' class="form-control select2" style="width: 100%;">
+          </select>
         </div>
       </div>
     </div>
     <div class="card card-outline">
       <div class="card-body p-0">
         <div class="mailbox-controls">
-          <!-- Check all button -->
-          <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+          <button type="button" class="btn btn-default btn-sm checkbox-toggle d-none">
             <i class="far fa-square"></i>
           </button>
-          <div class="btn-group">
+          <div class="btn-group d-none">
             <button type="button" class="btn btn-default btn-sm">
               <i class="far fa-trash-alt"></i>
             </button>
@@ -43,11 +42,10 @@
               <i class="fas fa-share"></i>
             </button>
           </div>
-          <!-- /.btn-group -->
-          <button type="button" class="btn btn-default btn-sm">
+          <button type="button" class="btn btn-default btn-sm d-none">
             <i class="fas fa-sync-alt"></i>
           </button>
-          <div class="float-right">
+          <div class="float-right d-none">
             <div class="btn-group">
               <button type="button" class="btn btn-default btn-sm">
                 <i class="fas fa-chevron-left"></i>
@@ -56,26 +54,18 @@
                 <i class="fas fa-chevron-right"></i>
               </button>
             </div>
-            <!-- /.btn-group -->
           </div>
-          <!-- /.float-right -->
         </div>
-        <div
-          class="table-responsive mailbox-messages"
-          style="height: 300px; width: 100%; overflow: auto">
+        <div class="table-responsive mailbox-messages" style="height: 300px; width: 100%; overflow: auto">
           <table class="table table-hover table-striped">
             <tbody id="listaAtendimentosDia">
- 
+
             </tbody>
           </table>
-          <!-- /.table -->
         </div>
-        <!-- /.mail-box-messages -->
       </div>
-      <!-- /.card-body -->
-      <div class="card-footer p-0">
+      <div class="card-footer p-0 d-none">
         <div class="mailbox-controls">
-          <!-- Check all button -->
           <button type="button" class="btn btn-default btn-sm checkbox-toggle">
             <i class="far fa-square"></i>
           </button>
@@ -90,11 +80,10 @@
               <i class="fas fa-share"></i>
             </button>
           </div>
-          <!-- /.btn-group -->
           <button type="button" class="btn btn-default btn-sm">
             <i class="fas fa-sync-alt"></i>
           </button>
-          <div class="float-right">
+          <div class="float-right d-none">
             <div class="btn-group">
               <button type="button" class="btn btn-default btn-sm">
                 <i class="fas fa-chevron-left"></i>
@@ -103,13 +92,10 @@
                 <i class="fas fa-chevron-right"></i>
               </button>
             </div>
-            <!-- /.btn-group -->
           </div>
-          <!-- /.float-right -->
         </div>
       </div>
     </div>
-    <!-- /.card -->
   </div>
   <div class="modal fade" id="modal-pessoal">
     <div class="modal-dialog modal-lg">
@@ -126,8 +112,6 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-3">
-
-                <!-- Profile Image -->
                 <div class="card card-primary card-outline">
                   <div class="card-body box-profile">
                     <div class="text-center">
@@ -151,19 +135,11 @@
                     <a href="#" type="button" class="btn btn-primary btn-block" id="contraCheque">
                       <b>Contra Cheque</b>
                     </a>
-
                     <div class="modal-footer justify-content-between">
-
-
                     </div>
                   </div>
-                  <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
-
-
               </div>
-              <!-- /.col -->
               <div class="col-md-9">
                 <div class="card">
                   <div class="card">
@@ -173,8 +149,7 @@
                           <a class="nav-link active" id="gestaoClick" href="#gestao" data-toggle="tab">Gestão</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" id='atendimentoBtn' href="#atendimento"
-                            data-toggle="tab">Atendimento</a>
+                          <a class="nav-link" id='atendimentoBtn' href="#atendimento" data-toggle="tab">Perícia</a>
                         </li>
                       </ul>
                     </div>
@@ -224,8 +199,8 @@
                                 <div class="row">
                                   <div class="col-12">
                                     <label>Lotação</label>
-                                    <input disabled="disabled" id="pessoalSecretarias" type="text"
-                                      class="form-control" placeholder="Lotação" />
+                                    <input disabled="disabled" id="pessoalSecretarias" type="text" class="form-control"
+                                      placeholder="Lotação" />
                                   </div>
                                 </div>
                               </div>
@@ -236,147 +211,170 @@
                           </div>
                         </div>
                         <div class="tab-pane" id="atendimento">
-                          <div class="col-md-12">
+                          <div class="col-12">
                             <div class="box-body">
-                              <div class="form-group">
+                              <div class="box box-primary">
                                 <div class="row">
-                                  <div class="col-md-12">
-                                    <div id='cardEndereco' class="card">
+                                  <div class="col-12">
+                                    <div class="box box-widget">
+                                      <input class="d-none" id="idrequerimento" type="text" />
+                                    </div>
+                                    <div class="card card-success">
                                       <div class="card-header">
-                                        <h3 id='cardEnderecoTitulo' class="card-title">Endereço</h3>
-
-                                        <div class="card-tools">
-                                          <button id='cardEnderecobtn' type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-plus" id='cardEnderecobtn'></i>
-                                          </button>
-                                        </div>
-                                        <!-- /.card-tools -->
+                                        <h3 class="card-title">Buscar e Cadastra CID(s)</h3>
                                       </div>
-                                      <!-- /.card-header -->
-                                      <div id='cardEnderecoCorpo' class="card-body">
+                                      <div class="card-body">
                                         <div class="row">
                                           <div class="col-4">
-                                            <label>CEP</label>
-                                            <input value='' type="text" name="cep" id="idCep" class="form-control"
-                                              placeholder="____-___" data-inputmask='"mask": "99999-999"' data-mask>
+                                            <label>Buscar CID(s)</label>
+                                            <input id="idCid10Busca" type="text" class="form-control"
+                                              placeholder="Digite 4 caracteres" />
                                           </div>
-                                          <div class="col-2">
-                                            <label>Estado</label>
-                                            <select name="estado" size="1" class="form-control select2" id="idEstado"
-                                              style="width: 100%;">
-
-                                            </select>
-                                          </div>
-                                          <div class="col-md-6">
-                                            <label>Cidade</label>
-                                            <select name="cidade" size="1" class="form-control select2" id="idCidade"
-                                              style="width: 100%;">
-
-                                            </select>
+                                          <div class="col-8">
+                                            <label>&nbsp</label>
+                                            <div class="select2-purple">
+                                              <select class="select2" id='idCid10' disabled="disabled"
+                                                data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                              </select>
+                                            </div>
                                           </div>
                                         </div>
                                         <div class="row">
-                                          <div class="col-md-4">
-                                            <label>Bairro</label>
-                                            <select name="bairro" size="1" class="form-control select2" id="idBairro"
-                                              style="width: 100%;">
-
-                                            </select>
-                                          </div>
-                                          <div class="col-md-8">
-                                            <label>Logradouro</label>
-                                            <input type="text" name="logradouro" id="idLogradouro"
-                                              class="form-control">
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-md-2">
-                                            <label>Número</label>
-                                            <input type="text" name="numero" id="idNumero" class="form-control">
-                                          </div>
-                                          <div class="col-md-10">
-                                            <label>Complemento</label>
-                                            <input type="text" name="complemento" id="idComplemento"
-                                              class="form-control">
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-md-6">
-                                            <label>Celular</label>
-                                            <input value='' type="text" name="celular" id="idCelular"
-                                              class="form-control" placeholder="(__) ___-______"
-                                              data-inputmask='"mask": "(99) 999-999999"' data-mask>
-                                          </div>
-                                          <div class="col-md-6">
-                                            <label>Teletone</label>
-                                            <input value='' type="text" name="teletone" id="idTelefone"
-                                              class="form-control" placeholder="(__) ___-_____"
-                                              data-inputmask='"mask": "(99) 999-99999"' data-mask>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-md-12">
-                                            <label>Email</label>
-                                            <input type="email" name="email" id="idEmail" class="form-control"
-                                              placeholder="Enter ...">
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-md-12">
-                                            <br>
-                                          </div>
-                                          <div class="col-md-12">
-                                            <a href="#" id='enderecoSalvar'
-                                              class="btn btn-block btn-primary">Salvar</a>
-                                            <a href="#" id='enderecoAtualizar'
-                                              class="btn btn-block btn-primary">Atualizar</a>
-                                          </div>
-                                        </div>
-                                        <div class="row d-none">
-                                          <input type="text" name="idEndereco" id="idEndereco" class="form-control">
-                                        </div>
-                                      </div>
-                                      <!-- /.card-body -->
-                                    </div>
-                                    <!-- /.card -->
-                                  </div>
-                                  <div class="col-md-12">
-                                    <div id='exibeTipoRequerimento' class="row d-none">
-                                      <div class="col-md-12">
-                                        <div class="box-body">
-                                          <div class="form-group">
-                                            <div class="row">
-                                              <div class="col-md-12">
-                                                <div class="card">
-                                                  <div class="card-header">
-                                                    <h3 class="card-title">
-                                                      <i class="ion ion-clipboard mr-1"></i>
-                                                      Solicitações
-                                                    </h3>
-                                                  </div>
-                                                  <div class="card-body" style="height: 200px; width: 100%; overflow: auto">
-                                                    <ul class="todo-list" id='listaSolicitacoesCadastradas'data-widget="todo-list">
-                                                    </ul>
-                                                  </div>
-                                                  <div class="card-footer clearfix">
-                                                    <div class="input-group input-group-sm">
-                                                      <select class="form-control select2"
-                                                        id="idRequerimentoSolicitacao"
-                                                        name='idRequerimentoSolicitacao'">
-                                                            </select>
-                                                            <span class=" input-group-append">
-                                                        <button type="button" id='solicitacaoSalvar'
-                                                          class="btn btn-info btn-flat"><i class="nav-icon fas fa-edit"></i> Entrada</button>
-                                                        </span>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
+                                          <div class="col-12">
+                                            <label>CID(s) Selecionados</label>
+                                            <div class="select2-purple">
+                                              <select class="select2" id='idCid10Selecionados' multiple="multiple"
+                                                data-placeholder="Sem valores" data-dropdown-css-class="select2-purple"
+                                                style="width: 100%;">
+                                              </select>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
+                                    <div class="card card-success">
+                                      <div class="card-header">
+                                        <h3 class="card-title">Buscar e Cadastra CID(s)HPP</h3>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-4">
+                                            <label>Buscar CID(s)HPP</label>
+                                            <input id="idCid10BuscaHPP" type="text" class="form-control"
+                                              placeholder="Digite 4 caracteres" />
+                                          </div>
+                                          <div class="col-8">
+                                            <label>&nbsp</label>
+                                            <div class="select2-purple">
+                                              <select class="select2" id='idCid10HPP' disabled="disabled"
+                                                data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <label>CID(s)HPP Selecionados</label>
+                                            <div class="select2-purple">
+                                              <select class="select2" id='idCid10SelecionadosHPP' multiple="multiple"
+                                                data-placeholder="Sem valores" data-dropdown-css-class="select2-purple"
+                                                style="width: 100%;">
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Medicamentos</label>
+                                          <input id='medicamentosFichaMedica' type="text" class="form-control">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <div class="form-group">
+                                          <label>Nome do Médico</label>
+                                          <input id='nomeMedicoAtestado' type="text" class="form-control">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-6h d-none ">
+                                        <label for="exampleInputEmail1">Evolução</label>
+                                        <div class="form-group">
+                                          <select name="evolucao" size="1" id="evolucao" class="form-control select2"
+                                            style="width: 100%;">
+                                          </select>
+                                        </div>
+                                      </div>
+                                      <div class="col-6 d-none">
+                                        <label for="exampleInputEmail1">Retorno</label>
+                                        <div class="form-group">
+                                          <select name="retorno" size="1" id="retorno" class="form-control select2"
+                                            style="width: 100%;">
+                                            <option selected="selected"></option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div id='descricaoAtribuicoes'>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-8">
+                                        <div class="form-group">
+                                          <label>CRM - Atestado ou Laudo</label>
+                                          <input id='CRMFichaMedica' type="number" class="form-control">
+                                        </div>
+                                      </div>
+                                      <div class="col-4">
+                                        <label>Dias de Afastamento</label>
+                                        <input id='diasAfastamentoFichaMedica' type="number" class="form-control">
+                                      </div>
+                                    </div>
+                                    <div class="form-group col-12">
+                                      <label>Observação<i><sub class="caracteres">500</sub> <sub>Restantes
+                                          </sub></i></label>
+                                      <textarea id="obsFichaMedica" name='ObsOco' class="form-control" maxlength="500"
+                                        rows="4"></textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-success" data-toggle="modal" data-target="#fecharLotacao">
+                                <i class="fa fa-check"></i> Finalizar
+                              </button>
+                              <button id='salvarPericiaMedica' class="btn btn-primary" type="button">
+                                <i class="fa fa-save"></i> Salvar
+                              </button>
+                              <button id='atualizarPericiaMedica' class="btn btn-primary" type="button">
+                                <i class="fa fa-save"></i> Atualizar
+                              </button>
+                            </div>
+                            <div class="modal fade" id="fecharLotacao" role="dialog">
+                              <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                  <div class="modal-body">
+                                    <div class="col-sm-12">
+                                      <label>Ação</label>
+                                      <select id="idRequerimentoStatus" class="form-control select2"
+                                        style="width: 100%;">
+                                        <option value=""></option>
+                                        <option value="5">Homologado</option>
+                                        <option value="6">Não Homologado</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-sm-12"><br></div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-primary" type="button">
+                                      Confirmar
+                                    </button>
+                                    <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
                                   </div>
                                 </div>
                               </div>
@@ -385,7 +383,8 @@
                         </div>
                       </div>
                     </div>
-                    <!-- /.row -->
+                  </div>
+                </div>
         </section>
         <div class="modal-body">
           <div class="modal fade" id="modal-data" style="margin-top: 60px">
@@ -441,131 +440,11 @@
               </div>
             </div>
           </div>
-          <div class="modal fade" id="modalInserirProtocolo" style="margin-top: 60px">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Inserir Protocolo</h4>
-                  <button type="button" class="close" id="fechaInserirProtocolo" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <label>Número Protocolo</label>
-                      <input type="text" class='d-none' id="idrequerimentoSelectLi">
-                      <input value='' type="text" name="protocolo" id="numeroProtocolo" class="form-control"
-                      placeholder="______-____" data-inputmask='"mask": "999999-9999"' data-mask>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-secondary" id="modalInserirProtocoloCadastrar">
-                    <i class="nav-icon fas fa-edit"></i> Salvar
-                  </button>
-                  <button type="button" class="btn btn-secondary" id="modalInserirProtocoloImprimir">
-                    <i class="nav-icon fas fa-print"></i> Imprimir
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal fade" id="modalAgendamento" style="margin-top: 60px">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Agendamento de Perícia</h4>
-                  <button type="button" class="close" id="fechaAgendamento" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <label>Médico</label>
-                      <select name="medicosAtivos" size="1" class="form-control select2" id="medicosAtivos"
-                      style="width: 100%;">
-                    </select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-8">
-                        <label>Vagas</label>
-                        <select name="medicosAtivosDataNaAgenda" size="1" class="form-control select2" id="medicosAtivosDataNaAgenda"
-                        style="width: 100%;">
-                      </select>
-                    </div>
-                    <div class="col-2">
-                      <label>Disponível</label>
-                      <input type="text" disabled="disabled" id="vagasDisponibilizadas" class="form-control">
-                    </div>
-                    <div class="col-2">
-                      <label>Ocupada</label>
-                      <input type="text" disabled="disabled" id="vagasOcupadas" class="form-control">
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-secondary" id="modalAgendamentoCadastrar">
-                    <i class="nav-icon fas fa-edit"></i> Salvar
-                  </button>
-                  <button type="button" class="btn btn-secondary" id="modalAgendamentoImprimir">
-                    <i class="nav-icon fas fa-print"></i> Imprimir
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal fade" id="modalDadosDoAgendamento" style="margin-top: 60px">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Dados do Agendamento</h4>
-                  <button type="button" class="close" id="fechaModalDadosDoAgendamento" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="card">
-                    <div class="card-header">
-                      <h3 class="card-title" id="protocoloModalDadosDoAgendamento">
-                        <i class="fas fa-text-width"></i>
-                      </h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                      <blockquote>
-                        <h3><p id="statusModalDadosDoAgendamento" ></p></h3>
-                        <p id="solicitacaoModalDadosDoAgendamento" ></p>
-                        <p id="medicoModalDadosDoAgendamento" ></p>
-                        <p id="dataModalDadosDoAgendamento" >
-                        </p>
-                      </blockquote>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                      <div class="input-group input-group-sm">
-                        <select class="form-control select2"
-                          id="selectRequerimentosStatusReAgenda"
-                          name='selectRequerimentosStatusReAgenda'">
-                              </select>
-                              <span class=" input-group-append">
-                          <button type="button" id='reagendarModalDadosDoAgendamento'
-                            class="btn btn-info btn-flat"><i class="nav-icon fas fa-edit"></i> Reagendar</button>
-                          </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
           <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
         </div>
         <div id="carregandoModal" class="overlay dark hidden">
           <img src="img/loading.gif" />
-        </div>        
+        </div>
       </div>
       <!-- /.modal-dialog -->
     </div>

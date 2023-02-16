@@ -2,6 +2,28 @@
 $(document).ready(function () {
     carregarSelect2();
     getFormFiltroSelectMedicoAgenda();
+
+    $('#carregandoModal').hide();
+    var login = JSON.parse(sessionStorage.getItem('login'));
+    if(login.relatFichaFuncional == 0){
+        $('#fichaFuncional').hide();
+    }
+    if(login.relatAtribuicoesCargo == 0){
+        $('#atribuicaoDeCargo').hide();
+    }
+    if(login.relatFolhaPonto == 0){
+        $('#folhaDePonto').hide();
+    }
+    if(login.relatContraCheque == 0){
+        $('#contraCheque').hide();
+    }
+});
+$(document).on("keydown", "#obsFichaMedica", function () {
+  var caracteresRestantes = 499;
+  var caracteresDigitados = parseInt($(this).val().length);
+  var caracteresRestantes = caracteresRestantes - caracteresDigitados;
+
+  $(".caracteres").text(caracteresRestantes);
 });
 function getFormFiltroSelectMedicoAgenda() {
     $.ajax({
@@ -20,7 +42,10 @@ function getFormFiltroSelectMedicoAgenda() {
             );
           }
         }
-      });
+      }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    })
   }
   function preenchimentoMedicosAtivosDataNaAgenda(cpf) {
     $.ajax({
@@ -37,52 +62,17 @@ function getFormFiltroSelectMedicoAgenda() {
             "<option value=" + result[i].id + ">"+result[i].title+" dia "+ date +" - "+ result[i].periodo + "</option>"
           );
         }
-    });
-  }
-  function preenchimentoAtendimentosDoDia(id) {
-    let url = "acoes/requerimento/listaRequerimentoIdAgenda.php?id="+id;
-    $.ajax({
-      url: url,
-      method: "GET",
-      dataType: "json",
-    })
-      .done(function (result) {
-        $("#listaAtendimentosDia").html('');
-        console.log(url);
-        for (var i = 0; i < result.length; i++) {
-          console.log(result);
-          let data = converteDataBr(result[i].data);
-          $("#listaAtendimentosDia").prepend(
-            "<tr style='cursor: pointer;'>"+
-              "<td>"+
-                "<div class='icheck-primary d-none'>"+
-                  "<label for='check1'>"+result[i].id+"</label>"+
-                "</div>"+
-              "</td>"+
-              "<td class='mailbox-star'>"+
-                "<a><i class='fas fa-"+result[i].btnIcone+" text-"+result[i].classifica+"'></i></a>"+
-              "</td>"+
-              "<td class='mailbox-name'>"+
-                "<a>"+result[i].paciente+"</a>"+
-              "</td>"+
-              "<td class='mailbox-subject'>"+
-                "<b>"+result[i].solicitacao+"</b>"+
-              "</td>"+
-              "<td class='mailbox-attachment'></td>"+
-              "<td class='mailbox-date'>"+data+"</td>"+
-            "</tr>"
-          )
-      }
+      }).fail(function() {
+        msn('error','Sua sessão expirou');
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     });
   }
   $('#formFiltroSelectMedicoAgenda').change(function(){
     let cpf = $('#formFiltroSelectMedicoAgenda').val();
-    console.log(cpf)
     preenchimentoMedicosAtivosDataNaAgenda(cpf);
   })
   $('#formFiltroSelectMedicoAgendaDia').change(function(){
     let id_agenda = $('#formFiltroSelectMedicoAgendaDia').val();
-    console.log(id_agenda)
     preenchimentoAtendimentosDoDia(id_agenda);
   })
   function getPessoaDadosFuncionais(codfunc){
@@ -192,36 +182,164 @@ $('#fechaModalPonto').click(function(){
 $('#fechaModalPessoal').click(function(){
   fechaTodosModais();
 });
-$(document).ready(function(){
-  $('#carregandoModal').hide();
-  getPessoalNome();
-  var login = JSON.parse(sessionStorage.getItem('login'));
-  if(login.relatFichaFuncional == 0){
-      $('#fichaFuncional').hide();
-  }
-  if(login.relatAtribuicoesCargo == 0){
-      $('#atribuicaoDeCargo').hide();
-  }
-  if(login.relatFolhaPonto == 0){
-      $('#folhaDePonto').hide();
-  }
-  if(login.relatContraCheque == 0){
-      $('#contraCheque').hide();
-  }
-});
-  $('#listaAtendimentosDia').on("click", "tr", function() {
-    var paciente = new Object()
-    paciente.id = $(this).find("td:first").text();
-    paciente.nome = $(this).find("td:eq(2)").text();
-    paciente.solicitacao = $(this).find("td:eq(3)").text();
-    console.log(paciente);
-    getPessoaDadosFuncionais()
-    
-    //if (valor == 'Aguardando Protocolo'){
-//
-  //  }else if(valor == 'Perícia Agendada'){
-    //}else{
+function preenchimentoAtendimentosDoDia(id) {
+  let url = "acoes/requerimento/listaRequerimentoIdAgenda.php?id="+id;
+  $.ajax({
+    url: url,
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (result) {
+      $("#listaAtendimentosDia").html('');
+      for (var i = 0; i < result.length; i++) {
+        let data = converteDataBr(result[i].data);
+        $("#listaAtendimentosDia").prepend(
+          "<tr style='cursor: pointer;'>"+
+            "<td>"+
+              "<div class='icheck-primary d-none'>"+
+                "<label for='check1'>"+result[i].id+"</label>"+
+              "</div>"+
+            "</td>"+
+            "<td>"+
+              "<label for='check1'>"+result[i].matricula+"</label>"+
+            "</td>"+
+            "<td class='mailbox-star'>"+
+              "<a><i class='fas fa-"+result[i].btnIcone+" text-"+result[i].classifica+"'></i></a>"+
+            "</td>"+
+            "<td class='mailbox-name'>"+
+              "<a>"+result[i].paciente+"</a>"+
+            "</td>"+
+            "<td class='mailbox-subject'>"+
+              "<b>"+result[i].solicitacao+"</b>"+
+            "</td>"+
+            "<td class='mailbox-attachment'></td>"+
+            "<td class='mailbox-date'>"+data+"</td>"+
+          "</tr>"
+        )
+    }
+  }).fail(function() {
+    msn('error','Sua sessão expirou');
+    setTimeout(() => {  window.location.href = "index.html" }, 1000);
+  });
+}
+$('#idCid10Busca').on('keyup', function() {
+    var term = $(this).val();
+    var url ='acoes/CID10/listaCategoriaSub.php?term='+term;
+    if(term.length >= 4){
+          $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: "json",
+          }).done(function(result){
+            console.log('success');
+            var options = '';
+            $.each(result, function(index, value) {
+              options += '<option value="' + value.id + '">' + value.nome + '</option>';
+            });
+            $('#idCid10').html(options);
+            $("#idCid10").prepend("<option value='' selected></option>");
+            if(result.length >0){
+              $('#idCid10').prop('disabled', false);
+            }
+          }).fail(function() {
+            msn('error','Sua sessão expirou');
+            setTimeout(() => {  window.location.href = "index.html" }, 1000);
+          }).always(function() {
+              $('#carregando').hide();
+          });
+      }else{
+        $('#idCid10').html('');
+        $('#idCid10').prop('disabled', true);
+      }
+  });
+  
+  $('#idCid10').on('change', function() {
+    var values = $(this).val();
+    var options = '';
+    console.log(values);
+    if(values != ''){
+      $("#idCid10Selecionados").prepend(
+        "<option selected value=" + values + "> "+values+ "</option>"
+      );
+      $('idCid10Selecionados option').each(function() {
+        $('idCid10Selecionados option[value="' + values + '"]').not(this).remove();
+      });
+    }
+  });
+  $('#idCid10BuscaHPP').on('keyup', function() {
+    var term = $(this).val();
+    var url ='acoes/CID10/listaCategoriaSub.php?term='+term;
+    if(term.length >= 4){
+          $.ajax({
+            url:url,
+            type: 'POST',
+            dataType: "json",
+          }).done(function(result){
+            console.log('success');
+            var options = '';
+            $.each(result, function(index, value) {
+              options += '<option value="' + value.id + '">' + value.nome + '</option>';
+            });
+            $('#idCid10HPP').html(options);
+            $("#idCid10HPP").prepend("<option value='' selected></option>");
+            if(result.length >0){
+              $('#idCid10HPP').prop('disabled', false);
+            }
+          }).fail(function() {
+            msn('error','Sua sessão expirou');
+            setTimeout(() => {  window.location.href = "index.html" }, 1000);
+          }).always(function() {
+              $('#carregando').hide();
+          });
+      }else{
+        $('#idCid10HPP').html('');
+        $('#idCid10HPP').prop('disabled', true);
+      }
+  });
+  
+  $('#idCid10HPP').on('change', function() {
+    var values = $(this).val();
+    var options = '';
+    console.log(values);
+    if(values != ''){
+      $("#idCid10SelecionadosHPP").prepend(
+        "<option selected value=" + values + "> "+values+ "</option>"
+      );
+      $('idCid10SelecionadosHPP option').each(function() {
+        $('idCid10Selecionados option[value="' + values + '"]').not(this).remove();
+      });
+    }
+  });
+  $('#salvarPericiaMedica').on("click", function() {
+    var fichaMedica = new Object()
+    fichaMedica.idrequerimento = $('#idrequerimento').val()
+    fichaMedica.idRequerimentoMedico = $('#formFiltroSelectMedicoAgenda').val()
+    fichaMedica.medicamentosFichaMedica = $('#medicamentosFichaMedica').val()
+    fichaMedica.CRMFichaMedica = $('#CRMFichaMedica').val()
+    fichaMedica.diasAfastamentoFichaMedica = $('#diasAfastamentoFichaMedica').val()
+    fichaMedica.nomeMedicoAtestado = $('#nomeMedicoAtestado').val()
+    fichaMedica.obsFichaMedica = $('#obsFichaMedica').val()
+    fichaMedica.diasAfastamentoFichaMedica = $('#diasAfastamentoFichaMedica').val()
+    fichaMedica.idCid10Selecionados = $('#idCid10Selecionados').val()
+    fichaMedica.idCid10SelecionadosHPP = $('#idCid10SelecionadosHPP').val()
 
-    //}
+    
+    console.log(fichaMedica);
+
+    
+  })
+
+  $('#listaAtendimentosDia').on("click", "tr", function() {
+    var requerimento = new Object()
+    //Capturando dados
+    requerimento.idrequerimento = $(this).find("td:first").text();
+    requerimento.id_historico_funcional = $(this).find("td:eq(1)").text();
+    requerimento.nome = $(this).find("td:eq(3)").text();
+    requerimento.solicitacao = $(this).find("td:eq(4)").text();
+    
+    //Aplicando os dados
+    $('#idrequerimento').val(requerimento.idrequerimento);
+    getPessoaDadosFuncionais(requerimento.id_historico_funcional);
+    
   });
   
