@@ -241,6 +241,7 @@ function preenchimentoSelectSolicitacao() {
     dataType: "json",
   })
     .done(function (result) {
+      $("#idRequerimentoSolicitacao").html('')
       for (var i = 0; i < result.length; i++) {
         $("#idRequerimentoSolicitacao").prepend(
           "<option value=" + result[i].id + "> " + result[i].item + "</option>"
@@ -339,6 +340,3 @@ function limpaSelect(objSelect) {
     objSelect.options[0] = null;
   }
 }
-$('li').click(function(event) { 
-  console.log(event) 
-})

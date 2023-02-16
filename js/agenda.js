@@ -141,6 +141,7 @@ $("#formFiltroSelectUsuario").change(function () {
         $("#allDay").prop("checked", event.event.allDay);
         $("#idEvento").val(event.event.id);
         buscaEventoId(event.event.id);
+        vagasOcupadas(event.event.id);
         $("#calendarModal").modal();
       },
     });
@@ -229,6 +230,7 @@ function getAgendamentoMensal(dado) {
     });
   return eventos;
 }
+
 function removerEvento(id) {
   $.ajax({
     url: "acoes/agenda/removerEvento.php?id=" + id,
@@ -375,6 +377,21 @@ function preenchimentoSelectUsuario(result) {
       "<option value=" + result[i].CPF + "> " + result[i].nome + "</option>"
     );
   }
+}
+function vagasOcupadas(id_agenda) {
+  $.ajax({
+    url: "acoes/requerimento/vagasOcupadas.php?id_agenda="+id_agenda,
+    method: "GET",
+    dataType: "json"
+  }).done(function (result) {
+    if(result[0] != undefined){
+      $('#numeroAtendimentosOcupados').val(result[0].total);
+      $('#RemoverEvento').prop('disabled', true);
+    }else{
+      $('#numeroAtendimentosOcupados').val(0);
+      $('#RemoverEvento').prop('disabled', false);
+    }
+  });
 }
 function ini_events(ele) {
   ele.each(function () {

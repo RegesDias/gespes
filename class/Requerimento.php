@@ -41,6 +41,33 @@ class Requerimentos extends Generica{
               requerimento.id_info = '$id'";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
+  public function listaRequerimentoIdAgenda($id){
+    $sql = "SELECT
+                requerimento.id, 
+                requerimento.protocolo,
+                requerimento_status.btnIcone,
+                requerimento_status.classifica,
+                requerimento_status.nome as status,
+                requerimento_solicitacao.item as solicitacao,
+                agenda.periodo,
+                agenda.start as data,
+                info_pessoal.nome as paciente
+            FROM requerimento
+                LEFT JOIN requerimento_status
+                ON requerimento_status.id = requerimento.id_requerimento_status
+                LEFT JOIN requerimento_solicitacao
+                ON requerimento_solicitacao.id = requerimento.id_requerimento_solicitacao
+                LEFT JOIN agenda
+                ON agenda.id = requerimento.id_agenda
+                LEFT JOIN info_pessoal
+                ON info_pessoal.id = requerimento.id_info
+            WHERE
+              requerimento.id_agenda = '$id' AND
+              requerimento_status.id = '4'
+    ";
+    return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
+  
   //salvar
   public function inserir($obj){
     $login = $this->buscaLoginSDGC();
@@ -49,11 +76,13 @@ class Requerimentos extends Generica{
                                 id_requerimento_status,
                                 id_requerimento_solicitacao,
                                 id_info,
+                                id_historico_funcional,
                                 userLogin
                         )VALUES(
                                 '$obj->id_requerimento_status',
                                 '$obj->id_requerimento_solicitacao',
                                 '$obj->id_info',
+                                '$obj->id_historico_funcional',
                                 '$obj->userLogin')";
             $stm = Conexao::InstSDGC()->prepare($sql);
             $stm->execute();
@@ -62,7 +91,7 @@ class Requerimentos extends Generica{
             return $obj->id_requerimento;}
 
   public function atualizaRequerimentoHistorico ($obj){
-    if($obj->id_requerimento_status == ''){
+    if($obj->id_requerimento_medico != ''){
         $sql = "INSERT INTO requerimento_historico(
                 id_requerimento,
                 id_requerimento_medico,
@@ -75,7 +104,7 @@ class Requerimentos extends Generica{
                 '$obj->id_requerimento_status',
                 '$obj->userLogin',
                 '1'
-          )";
+        )";
     }else{
           $sql = "INSERT INTO requerimento_historico(
                 id_requerimento,
@@ -94,7 +123,7 @@ class Requerimentos extends Generica{
       $stm = Conexao::InstSDGC()->prepare($sql);
       $tei = Conexao::InstSDGC()->lastInsertId();
       $stm->execute();
-      return $tei;
+      return $sql;
   }
   //atualizar
   public function inserirNumeroDeProtocolo($obj){
@@ -113,6 +142,22 @@ class Requerimentos extends Generica{
                 id = '$obj->id_requerimento'";
     $stm = Conexao::InstSDGC()->exec($sql);
     return $stm;
+  }
+  public function cancelarAgendamento($obj){
+    $sql = "UPDATE requerimento SET 
+                  id_agenda = null
+            WHERE 
+                id = '$obj->id_requerimento'";
+    $stm = Conexao::InstSDGC()->exec($sql);
+    return $sql;
+  }
+  public function atualizarAgenda($obj){
+    $sql = "UPDATE requerimento SET 
+                  id_agenda = '$obj->id_agenda'
+            WHERE 
+                id = '$obj->id_requerimento'";
+    $stm = Conexao::InstSDGC()->exec($sql);
+    return $sql;
   }
   public function vagasOcupadas($id_agenda){
     $sql = "SELECT COUNT(id_agenda) as total FROM requerimento WHERE requerimento.id_agenda = '$id_agenda' GROUP BY id_agenda";
@@ -152,14 +197,16 @@ class Requerimentos extends Generica{
     ";
     return Conexao::InstSDGC()->prepare($sql);  
   }
-  public function requerimentosStatusReAgenda($id_requerimento_status){
+  public function requerimentosStatusReAgenda(){
     $sql = "SELECT 
                 requerimento_status.id,
                 requerimento_status.nome
             FROM 
                 requerimento_status
             WHERE
-                requerimento_status.id = '$id_requerimento_status'
+                ativo = '1' AND
+                reAgenda = '1'
+
     ";
     return Conexao::InstSDGC()->prepare($sql); 
   }

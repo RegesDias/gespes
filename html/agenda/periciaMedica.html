@@ -1,0 +1,575 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Perícia Médica</h3>
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+            <label>Médico</label>
+            <select id='formFiltroSelectMedicoAgenda' class="form-control select2" style="width: 100%;">
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label>Atendimento</label>
+            <select id='formFiltroSelectMedicoAgendaDia' class="form-control select2" style="width: 100%;">
+            </select>
+        </div>
+      </div>
+    </div>
+    <div class="card card-outline">
+      <div class="card-body p-0">
+        <div class="mailbox-controls">
+          <!-- Check all button -->
+          <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+            <i class="far fa-square"></i>
+          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm">
+              <i class="far fa-trash-alt"></i>
+            </button>
+            <button type="button" class="btn btn-default btn-sm">
+              <i class="fas fa-reply"></i>
+            </button>
+            <button type="button" class="btn btn-default btn-sm">
+              <i class="fas fa-share"></i>
+            </button>
+          </div>
+          <!-- /.btn-group -->
+          <button type="button" class="btn btn-default btn-sm">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <div class="float-right">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button type="button" class="btn btn-default btn-sm">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            <!-- /.btn-group -->
+          </div>
+          <!-- /.float-right -->
+        </div>
+        <div
+          class="table-responsive mailbox-messages"
+          style="height: 300px; width: 100%; overflow: auto">
+          <table class="table table-hover table-striped">
+            <tbody id="listaAtendimentosDia">
+ 
+            </tbody>
+          </table>
+          <!-- /.table -->
+        </div>
+        <!-- /.mail-box-messages -->
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer p-0">
+        <div class="mailbox-controls">
+          <!-- Check all button -->
+          <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+            <i class="far fa-square"></i>
+          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm">
+              <i class="far fa-trash-alt"></i>
+            </button>
+            <button type="button" class="btn btn-default btn-sm">
+              <i class="fas fa-reply"></i>
+            </button>
+            <button type="button" class="btn btn-default btn-sm">
+              <i class="fas fa-share"></i>
+            </button>
+          </div>
+          <!-- /.btn-group -->
+          <button type="button" class="btn btn-default btn-sm">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <div class="float-right">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default btn-sm">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button type="button" class="btn btn-default btn-sm">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            <!-- /.btn-group -->
+          </div>
+          <!-- /.float-right -->
+        </div>
+      </div>
+    </div>
+    <!-- /.card -->
+  </div>
+  <div class="modal fade" id="modal-pessoal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: 0.8; height: 40px; margin-right: 10px" />
+          <h4 class="modal-title">Dados Funcionais</h4>
+          <button type="button" class="close" id="fechaModalPessoal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                  <div class="card-body box-profile">
+                    <div class="text-center">
+                      <img class="profile-user-img img-fluid img-bordered-sm" id="imgFoto" src="imagem"
+                        style="opacity: 0.8; height: 100px" />
+                    </div>
+                    <div class="profile-muted text-center" id="pessoalNomeFoto">
+                      Carregando...
+                    </div>
+                    <p class="text-username text-center"><b>Relatórios</b></p>
+
+                    <a href="#" class="btn btn-primary btn-block" id="fichaFuncional">
+                      <b>Ficha Funcional</b>
+                    </a>
+                    <a href="#" type="button" class="btn btn-primary btn-block" id="atribuicaoDeCargo">
+                      <b>Atribuições</b>
+                    </a>
+                    <a href="#" type="button" class="btn btn-primary btn-block" id="folhaDePonto">
+                      <b>Folha de Ponto</b>
+                    </a>
+                    <a href="#" type="button" class="btn btn-primary btn-block" id="contraCheque">
+                      <b>Contra Cheque</b>
+                    </a>
+
+                    <div class="modal-footer justify-content-between">
+
+
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+
+              </div>
+              <!-- /.col -->
+              <div class="col-md-9">
+                <div class="card">
+                  <div class="card">
+                    <div class="card-header p-2">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="gestaoClick" href="#gestao" data-toggle="tab">Gestão</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id='atendimentoBtn' href="#atendimento"
+                            data-toggle="tab">Atendimento</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <div class="tab-content">
+                        <div class="active tab-pane" id="gestao">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="row">
+                                  <div class="col-3">
+                                    <label>CPF</label>
+                                    <input disabled="disabled" class="form-control" id="pessoalCpfs" type="text"
+                                      placeholder="CPF" />
+                                  </div>
+                                  <div class="col-3">
+                                    <label>Matrícula</label>
+                                    <input disabled="disabled" id="pessoalCodFunc" type="text" class="form-control"
+                                      placeholder="CodFunc" />
+                                  </div>
+                                  <div class="col-3">
+                                    <label>Admissão</label>
+                                    <input disabled="disabled" id="pessoalDataAdmis" type="text" class="form-control"
+                                      placeholder="Data Admissão" />
+                                  </div>
+                                  <div class="col-3">
+                                    <label>Situação</label>
+                                    <input disabled="disabled" id="pessoalSecoes" type="text" class="form-control"
+                                      placeholder="Sessões" />
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-12">
+                                    <label>Nome</label>
+                                    <input disabled="disabled" id="pessoalNome" type="text" class="form-control"
+                                      placeholder="nome" />
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-12">
+                                    <label>Cargo</label>
+                                    <input disabled="disabled" id="pessoalNomeCarg" type="text" class="form-control"
+                                      placeholder="Nome do cargo" />
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-12">
+                                    <label>Lotação</label>
+                                    <input disabled="disabled" id="pessoalSecretarias" type="text"
+                                      class="form-control" placeholder="Lotação" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Campos Ocultos-->
+                            <input id="idInfo" type="text" class="d-none" />
+                            <input id="idHistFunc" type="text" class="d-none" />
+                          </div>
+                        </div>
+                        <div class="tab-pane" id="atendimento">
+                          <div class="col-md-12">
+                            <div class="box-body">
+                              <div class="form-group">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <div id='cardEndereco' class="card">
+                                      <div class="card-header">
+                                        <h3 id='cardEnderecoTitulo' class="card-title">Endereço</h3>
+
+                                        <div class="card-tools">
+                                          <button id='cardEnderecobtn' type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-plus" id='cardEnderecobtn'></i>
+                                          </button>
+                                        </div>
+                                        <!-- /.card-tools -->
+                                      </div>
+                                      <!-- /.card-header -->
+                                      <div id='cardEnderecoCorpo' class="card-body">
+                                        <div class="row">
+                                          <div class="col-4">
+                                            <label>CEP</label>
+                                            <input value='' type="text" name="cep" id="idCep" class="form-control"
+                                              placeholder="____-___" data-inputmask='"mask": "99999-999"' data-mask>
+                                          </div>
+                                          <div class="col-2">
+                                            <label>Estado</label>
+                                            <select name="estado" size="1" class="form-control select2" id="idEstado"
+                                              style="width: 100%;">
+
+                                            </select>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <label>Cidade</label>
+                                            <select name="cidade" size="1" class="form-control select2" id="idCidade"
+                                              style="width: 100%;">
+
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-4">
+                                            <label>Bairro</label>
+                                            <select name="bairro" size="1" class="form-control select2" id="idBairro"
+                                              style="width: 100%;">
+
+                                            </select>
+                                          </div>
+                                          <div class="col-md-8">
+                                            <label>Logradouro</label>
+                                            <input type="text" name="logradouro" id="idLogradouro"
+                                              class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-2">
+                                            <label>Número</label>
+                                            <input type="text" name="numero" id="idNumero" class="form-control">
+                                          </div>
+                                          <div class="col-md-10">
+                                            <label>Complemento</label>
+                                            <input type="text" name="complemento" id="idComplemento"
+                                              class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <label>Celular</label>
+                                            <input value='' type="text" name="celular" id="idCelular"
+                                              class="form-control" placeholder="(__) ___-______"
+                                              data-inputmask='"mask": "(99) 999-999999"' data-mask>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <label>Teletone</label>
+                                            <input value='' type="text" name="teletone" id="idTelefone"
+                                              class="form-control" placeholder="(__) ___-_____"
+                                              data-inputmask='"mask": "(99) 999-99999"' data-mask>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <label>Email</label>
+                                            <input type="email" name="email" id="idEmail" class="form-control"
+                                              placeholder="Enter ...">
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <br>
+                                          </div>
+                                          <div class="col-md-12">
+                                            <a href="#" id='enderecoSalvar'
+                                              class="btn btn-block btn-primary">Salvar</a>
+                                            <a href="#" id='enderecoAtualizar'
+                                              class="btn btn-block btn-primary">Atualizar</a>
+                                          </div>
+                                        </div>
+                                        <div class="row d-none">
+                                          <input type="text" name="idEndereco" id="idEndereco" class="form-control">
+                                        </div>
+                                      </div>
+                                      <!-- /.card-body -->
+                                    </div>
+                                    <!-- /.card -->
+                                  </div>
+                                  <div class="col-md-12">
+                                    <div id='exibeTipoRequerimento' class="row d-none">
+                                      <div class="col-md-12">
+                                        <div class="box-body">
+                                          <div class="form-group">
+                                            <div class="row">
+                                              <div class="col-md-12">
+                                                <div class="card">
+                                                  <div class="card-header">
+                                                    <h3 class="card-title">
+                                                      <i class="ion ion-clipboard mr-1"></i>
+                                                      Solicitações
+                                                    </h3>
+                                                  </div>
+                                                  <div class="card-body" style="height: 200px; width: 100%; overflow: auto">
+                                                    <ul class="todo-list" id='listaSolicitacoesCadastradas'data-widget="todo-list">
+                                                    </ul>
+                                                  </div>
+                                                  <div class="card-footer clearfix">
+                                                    <div class="input-group input-group-sm">
+                                                      <select class="form-control select2"
+                                                        id="idRequerimentoSolicitacao"
+                                                        name='idRequerimentoSolicitacao'">
+                                                            </select>
+                                                            <span class=" input-group-append">
+                                                        <button type="button" id='solicitacaoSalvar'
+                                                          class="btn btn-info btn-flat"><i class="nav-icon fas fa-edit"></i> Entrada</button>
+                                                        </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.row -->
+        </section>
+        <div class="modal-body">
+          <div class="modal fade" id="modal-data" style="margin-top: 60px">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Defina a data:</h4>
+                  <button type="button" class="close" id="fechaModalData" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <input class="form-control" id="mesAno" type="month" />
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-secondary" id="contraChequeImprimir">
+                    <i class="nav-icon fas fa-print"></i> Imprimir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modal-ponto" style="margin-top: 60px">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Defina a data Inicial e Final</h4>
+                  <button type="button" class="close" id="fechaModalPonto" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <label>Data Inicial</label>
+                      <input class="form-control" id="mesAnoInicial" type="month" />
+                    </div>
+                    <div class="col-12">
+                      <label>Data Final</label>
+                      <input class="form-control" id="mesAnoFinal" type="month" />
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-secondary" id="folhaDePontoImprimir">
+                    <i class="nav-icon fas fa-print"></i> Imprimir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modalInserirProtocolo" style="margin-top: 60px">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Inserir Protocolo</h4>
+                  <button type="button" class="close" id="fechaInserirProtocolo" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <label>Número Protocolo</label>
+                      <input type="text" class='d-none' id="idrequerimentoSelectLi">
+                      <input value='' type="text" name="protocolo" id="numeroProtocolo" class="form-control"
+                      placeholder="______-____" data-inputmask='"mask": "999999-9999"' data-mask>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-secondary" id="modalInserirProtocoloCadastrar">
+                    <i class="nav-icon fas fa-edit"></i> Salvar
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="modalInserirProtocoloImprimir">
+                    <i class="nav-icon fas fa-print"></i> Imprimir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modalAgendamento" style="margin-top: 60px">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Agendamento de Perícia</h4>
+                  <button type="button" class="close" id="fechaAgendamento" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <label>Médico</label>
+                      <select name="medicosAtivos" size="1" class="form-control select2" id="medicosAtivos"
+                      style="width: 100%;">
+                    </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-8">
+                        <label>Vagas</label>
+                        <select name="medicosAtivosDataNaAgenda" size="1" class="form-control select2" id="medicosAtivosDataNaAgenda"
+                        style="width: 100%;">
+                      </select>
+                    </div>
+                    <div class="col-2">
+                      <label>Disponível</label>
+                      <input type="text" disabled="disabled" id="vagasDisponibilizadas" class="form-control">
+                    </div>
+                    <div class="col-2">
+                      <label>Ocupada</label>
+                      <input type="text" disabled="disabled" id="vagasOcupadas" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-secondary" id="modalAgendamentoCadastrar">
+                    <i class="nav-icon fas fa-edit"></i> Salvar
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="modalAgendamentoImprimir">
+                    <i class="nav-icon fas fa-print"></i> Imprimir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modalDadosDoAgendamento" style="margin-top: 60px">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Dados do Agendamento</h4>
+                  <button type="button" class="close" id="fechaModalDadosDoAgendamento" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title" id="protocoloModalDadosDoAgendamento">
+                        <i class="fas fa-text-width"></i>
+                      </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <blockquote>
+                        <h3><p id="statusModalDadosDoAgendamento" ></p></h3>
+                        <p id="solicitacaoModalDadosDoAgendamento" ></p>
+                        <p id="medicoModalDadosDoAgendamento" ></p>
+                        <p id="dataModalDadosDoAgendamento" >
+                        </p>
+                      </blockquote>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                      <div class="input-group input-group-sm">
+                        <select class="form-control select2"
+                          id="selectRequerimentosStatusReAgenda"
+                          name='selectRequerimentosStatusReAgenda'">
+                              </select>
+                              <span class=" input-group-append">
+                          <button type="button" id='reagendarModalDadosDoAgendamento'
+                            class="btn btn-info btn-flat"><i class="nav-icon fas fa-edit"></i> Reagendar</button>
+                          </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
+        </div>
+        <div id="carregandoModal" class="overlay dark hidden">
+          <img src="img/loading.gif" />
+        </div>        
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+  </div>
+</div>
+
+<script src="js/periciaMedica.js"></script>

@@ -1,3 +1,31 @@
+$("#reagendarModalDadosDoAgendamento").on("click", function () {
+  var end = new Object()
+  end.id_requerimento_status = $("#selectRequerimentosStatusReAgenda").val()
+  end.id = $("#idrequerimentoSelectLi").val()
+  end.id_agenda = null
+  end.id_info = $("#idInfo").val();
+  end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
+  $.ajax({
+    url: "acoes/requerimento/alterarStatus.php",
+    method: "POST",
+    dataType: "json",
+    data: end,
+  }).done(function (result) {
+        if(result.codigo == 0){
+          result.acao = 'error'
+        }
+        console.log(result.exec);
+        msn(result.acao,result.mensagem);
+        $('#modalDadosDoAgendamento').modal('hide');
+        $('#medicosAtivosDataNaAgenda').html('');
+        listaRequerimentoIdInfo();
+    }).fail(function () {
+      //$(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+})
 $("#modalAgendamentoCadastrar").on("click", function () {
   var end = new Object()
   end.id_requerimento_status = '4';
@@ -5,6 +33,8 @@ $("#modalAgendamentoCadastrar").on("click", function () {
   end.id_agenda = $("#medicosAtivosDataNaAgenda").val()
   end.id_info = $("#idInfo").val();
   end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
+  end.id_requerimento_medico = $("#medicosAtivos").val()
+  console.log( end.id_requerimento_medico);
   $.ajax({
     url: "acoes/requerimento/inserirAtendimento.php",
     method: "POST",
@@ -58,6 +88,7 @@ $("#solicitacaoSalvar").on("click", function () {
     end.id_requerimento_status = '1';
     end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
     end.id_info = $("#idInfo").val();
+    end.id_historico_funcional = $("#idHistFunc").val();
     $.ajax({
       url: "acoes/requerimento/salvar.php",
       method: "POST",
@@ -65,6 +96,7 @@ $("#solicitacaoSalvar").on("click", function () {
       data: end,
     })
       .done(function (result) {
+        console.log(result);
         if(result.id == 0){
           msn('error','Servidor já possue endereço salvo!');
         }else{
@@ -212,7 +244,7 @@ function preenchimentoMedicosAtivosDataNaAgenda(cpf) {
       for (var i = 0; i < result.length; i++) {
         let date = converteDataBr(result[i].start)
         $("#medicosAtivosDataNaAgenda").prepend(
-          "<option value=" + result[i].id + "> " + date +" - "+ result[i].periodo + "</option>"
+          "<option value=" + result[i].id + ">"+result[i].title+" dia "+ date +" - "+ result[i].periodo + "</option>"
         );
       }
     })
@@ -282,18 +314,18 @@ function limpaLista(objSelect) {
     acao = tarefa.split(' - ')
     $('#idrequerimentoSelectLi').val($(this).val())
     if (acao[1] == 'Aguardando Protocolo'){
-      numeroProtocolo
         $('#numeroProtocolo').val('');
         $('#modalInserirProtocolo').modal('show')
-    }else if(acao[1] == 'Protocolo Entregue'){
-        $('#medicosAtivosDataNaAgenda').html('')
-        $('#vagasDisponibilizadas').val('')
-        $('#vagasOcupadas').val('')
-        $('#modalAgendamento').modal('show')
-        preenchimentoMedicosAtivosCpf()
     }else if(acao[1] == 'Perícia Agendada'){
       $('#modalDadosDoAgendamento').modal('show')
       resumoAgendamento()
+      requerimentosStatusReAgenda()
+    }else{
+      $('#medicosAtivosDataNaAgenda').html('')
+      $('#vagasDisponibilizadas').val('')
+      $('#vagasOcupadas').val('')
+      $('#modalAgendamento').modal('show')
+      preenchimentoMedicosAtivosCpf()
     }
   });
   $('#fechaModalDadosDoAgendamento').click(function(){
@@ -321,7 +353,23 @@ function limpaLista(objSelect) {
         $('#dataModalDadosDoAgendamento').text(data+" "+result[0].periodo)
     });
   }
-
+  function requerimentosStatusReAgenda() {
+    $.ajax({
+      url: "acoes/requerimento/requerimentosStatusReAgenda.php",
+      method: "GET",
+      dataType: "json"
+    }).done(function (result) {
+      $("#selectRequerimentosStatusReAgenda").html('')
+      $("#selectRequerimentosStatusReAgenda").prepend(
+        "<option></option>"
+      );
+      for (var i = 0; i < result.length; i++) {
+        $("#selectRequerimentosStatusReAgenda").prepend(
+          "<option value=" + result[i].id+ "> " + result[i].nome.toUpperCase()+ "</option>"
+        );
+      }
+    });
+  }
   function vagasOcupadas(id_agenda) {
     $.ajax({
       url: "acoes/requerimento/vagasOcupadas.php?id_agenda="+id_agenda,
@@ -365,3 +413,4 @@ function limpaLista(objSelect) {
     }, 250);
 
   })
+

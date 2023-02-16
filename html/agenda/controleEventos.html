@@ -25,8 +25,9 @@
                     <!-- the events -->
                     <div id="external-events">
                       <div class="external-event bg-info">Reunião</div>
-                      <div class="external-event bg-primary">Reunião Externa</div>
-                      <div class="external-event bg-danger">Atendimento</div>
+                      <div class="external-event bg-warning">Atendimento</div>
+                      <div class="external-event bg-success">Perícia Médica</div>
+                      <div class="external-event bg-danger">Junta Médica</div>
                       <div class="checkbox">
                         <label for="drop-remove">
                           <input type="checkbox" id="drop-remove">
@@ -122,9 +123,13 @@
               </div>
             </div>
             <div class="row" id="agendamento">
-              <div class="col-6">
-                <label>Número de Atendimentos</label>
+              <div class="col-3">
+                <label>Vagas Disponíveis</label>
                 <input class="form-control" id='numeroAtendimentos' type="number">
+              </div>
+              <div class="col-3">
+                <label>Vagas Ocupadas</label>
+                <input disabled="disabled" class="form-control" id='numeroAtendimentosOcupados' type="number">
               </div>
               <div class="col-6">
                 <label>Período</label>

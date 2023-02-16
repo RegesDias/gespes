@@ -203,6 +203,10 @@ $("#alterarSenha").on("click", function() {
   $('#principal').load( 'html/usuario/alterarSenha.html');
   $('#logoDireita').show();
 });
+$("#periciaMedica").on("click", function() {
+  $('#principal').load( 'html/agenda/periciaMedica.html');
+  $('#logoDireita').show();
+});
 
 $("#sairSistema").on("click", function() {
   sair()
