@@ -217,7 +217,9 @@
                                 <div class="row">
                                   <div class="col-12">
                                     <div class="box box-widget">
-                                      <input class="d-none" id="idrequerimento" type="text" />
+                                      <input class="d-none" id="idRequerimento" type="text" />
+                                      <input class="d-none" id="idAgenda" type="text" />
+                                      <input class="d-none" id="idRequerimentoAtendimento" type="text" />
                                     </div>
                                     <div class="card card-success">
                                       <div class="card-header">
@@ -348,10 +350,10 @@
                               <button class="btn btn-success" data-toggle="modal" data-target="#fecharLotacao">
                                 <i class="fa fa-check"></i> Finalizar
                               </button>
-                              <button id='salvarPericiaMedica' class="btn btn-primary" type="button">
+                              <button id='salvarPericiaMedica' class="btn btn-primary d-none" type="button">
                                 <i class="fa fa-save"></i> Salvar
                               </button>
-                              <button id='atualizarPericiaMedica' class="btn btn-primary" type="button">
+                              <button id='atualizarPericiaMedica' class="btn btn-primary d-none" type="button">
                                 <i class="fa fa-save"></i> Atualizar
                               </button>
                             </div>
@@ -366,6 +368,7 @@
                                         <option value=""></option>
                                         <option value="5">Homologado</option>
                                         <option value="6">Não Homologado</option>
+                                        <option value="7">Enviado Agendamento de Retorno</option>
                                       </select>
                                     </div>
                                     <div class="col-sm-12"><br></div>

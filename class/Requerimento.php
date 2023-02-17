@@ -52,6 +52,7 @@ class Requerimentos extends Generica{
                 requerimento_solicitacao.item as solicitacao,
                 agenda.periodo,
                 agenda.start as data,
+                agenda.id as id_agenda,
                 info_pessoal.nome as paciente
             FROM requerimento
                 LEFT JOIN requerimento_status
@@ -91,8 +92,97 @@ class Requerimentos extends Generica{
             $this->atualizaRequerimentoHistorico($obj);
             return $sql;
             //return $obj->id_requerimento;
-          }
-
+    }
+  public function buscarRAtendimentoCid($HPP,$id_requerimento_atendimento){
+        $sql = "SELECT * FROM 
+                    requerimento_atendimento_cid 
+              WHERE 
+                    requerimento_atendimento_cid.HPP = '$HPP' AND
+                    requerimento_atendimento_cid.id_requerimento_atendimento = '$id_requerimento_atendimento'";
+        return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
+  public function buscarRAtendimento($idRequerimento,$idAgenda){
+    $sql = "SELECT * FROM 
+                requerimento_atendimento 
+          WHERE 
+            requerimento_atendimento.idRequerimento = '$idRequerimento' AND
+            requerimento_atendimento.idAgenda = '$idAgenda'";
+    return $stm = Conexao::InstSDGC()->prepare($sql);
+}
+public function atualizarRAtendimento($obj){
+  $sql = "UPDATE requerimento_atendimento SET 
+                          medicamentosFichaMedica='$obj->medicamentosFichaMedica', 
+                          CRMFichaMedica='$obj->CRMFichaMedica', 
+                          nomeMedicoAtestado='$obj->nomeMedicoAtestado', 
+                          obsFichaMedica='$obj->obsFichaMedica', 
+                          diasAfastamentoFichaMedica='$obj->diasAfastamentoFichaMedica', 
+                          dataHoraAtendimento=NOW()
+                      WHERE
+                          id='$obj->id_requerimento_atendimento'
+                      ";
+    $rtn = new stdClass();
+    $rtn->exec = Conexao::InstSDGC()->exec($sql);
+    $rtn->sql = $sql; 
+    return $rtn;
+}
+  public function inserirRAtendimento($obj){
+    $login = $this->buscaLoginSDGC();
+    $obj->userLogin = $login->id; 
+    $sql = "INSERT INTO requerimento_atendimento (
+                          idRequerimento,
+                          idAgenda,
+                          idRequerimentoMedico, 
+                          medicamentosFichaMedica, 
+                          CRMFichaMedica, 
+                          nomeMedicoAtestado, 
+                          obsFichaMedica, 
+                          diasAfastamentoFichaMedica, 
+                          dataHoraAtendimento,
+                          ativo
+                        )VALUES(
+                          '$obj->id_requerimento', 
+                          '$obj->idAgenda', 
+                          '$obj->id_requerimento_medico', 
+                          '$obj->medicamentosFichaMedica', 
+                          '$obj->CRMFichaMedica', 
+                          '$obj->nomeMedicoAtestado', 
+                          '$obj->obsFichaMedica', 
+                          '$obj->diasAfastamentoFichaMedica', 
+                          NOW(),
+                          '1'
+                        )";
+            $stm = Conexao::InstSDGC()->prepare($sql);
+            $stm->execute();
+            $obj->id_requerimento_atendimento = Conexao::InstSDGC()->lastInsertId();
+            $this->atualizaRequerimentoHistorico($obj);
+            $retorno = new stdClass();
+            $retorno->sql= $sql;
+            $retorno->id_requerimento_atendimento= $obj->id_requerimento_atendimento;
+            return $retorno;
+    }
+    public function limparRAtendimentoCid($id_requerimento_atendimento){
+      $sql = "DELETE FROM `requerimento_atendimento_cid` WHERE id_requerimento_atendimento = '$id_requerimento_atendimento'";
+      $stm = Conexao::InstSDGC()->prepare($sql);
+      $stm->execute();
+    }
+    public function inserirRAtendimentoCid($id_atendimento,$CID10,$ativo){
+      $sql = "INSERT INTO requerimento_atendimento_cid(
+                  id_requerimento_atendimento,
+                  CID10,
+                  HPP,
+                  ativo,
+                  dataHora
+            )VALUES(
+                  '$id_atendimento', 
+                  '$CID10',
+                  '$ativo',
+                  '1', 
+                  NOW()
+            )";
+              $stm = Conexao::InstSDGC()->prepare($sql);
+              $stm->execute();
+              return $sql;
+      }
   public function atualizaRequerimentoHistorico ($obj){
     if($obj->id_requerimento_medico != ''){
         $sql = "INSERT INTO requerimento_historico(
