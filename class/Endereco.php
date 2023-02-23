@@ -59,7 +59,7 @@ public function listaSolicitacoes(){
     return $stm = Conexao::InstEndereco()->prepare($sql);
   }
 //Inserções----------------------------------------
-  public function insereEndereco($obj){
+  public function insereEnderecoOLD($obj){
       $sql = "INSERT INTO requerimento_info(
                                   id_info,
                                   cep_logradouro,
@@ -84,6 +84,31 @@ public function listaSolicitacoes(){
               $stm->execute();
               return Conexao::InstSDGC()->lastInsertId();
   }
+  public function insereEndereco($obj){
+    $sql = "INSERT INTO requerimento_info(
+                                id_info,
+                                cep_logradouro,
+                                id_bairro,
+                                endereco,
+                                numero, 
+                                complemento, 
+                                celular,
+                                telefone,
+                                email
+                        )VALUES(
+                                '$obj->id_info',
+                                NULL,
+                                NULL,
+                                NULL,
+                                NULL,
+                                NULL,
+                                '$obj->celular',
+                                '$obj->telefone',
+                                '$obj->email')";
+            $stm = Conexao::InstSDGC()->prepare($sql);
+            $stm->execute();
+            return Conexao::InstSDGC()->lastInsertId();
+}
   public function atualizaEndereco($obj){
     $sql = "UPDATE requerimento_info SET 
                     id_info = '$obj->id_info',

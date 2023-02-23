@@ -347,7 +347,7 @@
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <button class="btn btn-success" data-toggle="modal" data-target="#fecharLotacao">
+                              <button class="btn btn-success d-none" id="abrirModalFinalizar">
                                 <i class="fa fa-check"></i> Finalizar
                               </button>
                               <button id='salvarPericiaMedica' class="btn btn-primary d-none" type="button">
@@ -357,7 +357,7 @@
                                 <i class="fa fa-save"></i> Atualizar
                               </button>
                             </div>
-                            <div class="modal fade" id="fecharLotacao" role="dialog">
+                            <div class="modal fade" id="modalFinalizar" role="dialog">
                               <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                   <div class="modal-body">
@@ -368,16 +368,16 @@
                                         <option value=""></option>
                                         <option value="5">Homologado</option>
                                         <option value="6">Não Homologado</option>
-                                        <option value="7">Enviado Agendamento de Retorno</option>
+                                        <option value="3">Enviado Agendamento de Retorno</option>
                                       </select>
                                     </div>
                                     <div class="col-sm-12"><br></div>
                                   </div>
                                   <div class="modal-footer">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-primary" type="button" id='modalFinalizarConfirmar'>
                                       Confirmar
                                     </button>
-                                    <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
+                                    <button type="button" id='modalFinalizarCancelar' class="btn btn-default">Cancelar</button>
                                   </div>
                                 </div>
                               </div>

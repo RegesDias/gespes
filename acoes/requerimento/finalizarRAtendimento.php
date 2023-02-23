@@ -5,7 +5,7 @@ header('Content-Type: application/json');
     $obj = new stdClass();
     $login = $s->buscaLoginSDGC();
     $obj->userLogin = $login->id;
-    $obj->id_requerimento_status = '8';
+    $obj->id_requerimento_status = $s->setDado($_POST['id_requerimento_status']);
     $obj->id_requerimento = $s->setDado($_POST['idrequerimento']);
     $obj->idAgenda = $s->setDado($_POST['idAgenda']);
     $obj->id_requerimento_medico = $s->setDado($_POST['idRequerimentoMedico']);
@@ -14,20 +14,13 @@ header('Content-Type: application/json');
     $obj->nomeMedicoAtestado = $s->setDado($_POST['nomeMedicoAtestado']);
     $obj->obsFichaMedica = $s->setDado($_POST['obsFichaMedica']);
     $obj->diasAfastamentoFichaMedica = $s->setDado($_POST['diasAfastamentoFichaMedica']);
-    $obj->idCid10Selecionados = $s->setDado($_POST['idCid10Selecionados']);
-    $obj->idCid10SelecionadosHPP = $s->setDado($_POST['idCid10SelecionadosHPP']);
+    $obj->id_requerimento_atendimento = $s->setDado($_POST['idRequerimentoAtendimento']);
     
     if(Conexao::verificaLogin('consultaPessoal')){
         $tei = $s->atualizaRequerimentoHistorico($obj);
         $exec = $s->atualizarStatus($obj);
-        $retorno=$s->inserirRAtendimento($obj);
-        if($retorno > 0){
-            foreach($obj->idCid10Selecionados as $cid10){
-                $sql=$s->inserirRAtendimentoCid($retorno->id_requerimento_atendimento, $cid10, '0');
-            }
-            foreach($obj->idCid10SelecionadosHPP as $cid10){
-                $sql=$s->inserirRAtendimentoCid($retorno->id_requerimento_atendimento, $cid10, '1');
-            }
+        $finaliza = $s->finalizaRAtendimento($obj);
+        if($exec > 0){
             $rtn = array('acao' => 'success', 'mensagem' => 'Perícia salva com sucesso', 'exec'=> $retorno, 'id'=> $retorno->id_requerimento_atendimento ,'codigo'=>'1');
             echo json_encode($rtn);
         }else{

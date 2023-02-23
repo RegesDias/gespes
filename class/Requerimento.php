@@ -65,7 +65,8 @@ class Requerimentos extends Generica{
                 ON info_pessoal.id = requerimento.id_info
             WHERE
               requerimento.id_agenda = '$id' AND
-              requerimento_status.id = '4'
+              (requerimento_status.id = '4' OR
+              requerimento_status.id = '8')
     ";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
@@ -233,6 +234,14 @@ public function atualizarRAtendimento($obj){
                   id_requerimento_status = '$obj->id_requerimento_status'
             WHERE 
                 id = '$obj->id_requerimento'";
+    $stm = Conexao::InstSDGC()->exec($sql);
+    return $stm;
+  }
+  public function finalizaRAtendimento($obj){
+    $sql = "UPDATE requerimento_atendimento SET 
+                  finalizado = '1'
+            WHERE 
+                id = '$obj->id_requerimento_atendimento'";
     $stm = Conexao::InstSDGC()->exec($sql);
     return $stm;
   }
