@@ -27,9 +27,17 @@
 								'nome': response.nome,
 								'CPF': response.CPF,
 								'idSetor': response.idSetor,
+								'pessoal': response.pessoal,
 								'consultaPessoal': response.consultaPessoal,
 								'protocolo': response.protocolo,
+								'protFiltroUsuarios': response.protFiltroUsuarios,
+								'protFiltroSetor': response.protFiltroSetor,
+								'protBTNArquivar': response.protBTNArquivar,
+								'protBTNMovimentar': response.protBTNMovimentar,
+								'protBTNInserir': response.protBTNInserir,
 								'atendimentoAgenda': response.atendimentoAgenda,
+								'agenda': response.agenda,
+								'periciaMedica': response.periciaMedica,
 								'alterarSenha': response.alterarSenha,
 								'usuarios': response.usuarios,
 								'setor': response.setor,
@@ -38,6 +46,9 @@
 								'relatAtribuicoesCargo':response.relatAtribuicoesCargo,
 								'relatFolhaPonto': response.relatFolhaPonto,
 								'relatContraCheque': response.relatContraCheque,
+								'atendimento': response.atendimento,
+								'medico': response.medico,
+								'periciaMedica': response.periciaMedica
 							};
 					log = JSON.stringify(log);
 					sessionStorage.setItem('login', log);
@@ -68,7 +79,7 @@
 					log = JSON.stringify(log);
 					sessionStorage.setItem('nome', log);
                     msn('success',response.mensagem);
-					setTimeout(() => {  window.location.href = "home.html" }, 1000);
+					setTimeout(() => {  window.location.href = "index.html" }, 1000);
 				}else{
 					msn('error',response.mensagem);
 				}

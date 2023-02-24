@@ -5,7 +5,7 @@ require_once('../../class/Requerimento.php');
 $s = new Requerimentos;
 
 $exec = $s->listaRSolicitacoes();
-if(Conexao::verificaLogin('consultaPessoal')){
+if(Conexao::verificaLogin('atendimentoAgenda')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         $s->gravaLog('Exibe dados do servidor matricula: '.$codfunc);

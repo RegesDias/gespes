@@ -175,6 +175,13 @@
                                         class="form-control" placeholder="Lotação" />
                                     </div>
                                   </div>
+                                  <div class="row">
+                                    <div class="col-12">
+                                      <label>Regime</label>
+                                      <input disabled="disabled" id="pessoalRegime" type="text"
+                                        class="form-control" placeholder="Regime" />
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                               <!--Campos Ocultos-->
@@ -182,8 +189,19 @@
                               <input id="idHistFunc" type="text" class="d-none" />
                             </div>
                           </div>
+
                           <div class="tab-pane" id="atendimento">
-                            <div class="col-md-12">
+                            <div class="col-md-12" id="atendimentoBloqueado">
+                                <div class="error-content">
+                                  <h3><i class="fas fa-exclamation-triangle text-danger"></i> Opa! Algo deu errado.</h3>
+                        
+                                  <p>
+                                    Não é possivél dar entrada no atendimento deste servidor.
+                                    Verifique se o mesmo possui um regime compatível, qualquer dúvida entre em contato com suporte técnico.                                  </p>
+                                  </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="atendimentoLiberado">
                               <div class="box-body">
                                 <div class="form-group">
                                   <div class="row">

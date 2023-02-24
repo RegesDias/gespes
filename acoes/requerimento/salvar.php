@@ -10,7 +10,7 @@ $obj->id_requerimento_solicitacao = $s->setDado($_POST['id_requerimento_solicita
 $obj->matricula = $s->setDado($_POST['matricula']);
 $obj->id_info = $s->setDado($_POST['id_info']);
 
-if(Conexao::verificaLogin('consultaPessoal')){
+if(Conexao::verificaLogin('atendimentoAgenda')){
     $id = $s->inserir($obj);
     echo json_encode($id);
     $r = array(

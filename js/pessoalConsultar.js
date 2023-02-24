@@ -79,9 +79,22 @@ function getPessoaDadosFuncionais(codfunc){
         $('#pessoalPrefixos').val(dadosPessoal[0].prefixos);
         $('#pessoalSecoes').val(dadosPessoal[0].secoes);
         $('#pessoalSecretarias').val(dadosPessoal[0].secretarias);
+        $('#pessoalRegime').val(dadosPessoal[0].regime);
         $('#idInfo').val(dadosPessoal[0].idInfo);
         $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
+        let idRegime = dadosPessoal[0].idRegime;
         $('#modal-pessoal').modal('show');
+
+        if(idRegime == '00008' || idRegime == '00010'){
+            $('#atendimentoBloqueado').addClass('d-none');
+            $('#atendimentoLiberado').removeClass('d-none');
+
+            console.log('if')
+        }else{
+            $('#atendimentoBloqueado').removeClass('d-none');
+            $('#atendimentoLiberado').addClass('d-none');
+            console.log('else')
+        }
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -263,5 +276,11 @@ $(document).ready(function(){
     }
     if(login.relatContraCheque == 0){
         $('#contraCheque').hide();
+    }
+    if(login.relatContraCheque == 0){
+        $('#contraCheque').hide();
+    }
+    if(login.atendimentoAgenda == 0){
+        $('#atendimentoBtn').hide();
     }
 });

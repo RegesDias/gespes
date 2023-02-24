@@ -16,7 +16,7 @@ header('Content-Type: application/json');
     $obj->diasAfastamentoFichaMedica = $s->setDado($_POST['diasAfastamentoFichaMedica']);
     $obj->id_requerimento_atendimento = $s->setDado($_POST['idRequerimentoAtendimento']);
     
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $tei = $s->atualizaRequerimentoHistorico($obj);
         $exec = $s->atualizarStatus($obj);
         $finaliza = $s->finalizaRAtendimento($obj);

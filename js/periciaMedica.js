@@ -41,6 +41,14 @@ function getFormFiltroSelectMedicoAgenda() {
               "<option value=" + result[i].CPF + "> " + result[i].nome + "</option>"
             );
           }
+          var login = JSON.parse(sessionStorage.getItem('login'));
+          if(login.medico == 1){
+            $('#formFiltroSelectMedicoAgenda').val(login.CPF)
+            $('#formFiltroSelectMedicoAgenda').prop('disabled', true);
+            preenchimentoMedicosAtivosDataNaAgenda(login.CPF)
+          }else{
+            $('#formFiltroSelectMedicoAgenda').prop('disabled', false);
+          }
         }
       }).fail(function() {
         msn('error','Sua sessão expirou');

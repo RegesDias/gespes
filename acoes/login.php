@@ -29,8 +29,16 @@ if ($_SESSION['logado'] == 'SIM'):
 						'nome' => $retorno[0]->nome,
 						'CPF' => $retorno[0]->CPF,
 						'consultaPessoal' => $retorno[0]->consultaPessoal,
+						'pessoal' => $retorno[0]->pessoal,
 						'protocolo' => $retorno[0]->protocolo,
+						'protFiltroUsuarios' => $retorno[0]->protFiltroUsuarios,
+						'protFiltroSetor' => $retorno[0]->protFiltroSetor,
+						'protBTNArquivar' => $retorno[0]->protBTNArquivar,
+						'protBTNMovimentar' => $retorno[0]->protBTNMovimentar,
+						'protBTNInserir' => $retorno[0]->protBTNInserir,
 						'atendimentoAgenda' => $retorno[0]->atendimentoAgenda,
+						'agenda' => $retorno[0]->agenda,
+						'periciaMedica' => $retorno[0]->periciaMedica,
 						'alterarSenha' => $retorno[0]->alterarSenha,
 						'usuarios'  => $retorno[0]->usuarios,
 						'relatFichaFuncional'  => $retorno[0]->relatFichaFuncional,
@@ -39,6 +47,8 @@ if ($_SESSION['logado'] == 'SIM'):
 						'relatContraCheque'  => $retorno[0]->relatContraCheque,
 						'idSetor'  => $retorno[0]->idSetor,
 						'setor'  => $retorno[0]->setor,
+						'atendimento'  => $retorno[0]->atendimento,
+						'medico'  => $retorno[0]->medico
 					);
 	echo json_encode($retorno);
 	exit();

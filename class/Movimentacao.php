@@ -11,10 +11,10 @@ class Movimentacao extends Generica{
                     tb_setores.setor,
                     (select usuario.nome FROM gespes.usuario WHERE gespes.usuario.id = tb_movimentacao.usuario_id ) as responsavel
                 FROM
-                    controle_docs_teste.tb_movimentacao
+                    controle_docs.tb_movimentacao
                 LEFT JOIN gespes.usuario
                 ON usuario.id = log_user_id
-                LEFT JOIN controle_docs_teste.tb_setores
+                LEFT JOIN controle_docs.tb_setores
                 ON tb_setores.id = tb_movimentacao.setor_id
             WHERE 
                     tb_movimentacao.id = '$id'
@@ -46,7 +46,7 @@ class Movimentacao extends Generica{
                     usuario.nome as responsavel,
                     LEFT(tb_movimentacao.encaminhamento, 60) as encaminhamento
                 FROM
-                    controle_docs_teste.tb_movimentacao
+                    controle_docs.tb_movimentacao
                 LEFT JOIN gespes.usuario
                 ON usuario.id = usuario_id
             WHERE 

@@ -12,7 +12,7 @@ header('Content-Type: application/json');
     $obj->id_info = $s->setDado($_POST['id_info']);
     //verifica campos
     $s->verificaPreenchimentoCampo($obj->id_requerimento_status,'Selecione uma opção');
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $exec = $s->atualizarStatus($obj);
         if($exec > 0){
             $ag = $s->cancelarAgendamento($obj);

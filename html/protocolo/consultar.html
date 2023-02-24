@@ -40,7 +40,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" id="protFiltroUsuarios">
         <div class="col-md-12">
           <div class="form-group">
             <select id='formFiltroSelectUsuario' class="form-control select2" style="width: 100%;">
@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" id="protFiltroSetor">
         <div class="col-md-10">
           <div class="form-group">
             <select id='formFiltroSelectSetor' class="form-control select2" style="width: 100%;">
@@ -122,7 +122,7 @@
       <div class="input-group-prepend">
         <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-filter"></i> Data entrada</button>
       </div>
-      <div class="input-group-prepend">
+      <div class="input-group-prepend" id="protBTNInserir">
         <button id='btnInserir' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-plus"></i> Inserir</button>
       </div>
   </div>
@@ -294,12 +294,14 @@
                           <div class="input-group-prepend">
                               <button id='visualizarDocumento' disabled type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Visualizar</button>
                           </div>
-                          <div class="input-group-prepend">
+                          <div class="input-group-prepend" id="protBTNMovimentar">
                               <button id='movimentarDocumento'   type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-arrow-circle-right"></i> Movimentar</button>
                           </div>
-                          <div class="input-group-prepend" id="arquivarDesarquivar">
-                            <button id='arquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-export"></i> Arquivar</button>
-                            <button id='desarquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-import"></i> Desarquivar</button>
+                          <div id="protBTNArquivar">
+                            <div class="input-group-prepend" id="arquivarDesarquivar">
+                              <button id='arquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-export"></i> Arquivar</button>
+                              <button id='desarquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-import"></i> Desarquivar</button>
+                            </div>
                           </div>
                         </div>
                   </div>

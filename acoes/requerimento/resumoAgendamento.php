@@ -5,7 +5,7 @@ require_once('../../class/Requerimento.php');
     $obj = new stdClass();
     $obj->id_requerimento = $s->setDado($_GET['id_requerimento']);
     $exec = $s->resumoAgendamento($obj->id_requerimento);
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $exec->execute();
         if ($exec->rowCount() >= 1) {
             echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));

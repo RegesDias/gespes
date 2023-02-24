@@ -11,7 +11,7 @@ header('Content-Type: application/json');
     $obj->diasAfastamentoFichaMedica = $s->setDado($_POST['diasAfastamentoFichaMedica']);
     $obj->idCid10Selecionados = $s->setDado($_POST['idCid10Selecionados']);
     $obj->idCid10SelecionadosHPP = $s->setDado($_POST['idCid10SelecionadosHPP']);
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $rtn = $s->atualizarRAtendimento($obj);
         if($rtn->exec > 0){
             $s->limparRAtendimentoCid($obj->id_requerimento_atendimento);

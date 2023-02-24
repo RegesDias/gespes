@@ -1115,6 +1115,24 @@ function geraNome(result){
 
 
 $(document).ready(function(){
+    var login = JSON.parse(sessionStorage.getItem('login'));
+console.log(login);
+    if(login.protFiltroUsuarios == 0){
+        $('#protFiltroUsuarios').addClass('d-none');
+        console.log('protFiltroUsuarios')
+    }
+    if(login.protFiltroSetor == 0){
+        $('#protFiltroSetor').addClass('d-none');
+    }
+    if(login.protBTNArquivar == 0){
+        $('#protBTNArquivar').addClass('d-none');
+    }
+    if(login.protBTNMovimentar == 0){
+        $('#protBTNMovimentar').addClass('d-none');
+    }
+    if(login.protBTNInserir == 0){
+        $('#protBTNInserir').addClass('d-none');
+    }
     $('#carregandoModal').hide();
     $("#encaminharTexto").summernote({
         lang: 'pt-BR'

@@ -15,7 +15,7 @@ header('Content-Type: application/json');
     $s->verificaPreenchimentoCampo($obj->id_agenda,'Datas Disponíveis');
 
     $s->vagasOcupadas($obj->id_agenda);
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $exec = $s->atualizarIdAgenda($obj);
         if($exec > 0){
             $status = $s->atualizarStatus($obj);

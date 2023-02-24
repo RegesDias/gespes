@@ -6,7 +6,7 @@ class Observacao extends Generica{
                     tb_observacao.observacao,
                     usuario.nome
                      FROM
-                     controle_docs_teste.tb_observacao 
+                     controle_docs.tb_observacao 
                 LEFT JOIN gespes.usuario
                     ON usuario.id = tb_observacao.log_user_id
                 WHERE 
@@ -20,7 +20,7 @@ class Observacao extends Generica{
                     tb_observacao.observacao,
                     usuario.nome
                      FROM
-                     controle_docs_teste.tb_observacao 
+                     controle_docs.tb_observacao 
                 LEFT JOIN gespes.usuario
                     ON usuario.id = tb_observacao.log_user_id
                 WHERE 

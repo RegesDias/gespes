@@ -405,10 +405,13 @@ function limpaLista(objSelect) {
     setTimeout(() => {
       vd = $('#vagasDisponibilizadas').val();
       vo = $('#vagasOcupadas').val();
-      if(vo >= vd){
-        $('#modalAgendamentoCadastrar').prop('disabled', true);
-      }else{
+      vagasD = parseInt(vd);
+      vagasO = parseInt(vo);
+      console.log(vagasD +'>'+ vagasO);
+      if(vagasD > vagasO){
         $('#modalAgendamentoCadastrar').prop('disabled', false);
+      }else{
+        $('#modalAgendamentoCadastrar').prop('disabled', true);
       }
     }, 250);
 

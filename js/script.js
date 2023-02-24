@@ -157,9 +157,11 @@ function sair() {
       url: 'acoes/logoff.php',
       method: 'GET',
       dataType: 'json'
-  }).done(function(result){
+  }).done(function(){
+      sessionStorage.clear();
       $(location).attr('href', 'index.html');
   }).fail(function() {
+      sessionStorage.clear();
       $(location).attr('href', 'index.html');
   }).always(function() {
       $('#carregando').hide();
@@ -174,7 +176,7 @@ function carregarSelect2() {
     theme: 'bootstrap4'
   })
 }
-$("#atendimentoAgenda").on("click", function() {
+$("#agenda").on("click", function() {
   $('#principal').load( 'html/agenda/consultar.html' );
   $('#logoDireita').show();
 });
@@ -219,7 +221,7 @@ $(document).ready(function(){
   $('#logoDireita').hide();
   $('#nomeUsuarioLogado').html(login.nome);
   $('#versao').html(login.versao);
-  if(login.consultaPessoal == 0){
+  if(login.pessoal == 0){
     $('#consultaPessoal').hide();
   }
   if(login.usuarios == 0){
@@ -227,9 +229,6 @@ $(document).ready(function(){
   }
   if(login.atendimentoEntrada == 0){
     $('#atendimentoEntrada').hide();
-  }
-  if(login.protocolo == 0){
-    $('#protocolo').hide();
   }
   if(login.alterarSenha == 0){
     $('#alterarSenha').hide();
@@ -240,12 +239,22 @@ $(document).ready(function(){
   if(login.setor == 0){
     $('#consultaSetores').hide();
   }
-  if((login.protocolo == 0)&(login.atendimentoAgenda == 0)){
+  if(login.protocolo == 0){
+    $('#protocolo').hide();
+  }
+  if(login.agenda == 0){
+    $('#agenda').hide();
+  }
+  if(login.periciaMedica == 0){
+    $('#periciaMedica').hide();
+  }
+  if((login.protocolo == 0)&(login.agenda == 0)&(login.periciaMedica == 0)){
     $('#dropdownSubMenuAtendimento').hide();
   }
   if((login.usuarios == 0)&(login.setor == 0)){
     $('#dropdownSubMenuAdministrar').hide();
   }
+  
 });
 function geraGraficoArea(label,data, tipo) {
   var areaChartCanvas = $('#areaChart').get(0).getContext('2d');

@@ -12,7 +12,7 @@ require_once('../../class/Requerimento.php');
     $obj->id_info = $s->setDado($_POST['id_info']);
     //verifica campos
     $s->verificaPreenchimentoCampo($obj->protocolo,'Protocolo');
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $exec = $s->inserirNumeroDeProtocolo($obj);
         if($exec > 0){
             $s->atualizarStatus($obj);

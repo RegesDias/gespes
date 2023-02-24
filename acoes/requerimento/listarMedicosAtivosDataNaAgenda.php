@@ -5,7 +5,7 @@ require_once('../../class/Agenda.php');
     $s = new Agenda;
     $cpf = $s->setDado($_GET['cpf']);
     $exec = $s->ListaAgendamentosCPF($cpf);
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $exec->execute();
         if ($exec->rowCount() >= 1) {
             $s->gravaLog('Exibe dados do servidor matricula: '.$codfunc);

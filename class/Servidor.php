@@ -10,7 +10,9 @@ class Servidor extends Generica{
                             info_pessoal.cpf as cpfs,
                             situacao.nome_situacao as secoes,
                             info_pessoal.id as idInfo,
-                            historico_funcional.id as idHistFunc
+                            historico_funcional.id as idHistFunc,
+                            regime.nome_regime as regime,
+                            regime.id_regime as idRegime
                           FROM
                             info_pessoal
                           INNER JOIN historico_funcional
@@ -21,8 +23,10 @@ class Servidor extends Generica{
                             ON lotacao.id_lotacao = solicitacao.id_lotacao
                           INNER JOIN cargos
                             ON cargos.id = historico_funcional.id_cargo
-                            INNER JOIN situacao
-                            ON situacao.id_situacao = historico_funcional.id_situacao
+                          INNER JOIN situacao
+                          ON situacao.id_situacao = historico_funcional.id_situacao
+                          INNER JOIN regime
+                          ON regime.id_regime = historico_funcional.id_regime
                           WHERE
                               solicitacao.ativo = 1 ";
   

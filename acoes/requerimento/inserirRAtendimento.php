@@ -17,7 +17,7 @@ header('Content-Type: application/json');
     $obj->idCid10Selecionados = $s->setDado($_POST['idCid10Selecionados']);
     $obj->idCid10SelecionadosHPP = $s->setDado($_POST['idCid10SelecionadosHPP']);
     
-    if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('atendimentoAgenda')){
         $tei = $s->atualizaRequerimentoHistorico($obj);
         $exec = $s->atualizarStatus($obj);
         $retorno=$s->inserirRAtendimento($obj);

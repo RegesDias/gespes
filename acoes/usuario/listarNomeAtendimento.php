@@ -6,7 +6,7 @@ $u = new Usuario;
 
 $exec = $u->listarPorNomeAtendimentos();
 
-if(Conexao::verificaLogin('usuarios')){
+if(Conexao::verificaLogin('atendimentoAgenda')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         $u->gravaLog('Ordenar usuário por nome');
