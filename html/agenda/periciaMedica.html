@@ -287,6 +287,52 @@
                                         </div>
                                       </div>
                                     </div>
+                                    <div class="card card-primary">
+                                      <div class="card-header">
+                                        <h3 class="card-title">Resultado da perícia médica</h3>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <label>Tipo</label>
+                                            <div class="select2-purple">
+                                              <select name="resultado" size="1" id="tiposResultadosPericiaMedica" class="form-control select2"
+                                              style="width: 100%;">
+                                            </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div id="tiposResultadosPericiaMedicaDescricaoExibir">
+                                          <div class="row">
+                                            <div class="col-4">
+                                              <label>Total de dias</label>
+                                              <div class="select2-purple">
+                                                <input id='diasDeAfastamento' type="number" class="form-control" max="0"  min="0">
+                                              </div>
+                                            </div>
+                                            <div class="col-4">
+                                              <label>Primeiro dia</label>
+                                              <div class="select2-purple">
+                                                <input id='primeiroDiaAfastamento' type="date" class="form-control">
+                                              </div>
+                                            </div>
+                                            <div class="col-4">
+                                              <label>Último dia</label>
+                                              <div class="select2-purple">
+                                                <input disabled id='ultimoDiaAfastamento' type="date" class="form-control">
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-12">
+                                              <label>Descrição</label>
+                                              <p id="tiposResultadosPericiaMedicaDescricao">
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <div class="row">
                                       <div class="col-md-12">
                                         <div class="form-group">
@@ -300,6 +346,16 @@
                                         <div class="form-group">
                                           <label>Nome do Médico</label>
                                           <input id='nomeMedicoAtestado' type="text" class="form-control">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label for="exampleInputEmail1">Resultado</label>
+                                        <div class="form-group">
+                                          <select name="resultado" size="1" id="evolucaoResultado" class="form-control select2"
+                                            style="width: 100%;">
+                                          </select>
                                         </div>
                                       </div>
                                     </div>

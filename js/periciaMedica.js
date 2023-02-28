@@ -18,6 +18,68 @@ $(document).ready(function () {
         $('#contraCheque').hide();
     }
 });
+function listaTiposResultadosPericiaMedica() {
+  console.log('teste');
+  $.ajax({
+    url: "acoes/requerimento/listaTiposResultadosPericiaMedica.php",
+    method: "POST",
+    dataType: "json"
+  }).done(function (result) {
+        $('#tiposResultadosPericiaMedicaDescricaoExibir').addClass('d-none');
+        $('#tiposResultadosPericiaMedica').html('');
+        $("#tiposResultadosPericiaMedica").prepend(
+          "<option></option>"
+        );
+        for (var i = 0; i < result.length; i++) {
+          $("#tiposResultadosPericiaMedica").prepend(
+            "<option value=" + result[i].id + "> " + result[i].nome + "</option>"
+          );
+        }
+    }).fail(function () {
+        $(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+}
+$('#diasDeAfastamento').on('change', function() {
+
+});
+$('#tiposResultadosPericiaMedica').on('change', function() {
+  var obj = new Object()
+  obj.id = $("#tiposResultadosPericiaMedica").val();
+  $.ajax({
+    url: "acoes/requerimento/listaTiposResultadosPericiaMedicaId.php",
+    method: "GET",
+    dataType: "json",
+    data: obj
+  }).done(function (result) {
+      console.log(result);
+      let primeiroDiaAfastamento = dataAtualImputDate();
+      var data = new Date(primeiroDiaAfastamento);
+      let ultimoDiaAfastamento = data.setDate(data.getDate() + result[0].diasMim);
+
+      $('#diasDeAfastamento').attr('max', result[0].diasMax);
+      $('#diasDeAfastamento').attr('min', result[0].diasMim);
+      $('#diasDeAfastamento').val(result[0].diasMim);
+
+      $('#tiposResultadosPericiaMedicaDescricao').html(result[0].descricao)
+      $('#tiposResultadosPericiaMedicaDescricaoExibir').removeClass('d-none');
+
+      console.log(ultimoDiaAfastamento);
+      $('#primeiroDiaAfastamento').val(primeiroDiaAfastamento);
+      $('#ultimoDiaAfastamento').val(ultimoDiaAfastamento);
+
+      
+      
+
+    }).fail(function () {
+        $(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+});
 $(document).on("keydown", "#obsFichaMedica", function () {
   var caracteresRestantes = 499;
   var caracteresDigitados = parseInt($(this).val().length);
@@ -104,6 +166,7 @@ function getFormFiltroSelectMedicoAgenda() {
         $('#idInfo').val(dadosPessoal[0].idInfo);
         $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
         $('#modal-pessoal').modal('show');
+        listaTiposResultadosPericiaMedica();
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);

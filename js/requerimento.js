@@ -346,11 +346,12 @@ function limpaLista(objSelect) {
       dataType: "json"
     }).done(function (result) {
       let data = converteDataBr(result[0].data);
+      let diaSemana = diaDaSemana(data);
         $('#protocoloModalDadosDoAgendamento').text('Protocolo  '+result[0].protocolo)
         $('#solicitacaoModalDadosDoAgendamento').text(result[0].solicitacao)
         $('#medicoModalDadosDoAgendamento').text(result[0].medico)
         $('#statusModalDadosDoAgendamento').text(result[0].status)
-        $('#dataModalDadosDoAgendamento').text(data+" "+result[0].periodo)
+        $('#dataModalDadosDoAgendamento').text(data+"- "+diaSemana+" no período da "+result[0].periodo)
     });
   }
   function requerimentosStatusReAgenda() {

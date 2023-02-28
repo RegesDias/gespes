@@ -41,6 +41,45 @@ class Requerimentos extends Generica{
               requerimento.id_info = '$id'";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
+  
+  public function listaTiposResultadosPericiaMedica(){
+    $sql = "SELECT
+                rrpm.id,
+                rrpm.nome,
+                rrpm.descricao,
+                rrpm.dias,
+                rrpm.retorno,
+                od.diasMim,
+                od.diasMax
+              FROM	
+                  requerimento_tipos_resultados_pericia_medica as rrpm
+                  LEFT JOIN ocorrencia_desc as od
+                  ON od.id = rrpm.id_oco_desc
+              WHERE
+                 rrpm.ativo = 1";
+          return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
+
+  public function listaTiposResultadosPericiaMedicaId($id){
+    $sql = "SELECT
+                rrpm.id,
+                rrpm.nome,
+                rrpm.descricao,
+                rrpm.dias,
+                rrpm.retorno,
+                od.diasMim,
+                od.diasMax
+              FROM	
+                  requerimento_tipos_resultados_pericia_medica as rrpm
+                  LEFT JOIN ocorrencia_desc as od
+                  ON od.id = rrpm.id_oco_desc
+              WHERE
+                 rrpm.ativo = '1' AND
+                 rrpm.id = '$id'
+                 ";
+          return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
+
   public function listaRequerimentoIdAgenda($id){
     $sql = "SELECT
                 requerimento.id, 

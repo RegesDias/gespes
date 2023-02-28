@@ -77,6 +77,17 @@ function selectDouble(a,b){
       b.options[i].selected=a.options[i].selected;
   }
 }
+
+//var dataFormatada = minhaData.getFullYear() + "-" + ("0" + (minhaData.getMonth() + 1)).slice(-2) + "-" + ("0" + minhaData.getDate()).slice(-2);
+
+function dataAtualImputDate() {
+  var data = new Date(),
+      dia  = data.getDate();
+      mes  = String(data.getMonth() + 1).padStart(2, '0');
+      ano  = data.getFullYear();
+      return [ano, mes, dia].join('-');
+}
+
 function dataAtual(tipo,tag) {
   var data = new Date(),
       dia  = data.getDate(),
@@ -114,7 +125,14 @@ function conversaoDataString(data) {
 function conversaoDataStringSemHora(data) {
   return data.replace('T',' ').substr(0, data.length - 15);
 }
-
+function diaDaSemana(value){
+  var semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+      var data = value;
+      var arr = data.split("-").reverse();
+      var teste = new Date(arr[0], arr[1] - 1, arr[2]);
+      var dia = teste.getDay();
+      return semana[dia];
+};
 function converteDataUS(d){
   let date = d.toString().split('-');
   dataUS = date[0]+'-'+date[1]+'-'+date[2];
