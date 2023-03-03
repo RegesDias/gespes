@@ -42,6 +42,14 @@ class Requerimentos extends Generica{
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
   
+  public function listaRequerimentoTiposExameFisicoAtivos(){
+    $sql = "SELECT * FROM `requerimento_tipos_exame_fisico` WHERE ativo = '1'";
+          return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
+  public function listaRequerimentoTiposExameFisicoAtivosId($id){
+    $sql = "SELECT * FROM `requerimento_tipos_exame_fisico` WHERE ativo = '1' AND id = '$id'";
+      return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
   public function listaTiposResultadosPericiaMedica(){
     $sql = "SELECT
                 rrpm.id,

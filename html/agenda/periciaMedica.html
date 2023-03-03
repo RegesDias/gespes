@@ -293,27 +293,35 @@
                                       </div>
                                       <div class="card-body">
                                         <div class="row">
-                                          <strong>
-                                            With dropdown
-                                            <i>
-                                              <sub class="caracteresHistorioResumidoDoencaasas">700</sub> <sub>Restantes</sub>
-                                            </i>
-                                          </strong>
-                                          <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                              <select class="form-control">
-                                                <option>option 1</option>
-                                                <option>option 2</option>
-                                                <option>option 3</option>
-                                                <option>option 4</option>
-                                                <option>option 5</option>
-                                              </select>
+                                          <div class="col-12">
+                                            <label>Tipos</label>
+                                            <select class="select2" style="width: 100%;" id="tiposExamesFisicosAtivos">
+                                            </select>
+                                          </div>
+                                          <div class="col-12 d-none" id='exibeExameFisico'>
+                                            <div class="col-12">
+                                              <label>
+                                                Descrição
+                                                <i>
+                                                  <sub class="caracteresExameFisico">100</sub> <sub>Restantes</sub>
+                                                </i>
+                                              </label>
+                                              <textarea id="descricaoExameFisico" name='descricaoExameFisico'
+                                                class="form-control" maxlength="700" rows="1">
+                                            </textarea>
                                             </div>
-                                            <!-- /btn-group -->
-                                            <input type="text" class="form-control">
-                                            <span class="input-group-append">
-                                              <button type="button" class="btn btn-info btn-flat">Go!</button>
-                                            </span>
+                                            <div class="col-12"><br>
+                                              <button id='carregarExameFisico' type="button"
+                                                class="btn btn-info btn-block">Carregar
+                                              </button>
+                                              <input type="text" id="dadosExameFisico" class="d-none">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12"><br></div>
+                                          <input type="text" id="nomeDadosExameFisico" class="d-none-">
+                                          <div class="col-12" id="dadosCarregadosExameFisico">
                                           </div>
                                         </div>
                                       </div>
@@ -328,10 +336,12 @@
                                             <label>
                                               Histórico resumido da doença
                                               <i>
-                                                <sub class="caracteresHistorioResumidoDoenca">700</sub> <sub>Restantes</sub>
+                                                <sub class="caracteresHistorioResumidoDoenca">700</sub>
+                                                <sub>Restantes</sub>
                                               </i>
                                             </label>
-                                            <textarea id="historioResumidoDoenca" name='historioResumidoDoenca' class="form-control" maxlength="700" rows="4">
+                                            <textarea id="historioResumidoDoenca" name='historioResumidoDoenca'
+                                              class="form-control" maxlength="700" rows="4">
                                             </textarea>
                                           </div>
                                         </div>
@@ -416,7 +426,8 @@
                                             <sub>Restantes</sub>
                                           </i>
                                         </label>
-                                        <textarea id="obsFichaMedica" name='obsFichaMedica' class="form-control" maxlength="500" rows="4">
+                                        <textarea id="obsFichaMedica" name='obsFichaMedica' class="form-control"
+                                          maxlength="500" rows="4">
                                         </textarea>
                                       </div>
                                     </div>

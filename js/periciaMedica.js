@@ -18,8 +18,84 @@ $(document).ready(function () {
         $('#contraCheque').hide();
     }
 });
-function listaTiposResultadosPericiaMedica() {
+function listaRequerimentoTiposExameFisicoAtivos() {
   console.log('teste');
+  $.ajax({
+    url: "acoes/requerimento/listaRequerimentoTiposExameFisicoAtivos.php",
+    method: "POST",
+    dataType: "json"
+  }).done(function (result) {
+        $("#tiposExamesFisicosAtivos").prepend(
+          "<option></option>"
+        );
+        for (var i = 0; i < result.length; i++) {
+          $("#tiposExamesFisicosAtivos").prepend(
+            "<option value=" + result[i].id + "> " + result[i].nome + "</option>"
+          );
+        }
+    }).fail(function () {
+        $(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+}
+function listaRequerimentoTiposExameFisicoAtivosId(id) {
+  $.ajax({
+    url: "acoes/requerimento/listaRequerimentoTiposExameFisicoAtivosId.php?id="+id,
+    method: "GET",
+    dataType: "json"
+  }).done(function (result) {
+      $("#nomeDadosExameFisico").val(result[0].nome)
+    }).fail(function () {
+        $(location).attr('href', 'index.html');
+    })
+    .always(function () {
+      $("#carregando").hide();
+    });
+}
+$('#tiposExamesFisicosAtivos').change(function(){
+  $('#exibeExameFisico').removeClass('d-none');
+});
+$('#carregarExameFisico').click(function(){
+  let tiposExamesFisicosAtivos = $('#tiposExamesFisicosAtivos').val();
+  let descricaoExameFisico = $('#descricaoExameFisico').val();
+
+  //var dadosAtuais = $('#dadosExameFisico').data();
+  
+  $('#dadosExameFisico').data({[tiposExamesFisicosAtivos]: descricaoExameFisico})
+  let dados = $('#dadosExameFisico').data();
+  let chaves = Object.keys(dados);
+  $("#dadosCarregadosExameFisico").html('');
+  for (var i = 0; i < chaves.length; i++) {
+    let chave = chaves[i];
+    let valor = $('#dadosExameFisico').data(chave);
+    listaRequerimentoTiposExameFisicoAtivosId(chave);
+    setTimeout(() => {
+    let nome = $("#nomeDadosExameFisico").val();
+    $("#dadosCarregadosExameFisico").prepend(
+      "<div class='col-12'>"+
+        "<div class='card card-outline card-primary collapsed-card'>"+
+          "<div class='card-header'>"+
+            "<h3 class='card-title'>"+nome+"</h3>"+
+            "<div class='card-tools'>"+
+              "<button type='button' class='btn btn-tool' data-card-widget='collapse'>"+
+                "<i class='fas fa-minus'></i>"+
+              "</button>"+
+            "</div>"+
+          "</div>"+
+          "<div class='card-body'>"+
+              valor+
+          "</div>"+
+        "</div>"+
+      "</div>"
+    );
+  }, 200);
+  }
+
+});
+
+function listaTiposResultadosPericiaMedica() {
   $.ajax({
     url: "acoes/requerimento/listaTiposResultadosPericiaMedica.php",
     method: "POST",
@@ -99,15 +175,22 @@ $('#tiposResultadosPericiaMedica').on('change', function() {
       $("#carregando").hide();
     });
 });
+$(document).on("keydown", "#descricaoExameFisico", function () {
+  var caracteresRestantes = 100;
+  var caracteresDigitados = parseInt($(this).val().length);
+  var caracteresRestantes = caracteresRestantes - caracteresDigitados;
+
+  $(".caracteresExameFisico").text(caracteresRestantes);
+});
 $(document).on("keydown", "#historioResumidoDoenca", function () {
-  var caracteresRestantes = 699;
+  var caracteresRestantes = 700;
   var caracteresDigitados = parseInt($(this).val().length);
   var caracteresRestantes = caracteresRestantes - caracteresDigitados;
 
   $(".caracteresHistorioResumidoDoenca").text(caracteresRestantes);
 });
 $(document).on("keydown", "#obsFichaMedica", function () {
-  var caracteresRestantes = 499;
+  var caracteresRestantes = 500;
   var caracteresDigitados = parseInt($(this).val().length);
   var caracteresRestantes = caracteresRestantes - caracteresDigitados;
 
@@ -193,6 +276,7 @@ function getFormFiltroSelectMedicoAgenda() {
         $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
         $('#modal-pessoal').modal('show');
         listaTiposResultadosPericiaMedica();
+        listaRequerimentoTiposExameFisicoAtivos();
     }).fail(function() {
         msn('error','Sua sessão expirou');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
@@ -556,6 +640,7 @@ $('#idCid10Busca').on('keyup', function() {
     $('#historioResumidoDoenca').val('')
     $('#idCid10Selecionados').html('')
     $('#idCid10SelecionadosHPP').html('')
+    $('#descricaoExameFisico').html('')
 
     //Capturando dados
     var requerimento = new Object()
