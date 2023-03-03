@@ -77,12 +77,14 @@ function selectDouble(a,b){
       b.options[i].selected=a.options[i].selected;
   }
 }
-
-//var dataFormatada = minhaData.getFullYear() + "-" + ("0" + (minhaData.getMonth() + 1)).slice(-2) + "-" + ("0" + minhaData.getDate()).slice(-2);
-
+function dataSomaDias(dataInicial, dias){
+    var data = new Date(dataInicial);
+    data.setDate(data.getDate() + parseInt(dias));
+    return data.getFullYear() + "-" + ("0" + (data.getMonth() + 1)).slice(-2) + "-" + ("0" + data.getDate()).slice(-2);
+}
 function dataAtualImputDate() {
   var data = new Date(),
-      dia  = data.getDate();
+      dia  = String(data.getDate()).padStart(2, '0');
       mes  = String(data.getMonth() + 1).padStart(2, '0');
       ano  = data.getFullYear();
       return [ano, mes, dia].join('-');

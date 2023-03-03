@@ -289,25 +289,69 @@
                                     </div>
                                     <div class="card card-primary">
                                       <div class="card-header">
+                                        <h3 class="card-title">Exame Físico</h3>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <strong>
+                                            With dropdown
+                                            <i>
+                                              <sub class="caracteresHistorioResumidoDoencaasas">700</sub> <sub>Restantes</sub>
+                                            </i>
+                                          </strong>
+                                          <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                              <select class="form-control">
+                                                <option>option 1</option>
+                                                <option>option 2</option>
+                                                <option>option 3</option>
+                                                <option>option 4</option>
+                                                <option>option 5</option>
+                                              </select>
+                                            </div>
+                                            <!-- /btn-group -->
+                                            <input type="text" class="form-control">
+                                            <span class="input-group-append">
+                                              <button type="button" class="btn btn-info btn-flat">Go!</button>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="card card-primary">
+                                      <div class="card-header">
                                         <h3 class="card-title">Resultado da perícia médica</h3>
                                       </div>
                                       <div class="card-body">
                                         <div class="row">
                                           <div class="col-12">
+                                            <label>
+                                              Histórico resumido da doença
+                                              <i>
+                                                <sub class="caracteresHistorioResumidoDoenca">700</sub> <sub>Restantes</sub>
+                                              </i>
+                                            </label>
+                                            <textarea id="historioResumidoDoenca" name='historioResumidoDoenca' class="form-control" maxlength="700" rows="4">
+                                            </textarea>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12">
                                             <label>Tipo</label>
                                             <div class="select2-purple">
-                                              <select name="resultado" size="1" id="tiposResultadosPericiaMedica" class="form-control select2"
-                                              style="width: 100%;">
-                                            </select>
+                                              <select name="resultado" size="1" id="tiposResultadosPericiaMedica"
+                                                class="form-control select2" style="width: 100%;">
+                                              </select>
                                             </div>
                                           </div>
                                         </div>
                                         <div id="tiposResultadosPericiaMedicaDescricaoExibir">
                                           <div class="row">
                                             <div class="col-4">
-                                              <label>Total de dias</label>
+                                              <label>Dias de Afastamento</label>
                                               <div class="select2-purple">
-                                                <input id='diasDeAfastamento' type="number" class="form-control" max="0"  min="0">
+                                                <input id='diasDeAfastamento' type="number" class="form-control" max="0"
+                                                  min="0">
                                               </div>
                                             </div>
                                             <div class="col-4">
@@ -319,7 +363,8 @@
                                             <div class="col-4">
                                               <label>Último dia</label>
                                               <div class="select2-purple">
-                                                <input disabled id='ultimoDiaAfastamento' type="date" class="form-control">
+                                                <input disabled id='ultimoDiaAfastamento' type="date"
+                                                  class="form-control">
                                               </div>
                                             </div>
                                           </div>
@@ -333,70 +378,47 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="row">
-                                      <div class="col-md-12">
-                                        <div class="form-group">
-                                          <label>Medicamentos</label>
-                                          <input id='medicamentosFichaMedica' type="text" class="form-control">
-                                        </div>
+                                    <div class="card card-warning">
+                                      <div class="card-header">
+                                        <h3 class="card-title">Dados do Atestado</h3>
                                       </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col-12">
-                                        <div class="form-group">
-                                          <label>Nome do Médico</label>
-                                          <input id='nomeMedicoAtestado' type="text" class="form-control">
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-8">
+                                            <div class="form-group">
+                                              <label>CRM - Atestado ou Laudo</label>
+                                              <input id='CRMFichaMedica' type="number" class="form-control">
+                                            </div>
+                                          </div>
+                                          <div class="col-4">
+                                            <label>Dias de Afastamento</label>
+                                            <input id='diasAfastamentoFichaMedica' type="number" class="form-control">
+                                          </div>
                                         </div>
-                                      </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col-12">
-                                        <label for="exampleInputEmail1">Resultado</label>
-                                        <div class="form-group">
-                                          <select name="resultado" size="1" id="evolucaoResultado" class="form-control select2"
-                                            style="width: 100%;">
-                                          </select>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col-6h d-none ">
-                                        <label for="exampleInputEmail1">Evolução</label>
-                                        <div class="form-group">
-                                          <select name="evolucao" size="1" id="evolucao" class="form-control select2"
-                                            style="width: 100%;">
-                                          </select>
-                                        </div>
-                                      </div>
-                                      <div class="col-6 d-none">
-                                        <label for="exampleInputEmail1">Retorno</label>
-                                        <div class="form-group">
-                                          <select name="retorno" size="1" id="retorno" class="form-control select2"
-                                            style="width: 100%;">
-                                            <option selected="selected"></option>
-                                          </select>
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <div class="form-group">
+                                              <label>Nome do Médico</label>
+                                              <input id='nomeMedicoAtestado' type="text" class="form-control">
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                     <div id='descricaoAtribuicoes'>
                                     </div>
                                     <div class="row">
-                                      <div class="col-8">
-                                        <div class="form-group">
-                                          <label>CRM - Atestado ou Laudo</label>
-                                          <input id='CRMFichaMedica' type="number" class="form-control">
-                                        </div>
+                                      <div class="col-12">
+                                        <label>
+                                          Observações
+                                          <i>
+                                            <sub class="caracteresDiasAfastamentoFichaMedica">500</sub>
+                                            <sub>Restantes</sub>
+                                          </i>
+                                        </label>
+                                        <textarea id="obsFichaMedica" name='obsFichaMedica' class="form-control" maxlength="500" rows="4">
+                                        </textarea>
                                       </div>
-                                      <div class="col-4">
-                                        <label>Dias de Afastamento</label>
-                                        <input id='diasAfastamentoFichaMedica' type="number" class="form-control">
-                                      </div>
-                                    </div>
-                                    <div class="form-group col-12">
-                                      <label>Observação<i><sub class="caracteres">500</sub> <sub>Restantes
-                                          </sub></i></label>
-                                      <textarea id="obsFichaMedica" name='ObsOco' class="form-control" maxlength="500"
-                                        rows="4"></textarea>
                                     </div>
                                   </div>
                                 </div>
@@ -433,7 +455,8 @@
                                     <button class="btn btn-primary" type="button" id='modalFinalizarConfirmar'>
                                       Confirmar
                                     </button>
-                                    <button type="button" id='modalFinalizarCancelar' class="btn btn-default">Cancelar</button>
+                                    <button type="button" id='modalFinalizarCancelar'
+                                      class="btn btn-default">Cancelar</button>
                                   </div>
                                 </div>
                               </div>

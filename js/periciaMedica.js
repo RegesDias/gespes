@@ -43,7 +43,17 @@ function listaTiposResultadosPericiaMedica() {
     });
 }
 $('#diasDeAfastamento').on('change', function() {
-
+  diasDeAfastamento = $('#diasDeAfastamento').val();
+  pDiaAfastamento = $('#primeiroDiaAfastamento').val();
+  uDiaAfastamento = dataSomaDias(pDiaAfastamento, diasDeAfastamento);
+  $('#ultimoDiaAfastamento').val(uDiaAfastamento);
+});
+$('#primeiroDiaAfastamento').on('change', function() {
+  console.log('primeiroDiaAfastamento')
+  diasDeAfastamento = $('#diasDeAfastamento').val();
+  pDiaAfastamento = $('#primeiroDiaAfastamento').val();
+  uDiaAfastamento = dataSomaDias(pDiaAfastamento, diasDeAfastamento);
+  $('#ultimoDiaAfastamento').val(uDiaAfastamento);
 });
 $('#tiposResultadosPericiaMedica').on('change', function() {
   var obj = new Object()
@@ -54,24 +64,33 @@ $('#tiposResultadosPericiaMedica').on('change', function() {
     dataType: "json",
     data: obj
   }).done(function (result) {
-      console.log(result);
-      let primeiroDiaAfastamento = dataAtualImputDate();
-      var data = new Date(primeiroDiaAfastamento);
-      let ultimoDiaAfastamento = data.setDate(data.getDate() + result[0].diasMim);
+      let pDiaAfastamento = dataAtualImputDate();
+      let uDiaAfastamento;
+      let diasDeAfastamento;
 
-      $('#diasDeAfastamento').attr('max', result[0].diasMax);
-      $('#diasDeAfastamento').attr('min', result[0].diasMim);
-      $('#diasDeAfastamento').val(result[0].diasMim);
-
-      $('#tiposResultadosPericiaMedicaDescricao').html(result[0].descricao)
-      $('#tiposResultadosPericiaMedicaDescricaoExibir').removeClass('d-none');
-
-      console.log(ultimoDiaAfastamento);
-      $('#primeiroDiaAfastamento').val(primeiroDiaAfastamento);
-      $('#ultimoDiaAfastamento').val(ultimoDiaAfastamento);
-
+      if(parseInt(result[0].diasMax) >180){
+        uDiaAfastamento = dataSomaDias(pDiaAfastamento, result[0].diasMim);
+        diasDeAfastamento = result[0].diasMim;
+      }else{
+        uDiaAfastamento = dataSomaDias(pDiaAfastamento, result[0].diasMax);
+        diasDeAfastamento = result[0].diasMax;
+      }
       
-      
+      if(result[0].dias == 1){
+
+        $('#diasDeAfastamento').attr('max', result[0].diasMax);
+        $('#diasDeAfastamento').attr('min', result[0].diasMim);
+        $('#diasDeAfastamento').val(diasDeAfastamento);
+  
+        $('#tiposResultadosPericiaMedicaDescricao').html(result[0].descricao)
+        $('#tiposResultadosPericiaMedicaDescricaoExibir').removeClass('d-none');
+  
+        $('#primeiroDiaAfastamento').val(pDiaAfastamento);
+        $('#ultimoDiaAfastamento').val(uDiaAfastamento);
+
+      }else{
+        $('#tiposResultadosPericiaMedicaDescricaoExibir').addClass('d-none');
+      }
 
     }).fail(function () {
         $(location).attr('href', 'index.html');
@@ -80,12 +99,19 @@ $('#tiposResultadosPericiaMedica').on('change', function() {
       $("#carregando").hide();
     });
 });
+$(document).on("keydown", "#historioResumidoDoenca", function () {
+  var caracteresRestantes = 699;
+  var caracteresDigitados = parseInt($(this).val().length);
+  var caracteresRestantes = caracteresRestantes - caracteresDigitados;
+
+  $(".caracteresHistorioResumidoDoenca").text(caracteresRestantes);
+});
 $(document).on("keydown", "#obsFichaMedica", function () {
   var caracteresRestantes = 499;
   var caracteresDigitados = parseInt($(this).val().length);
   var caracteresRestantes = caracteresRestantes - caracteresDigitados;
 
-  $(".caracteres").text(caracteresRestantes);
+  $(".caracteresDiasAfastamentoFichaMedica").text(caracteresRestantes);
 });
 function getFormFiltroSelectMedicoAgenda() {
     $.ajax({
@@ -527,6 +553,7 @@ $('#idCid10Busca').on('keyup', function() {
     $('#diasAfastamentoFichaMedica').val('')
     $('#nomeMedicoAtestado').val('')
     $('#obsFichaMedica').val('')
+    $('#historioResumidoDoenca').val('')
     $('#idCid10Selecionados').html('')
     $('#idCid10SelecionadosHPP').html('')
 
