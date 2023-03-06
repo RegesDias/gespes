@@ -180,22 +180,32 @@ public function atualizarRAtendimento($obj){
                           idRequerimento,
                           idAgenda,
                           idRequerimentoMedico, 
-                          medicamentosFichaMedica, 
-                          CRMFichaMedica, 
-                          nomeMedicoAtestado, 
-                          obsFichaMedica, 
-                          diasAfastamentoFichaMedica, 
+                          dadosAtestadoCRM, 
+                          dadosAtestadoNome, 
+                          dadosAtestadoDiasAfastamento, 
+                          resultadoPericiaHistorico, 
+                          resultadoPericiaTipo, 
+                          resultadoPericiaDias,
+                          resultadoPericiaPrimeiroDia,
+                          resultadoPericiaUltimoDia,
+                          observacao,
+                          userLogin,
                           dataHoraAtendimento,
                           ativo
                         )VALUES(
                           '$obj->id_requerimento', 
                           '$obj->idAgenda', 
                           '$obj->id_requerimento_medico', 
-                          '$obj->medicamentosFichaMedica', 
-                          '$obj->CRMFichaMedica', 
-                          '$obj->nomeMedicoAtestado', 
-                          '$obj->obsFichaMedica', 
-                          '$obj->diasAfastamentoFichaMedica', 
+                          '$obj->dadosAtestadoCRM', 
+                          '$obj->dadosAtestadoNome', 
+                          '$obj->dadosAtestadoDiasAfastamento', 
+                          '$obj->resultadoPericiaHistorico', 
+                          '$obj->resultadoPericiaTipo', 
+                          '$obj->resultadoPericiaDias', 
+                          '$obj->resultadoPericiaPrimeiroDia', 
+                          '$obj->resultadoPericiaUltimoDia', 
+                          '$obj->observacao', 
+                          $obj->userLogin,
                           NOW(),
                           '1'
                         )";
@@ -213,6 +223,24 @@ public function atualizarRAtendimento($obj){
       $stm = Conexao::InstSDGC()->prepare($sql);
       $stm->execute();
     }
+    public function inserirRAtendimentoExameFisico($idAtendimento,$idTiposExameFisico,$descricao){
+      $sql = "INSERT INTO requerimento_atendimento_exame_fisico(
+                  idAtendimento,
+                  idTiposExameFisico,
+                  descricao,
+                  ativo,
+                  dataHora
+            )VALUES(
+                  '$idAtendimento', 
+                  '$idTiposExameFisico',
+                  '$descricao',
+                  '1', 
+                  NOW()
+            )";
+              $stm = Conexao::InstSDGC()->prepare($sql);
+              $stm->execute();
+              return $sql;
+      }
     public function inserirRAtendimentoCid($id_atendimento,$CID10,$ativo){
       $sql = "INSERT INTO requerimento_atendimento_cid(
                   id_requerimento_atendimento,

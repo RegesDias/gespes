@@ -221,6 +221,143 @@
                                       <input class="d-none" id="idAgenda" type="text" />
                                       <input class="d-none" id="idRequerimentoAtendimento" type="text" />
                                     </div>
+                                    <div class="card card-warning">
+                                      <div class="card-header">
+                                        <h3 class="card-title">Dados do Atestado</h3>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-8">
+                                            <div class="form-group">
+                                              <label>CRM - Atestado ou Laudo</label>
+                                              <input id='dadosAtestadoCRM' type="number" class="form-control">
+                                            </div>
+                                          </div>
+                                          <div class="col-4">
+                                            <label>Dias de Afastamento</label>
+                                            <input id='dadosAtestadoDiasAfastamento' type="number" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <div class="form-group">
+                                              <label>Nome do Médico</label>
+                                              <input id='dadosAtestadoNome' type="text" class="form-control">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="card card-primary">
+                                      <div class="card-header">
+                                        <h3 class="card-title">Exame Físico</h3>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <label>Tipos</label>
+                                            <select class="select2" style="width: 100%;" id="tiposExamesFisicosAtivos">
+                                            </select>
+                                          </div>
+                                          <div class="col-12 d-none" id='exibeExameFisico'>
+                                            <div class="col-12">
+                                              <label>
+                                                Descrição
+                                                <i>
+                                                  <sub class="caracteresExameFisico">100</sub> <sub>Restantes</sub>
+                                                </i>
+                                              </label>
+                                              <textarea id="descricaoExameFisico" name='descricaoExameFisico'
+                                                class="form-control" maxlength="100" rows="1">
+                                            </textarea>
+                                            </div>
+                                            <div class="col-12"><br>
+                                              <div class="row">
+                                                <div class="col-8">
+                                                  <button id='carregarExameFisico' type="button" class="btn btn-info btn-block">
+                                                    <i class="fa fa-save"></i> Carregar
+                                                  </button>
+                                                </div>
+                                                <div class="col-4">
+                                                  <button id='limparExameFisico' type="button" class="btn btn-danger btn-block">
+                                                    <i class="fa fa-trash-alt"></i> Limpar
+                                                  </button>                                                  
+                                                </div>
+                                              </div>
+                                              <input type="text" id="dadosExameFisico" class="d-none">
+                                              <input type="text" id="dadosExameFisicoNome" class="d-none">
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12"><br></div>
+                                          <div class="col-12" id="dadosCarregadosExameFisico">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="card card-primary">
+                                      <div class="card-header">
+                                        <h3 class="card-title">Resultado da perícia médica</h3>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <label>
+                                              Histórico resumido da doença
+                                              <i>
+                                                <sub class="caracteresResultadoPericiaHistorico">700</sub>
+                                                <sub>Restantes</sub>
+                                              </i>
+                                            </label>
+                                            <textarea id="resultadoPericiaHistorico" name='resultadoPericiaHistorico'
+                                              class="form-control" maxlength="700" rows="4">
+                                            </textarea>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <label>Tipo</label>
+                                            <div class="select2-purple">
+                                              <select name="resultado" size="1" id="resultadoPericiaTipo"
+                                                class="form-control select" style="width: 100%;">
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div id="resultadoPericiaTipoDescricaoExibir">
+                                          <div class="row">
+                                            <div class="col-4">
+                                              <label>Dias de Afastamento</label>
+                                              <div class="select2-purple">
+                                                <input id='resultadoPericiaDias' type="number" class="form-control" max="0"
+                                                  min="0">
+                                              </div>
+                                            </div>
+                                            <div class="col-4">
+                                              <label>Primeiro dia</label>
+                                              <div class="select2-purple">
+                                                <input id='resultadoPericiaPrimeiroDia' type="date" class="form-control">
+                                              </div>
+                                            </div>
+                                            <div class="col-4">
+                                              <label>Último dia</label>
+                                              <div class="select2-purple">
+                                                <input disabled id='resultadoPericiaUltimoDia' type="date"
+                                                  class="form-control">
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-12">
+                                              <label>Descrição</label>
+                                              <p id="resultadoPericiaTipoDescricao">
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <div class="card card-success">
                                       <div class="card-header">
                                         <h3 class="card-title">Buscar e Cadastra CID(s)</h3>
@@ -287,134 +424,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <div class="card card-primary">
-                                      <div class="card-header">
-                                        <h3 class="card-title">Exame Físico</h3>
-                                      </div>
-                                      <div class="card-body">
-                                        <div class="row">
-                                          <div class="col-12">
-                                            <label>Tipos</label>
-                                            <select class="select2" style="width: 100%;" id="tiposExamesFisicosAtivos">
-                                            </select>
-                                          </div>
-                                          <div class="col-12 d-none" id='exibeExameFisico'>
-                                            <div class="col-12">
-                                              <label>
-                                                Descrição
-                                                <i>
-                                                  <sub class="caracteresExameFisico">100</sub> <sub>Restantes</sub>
-                                                </i>
-                                              </label>
-                                              <textarea id="descricaoExameFisico" name='descricaoExameFisico'
-                                                class="form-control" maxlength="700" rows="1">
-                                            </textarea>
-                                            </div>
-                                            <div class="col-12"><br>
-                                              <button id='carregarExameFisico' type="button"
-                                                class="btn btn-info btn-block">Carregar
-                                              </button>
-                                              <input type="text" id="dadosExameFisico" class="d-none">
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-12"><br></div>
-                                          <input type="text" id="nomeDadosExameFisico" class="d-none-">
-                                          <div class="col-12" id="dadosCarregadosExameFisico">
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="card card-primary">
-                                      <div class="card-header">
-                                        <h3 class="card-title">Resultado da perícia médica</h3>
-                                      </div>
-                                      <div class="card-body">
-                                        <div class="row">
-                                          <div class="col-12">
-                                            <label>
-                                              Histórico resumido da doença
-                                              <i>
-                                                <sub class="caracteresHistorioResumidoDoenca">700</sub>
-                                                <sub>Restantes</sub>
-                                              </i>
-                                            </label>
-                                            <textarea id="historioResumidoDoenca" name='historioResumidoDoenca'
-                                              class="form-control" maxlength="700" rows="4">
-                                            </textarea>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-12">
-                                            <label>Tipo</label>
-                                            <div class="select2-purple">
-                                              <select name="resultado" size="1" id="tiposResultadosPericiaMedica"
-                                                class="form-control select2" style="width: 100%;">
-                                              </select>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div id="tiposResultadosPericiaMedicaDescricaoExibir">
-                                          <div class="row">
-                                            <div class="col-4">
-                                              <label>Dias de Afastamento</label>
-                                              <div class="select2-purple">
-                                                <input id='diasDeAfastamento' type="number" class="form-control" max="0"
-                                                  min="0">
-                                              </div>
-                                            </div>
-                                            <div class="col-4">
-                                              <label>Primeiro dia</label>
-                                              <div class="select2-purple">
-                                                <input id='primeiroDiaAfastamento' type="date" class="form-control">
-                                              </div>
-                                            </div>
-                                            <div class="col-4">
-                                              <label>Último dia</label>
-                                              <div class="select2-purple">
-                                                <input disabled id='ultimoDiaAfastamento' type="date"
-                                                  class="form-control">
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col-12">
-                                              <label>Descrição</label>
-                                              <p id="tiposResultadosPericiaMedicaDescricao">
-                                              </p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="card card-warning">
-                                      <div class="card-header">
-                                        <h3 class="card-title">Dados do Atestado</h3>
-                                      </div>
-                                      <div class="card-body">
-                                        <div class="row">
-                                          <div class="col-8">
-                                            <div class="form-group">
-                                              <label>CRM - Atestado ou Laudo</label>
-                                              <input id='CRMFichaMedica' type="number" class="form-control">
-                                            </div>
-                                          </div>
-                                          <div class="col-4">
-                                            <label>Dias de Afastamento</label>
-                                            <input id='diasAfastamentoFichaMedica' type="number" class="form-control">
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-12">
-                                            <div class="form-group">
-                                              <label>Nome do Médico</label>
-                                              <input id='nomeMedicoAtestado' type="text" class="form-control">
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
+
                                     <div id='descricaoAtribuicoes'>
                                     </div>
                                     <div class="row">
@@ -422,7 +432,7 @@
                                         <label>
                                           Observações
                                           <i>
-                                            <sub class="caracteresDiasAfastamentoFichaMedica">500</sub>
+                                            <sub class="caracteresobsFichaMedica">500</sub>
                                             <sub>Restantes</sub>
                                           </i>
                                         </label>
