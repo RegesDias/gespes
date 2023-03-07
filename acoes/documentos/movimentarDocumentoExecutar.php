@@ -23,13 +23,13 @@ if($movimentacoesSetor == $_SESSION['idSetor']){
 
 
 if ($m->validaMovimentacao($idMovimentacao)){
-    //if(Conexao::verificaLogin('consultaPessoal')){
+    if(Conexao::verificaLogin('protocolo')){
         $d->finalizarMovimento($idMovimentacao);
         $d->movimentarExecutar($idDocumento,$encaminharResponsavel,$movimentacoesSetor,$encaminharTexto);
             $m->gravaLog('Documento '.$idDocumento.' movimentado pelo usuario '.$_SESSION['id']);
             $retorno = array('codigo' => 1, 'mensagem' => 'Documento encaminhado com sucesso!');
             echo json_encode($retorno);
-    //}
+    }
 }else{
     $retorno = array('codigo' => 1, 'mensagem' => 'Erro ao movimentar documento '.$idMovimentacao);
     echo json_encode($retorno);  

@@ -38,7 +38,7 @@ if($dado != ''){
     $retorno = array('codigo' => 0, 'mensagem' => 'Nenhum Documento encontrado!');
     echo json_encode($retorno);
 }
-//if(Conexao::verificaLogin('consultaPessoal')){
+if(Conexao::verificaLogin('protocolo')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         $m->gravaLog('Busca Documentos: '.$ano.'-'.$numero);
@@ -60,6 +60,6 @@ if($dado != ''){
         $retorno = array('codigo' => 0, 'mensagem' => 'Nenhum Documento encontrado!');
         echo json_encode($retorno);
     }
-//}
+}
 ?>
 

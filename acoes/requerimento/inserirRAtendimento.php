@@ -32,14 +32,14 @@ header('Content-Type: application/json');
 
     //Dados Gerais
     $obj->observacao = $s->setDado($_POST['obsFichaMedica']);
+    
     if(Conexao::verificaLogin('atendimentoAgenda')){
         $tei = $s->atualizaRequerimentoHistorico($obj);
         $exec = $s->atualizarStatus($obj);
-        $retorno=$s->inserirRAtendimento($obj);
+        $retorno = $s->inserirRAtendimento($obj);
         if($retorno > 0){
             foreach($obj->exameFisico as $exame){
                 $sql=$s->inserirRAtendimentoExameFisico($retorno->id_requerimento_atendimento,$exame['chave'],$exame['valor']);
-                echo json_encode($sql);
             }
             foreach($obj->idCid10Selecionados as $cid10){
                 $sql=$s->inserirRAtendimentoCid($retorno->id_requerimento_atendimento, $cid10, '0');
@@ -48,9 +48,9 @@ header('Content-Type: application/json');
                 $sql=$s->inserirRAtendimentoCid($retorno->id_requerimento_atendimento, $cid10, '1');
             }
             $rtn = array('acao' => 'success', 'mensagem' => 'Perícia salva com sucesso', 'exec'=> $retorno, 'id'=> $retorno->id_requerimento_atendimento ,'codigo'=>'1');
-            //echo json_encode($rtn);
+            echo json_encode($rtn);
         }else{
             $rtn = array('acao' => 'error', 'mensagem' => 'Error999', 'exec'=> $exec);
-            //echo json_encode($rtn);
+            echo json_encode($rtn);
         }
     }

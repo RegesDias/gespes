@@ -130,6 +130,7 @@ $("#btnLimpar").on("click", function() {
 $("#visualizarServidor").on("click", function() {
     var codfunc =  $('#listaPessoal option:selected').val();
     $('#gestaoClick').trigger('click');
+    $('#listaSolicitacoesCadastradas').html("");
     getPessoaDadosFuncionais(codfunc);
 });
 

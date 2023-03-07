@@ -37,7 +37,8 @@ class Requerimentos extends Generica{
                 ON requerimento_status.id = requerimento.id_requerimento_status
                 LEFT JOIN requerimento_solicitacao
                 ON requerimento.id_requerimento_solicitacao = requerimento_solicitacao.id
-          WHERE 
+          WHERE
+              requerimento.finalizado = '0' AND
               requerimento.id_info = '$id'";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
@@ -141,6 +142,20 @@ class Requerimentos extends Generica{
             return $sql;
             //return $obj->id_requerimento;
     }
+
+    public function buscarRAtendimentoExameFisico($idAtendimento){
+      $sql = "SELECT
+                  rtef.id,
+                  rtef.nome,
+                  raef.descricao
+                FROM
+                    requerimento_atendimento_exame_fisico as raef
+                    LEFT JOIN requerimento_tipos_exame_fisico as rtef
+                    ON raef.idTiposExameFisico = rtef.id
+                WHERE 
+                  raef.idAtendimento = '$idAtendimento'";
+      return $stm = Conexao::InstSDGC()->prepare($sql);
+}
   public function buscarRAtendimentoCid($HPP,$id_requerimento_atendimento){
         $sql = "SELECT * FROM 
                     requerimento_atendimento_cid 
@@ -158,12 +173,19 @@ class Requerimentos extends Generica{
     return $stm = Conexao::InstSDGC()->prepare($sql);
 }
 public function atualizarRAtendimento($obj){
+  $login = $this->buscaLoginSDGC();
+  $obj->userLogin = $login->id; 
   $sql = "UPDATE requerimento_atendimento SET 
-                          medicamentosFichaMedica='$obj->medicamentosFichaMedica', 
-                          CRMFichaMedica='$obj->CRMFichaMedica', 
-                          nomeMedicoAtestado='$obj->nomeMedicoAtestado', 
-                          obsFichaMedica='$obj->obsFichaMedica', 
-                          diasAfastamentoFichaMedica='$obj->diasAfastamentoFichaMedica', 
+                          dadosAtestadoCRM='$obj->dadosAtestadoCRM', 
+                          dadosAtestadoNome='$obj->dadosAtestadoNome', 
+                          dadosAtestadoDiasAfastamento='$obj->dadosAtestadoDiasAfastamento', 
+                          resultadoPericiaHistorico='$obj->resultadoPericiaHistorico',
+                          resultadoPericiaTipo='$obj->resultadoPericiaTipo', 
+                          resultadoPericiaDias='$obj->resultadoPericiaDias',
+                          resultadoPericiaPrimeiroDia='$obj->resultadoPericiaPrimeiroDia',
+                          resultadoPericiaUltimoDia='$obj->resultadoPericiaUltimoDia',
+                          observacao='$obj->observacao',
+                          userLogin='$obj->userLogin',
                           dataHoraAtendimento=NOW()
                       WHERE
                           id='$obj->id_requerimento_atendimento'
@@ -220,6 +242,11 @@ public function atualizarRAtendimento($obj){
     }
     public function limparRAtendimentoCid($id_requerimento_atendimento){
       $sql = "DELETE FROM `requerimento_atendimento_cid` WHERE id_requerimento_atendimento = '$id_requerimento_atendimento'";
+      $stm = Conexao::InstSDGC()->prepare($sql);
+      $stm->execute();
+    }
+    public function limparRAtendimentoExameFisico($id_requerimento_atendimento){
+      $sql = "DELETE FROM `requerimento_atendimento_exame_fisico` WHERE idAtendimento = '$id_requerimento_atendimento'";
       $stm = Conexao::InstSDGC()->prepare($sql);
       $stm->execute();
     }
@@ -320,6 +347,20 @@ public function atualizarRAtendimento($obj){
     $stm = Conexao::InstSDGC()->exec($sql);
     return $stm;
   }
+  public function finalizaRequerimento($obj){
+    //Verifica se o Status Finaliza o requerimento
+    $exec = $this->requerimentosStatusId($obj->id_requerimento_status);
+    $exec->execute();
+    $dados = $exec->fetchAll(PDO::FETCH_ASSOC);
+    $finalizado = $dados[0]['finalizar'];
+    //Executa a finalizacao de acordo com o status
+      $sql = "UPDATE requerimento SET 
+                    finalizado = '$finalizado'
+              WHERE 
+                  id = '$obj->id_requerimento'";
+      $stm = Conexao::InstSDGC()->exec($sql);
+      return $stm;
+  }
   public function cancelarAgendamento($obj){
     $sql = "UPDATE requerimento SET 
                   id_agenda = null
@@ -383,6 +424,17 @@ public function atualizarRAtendimento($obj){
             WHERE
                 ativo = '1' AND
                 reAgenda = '1'
+
+    ";
+    return Conexao::InstSDGC()->prepare($sql); 
+  }
+  public function requerimentosStatusId($id){
+    $sql = "SELECT *
+            FROM 
+                requerimento_status
+            WHERE
+                id = '$id'
+            LIMIT 1
 
     ";
     return Conexao::InstSDGC()->prepare($sql); 

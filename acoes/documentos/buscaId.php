@@ -4,7 +4,7 @@ require_once '../../class/Documentos.php';
 $m = new Documentos;
 $id = $m->setDado($_GET['id']);
 $exec = $m->buscaId($id);
-//if(Conexao::verificaLogin('consultaPessoal')){
+if(Conexao::verificaLogin('protocolo')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         $m->gravaLog('Busca Documentos por ID!');
@@ -12,6 +12,6 @@ $exec = $m->buscaId($id);
     } else {
         echo json_encode('Nenhum servidor encontrado');
     }
-//}
+}
 ?>
 

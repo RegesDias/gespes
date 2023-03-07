@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 require_once '../../class/DocumentosStatus.php';
 $m = new DocumentosStatus;
 $exec = $m->listar();
-//if(Conexao::verificaLogin('consultaPessoal')){
+if(Conexao::verificaLogin('protocolo')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         $m->gravaLog('Listar tipo de documentos');
@@ -11,6 +11,6 @@ $exec = $m->listar();
     } else {
         echo json_encode('Nenhum servidor encontrado');
     }
-//}
+}
 ?>
 

@@ -19,7 +19,6 @@ $(document).ready(function () {
     }
 });
 function listaRequerimentoTiposExameFisicoAtivos() {
-  console.log('teste');
   $.ajax({
     url: "acoes/requerimento/listaRequerimentoTiposExameFisicoAtivos.php",
     method: "POST",
@@ -42,6 +41,12 @@ function listaRequerimentoTiposExameFisicoAtivos() {
 }
 $('#tiposExamesFisicosAtivos').change(function(){
   $('#exibeExameFisico').removeClass('d-none');
+  
+  //recupera texto já digitado
+  let tefa = $('#tiposExamesFisicosAtivos').val();
+  let texto = $('#dadosExameFisico').data(tefa);
+  $('#descricaoExameFisico').val(texto);
+
 });
 
 $('#limparExameFisico').click(function(){
@@ -55,9 +60,12 @@ $('#carregarExameFisico').click(function(){
   obj.tiposExamesFisicosAtivosNome = $('#tiposExamesFisicosAtivos :selected').text();
   obj.descricaoExameFisico = $('#descricaoExameFisico').val();
 
-  console.log(obj);
   $('#dadosExameFisico').data({[obj.tiposExamesFisicosAtivosId]: obj.descricaoExameFisico})
   $('#dadosExameFisicoNome').data({[obj.tiposExamesFisicosAtivosId]: obj.tiposExamesFisicosAtivosNome})
+  carregarExameFisico ()
+  msn('success','Carregado');
+});
+function carregarExameFisico (){
   let dadosEF = $('#dadosExameFisico').data();
   let dadosEFN = $('#dadosExameFisicoNome').data();
   let chavesEF = Object.keys(dadosEF);
@@ -77,9 +85,6 @@ $('#carregarExameFisico').click(function(){
               "<button type='button' class='btn btn-tool' data-card-widget='collapse'>"+
                 "<i class='fas fa-minus'></i>"+
               "</button>"+
-              "<button type='button' class='btn btn-tool apagaExameFisico'>"+
-              "<i class='fas fa-times'></i>"+
-            "</button>"+
             "</div>"+
           "</div>"+
           "<div class='card-body'>"+
@@ -89,8 +94,7 @@ $('#carregarExameFisico').click(function(){
       "</div>"
     );
   }
-
-});
+}
 
 function listaTiposResultadosPericiaMedica() {
   $.ajax({
@@ -122,7 +126,6 @@ $('#resultadoPericiaDias').on('change', function() {
   $('#resultadoPericiaUltimoDia').val(uDiaAfastamento);
 });
 $('#resultadoPericiaPrimeiroDia').on('change', function() {
-  console.log('resultadoPericiaPrimeiroDia')
   resultadoPericiaDias = $('#resultadoPericiaDias').val();
   pDiaAfastamento = $('#resultadoPericiaPrimeiroDia').val();
   uDiaAfastamento = dataSomaDias(pDiaAfastamento, resultadoPericiaDias);
@@ -131,6 +134,9 @@ $('#resultadoPericiaPrimeiroDia').on('change', function() {
 $('#resultadoPericiaTipo').on('change', function() {
   var obj = new Object()
   obj.id = $("#resultadoPericiaTipo").val();
+  resultadoPericiaTipo(obj);
+});
+function resultadoPericiaTipo(obj){
   $.ajax({
     url: "acoes/requerimento/listaTiposResultadosPericiaMedicaId.php",
     method: "GET",
@@ -148,16 +154,20 @@ $('#resultadoPericiaTipo').on('change', function() {
         uDiaAfastamento = dataSomaDias(pDiaAfastamento, result[0].diasMax);
         resultadoPericiaDias = result[0].diasMax;
       }
-      
       if(result[0].dias == 1){
-
+        //Configuracao do campo
         $('#resultadoPericiaDias').attr('max', result[0].diasMax);
         $('#resultadoPericiaDias').attr('min', result[0].diasMim);
-        $('#resultadoPericiaDias').val(resultadoPericiaDias);
-  
         $('#resultadoPericiaTipoDescricao').html(result[0].descricao)
         $('#resultadoPericiaTipoDescricaoExibir').removeClass('d-none');
-  
+        
+        if(obj.carregadados == '1'){
+            resultadoPericiaDias = obj.resultadoPericiaDias;
+            pDiaAfastamento = obj.resultadoPericiaPrimeiroDia;
+            uDiaAfastamento = obj.resultadoPericiaUltimoDia;
+        }
+        //Dados padrao 
+        $('#resultadoPericiaDias').val(resultadoPericiaDias);
         $('#resultadoPericiaPrimeiroDia').val(pDiaAfastamento);
         $('#resultadoPericiaUltimoDia').val(uDiaAfastamento);
 
@@ -169,9 +179,8 @@ $('#resultadoPericiaTipo').on('change', function() {
         $(location).attr('href', 'index.html');
     })
     .always(function () {
-      $("#carregando").hide();
     });
-});
+}
 $(document).on("keydown", "#descricaoExameFisico", function () {
   var caracteresRestantes = 100;
   var caracteresDigitados = parseInt($(this).val().length);
@@ -447,38 +456,28 @@ $('#idCid10Busca').on('keyup', function() {
     }
   });
   $('#atualizarPericiaMedica').on("click", function() {
-    console.log('teste')
-    var fichaMedica = new Object()
-    fichaMedica.medicamentosFichaMedica = $('#medicamentosFichaMedica').val()
-    fichaMedica.dadosAtestadoCRM = $('#dadosAtestadoCRM').val()
-    fichaMedica.dadosAtestadoDiasAfastamento = $('#dadosAtestadoDiasAfastamento').val()
-    fichaMedica.dadosAtestadoNome = $('#dadosAtestadoNome').val()
-    fichaMedica.obsFichaMedica = $('#obsFichaMedica').val()
-    fichaMedica.id_requerimento_atendimento = $('#idRequerimentoAtendimento').val()
-    fichaMedica.idCid10Selecionados = $('#idCid10Selecionados').val()
-    fichaMedica.idCid10SelecionadosHPP = $('#idCid10SelecionadosHPP').val()
+    let obj = coletarDadosCamposPericiaMedica();
     $.ajax({
       url: "acoes/requerimento/atualizarRAtendimento.php",
       method: "POST",
       dataType: "json",
-      data: fichaMedica
+      data: obj
     }).done(function (result) {
           console.log(result);
-          console.log('done')
           msn(result.acao,result.mensagem);
       }).fail(function () {
-        console.log('fail')
       })
       .always(function () {
         $("#carregando").hide();
       });
     
   })
-  $('#salvarPericiaMedica').on("click", function() {
+  function coletarDadosCamposPericiaMedica(){
     var obj = new Object()
     obj.idrequerimento = $('#idRequerimento').val();
     obj.idAgenda = $('#idAgenda').val();
     obj.idRequerimentoMedico = $('#formFiltroSelectMedicoAgenda').val();
+    obj.idRequerimentoAtendimento = $('#idRequerimentoAtendimento').val();
     
     //Dados do Atestado
     obj.dadosAtestadoCRM = $('#dadosAtestadoCRM').val();
@@ -505,25 +504,25 @@ $('#idCid10Busca').on('keyup', function() {
     //CIDs
     obj.idCid10Selecionados = $('#idCid10Selecionados').val()
     obj.idCid10SelecionadosHPP = $('#idCid10SelecionadosHPP').val()
-    
     console.log(obj);
+    return obj;
+  }
+  $('#salvarPericiaMedica').on("click", function() {
+    let obj = coletarDadosCamposPericiaMedica();
     $.ajax({
       url: "acoes/requerimento/inserirRAtendimento.php",
       method: "POST",
       dataType: "json",
       data: obj
     }).done(function (result) {
-      console.log(result);
         msn(result.acao,result.mensagem);
         if(result.acao == 'success'){
           $('#idRequerimentoAtendimento').val(result.exec.id_requerimento_atendimento);
-          //$('#salvarPericiaMedica').addClass('d-none')
-          //$('#atualizarPericiaMedica').removeClass('d-none')
-          //$('#abrirModalFinalizar').removeClass('d-none')
+          $('#salvarPericiaMedica').addClass('d-none')
+          $('#atualizarPericiaMedica').removeClass('d-none')
+          $('#abrirModalFinalizar').removeClass('d-none')
         }
       }).fail(function (result) {
-        console.log(result);
-        console.log('fail');
         //$(location).attr('href', 'index.html');
       })
       .always(function () {
@@ -550,6 +549,13 @@ $('#idCid10Busca').on('keyup', function() {
         $('#obsFichaMedica').val(result[0].observacao)
         $('#idRequerimentoAtendimento').val(result[0].id)
         //Resultado Pericia
+        var obj = new Object()
+        obj.id = result[0].resultadoPericiaTipo;
+        obj.resultadoPericiaDias = result[0].resultadoPericiaDias;
+        obj.resultadoPericiaPrimeiroDia = result[0].resultadoPericiaPrimeiroDia;
+        obj.resultadoPericiaUltimoDia = result[0].resultadoPericiaUltimoDia;
+        obj.carregadados = '1';
+        resultadoPericiaTipo(obj);
         $('#resultadoPericiaHistorico').val(result[0].resultadoPericiaHistorico)
         $('#resultadoPericiaTipo').val(result[0].resultadoPericiaTipo)
         $('#resultadoPericiaDias').val(result[0].resultadoPericiaDias)
@@ -558,6 +564,7 @@ $('#idCid10Busca').on('keyup', function() {
         //CIDs
         buscarRAtendimentoCid(result[0].id)
         buscarRAtendimentoCidHPP(result[0].id)
+        buscarRAtendimentoExameFisico(result[0].id)
         
         $('#resultadoPericiaTipoDescricaoExibir').removeClass('d-none')
         $('#salvarPericiaMedica').addClass('d-none')
@@ -581,13 +588,32 @@ $('#idCid10Busca').on('keyup', function() {
       data: data
     }).done(function (result) {
       if(result.length>0){
-        console.log(result)
         var options = '';
         $.each(result, function(index, value) {
           options += '<option selected value="' + value.CID10 + '">' + value.CID10 + '</option>';
         });
         $('#idCid10SelecionadosHPP').html(options);
       }
+    });
+  }
+  function buscarRAtendimentoExameFisico(id_requerimento_atendimento) {
+    var data = new Object()
+    data.id_requerimento_atendimento = id_requerimento_atendimento;
+    $.ajax({
+      url: "acoes/requerimento/buscarRAtendimentoExameFisico.php",
+      method: "GET",
+      dataType: "json",
+      data: data
+    }).done(function (result) {
+        let obj = new Object()
+        $.each(result, function(index, value) {
+            obj.tiposExamesFisicosAtivosId = value.id;
+            obj.tiposExamesFisicosAtivosNome = value.nome;
+            obj.descricaoExameFisico = value.descricao;
+            $('#dadosExameFisico').data({[obj.tiposExamesFisicosAtivosId]: obj.descricaoExameFisico})
+            $('#dadosExameFisicoNome').data({[obj.tiposExamesFisicosAtivosId]: obj.tiposExamesFisicosAtivosNome})
+            carregarExameFisico ()
+        })
     });
   }
   function buscarRAtendimentoCid(id_requerimento_atendimento) {
@@ -601,7 +627,6 @@ $('#idCid10Busca').on('keyup', function() {
       data: data
     }).done(function (result) {
       if(result.length>0){
-        console.log(result)
         var options = '';
         $.each(result, function(index, value) {
           options += '<option selected value="' + value.CID10 + '">' + value.CID10 + '</option>';
@@ -612,12 +637,10 @@ $('#idCid10Busca').on('keyup', function() {
   }
   
   $('#abrirModalFinalizar').on("click", function() {
-    console.log('abrirModalFinalizar');
     $('#modalFinalizar').modal('show');
   });
 
   $('#modalFinalizarCancelar').on("click", function() {
-    console.log('modalFinalizarCancelar');
     $('#modalFinalizar').modal('hide');
   });
   $('#modalFinalizarConfirmar').on("click", function() {
@@ -634,20 +657,17 @@ $('#idCid10Busca').on('keyup', function() {
       fichaMedica.idCid10Selecionados = $('#idCid10Selecionados').val()
       fichaMedica.idCid10SelecionadosHPP = $('#idCid10SelecionadosHPP').val()
       fichaMedica.idRequerimentoAtendimento = $('#idRequerimentoAtendimento').val()
-      console.log(fichaMedica);
       $.ajax({
         url: "acoes/requerimento/finalizarRAtendimento.php",
         method: "POST",
         dataType: "json",
         data: fichaMedica
       }).done(function (result) {
-            console.log(result);
             fechaTodosModais();
             preenchimentoAtendimentosDoDia($('#idAgenda').val());
             msn(result.acao,result.mensagem);
         }).fail(function () {
-          console.log('fail');
-          //$(location).attr('href', 'index.html');
+          $(location).attr('href', 'index.html');
         })
         .always(function () {
           $("#carregando").hide();
@@ -663,17 +683,24 @@ $('#idCid10Busca').on('keyup', function() {
   });
   $('#listaAtendimentosDia').on("click", "tr", function() {
     //Limpa campos do formulario
-    $('#idrequerimento').val('')
-    $('#idAgenda').val('')
+    $('#idrequerimento').val('');
+    $('#idAgenda').val('');
 
     //Dados do Atestado
-    $('#dadosAtestadoCRM').val('')
-    $('#dadosAtestadoDiasAfastamento').val('')
-    $('#dadosAtestadoNome').val('')
+    $('#dadosAtestadoCRM').val('');
+    $('#dadosAtestadoDiasAfastamento').val('');
+    $('#dadosAtestadoNome').val('');
 
     //Resultado Pericia
-    $('#resultadoPericiaHistorico').val('')
-    $('#descricaoExameFisico').html('')
+    $('#resultadoPericiaHistorico').val('');
+
+    //Exame Fisico
+    $('#descricaoExameFisico').val('');
+    $('#tiposExamesFisicosAtivos').html('');
+    $('#exibeExameFisico').addClass('d-none');
+    $('#dadosExameFisico').removeData();
+    $('#dadosExameFisicoNome').removeData();
+    $("#dadosCarregadosExameFisico").html('');
 
     //CIDs
     $('#idCid10Busca').val('')

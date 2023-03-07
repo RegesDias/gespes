@@ -22,7 +22,7 @@ $d->verificaPreenchimentoCampo($movimentacoesSetor, 'Setor');
 $d->verificaPreenchimentoCampo($encaminharResponsavel, 'Responsável');
 
 
-//if(Conexao::verificaLogin('consultaPessoal')){
+if(Conexao::verificaLogin('protocolo')){
     //INSERIR DOCUMENTO
     $idDocumento = $d->inserirDocumento($tipo,$numero,$ano,$assunto,$origem);
 
@@ -45,7 +45,7 @@ $d->verificaPreenchimentoCampo($encaminharResponsavel, 'Responsável');
                         'documento' => $numero.'/'.$ano);
     echo json_encode($retorno);
 
-//}
+}
 
 ?>
 

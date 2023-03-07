@@ -4,7 +4,7 @@ require_once '../../class/Movimentacao.php';
 $m = new Movimentacao;
 $id = $m->setDado($_GET['id']);
 $exec = $m->buscaIdDocumento($id);
-//if(Conexao::verificaLogin('consultaPessoal')){
+if(Conexao::verificaLogin('consultaPessoal')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {
         $m->gravaLog('Lista movimentação por ID!');
@@ -12,7 +12,7 @@ $exec = $m->buscaIdDocumento($id);
     } else {
         echo json_encode('Nenhuma movimentação encontrada');
     }
-//}
+}
 
 ?>
 
