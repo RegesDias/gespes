@@ -106,7 +106,7 @@ function getUsuarioDados(codFunc){
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosUsuario){
-        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosUsuario[0].CPF+'.bmp');
+        $('#imgFoto').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/'+dadosUsuario[0].CPF+'.bmp');
         $('#UsuarioNome').val(dadosUsuario[0].nome);
         $('#UsuarioCpfs').val(dadosUsuario[0].CPF);
         $('#UsuarioStatus').val(dadosUsuario[0].status);
@@ -354,7 +354,7 @@ $("#btnInserir").on("click", function() {
 $("#UsuarioCpfs").on("focusout", function() {
     cpf = $("#UsuarioCpfs").val();
     if(validarCPF(cpf)){
-        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+cpf+'.bmp');
+        $('#imgFoto').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/'+cpf+'.bmp');
         getUsuarioSDGCcpf(cpf);
         $('#UsuarioNome').prop('disabled', false);
         $('#UsuarioStatus').prop('disabled', false);

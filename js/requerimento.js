@@ -101,8 +101,7 @@ $("#solicitacaoSalvar").on("click", function () {
           msn('error','Servidor já possue endereço salvo!');
         }else{
           msn('success','Solicitacao salva com sucesso!');
-          listaRequerimentoIdInfo();
-        }
+          listaRequerimentoIdInfo();        }
       })
       .fail(function () {
         //$(location).attr('href', 'index.html');
@@ -111,6 +110,7 @@ $("#solicitacaoSalvar").on("click", function () {
         $("#carregando").hide();
       });
   });
+
   function listaRequerimentoIdInfo() {
     id = $("#idInfo").val();
     $.ajax({
@@ -139,45 +139,17 @@ $("#solicitacaoSalvar").on("click", function () {
         $("#carregando").hide();
       });
   }
-  function listaRequerimentoIdInfo() {
+  function listaRequerimentoHomologadoIdInfo() {
     id = $("#idInfo").val();
     $.ajax({
-      url: "acoes/requerimento/listaRequerimentoIdInfo.php?id="+id,
+      url: "acoes/requerimento/listaRequerimentoIdHomologadoInfo.php?id="+id,
       method: "GET",
       dataType: "json",
     })
       .done(function (result) {
-        $('#listaSolicitacoesCadastradas').html("");
+        $('#listaSolicitacoesHomologadas').html("");
         for (var i = 0; i < result.length; i++) {
-            $("#listaSolicitacoesCadastradas").prepend(
-                "<li value="+result[i].id+">"+
-                  "<span class='text'>"+result[i].solicitacao+" - </span>"+
-                  "<small class='badge badge-"+result[i].classifica+"'>"+result[i].status+"</small>"+
-                  "<div class='tools'>"+
-                      "<i class='fas fa-"+result[i].btnIcone+"'></i>"+
-                  "</div>"+
-                "</li>"
-            )
-        }
-      })
-      .fail(function () {
-        //$(location).attr('href', 'index.html');
-      })
-      .always(function () {
-        $("#carregando").hide();
-      });
-  }
-  function listaRequerimentoIdInfo() {
-    id = $("#idInfo").val();
-    $.ajax({
-      url: "acoes/requerimento/listaRequerimentoIdInfo.php?id="+id,
-      method: "GET",
-      dataType: "json",
-    })
-      .done(function (result) {
-        $('#listaSolicitacoesCadastradas').html("");
-        for (var i = 0; i < result.length; i++) {
-            $("#listaSolicitacoesCadastradas").prepend(
+            $("#listaSolicitacoesHomologadas").prepend(
                 "<li value="+result[i].id+">"+
                   "<span class='text'>"+result[i].solicitacao+" - </span>"+
                   "<small class='badge badge-"+result[i].classifica+"'>"+result[i].status+"</small>"+
@@ -309,6 +281,26 @@ function limpaLista(objSelect) {
       objSelect.lu[0] = null;
     }
   }
+  $('#listaSolicitacoesHomologadas').on("click", "li", function() {
+    tarefa = $(this).text();
+    acao = tarefa.split(' - ')
+    $('#idrequerimentoSelectLi').val($(this).val())
+    if (acao[1] == 'Não Homologado'){
+        $('#modalInserirProtocolo').modal('show')
+    }else if(acao[1] == 'Homologado'){
+      $('#modalDadosDoAgendamento').modal('show')
+      $('#botoesParaRegendamento').addClass('d-none')
+      $('#botoesParaImpressao').removeClass('d-none')
+      resumoAgendamento()
+      requerimentosStatusReAgenda()
+    }else{
+      $('#medicosAtivosDataNaAgenda').html('')
+      $('#vagasDisponibilizadas').val('')
+      $('#vagasOcupadas').val('')
+      $('#modalAgendamento').modal('show')
+      preenchimentoMedicosAtivosCpf()
+    }
+  });
   $('#listaSolicitacoesCadastradas').on("click", "li", function() {
     tarefa = $(this).text();
     acao = tarefa.split(' - ')
@@ -318,6 +310,9 @@ function limpaLista(objSelect) {
         $('#modalInserirProtocolo').modal('show')
     }else if(acao[1] == 'Perícia Agendada'){
       $('#modalDadosDoAgendamento').modal('show')
+      $('#botoesParaRegendamento').removeClass('d-none')
+      $('#botoesParaImpressao').addClass('d-none')
+
       resumoAgendamento()
       requerimentosStatusReAgenda()
     }else{

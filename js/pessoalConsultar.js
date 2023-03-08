@@ -69,7 +69,8 @@ function getPessoaDadosFuncionais(codfunc){
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosPessoal){
-        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
+        $('#gestaoClick').trigger('click');
+        $('#imgFoto').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
         $('#pessoalNome').val(dadosPessoal[0].nome);
         $('#pessoalNomeFoto').html(primeiroUltimoNome(dadosPessoal[0].nome));
         $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
@@ -82,18 +83,16 @@ function getPessoaDadosFuncionais(codfunc){
         $('#pessoalRegime').val(dadosPessoal[0].regime);
         $('#idInfo').val(dadosPessoal[0].idInfo);
         $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
-        let idRegime = dadosPessoal[0].idRegime;
+        let atendimentoSesmit = dadosPessoal[0].atendimentoSesmit;
         $('#modal-pessoal').modal('show');
+        console.log(dadosPessoal[0]);
 
-        if(idRegime == '00008' || idRegime == '00010'){
+        if(atendimentoSesmit == '1'){
             $('#atendimentoBloqueado').addClass('d-none');
             $('#atendimentoLiberado').removeClass('d-none');
-
-            console.log('if')
         }else{
             $('#atendimentoBloqueado').removeClass('d-none');
             $('#atendimentoLiberado').addClass('d-none');
-            console.log('else')
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -129,8 +128,8 @@ $("#btnLimpar").on("click", function() {
 
 $("#visualizarServidor").on("click", function() {
     var codfunc =  $('#listaPessoal option:selected').val();
-    $('#gestaoClick').trigger('click');
     $('#listaSolicitacoesCadastradas').html("");
+    $('#listaSolicitacoesHomologadas').html("");
     getPessoaDadosFuncionais(codfunc);
 });
 

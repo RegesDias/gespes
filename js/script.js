@@ -236,7 +236,7 @@ $("#sairSistema").on("click", function() {
 
 $(document).ready(function(){
   var login = JSON.parse(sessionStorage.getItem('login'));
-  $('#fotoUsuarioLogado').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+login.CPF+'.bmp');
+  $('#fotoUsuarioLogado').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/'+login.CPF+'.bmp');
   $('#carregando').hide();
   $('#logoDireita').hide();
   $('#nomeUsuarioLogado').html(login.nome);

@@ -1,8 +1,11 @@
 $("#atendimentoBtn").on("click", function () {
-  buscapreenchimentoSelectEstadoTodos()
-  buscaEnderecoIdInfo()
-  listaRequerimentoIdInfo()
-  preenchimentoSelectSolicitacao()
+  buscapreenchimentoSelectEstadoTodos();
+  buscaEnderecoIdInfo();
+  listaRequerimentoIdInfo();
+  preenchimentoSelectSolicitacao();
+});
+$("#homologadoBtn").on("click", function () {
+  listaRequerimentoHomologadoIdInfo();
 });
 $(document).ready(function () {
   $("#idCep").blur(function () {

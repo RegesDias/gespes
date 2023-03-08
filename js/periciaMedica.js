@@ -268,7 +268,8 @@ function getFormFiltroSelectMedicoAgenda() {
         method: 'GET',
         dataType: 'json'
     }).done(function(dadosPessoal){
-        $('#imgFoto').attr('src', 'http://10.40.10.233/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
+        $('#gestaoClick').trigger('click');
+        $('#imgFoto').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
         $('#pessoalNome').val(dadosPessoal[0].nome);
         $('#pessoalNomeFoto').html(dadosPessoal[0].nome);
         $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
@@ -509,6 +510,7 @@ $('#idCid10Busca').on('keyup', function() {
   }
   $('#salvarPericiaMedica').on("click", function() {
     let obj = coletarDadosCamposPericiaMedica();
+    console.log(obj)
     $.ajax({
       url: "acoes/requerimento/inserirRAtendimento.php",
       method: "POST",
@@ -723,7 +725,6 @@ $('#idCid10Busca').on('keyup', function() {
     requerimento.id_agenda = $(this).find("td:eq(5)").text();
     
     //Aplicando os dados
-    $('#gestaoClick').trigger('click');
     $('#idRequerimento').val(requerimento.idrequerimento);
     $('#idAgenda').val(requerimento.id_agenda);
     getPessoaDadosFuncionais(requerimento.id_historico_funcional);

@@ -12,7 +12,8 @@ class Servidor extends Generica{
                             info_pessoal.id as idInfo,
                             historico_funcional.id as idHistFunc,
                             regime.nome_regime as regime,
-                            regime.id_regime as idRegime
+                            regime.id_regime as idRegime,
+                            regime.atendimentoSesmit as atendimentoSesmit
                           FROM
                             info_pessoal
                           INNER JOIN historico_funcional

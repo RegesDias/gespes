@@ -23,7 +23,7 @@ class Requerimentos extends Generica{
                 requerimento_medico.ativo = 1";
       return $stm = Conexao::InstSDGC()->prepare($sql);
   }
-  public function listaRequerimentoIdInfo($id){
+  public function listaRequerimentoIdInfo($id,$finalizado,$impresso){
     $sql = "SELECT 
             requerimento.id,
             requerimento_status.classifica,
@@ -38,7 +38,8 @@ class Requerimentos extends Generica{
                 LEFT JOIN requerimento_solicitacao
                 ON requerimento.id_requerimento_solicitacao = requerimento_solicitacao.id
           WHERE
-              requerimento.finalizado = '0' AND
+              requerimento.impresso = '$impresso' AND
+              requerimento.finalizado = '$finalizado' AND
               requerimento.id_info = '$id'";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
@@ -227,7 +228,7 @@ public function atualizarRAtendimento($obj){
                           '$obj->resultadoPericiaPrimeiroDia', 
                           '$obj->resultadoPericiaUltimoDia', 
                           '$obj->observacao', 
-                          $obj->userLogin,
+                          '$obj->userLogin',
                           NOW(),
                           '1'
                         )";
