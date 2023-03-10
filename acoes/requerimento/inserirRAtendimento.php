@@ -32,7 +32,7 @@ header('Content-Type: application/json');
 
     //Dados Gerais
     $obj->observacao = $s->setDado($_POST['obsFichaMedica']);
-    
+    $obj->idLocaldoExame = $s->setDado($_POST['idLocaldoExame']);
     if(Conexao::verificaLogin('atendimentoAgenda')){
         $tei = $s->atualizaRequerimentoHistorico($obj);
         $exec = $s->atualizarStatus($obj);

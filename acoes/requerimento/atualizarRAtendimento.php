@@ -33,6 +33,8 @@ header('Content-Type: application/json');
 
     //Dados Gerais
     $obj->observacao = $s->setDado($_POST['obsFichaMedica']);
+    $obj->idLocaldoExame = $s->setDado($_POST['idLocaldoExame']);
+
 
     if(Conexao::verificaLogin('atendimentoAgenda')){
         $rtn = $s->atualizarRAtendimento($obj);

@@ -2,6 +2,7 @@
 $(document).ready(function () {
     carregarSelect2();
     getFormFiltroSelectMedicoAgenda();
+    listaLocaldaPericia();
 
     $('#carregandoModal').hide();
     var login = JSON.parse(sessionStorage.getItem('login'));
@@ -261,6 +262,22 @@ function getFormFiltroSelectMedicoAgenda() {
     let id_agenda = $('#formFiltroSelectMedicoAgendaDia').val();
     preenchimentoAtendimentosDoDia(id_agenda);
   })
+  function listaLocaldaPericia(){
+    $.ajax({
+      url: 'acoes/requerimento/listaLocaldaPericia.php',
+      type: 'POST',
+      dataType: "json",
+    }).done(function(result){
+      var options = '';
+      $.each(result, function(index, value) {
+        options += '<option value="' + value.id + '">' + value.nome + '</option>';
+      });
+      $('#listaLocaldoPericia').html(options);
+    }).fail(function() {
+      msn('error','Sua sessão expirou');
+      setTimeout(() => {  window.location.href = "index.html" }, 1000);
+    });  
+  };
   function getPessoaDadosFuncionais(codfunc){
     $('#carregando').show();
     $.ajax({
@@ -464,7 +481,6 @@ $('#idCid10Busca').on('keyup', function() {
       dataType: "json",
       data: obj
     }).done(function (result) {
-          console.log(result);
           msn(result.acao,result.mensagem);
       }).fail(function () {
       })
@@ -492,9 +508,7 @@ $('#idCid10Busca').on('keyup', function() {
     obj.resultadoPericiaDias = $('#resultadoPericiaDias').val()
     obj.resultadoPericiaPrimeiroDia = $('#resultadoPericiaPrimeiroDia').val()
     obj.resultadoPericiaUltimoDia = $('#resultadoPericiaUltimoDia').val()
-    
-    //Dados Gerais
-    obj.obsFichaMedica = $('#obsFichaMedica').val()
+
 
     //Exame Fisico
     let dados = $('#dadosExameFisico').data();
@@ -505,12 +519,15 @@ $('#idCid10Busca').on('keyup', function() {
     //CIDs
     obj.idCid10Selecionados = $('#idCid10Selecionados').val()
     obj.idCid10SelecionadosHPP = $('#idCid10SelecionadosHPP').val()
-    console.log(obj);
+
+    //Dados Gerais
+    obj.obsFichaMedica = $('#obsFichaMedica').val()
+    obj.idLocaldoExame = $('#listaLocaldoPericia').val();
+
     return obj;
   }
   $('#salvarPericiaMedica').on("click", function() {
     let obj = coletarDadosCamposPericiaMedica();
-    console.log(obj)
     $.ajax({
       url: "acoes/requerimento/inserirRAtendimento.php",
       method: "POST",
@@ -525,12 +542,11 @@ $('#idCid10Busca').on('keyup', function() {
           $('#abrirModalFinalizar').removeClass('d-none')
         }
       }).fail(function (result) {
-        //$(location).attr('href', 'index.html');
+        $(location).attr('href', 'index.html');
       })
       .always(function () {
         $("#carregando").hide();
       });
-    
   })
   function buscarRAtendimento(idRequerimento,idAgenda) {
     var data = new Object()
@@ -556,7 +572,9 @@ $('#idCid10Busca').on('keyup', function() {
         obj.resultadoPericiaDias = result[0].resultadoPericiaDias;
         obj.resultadoPericiaPrimeiroDia = result[0].resultadoPericiaPrimeiroDia;
         obj.resultadoPericiaUltimoDia = result[0].resultadoPericiaUltimoDia;
+        obj.idLocaldoExame = result[0].idLocaldoExame;
         obj.carregadados = '1';
+        $('#listaLocaldoPericia').val(obj.idLocaldoExame);
         resultadoPericiaTipo(obj);
         $('#resultadoPericiaHistorico').val(result[0].resultadoPericiaHistorico)
         $('#resultadoPericiaTipo').val(result[0].resultadoPericiaTipo)

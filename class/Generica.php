@@ -1,8 +1,9 @@
 <?php
 require_once('Conexao.php');
+Conexao::baseProducao(false);
 class Generica {
   public static $tentativasAceitas = '5';
-  public static $minutosBolqueio = '30'; 
+  public static $minutosBolqueio = '5'; 
 
   function do_html($url) {
     $curl = curl_init();

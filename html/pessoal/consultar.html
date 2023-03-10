@@ -370,18 +370,20 @@
                                             Liberado para Impressão
                                           </h3>
                                         </div>
-                                        <div class="card-body"
-                                          style="height: 200px; width: 100%; overflow: auto">
+                                        <div class="card-body" style="height: 200px; width: 100%; overflow: auto">
                                           <ul class="todo-list" id='listaSolicitacoesHomologadas'
                                             data-widget="todo-list">
                                           </ul>
                                         </div>
                                         <div class="card-footer clearfix">
                                           <div class="input-group input-group-sm">
-                                            <select class="form-control select2" id="idRequerimentoSolicitacaoHomologadas" name='idRequerimentoSolicitacaoHomologadas'">
+                                            <select class="form-control select2"
+                                              id="idRequerimentoSolicitacaoHomologadas"
+                                              name='idRequerimentoSolicitacaoHomologadas'">
                                             </select>
                                                   <span class=" input-group-append">
-                                              <button type="button" id='solicitacaHomologadasBuscar' class="btn btn-info btn-flat">
+                                              <button type="button" id='solicitacaHomologadasBuscar'
+                                                class="btn btn-info btn-flat">
                                                 </i class="nav-icon fas fa-edit"></i> Buscar
                                               </button>
                                               </span>
@@ -528,7 +530,6 @@
                 </div>
               </div>
             </div>
-
             <div class="modal fade" id="modalDadosDoAgendamento" style="margin-top: 60px">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -545,7 +546,6 @@
                           <i class="fas fa-text-width"></i>
                         </h3>
                       </div>
-                      <!-- /.card-header -->
                       <div class="card-body">
                         <blockquote>
                           <h3>
@@ -561,22 +561,28 @@
                         <div class="input-group input-group-sm" id="botoesParaRegendamento">
                           <select class="form-control select2" id="selectRequerimentosStatusReAgenda"
                             name='selectRequerimentosStatusReAgenda'">
-                                </select>
-                                <span class=" input-group-append">
-                            <button type="button" id='reagendarModalDadosDoAgendamento' class="btn btn-info btn-flat"><i
-                                class="nav-icon fas fa-edit"></i> Reagendar</button>
+                          </select>
+                          <span class=" input-group-append">
+                            <button type="button" id='reagendarModalDadosDoAgendamento' class="btn btn-info btn-flat">
+                              <i class="nav-icon fas fa-edit"></i> Reagendar
+                            </button>
                             </span>
                         </div>
                         <div class="input-group input-group-sm" id="botoesParaImpressao">
-                              impressao
-                        </div>
+                          <div class="card-footer">
+                            <button type="button" id='imprimirHomolodadoSolicitacao' class="btn btn-info">
+                              <i class="nav-icon fas fa-print"></i> Solicitação
+                            </button>
+                            <button type="button" id='imprimirHomolodadoResultado' class="btn btn-info">
+                              <i class="nav-icon fas fa-print"></i> Resultado
+                            </button>
+                          </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
           </div>
           <div id="carregandoModal" class="overlay dark hidden">
@@ -586,7 +592,6 @@
         <!-- /.modal-dialog -->
       </div>
     </div>
-
     <script src="js/pessoalConsultar.js"></script>
     <script src="js/cadastroEndereco.js"></script>
     <script src="js/requerimento.js"></script>

@@ -43,6 +43,10 @@ class Requerimentos extends Generica{
               requerimento.id_info = '$id'";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
+  public function listaLocaldaPericia(){
+    $sql = "SELECT * FROM requerimentoLocaisPericia";
+    return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
   
   public function listaRequerimentoTiposExameFisicoAtivos(){
     $sql = "SELECT * FROM `requerimento_tipos_exame_fisico` WHERE ativo = '1'";
@@ -176,7 +180,8 @@ class Requerimentos extends Generica{
 public function atualizarRAtendimento($obj){
   $login = $this->buscaLoginSDGC();
   $obj->userLogin = $login->id; 
-  $sql = "UPDATE requerimento_atendimento SET 
+  $sql = "UPDATE requerimento_atendimento SET
+                          idLocaldoExame='$obj->idLocaldoExame',
                           dadosAtestadoCRM='$obj->dadosAtestadoCRM', 
                           dadosAtestadoNome='$obj->dadosAtestadoNome', 
                           dadosAtestadoDiasAfastamento='$obj->dadosAtestadoDiasAfastamento', 
@@ -203,6 +208,7 @@ public function atualizarRAtendimento($obj){
                           idRequerimento,
                           idAgenda,
                           idRequerimentoMedico, 
+                          idLocaldoExame,
                           dadosAtestadoCRM, 
                           dadosAtestadoNome, 
                           dadosAtestadoDiasAfastamento, 
@@ -218,7 +224,8 @@ public function atualizarRAtendimento($obj){
                         )VALUES(
                           '$obj->id_requerimento', 
                           '$obj->idAgenda', 
-                          '$obj->id_requerimento_medico', 
+                          '$obj->id_requerimento_medico',
+                          '$obj->idLocaldoExame', 
                           '$obj->dadosAtestadoCRM', 
                           '$obj->dadosAtestadoNome', 
                           '$obj->dadosAtestadoDiasAfastamento', 
