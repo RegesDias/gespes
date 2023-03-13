@@ -233,7 +233,6 @@ $("#periciaMedica").on("click", function() {
 $("#sairSistema").on("click", function() {
   sair()
 });
-
 $(document).ready(function(){
   var login = JSON.parse(sessionStorage.getItem('login'));
   $('#fotoUsuarioLogado').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/'+login.CPF+'.bmp');

@@ -1,6 +1,6 @@
 <?php
 require_once('Conexao.php');
-Conexao::baseProducao(false);
+Conexao::baseProducao(true);
 class Generica {
   public static $tentativasAceitas = '5';
   public static $minutosBolqueio = '5'; 

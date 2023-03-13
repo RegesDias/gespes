@@ -93,7 +93,6 @@ class Requerimentos extends Generica{
                  ";
           return $stm = Conexao::InstSDGC()->prepare($sql);
   }
-
   public function listaRequerimentoIdAgenda($id){
     $sql = "SELECT
                 requerimento.id, 
@@ -123,7 +122,33 @@ class Requerimentos extends Generica{
     ";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
-  
+  public function listaRequerimentoIdAgendaTodos($id){
+    $sql = "SELECT
+                requerimento.id, 
+                requerimento.protocolo,
+                requerimento.matricula,
+                requerimento_status.btnIcone,
+                requerimento_status.classifica,
+                requerimento_status.nome as status,
+                requerimento_solicitacao.item as solicitacao,
+                agenda.periodo,
+                agenda.start as data,
+                agenda.id as id_agenda,
+                info_pessoal.nome as paciente
+            FROM requerimento
+                LEFT JOIN requerimento_status
+                ON requerimento_status.id = requerimento.id_requerimento_status
+                LEFT JOIN requerimento_solicitacao
+                ON requerimento_solicitacao.id = requerimento.id_requerimento_solicitacao
+                LEFT JOIN agenda
+                ON agenda.id = requerimento.id_agenda
+                LEFT JOIN info_pessoal
+                ON info_pessoal.id = requerimento.id_info
+            WHERE
+              requerimento.id_agenda = '$id'
+    ";
+    return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
   //salvar
   public function inserir($obj){
     $login = $this->buscaLoginSDGC();

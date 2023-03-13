@@ -315,6 +315,7 @@ function limpaLista(objSelect) {
 
       resumoAgendamento()
       requerimentosStatusReAgenda()
+    }else if(acao[1] == 'Perícia Preenchida'){
     }else{
       $('#medicosAtivosDataNaAgenda').html('')
       $('#vagasDisponibilizadas').val('')

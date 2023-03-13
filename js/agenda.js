@@ -142,6 +142,8 @@ $("#formFiltroSelectUsuario").change(function () {
         $("#idEvento").val(event.event.id);
         buscaEventoId(event.event.id);
         vagasOcupadas(event.event.id);
+        console.log(event.event.id);
+        getPessoalIdEvento();
         $("#calendarModal").modal();
       },
     });
@@ -386,10 +388,14 @@ function vagasOcupadas(id_agenda) {
   }).done(function (result) {
     if(result[0] != undefined){
       $('#numeroAtendimentosOcupados').val(result[0].total);
-      $('#RemoverEvento').prop('disabled', true);
+      $('#vagasOcupadas').val(result[0].total);
+      $('#visualizarServidor').removeClass('d-none');
+      $('#RemoverEvento').addClass('d-none');
     }else{
+      $('#vagasOcupadas').val(0);
       $('#numeroAtendimentosOcupados').val(0);
-      $('#RemoverEvento').prop('disabled', false);
+      $('#visualizarServidor').addClass('d-none');
+      $('#RemoverEvento').removeClass('d-none');
     }
   });
 }

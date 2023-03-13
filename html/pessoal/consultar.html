@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="modal fade" id="modal-pessoal">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
             <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -577,19 +577,20 @@
                               <i class="nav-icon fas fa-print"></i> Resultado
                             </button>
                           </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
             </div>
-            <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
+            <div id="carregandoModal" class="overlay dark hidden">
+              <img src="img/loading.gif" />
+            </div>
           </div>
-          <div id="carregandoModal" class="overlay dark hidden">
-            <img src="img/loading.gif" />
-          </div>
+          <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal-dialog -->
       </div>
     </div>
     <script src="js/pessoalConsultar.js"></script>
