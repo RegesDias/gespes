@@ -173,12 +173,12 @@
         <div class="input-group-prepend">
           <input id='idEvento' type="text" class="d-none">
           <button id='alterarEvento' type="button" class="btn btn-secondary "><i
-              class="nav-icon fas fa-arrow-circle-right"></i> Alterar
+              class="nav-icon fas fa-arrow-circle-right"></i> Alterar Evento
           </button>
         </div>
         <div class="input-group-prepend">
           <button id="visualizarServidor" type="button" disabled class="btn btn-secondary">
-            <i class="nav-icon fas fa-search"></i> Visualizar
+            <i class="nav-icon fas fa-search"></i> Visualizar Servidor
           </button>
           <button id='RemoverEvento' type="button" class="btn btn-default "><i class="nav-icon fas fa-trash"></i>
             Excluir
@@ -341,13 +341,13 @@
                                         <div class="row">
                                           <div class="col-md-6">
                                             <label>Celular</label>
-                                            <input value='' type="text" name="celular" id="idCelular"
+                                            <input disabled value='' type="text" name="celular" id="idCelular"
                                               class="form-control" placeholder="(__) ___-______"
                                               data-inputmask='"mask": "(99) 999-999999"' data-mask>
                                           </div>
                                           <div class="col-md-6">
                                             <label>Teletone</label>
-                                            <input value='' type="text" name="teletone" id="idTelefone"
+                                            <input disabled value='' type="text" name="teletone" id="idTelefone"
                                               class="form-control" placeholder="(__) ___-_____"
                                               data-inputmask='"mask": "(99) 999-99999"' data-mask>
                                           </div>
@@ -355,7 +355,7 @@
                                         <div class="row">
                                           <div class="col-md-12">
                                             <label>Email</label>
-                                            <input type="email" name="email" id="idEmail" class="form-control"
+                                            <input disabled type="email" name="email" id="idEmail" class="form-control"
                                               placeholder="entre com o email">
                                           </div>
                                         </div>
@@ -412,17 +412,6 @@
                                         </ul>
                                       </div>
                                       <div class="card-footer clearfix">
-                                        <div class="input-group input-group-sm">
-                                          <select class="form-control select2" id="idRequerimentoSolicitacaoHomologadas"
-                                            name='idRequerimentoSolicitacaoHomologadas'">
-                                            </select>
-                                                  <span class=" input-group-append">
-                                            <button type="button" id='solicitacaHomologadasBuscar'
-                                              class="btn btn-info btn-flat">
-                                              </i class="nav-icon fas fa-edit"></i> Buscar
-                                            </button>
-                                            </span>
-                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -582,6 +571,7 @@
                         </h3>
                       </div>
                       <div class="card-body">
+                        <input type="text" id="idRatendimento" class="d-nome">
                         <blockquote>
                           <h3>
                             <p id="statusModalDadosDoAgendamento"></p>
@@ -609,6 +599,9 @@
                             </button>
                             <button type="button" id='imprimirHomolodadoResultado' class="btn btn-info">
                               <i class="nav-icon fas fa-print"></i> Resultado
+                            </button>
+                            <button type="button" id='finalizarHomologado' class="btn btn-warning">
+                              <i class="nav-icon fas fa-edit"></i> Finalizar
                             </button>
                           </div>
                         </div>

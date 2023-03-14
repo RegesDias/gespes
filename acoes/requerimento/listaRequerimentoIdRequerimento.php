@@ -4,8 +4,7 @@ header('Content-Type: application/json');
 require_once('../../class/Requerimento.php');
 $s = new Requerimentos;
 $id = $s->setDado($_GET['id']);
-$exec = $s->listaRequerimentoIdInfo($id,1,0);
-
+$exec = $s->listaRequerimentoIdRequerimento($id,0,0);
 if(Conexao::verificaLogin('atendimentoAgenda')){
     $exec->execute();
     if ($exec->rowCount() >= 1) {

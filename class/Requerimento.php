@@ -43,6 +43,48 @@ class Requerimentos extends Generica{
               requerimento.id_info = '$id'";
     return $stm = Conexao::InstSDGC()->prepare($sql);
   }
+  public function listaRequerimentoIdRequerimento($id,$finalizado,$impresso){
+    $sql = "SELECT 
+            requerimento.id,
+            requerimento_status.classifica,
+            requerimento_status.btnIcone,
+            requerimento_status.id as idStatus,
+            requerimento_status.nome as status,
+            requerimento_solicitacao.item as solicitacao
+          FROM 
+                requerimento 
+                LEFT JOIN requerimento_status
+                ON requerimento_status.id = requerimento.id_requerimento_status
+                LEFT JOIN requerimento_solicitacao
+                ON requerimento.id_requerimento_solicitacao = requerimento_solicitacao.id
+          WHERE
+              requerimento.impresso = '$impresso' AND
+              requerimento.finalizado = '$finalizado' AND
+              requerimento.id = '$id'";
+    return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
+  public function listaRequerimentoIdInfoIdAgenda($id,$id_agenda,$finalizado,$impresso){
+    $sql = "SELECT 
+            requerimento.id,
+            requerimento_status.classifica,
+            requerimento_status.btnIcone,
+            requerimento_status.id as idStatus,
+            requerimento_status.nome as status,
+            requerimento_solicitacao.item as solicitacao
+          FROM 
+                requerimento 
+                LEFT JOIN requerimento_status
+                ON requerimento_status.id = requerimento.id_requerimento_status
+                LEFT JOIN requerimento_solicitacao
+                ON requerimento.id_requerimento_solicitacao = requerimento_solicitacao.id
+          WHERE
+              requerimento.impresso = '$impresso' AND
+              requerimento.impresso = '$impresso' AND
+              requerimento.finalizado = '$finalizado' AND
+              id_agenda = '$id_agenda' AND
+              requerimento.id_info = '$id'";
+    return $stm = Conexao::InstSDGC()->prepare($sql);
+  }
   public function listaLocaldaPericia(){
     $sql = "SELECT * FROM requerimentoLocaisPericia";
     return $stm = Conexao::InstSDGC()->prepare($sql);
@@ -428,6 +470,7 @@ public function atualizarRAtendimento($obj){
   }
   public function resumoAgendamento($id_requerimento){
     $sql = "SELECT 
+                requerimento_atendimento.id as idRatendimento,
                 requerimento.protocolo,
                 requerimento_status.nome as status,
                 requerimento_solicitacao.item as solicitacao,
@@ -443,7 +486,10 @@ public function atualizarRAtendimento($obj){
                 ON agenda.id = requerimento.id_agenda
                 LEFT JOIN info_pessoal
                 ON info_pessoal.cpf = agenda.usuario
+                LEFT JOIN requerimento_atendimento
+                ON requerimento.id = requerimento_atendimento.idRequerimento
             WHERE
+              requerimento_atendimento.idAgenda = agenda.id AND
               requerimento.id = '$id_requerimento'
     ";
     return Conexao::InstSDGC()->prepare($sql);  

@@ -23,7 +23,7 @@ $(document).ready(function () {
 function getPessoalIdEvento() {
     let id = $("#idEvento").val();
     $.ajax({
-        url: "acoes/requerimento/listaRequerimentoIdAgendaTodos.php?id=" + id,
+        url: "acoes/requerimento/listaRequerimentoIdAgendaTodos.php?id="+id,
         method: 'GET',
         dataType: 'json'
     }).done(function (result) {
@@ -137,6 +137,30 @@ $('#listaPessoalNome').click(function () {
     $('#textMatriculaCpfNome').val('');
 
 });
+
+
+$('#imprimirHomolodadoResultado').click(function () {
+  idRatendimento = $('#idRatendimento').val();
+  link = 'relatorio/getRelSESMTResultadoExame';
+  $('#carregandoModal').show();
+  $('#print-iframe').attr('src', 'acoes/print.php?0=' + idRatendimento + '&link=' + link + '&acesso=relatFichaFuncional');
+  $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
+
+  setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
+  setTimeout(() => { $('#carregandoModal').hide() }, 2000);
+});
+
+$('#imprimirHomolodadoSolicitacao').click(function () {
+  idRatendimento = $('#idRatendimento').val();
+  link = 'relatorio/getRelSesmtSolicitaLicenca';
+  $('#carregandoModal').show();
+  $('#print-iframe').attr('src', 'acoes/print.php?0='+idRatendimento+'&link=' + link + '&acesso=relatFichaFuncional');
+  $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
+
+  setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
+  setTimeout(() => { $('#carregandoModal').hide() }, 2000);
+});
+
 $('#fichaFuncional').click(function () {
     idInfo = $('#idInfo').val();
     link = 'relatorio/getRelHistoricoFuncional';
@@ -229,8 +253,9 @@ function buscaEnderecoIdInfo() {
 }
 function listaRequerimentoIdInfo() {
     id = $("#idInfo").val();
+    idAgenda = $("#idEvento").val();
     $.ajax({
-        url: "acoes/requerimento/listaRequerimentoIdInfo.php?id=" + id,
+        url: "acoes/requerimento/listaRequerimentoIdInfoIdAgenda.php?id="+id+"&"+"idAgenda="+idAgenda,
         method: "GET",
         dataType: "json",
     })
@@ -290,6 +315,7 @@ function resumoAgendamento() {
         $('#solicitacaoModalDadosDoAgendamento').text(result[0].solicitacao)
         $('#medicoModalDadosDoAgendamento').text(result[0].medico)
         $('#statusModalDadosDoAgendamento').text(result[0].status)
+        $('#idRatendimento').val(result[0].idRatendimento)
         $('#dataModalDadosDoAgendamento').text(data + "- " + diaSemana + " no período da " + result[0].periodo)
     });
 }
@@ -311,9 +337,10 @@ function requerimentosStatusReAgenda() {
     });
 }
 function listaRequerimentoHomologadoIdInfo() {
+    idAgenda = $("#idEvento").val();
     id = $("#idInfo").val();
     $.ajax({
-      url: "acoes/requerimento/listaRequerimentoIdHomologadoInfo.php?id="+id,
+      url: "acoes/requerimento/listaRequerimentoIdHomologadoInfoIdAgenda.php?id="+id+"&"+"idAgenda="+idAgenda,
       method: "GET",
       dataType: "json",
     })
@@ -351,11 +378,6 @@ function listaRequerimentoHomologadoIdInfo() {
       resumoAgendamento()
       requerimentosStatusReAgenda()
     }else{
-      $('#medicosAtivosDataNaAgenda').html('')
-      $('#vagasDisponibilizadas').val('')
-      $('#vagasOcupadas').val('')
-      $('#modalAgendamento').modal('show')
-      preenchimentoMedicosAtivosCpf()
     }
   });
   $("#reagendarModalDadosDoAgendamento").on("click", function () {
@@ -365,6 +387,7 @@ function listaRequerimentoHomologadoIdInfo() {
     end.id_agenda = null
     end.id_info = $("#idInfo").val();
     end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
+    console.log(end);
     $.ajax({
       url: "acoes/requerimento/alterarStatus.php",
       method: "POST",
@@ -377,14 +400,42 @@ function listaRequerimentoHomologadoIdInfo() {
           msn(result.acao,result.mensagem);
           $('#modalDadosDoAgendamento').modal('hide');
           $('#medicosAtivosDataNaAgenda').html('');
-          listaRequerimentoIdInfo();
+          listaRequerimentoIdRequerimento(end.id);
       }).fail(function () {
         //$(location).attr('href', 'index.html');
       })
       .always(function () {
         $("#carregando").hide();
       });
-  })
+  });
+  function listaRequerimentoIdRequerimento(id) {
+    $.ajax({
+      url: "acoes/requerimento/listaRequerimentoIdRequerimento.php?id="+id,
+      method: "GET",
+      dataType: "json",
+    }).done(function (result) {
+      console.log('listaRequerimentoIdRequerimento');
+      console.log(id);
+        $('#listaSolicitacoesCadastradas').html("");
+        for (var i = 0; i < result.length; i++) {
+            $("#listaSolicitacoesCadastradas").prepend(
+                "<li value="+result[i].id+">"+
+                  "<span class='text'>"+result[i].solicitacao+" - </span>"+
+                  "<small class='badge badge-"+result[i].classifica+"'>"+result[i].status+"</small>"+
+                  "<div class='tools'>"+
+                      "<i class='fas fa-"+result[i].btnIcone+"'></i>"+
+                  "</div>"+
+                "</li>"
+            )
+        }
+      })
+      .fail(function () {
+        //$(location).attr('href', 'index.html');
+      })
+      .always(function () {
+        $("#carregando").hide();
+      });
+  }
   $('#medicosAtivos').change(function(){
     let cpf = $("#medicosAtivos").val()
     $("#medicosAtivosDataNaAgenda").html('');

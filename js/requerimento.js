@@ -147,6 +147,7 @@ $("#solicitacaoSalvar").on("click", function () {
       dataType: "json",
     })
       .done(function (result) {
+        console.log(id);
         $('#listaSolicitacoesHomologadas').html("");
         for (var i = 0; i < result.length; i++) {
             $("#listaSolicitacoesHomologadas").prepend(
@@ -181,17 +182,10 @@ $('#modalAgendamentoImprimir').click(function(){
 });
 $('#modalInserirProtocoloImprimir').click(function(){
   $('#modal-data').modal('hide');
-  var end = new Object()
-
-  end.endereco = $("#idLogradouro").val()
-  end.cidade = $("#idCidade").text()
-  end.bairro = $("#idBairro").text()
-  end.telefone = $("#idTelefone").val()
-  end.email = $("#idEmail").val()
-  end.cpf = $("#pessoalCpfs").val().replace(/[^0-9]/g,'')
-  link = 'relatorio/getRelRequerimentoProtocoloGeral';
+  matricula = $("#pessoalCodFunc").val()
+  link = 'relatorio/getRelRequerimentoProtocoloGeralAtual';
       $('#carregandoModal').show();
-      $('#print-iframe').attr('src', 'acoes/print.php?0='+end.endereco+'&1='+end.cidade+'&2='+end.bairro+'&3='+end.telefone+'&4='+end.email+'&5='+end.cpf+'&link='+link+'&acesso=relatContraCheque');
+      $('#print-iframe').attr('src', 'acoes/print.php?0='+matricula+'&link='+link+'&acesso=relatContraCheque');
       $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
       setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
