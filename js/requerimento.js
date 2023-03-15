@@ -329,12 +329,15 @@ function limpaLista(objSelect) {
   });
   function resumoAgendamento() {
     id_requerimento = $("#idrequerimentoSelectLi").val()
+    console.log('id_requerimento');
+
     console.log(id_requerimento);
     $.ajax({
       url: "acoes/requerimento/resumoAgendamento.php?id_requerimento="+id_requerimento,
       method: "GET",
       dataType: "json"
     }).done(function (result) {
+      console.log(result);
       let data = converteDataBr(result[0].data);
       let diaSemana = diaDaSemana(data);
         $('#protocoloModalDadosDoAgendamento').text('Protocolo  '+result[0].protocolo)
@@ -342,7 +345,9 @@ function limpaLista(objSelect) {
         $('#medicoModalDadosDoAgendamento').text(result[0].medico)
         $('#statusModalDadosDoAgendamento').text(result[0].status)
         $('#dataModalDadosDoAgendamento').text(data+"- "+diaSemana+" no período da "+result[0].periodo)
-    });
+    }) .fail(function () {
+        console.log('result');
+    })
   }
   function requerimentosStatusReAgenda() {
     $.ajax({

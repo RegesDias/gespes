@@ -8,7 +8,17 @@ require_once('../../class/Requerimento.php');
     if(Conexao::verificaLogin('atendimentoAgenda')){
         $exec->execute();
         if ($exec->rowCount() >= 1) {
-            echo json_encode($exec->fetchAll(PDO::FETCH_ASSOC));
+            $resumoAgendamento = $exec->fetchAll(PDO::FETCH_ASSOC);
+            $exec = $s->resumoAgendamentoAtendimento($obj->id_requerimento);
+            $exec->execute();
+            if ($exec->rowCount() >= 1) {
+                $resumoAgendamentoAtendimento = $exec->fetchAll(PDO::FETCH_ASSOC);
+                $result = array_merge($resumoAgendamento[0], $resumoAgendamentoAtendimento[0]);
+                $result = array($result);
+            }else{
+                $result = $resumoAgendamento;
+            }
+            echo json_encode($result);
         } else {
             echo json_encode('');
         }

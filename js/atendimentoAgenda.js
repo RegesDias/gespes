@@ -6,7 +6,7 @@ function getPessoalCodigo() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         $("#listaPessoal").empty();
         $("#listaPessoalNome").empty();
         $('#listaPessoal').attr("size", size);
@@ -26,7 +26,7 @@ function getPessoalNome() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         $("#listaPessoal").empty();
         $("#listaPessoalNome").empty();
         $('#listaPessoal').attr("size", size);
@@ -47,7 +47,7 @@ function getPessoalMatriculaCpfNome(dado){
         dataType: 'json'
     }).done(function(result){
         var total = result.length;
-        var size = result.length+1;
+        var size = result.length+2;
         if (total>0){
             msn('success','Total de '+total+' encontrado(s)!');
             $("#listaPessoal").empty();

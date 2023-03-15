@@ -414,6 +414,14 @@ public function atualizarRAtendimento($obj){
     $stm = Conexao::InstSDGC()->exec($sql);
     return $stm;
   }
+  public function atualizarImpresso($obj){
+    $sql = "UPDATE requerimento SET 
+                  impresso = '$obj->impresso'
+            WHERE 
+                id = '$obj->id_requerimento'";
+    $stm = Conexao::InstSDGC()->exec($sql);
+    return $stm;
+  }
   public function finalizaRAtendimento($obj){
     $sql = "UPDATE requerimento_atendimento SET 
                   finalizado = '1'
@@ -470,7 +478,6 @@ public function atualizarRAtendimento($obj){
   }
   public function resumoAgendamento($id_requerimento){
     $sql = "SELECT 
-                requerimento_atendimento.id as idRatendimento,
                 requerimento.protocolo,
                 requerimento_status.nome as status,
                 requerimento_solicitacao.item as solicitacao,
@@ -486,10 +493,19 @@ public function atualizarRAtendimento($obj){
                 ON agenda.id = requerimento.id_agenda
                 LEFT JOIN info_pessoal
                 ON info_pessoal.cpf = agenda.usuario
+            WHERE
+              requerimento.id = '$id_requerimento'
+    ";
+    return Conexao::InstSDGC()->prepare($sql);  
+  }
+  public function resumoAgendamentoAtendimento($id_requerimento){
+    $sql = "SELECT 
+                requerimento_atendimento.id as idRatendimento
+            FROM requerimento
                 LEFT JOIN requerimento_atendimento
                 ON requerimento.id = requerimento_atendimento.idRequerimento
             WHERE
-              requerimento_atendimento.idAgenda = agenda.id AND
+              requerimento_atendimento.idAgenda = requerimento.id_agenda AND
               requerimento.id = '$id_requerimento'
     ";
     return Conexao::InstSDGC()->prepare($sql);  

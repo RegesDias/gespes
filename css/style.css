@@ -1,18 +1,55 @@
 .selectDouble {
-    height: 20px;
-    border: 0;
-    outline: 0px solid #ccc;
-    outline-offset: -1px;
-  }
-  #corpo{
-    background-image:linear-gradient( rgba(255,255,255,.8) 0%,rgba(255,255,255,.8) 100%), url(../img/BrasaoMacae.png); 
+  height: 20px;
+  border: 0;
+  outline: 0px solid #ccc;
+  outline-offset: -1px;
+}
 
+#corpo {
+  background-image: linear-gradient(rgba(255, 255, 255, .8) 0%, rgba(255, 255, 255, .8) 100%), url(../img/BrasaoMacae.png);
+
+}
+
+#versao {
+  font-size: 15px;
+}
+
+#toolsExibe {
+  color: #dc3545;
+  display: none;
+  float: right;
+}
+
+#carregandoModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1050;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-body {
+  max-height: 400px;
+  /* defina a altura desejada */
+  overflow-y: auto;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  #versao{
-    font-size:15px;
+
+  to {
+    transform: rotate(360deg);
   }
-  #toolsExibe {
-    color: #dc3545;
-    display: none;
-    float: right;
-  }
+}

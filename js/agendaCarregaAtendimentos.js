@@ -27,7 +27,7 @@ function getPessoalIdEvento() {
         method: 'GET',
         dataType: 'json'
     }).done(function (result) {
-        var size = result.length + 1;
+        var size = result.length + 2;
         $('#listaPessoal').attr("size", size);
         $('#listaPessoalNome').attr("size", size);
         preenchimentoSelect(result);
@@ -170,6 +170,33 @@ $('#fichaFuncional').click(function () {
 
     setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
     setTimeout(() => { $('#carregandoModal').hide() }, 2000);
+});
+
+$('#finalizarHomologado').click(function () {
+    var end = new Object()
+    end.id = $("#idrequerimentoSelectLi").val()
+    end.impresso = '1';
+    console.log(end);
+    console.log('finalizarHomologado');
+    $.ajax({
+      url: "acoes/requerimento/atualizarImpresso.php",
+      method: "POST",
+      dataType: "json",
+      data: end,
+    }).done(function (result) {
+          if(result.codigo == 0){
+            result.acao = 'error'
+          }
+          msn(result.acao,result.mensagem);
+          $('#modalDadosDoAgendamento').modal('hide');
+          $('#medicosAtivosDataNaAgenda').html('');
+          listaRequerimentoHomologadoIdInfo();
+      }).fail(function () {
+        //$(location).attr('href', 'index.html');
+      })
+      .always(function () {
+        $("#carregando").hide();
+      });
 });
 
 $('#atribuicaoDeCargo').click(function () {

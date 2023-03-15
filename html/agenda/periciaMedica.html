@@ -212,7 +212,7 @@
                         </div>
                         <div class="tab-pane" id="atendimento">
                           <div class="col-12">
-                            <div class="box-body">
+                            <div class="modal-body">
                               <div class="box box-primary">
                                 <div class="row">
                                   <div class="col-12">
@@ -224,7 +224,8 @@
                                     <div class="row">
                                       <div class="col-12">
                                         <label>Local do Atendimento</label>
-                                        <select class="form-control select" style="width: 100%;" id="listaLocaldoPericia">
+                                        <select class="form-control select" style="width: 100%;"
+                                          id="listaLocaldoPericia">
                                         </select>
                                       </div>
                                     </div><br>
@@ -281,14 +282,16 @@
                                             <div class="col-12"><br>
                                               <div class="row">
                                                 <div class="col-8">
-                                                  <button id='carregarExameFisico' type="button" class="btn btn-info btn-block">
+                                                  <button id='carregarExameFisico' type="button"
+                                                    class="btn btn-info btn-block">
                                                     <i class="fa fa-save"></i> Carregar
                                                   </button>
                                                 </div>
                                                 <div class="col-4">
-                                                  <button id='limparExameFisico' type="button" class="btn btn-danger btn-block">
+                                                  <button id='limparExameFisico' type="button"
+                                                    class="btn btn-danger btn-block">
                                                     <i class="fa fa-trash-alt"></i> Limpar
-                                                  </button>                                                  
+                                                  </button>
                                                 </div>
                                               </div>
                                               <input type="text" id="dadosExameFisico" class="d-none">
@@ -337,14 +340,15 @@
                                             <div class="col-4">
                                               <label>Total de Dias</label>
                                               <div class="select2-purple">
-                                                <input id='resultadoPericiaDias' type="number" class="form-control" max="0"
-                                                  min="0">
+                                                <input id='resultadoPericiaDias' type="number" class="form-control"
+                                                  max="0" min="0">
                                               </div>
                                             </div>
                                             <div class="col-4">
                                               <label>Primeiro dia</label>
                                               <div class="select2-purple">
-                                                <input id='resultadoPericiaPrimeiroDia' type="date" class="form-control">
+                                                <input id='resultadoPericiaPrimeiroDia' type="date"
+                                                  class="form-control">
                                               </div>
                                             </div>
                                             <div class="col-4">
@@ -451,17 +455,17 @@
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button class="btn btn-success d-none" id="abrirModalFinalizar">
-                                <i class="fa fa-check"></i> Finalizar
-                              </button>
-                              <button id='salvarPericiaMedica' class="btn btn-primary d-none" type="button">
-                                <i class="fa fa-save"></i> Salvar
-                              </button>
-                              <button id='atualizarPericiaMedica' class="btn btn-primary d-none" type="button">
-                                <i class="fa fa-save"></i> Atualizar
-                              </button>
+                              <div class="modal-footer">
+                                <button class="btn btn-success d-none" id="abrirModalFinalizar">
+                                  <i class="fa fa-check"></i> Finalizar
+                                </button>
+                                <button id='salvarPericiaMedica' class="btn btn-primary d-none" type="button">
+                                  <i class="fa fa-save"></i> Salvar
+                                </button>
+                                <button id='atualizarPericiaMedica' class="btn btn-primary d-none" type="button">
+                                  <i class="fa fa-save"></i> Atualizar
+                                </button>
+                              </div>
                             </div>
                             <div class="modal fade" id="modalFinalizar" role="dialog">
                               <div class="modal-dialog modal-md">

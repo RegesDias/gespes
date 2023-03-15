@@ -90,7 +90,7 @@ function getListaSetoresAtivos() {
         dataType: 'json',
         async: false
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         preenchimentoSelectSetor(result);
         validar = new Promise(function(resolve, reject) {resolve(1);});
         return true;
@@ -107,7 +107,7 @@ function getListaSecretarias() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         preenchimentoAutoCompleteSecretaria(result);
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
@@ -146,7 +146,7 @@ function getDocumentoMovimentacaoId(id,order){
         if (result.codigo==0){
             msn('error',result.mensagem);
         }else{
-            var size = result.length+1;
+            var size = result.length+2;
             $("#listaResponsavel").empty();
             $("#listaDataEntrega").empty();
             $('#listaResponsavel').attr("size", size);
@@ -168,7 +168,7 @@ function getDocumentoObservacaoIdDocumento(id,order){
         if (result.codigo==0){
             msn('error',result.mensagem);
         }else{
-            var size = result.length+1;
+            var size = result.length+2;
             $("#listaObservacaoData").empty();
             $("#listaObservacao").empty();
             $('#listaObservacaoData').attr("size", size);

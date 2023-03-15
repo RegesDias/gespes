@@ -6,7 +6,7 @@ function getOndenaCodigo() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         $("#lista").empty();
         $("#listaNome").empty();
         $('#lista').attr("size", size);
@@ -27,7 +27,7 @@ function getOrdenaNome() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         $("#lista").empty();
         $("#listaNome").empty();
         $('#lista').attr("size", size);
@@ -49,7 +49,7 @@ function getNome(dado){
         dataType: 'json'
     }).done(function(result){
         var total = result.length;
-        var size = result.length+1;
+        var size = result.length+2;
         if(result.codigo == 0){
             msn('error', result.mensagem);
         }else{

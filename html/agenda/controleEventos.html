@@ -571,7 +571,7 @@
                         </h3>
                       </div>
                       <div class="card-body">
-                        <input type="text" id="idRatendimento" class="d-nome">
+                        <input type="text" id="idRatendimento" class="d-none">
                         <blockquote>
                           <h3>
                             <p id="statusModalDadosDoAgendamento"></p>
@@ -612,15 +612,14 @@
               </div>
               <iframe src="" id="print-iframe" name="print-frame-name" class="d-none"></iframe>
             </div>
-            <div id="carregandoModal" class="overlay dark hidden">
-              <img src="img/loading.gif" />
-            </div>
           </div>
-          <!-- /.modal-dialog -->
         </div>
       </div>
     </div>
   </div>
+</div>
+<div id="carregandoModal" class="overlay dark hidden">
+  <img src="img/loading.gif" />
 </div>
 <script src="js/agenda.js"></script>
 <script src="js/agendaCarregaAtendimentos.js"></script>

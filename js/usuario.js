@@ -6,7 +6,7 @@ function getListaSetoresAtivos() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         preenchimentoSelectSetor(result);
     }).fail(function() {
         $(location).attr('href', 'index.html');
@@ -21,7 +21,7 @@ function getUsuarioCodigo() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         $("#listaUsuario").empty();
         $("#listaUsuarioNome").empty();
         $('#listaUsuario').attr("size", size);
@@ -41,7 +41,7 @@ function getUsuarioNome() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         $("#listaUsuario").empty();
         $("#listaUsuarioNome").empty();
         $('#listaUsuario').attr("size", size);
@@ -62,7 +62,7 @@ function getUsuarioCpfNome(dado){
         dataType: 'json'
     }).done(function(result){
         var total = result.length;
-        var size = result.length+1;
+        var size = result.length+2;
         if (total>0){
             msn('success','Total de '+total+' encontrado(s)!');
             $("#listaUsuario").empty();
@@ -86,7 +86,7 @@ function getUsuarioSDGCcpf(dado){
         dataType: 'json'
     }).done(function(result){
         var total = result.length;
-        var size = result.length+1;
+        var size = result.length+2;
         if (total>0){
             $('#UsuarioNome').val(result[0].nome);
             $('#emailUsuario').val(result[0].login);

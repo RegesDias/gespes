@@ -25,7 +25,7 @@ function getPessoalNome() {
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
-        var size = result.length+1;
+        var size = result.length+2;
         $('#listaPessoal').attr("size", size);
         $('#listaPessoalNome').attr("size", size);
         msn('success','Servidores ordenados por nome!');
