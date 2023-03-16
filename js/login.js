@@ -5,6 +5,12 @@
         var data = {email:vemail, senha:vsenha }
         login(data);
     });
+	$(document).keypress(function(event) {
+		if (event.keyCode === 13) {
+		  event.preventDefault();
+		  $('#btn-login').click(); 
+		}
+	});
 	$('#btn-alterar-senha').on("click", function(){
         var vemail = $('#email').val();
         var vsenha = $('#senha').val();
@@ -102,6 +108,6 @@
 	$(document).ready(function(){
 		$('#exibeNovaSenha').hide();
 		$('#exibeNovaSenha2').hide();
-		versao= '0.8';
+		versao= '1.0';
 		$('#versao').html(versao);
 	});

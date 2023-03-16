@@ -1,4 +1,23 @@
 $(document).ready(function () {
+    //ampliar imagem
+    var imagem = $('#imgFoto');
+    var originalWidth = imagem.width();
+    var originalHeight = imagem.height();
+    var zoomLevel = 1.5; // Fator de zoom (1.5 = 150%)
+
+    imagem.hover(function () {
+        imagem.css({
+            'width': originalWidth * zoomLevel,
+            'height': originalHeight * zoomLevel,
+            'transition': 'all 0.5s' // Transição suave
+        });
+    }, function () {
+        imagem.css({
+            'width': originalWidth,
+            'height': originalHeight,
+            'transition': 'all 0.5s' // Transição suave
+        });
+    });
     $('#carregandoModal').hide();
     var login = JSON.parse(sessionStorage.getItem('login'));
     if (login.relatFichaFuncional == 0) {
@@ -143,7 +162,7 @@ $('#imprimirHomolodadoResultado').click(function () {
   idRatendimento = $('#idRatendimento').val();
   link = 'relatorio/getRelSESMTResultadoExame';
   $('#carregandoModal').show();
-  $('#print-iframe').attr('src', 'acoes/print.php?0=' + idRatendimento + '&link=' + link + '&acesso=relatFichaFuncional');
+  $('#print-iframe').attr('src', 'acoes/print.php?0=' + idRatendimento + '&link=' + link + '&acesso=relatHomolodadoResultado');
   $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
   setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
@@ -154,7 +173,7 @@ $('#imprimirHomolodadoSolicitacao').click(function () {
   idRatendimento = $('#idRatendimento').val();
   link = 'relatorio/getRelSesmtSolicitaLicenca';
   $('#carregandoModal').show();
-  $('#print-iframe').attr('src', 'acoes/print.php?0='+idRatendimento+'&link=' + link + '&acesso=relatFichaFuncional');
+  $('#print-iframe').attr('src', 'acoes/print.php?0='+idRatendimento+'&link=' + link + '&acesso=relatHomolodadoSolicitacao');
   $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
   setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);

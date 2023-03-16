@@ -322,4 +322,3 @@ function geraGraficoArea(label,data, tipo) {
   })
 
 }
-

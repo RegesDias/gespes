@@ -5,16 +5,16 @@ function getPessoalCodigo() {
         url: 'acoes/servidor/listarCodigo.php',
         method: 'GET',
         dataType: 'json'
-    }).done(function(result){
-        var total = result.length+1;
+    }).done(function (result) {
+        var total = result.length + 1;
         $('#listaPessoal').attr("size", total);
         $('#listaPessoalNome').attr("size", total);
-        msn('success','Servidores ordenados por codigo!');
+        msn('success', 'Servidores ordenados por codigo!');
         preenchimentoSelect(result);
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
+    }).fail(function () {
+        msn('error', 'Sua sessão expirou');
+        setTimeout(() => { window.location.href = "index.html" }, 1000);
+    }).always(function () {
         $('#carregando').hide();
     });
 };
@@ -24,53 +24,53 @@ function getPessoalNome() {
         url: 'acoes/servidor/listarNome.php',
         method: 'GET',
         dataType: 'json'
-    }).done(function(result){
-        var size = result.length+2;
+    }).done(function (result) {
+        var size = result.length + 2;
         $('#listaPessoal').attr("size", size);
         $('#listaPessoalNome').attr("size", size);
-        msn('success','Servidores ordenados por nome!');
+        msn('success', 'Servidores ordenados por nome!');
         preenchimentoSelect(result);
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
+    }).fail(function () {
+        msn('error', 'Sua sessão expirou');
+        setTimeout(() => { window.location.href = "index.html" }, 1000);
+    }).always(function () {
         $('#carregando').hide();
     });
 };
-function getPessoalMatriculaCpfNome(dado,order){
+function getPessoalMatriculaCpfNome(dado, order) {
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/servidor/buscaMatriculaCpfNome.php?dado='+dado+'&order='+order,
+        url: 'acoes/servidor/buscaMatriculaCpfNome.php?dado=' + dado + '&order=' + order,
         method: 'GET',
         dataType: 'json'
-    }).done(function(result){
-        if (result.codigo==0){
-            msn('error',result.mensagem);
-        }else{
-            var size = result.exec.length+1;
-            msn('success',result.mensagem);
+    }).done(function (result) {
+        if (result.codigo == 0) {
+            msn('error', result.mensagem);
+        } else {
+            var size = result.exec.length + 1;
+            msn('success', result.mensagem);
             $("#listaPessoal").empty();
             $("#listaPessoalNome").empty();
             $('#listaPessoal').attr("size", size);
             $('#listaPessoalNome').attr("size", size);
             preenchimentoSelect(result.exec);
         }
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
+    }).fail(function () {
+        msn('error', 'Sua sessão expirou');
+        setTimeout(() => { window.location.href = "index.html" }, 1000);
+    }).always(function () {
         $('#carregando').hide();
     });
 };
-function getPessoaDadosFuncionais(codfunc){
+function getPessoaDadosFuncionais(codfunc) {
     $('#carregando').show();
     $.ajax({
-        url: 'acoes/servidor/buscarCodFunc.php?codfunc='+codfunc,
+        url: 'acoes/servidor/buscarCodFunc.php?codfunc=' + codfunc,
         method: 'GET',
         dataType: 'json'
-    }).done(function(dadosPessoal){
+    }).done(function (dadosPessoal) {
         $('#gestaoClick').trigger('click');
-        $('#imgFoto').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/'+dadosPessoal[0].cpfs+'.bmp');
+        $('#imgFoto').attr('src', 'https://www.sdgc.com.br/sdgc/img/fotos/' + dadosPessoal[0].cpfs + '.bmp');
         $('#pessoalNome').val(dadosPessoal[0].nome);
         $('#pessoalNomeFoto').html(primeiroUltimoNome(dadosPessoal[0].nome));
         $('#pessoalCodFunc').val(dadosPessoal[0].codfunc);
@@ -87,32 +87,33 @@ function getPessoaDadosFuncionais(codfunc){
         $('#modal-pessoal').modal('show');
         console.log(dadosPessoal[0]);
 
-        if(atendimentoSesmit == '1'){
+        if (atendimentoSesmit == '1') {
             $('#atendimentoBloqueado').addClass('d-none');
             $('#atendimentoLiberado').removeClass('d-none');
-        }else{
+        } else {
             $('#atendimentoBloqueado').removeClass('d-none');
             $('#atendimentoLiberado').addClass('d-none');
         }
-    }).fail(function() {
-        msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
-    }).always(function() {
+    }).fail(function () {
+        msn('error', 'Sua sessão expirou');
+        setTimeout(() => { window.location.href = "index.html" }, 1000);
+    }).always(function () {
         $('#carregando').hide();
     });
 };
-function preenchimentoSelect(result){
+function preenchimentoSelect(result) {
     for (var i = 0; i < result.length; i++) {
-        $( '#barraCarregamento' ).css( "width", (100*i)/result.length+"%");
-        $('#listaPessoal').prepend('<option value='+ result[i].codfunc +'> '+result[i].codfunc+'</option>');
-        $('#listaPessoalNome').prepend('<option value='+ result[i].codfunc +'> '+result[i].nome+'</option>');    }
-    $( '#barraCarregamento' ).css( "width", "100%");
-    setTimeout(() => { $( '#barraCarregamento' ).css( "width", "0%"); }, 2000);
-    if(result.length == 1){
+        $('#barraCarregamento').css("width", (100 * i) / result.length + "%");
+        $('#listaPessoal').prepend('<option value=' + result[i].codfunc + '> ' + result[i].codfunc + '</option>');
+        $('#listaPessoalNome').prepend('<option value=' + result[i].codfunc + '> ' + result[i].nome + '</option>');
+    }
+    $('#barraCarregamento').css("width", "100%");
+    setTimeout(() => { $('#barraCarregamento').css("width", "0%"); }, 2000);
+    if (result.length == 1) {
         setTimeout(() => { getPessoaDadosFuncionais(result[0].codfunc); }, 1000);
     }
 };
-function fechaTodosModais(){
+function fechaTodosModais() {
     $('#modal-data').modal('hide');
     $('#modal-pessoal').modal('hide');
     $('#modal-ponto').modal('hide');
@@ -120,27 +121,27 @@ function fechaTodosModais(){
 
 //###############################Ações###########################################
 
-$("#btnLimpar").on("click", function() {
+$("#btnLimpar").on("click", function () {
     getPessoalNome();
     $('#textMatriculaCpfNome').val('');
     $('#textMatriculaCpfNomeOrder').val('');
 });
 
-$("#visualizarServidor").on("click", function() {
-    var codfunc =  $('#listaPessoal option:selected').val();
+$("#visualizarServidor").on("click", function () {
+    var codfunc = $('#listaPessoal option:selected').val();
     $('#listaSolicitacoesCadastradas').html("");
     $('#listaSolicitacoesHomologadas').html("");
     getPessoaDadosFuncionais(codfunc);
 });
 
-$('#btnMatriculaCpfNome').on("click", function(){
+$('#btnMatriculaCpfNome').on("click", function () {
     var dado = $('#textMatriculaCpfNome').val();
     $('#textMatriculaCpfNomeOrder').val(dado);
-    getPessoalMatriculaCpfNome(dado,'');
-    $('#visualizarServidor').attr("disabled","disabled");
+    getPessoalMatriculaCpfNome(dado, '');
+    $('#visualizarServidor').attr("disabled", "disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$("#textMatriculaCpfNome").keypress(function(event) {
+$("#textMatriculaCpfNome").keypress(function (event) {
     if (event.keyCode === 13) {
         $("#btnMatriculaCpfNome").click();
     }
@@ -149,93 +150,93 @@ $("#textMatriculaCpfNome").keypress(function(event) {
     }
 
 });
-$('#textMatriculaCpfNome').keyup(function(){
+$('#textMatriculaCpfNome').keyup(function () {
     $('#btnMatriculaCpfNome').removeAttr('disabled');
-    $('#visualizarServidor').attr("disabled","disabled");
+    $('#visualizarServidor').attr("disabled", "disabled");
 });
-$('#optionPessoalCodigo').on("click", function(){
+$('#optionPessoalCodigo').on("click", function () {
     var dado = $('#textMatriculaCpfNomeOrder').val();
-    if(dado){
+    if (dado) {
         getPessoalMatriculaCpfNome(dado, 'matricula');
-    }else{
+    } else {
         getPessoalCodigo();
     }
-    $('#visualizarServidor').attr("disabled","disabled");
+    $('#visualizarServidor').attr("disabled", "disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#optionPessoalNome').on("click", function(){
+$('#optionPessoalNome').on("click", function () {
     var dado = $('#textMatriculaCpfNomeOrder').val();
-    if(dado){
+    if (dado) {
         getPessoalMatriculaCpfNome(dado, 'nome');
-    }else{
+    } else {
         getPessoalNome();
     }
-    $('#visualizarServidor').attr("disabled","disabled");
+    $('#visualizarServidor').attr("disabled", "disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#listaPessoal').click(function(){
+$('#listaPessoal').click(function () {
     $('#visualizarServidor').removeAttr('disabled');
-    $('#btnMatriculaCpfNome').attr("disabled","disabled");
+    $('#btnMatriculaCpfNome').attr("disabled", "disabled");
     $('#textMatriculaCpfNome').val('');
 });
-$('#listaPessoalNome').click(function(){
+$('#listaPessoalNome').click(function () {
     $('#visualizarServidor').removeAttr('disabled');
-    $('#btnMatriculaCpfNome').attr("disabled","disabled");
+    $('#btnMatriculaCpfNome').attr("disabled", "disabled");
     $('#textMatriculaCpfNome').val('');
 
 });
-$('#fichaFuncional').click(function(){
+$('#fichaFuncional').click(function () {
     idInfo = $('#idInfo').val();
     link = 'relatorio/getRelHistoricoFuncional';
     $('#carregandoModal').show();
-    $('#print-iframe').attr('src', 'acoes/print.php?0='+idInfo+'&link='+link+'&acesso=relatFichaFuncional');
+    $('#print-iframe').attr('src', 'acoes/print.php?0=' + idInfo + '&link=' + link + '&acesso=relatFichaFuncional');
     $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
     setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
     setTimeout(() => { $('#carregandoModal').hide() }, 2000);
 });
 
-$('#atribuicaoDeCargo').click(function(){
+$('#atribuicaoDeCargo').click(function () {
     idHistFunc = $('#idHistFunc').val();
     link = 'relatorio/getRelAtribuicoesCargoPorFuncional';
     $('#carregandoModal').show();
-    $('#print-iframe').attr('src', 'acoes/print.php?0='+idHistFunc+'&link='+link+'&acesso=relatAtribuicoesCargo');
+    $('#print-iframe').attr('src', 'acoes/print.php?0=' + idHistFunc + '&link=' + link + '&acesso=relatAtribuicoesCargo');
     $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
     setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
     setTimeout(() => { $('#carregandoModal').hide() }, 2000);
 });
 
-$('#contraChequeImprimir').click(function(){
+$('#contraChequeImprimir').click(function () {
     $('#modal-data').modal('hide');
     pessoalCodFunc = $('#pessoalCodFunc').val();
     mesAno = $('#mesAno').val();
-    if (!mesAno){
-        msn('error','Preencha o campo data');
-    }else{
+    if (!mesAno) {
+        msn('error', 'Preencha o campo data');
+    } else {
         link = 'relatorio/getRelContraCheque';
         $('#carregandoModal').show();
-        $('#print-iframe').attr('src', 'acoes/print.php?0='+pessoalCodFunc+'&1='+mesAno+'-01&link='+link+'&acesso=relatContraCheque');
+        $('#print-iframe').attr('src', 'acoes/print.php?0=' + pessoalCodFunc + '&1=' + mesAno + '-01&link=' + link + '&acesso=relatContraCheque');
         $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
         setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
         setTimeout(() => { $('#carregandoModal').hide() }, 2000);
     }
 });
-$('#folhaDePontoImprimir').click(function(){
+$('#folhaDePontoImprimir').click(function () {
     $('#modal-ponto').modal('hide');
     pessoalCodFunc = $('#pessoalCodFunc').val();
     mesAnoInicial = $('#mesAnoInicial').val();
     mesAnoFinal = $('#mesAnoFinal').val();
-    if (!mesAnoInicial){
-        msn('error','Preencha o campo data inicial');
-    }else{
-        if (!mesAnoFinal){
-            msn('error','Preencha o campo data final');
-        }else{
+    if (!mesAnoInicial) {
+        msn('error', 'Preencha o campo data inicial');
+    } else {
+        if (!mesAnoFinal) {
+            msn('error', 'Preencha o campo data final');
+        } else {
             link = 'relatorio/getRelMarcacaoServidorEmLote';
             $('#carregandoModal').show();
-            $('#print-iframe').attr('src', 'acoes/print.php?0='+mesAnoInicial+'&1='+mesAnoFinal+'&2='+pessoalCodFunc+'&link='+link+'&acesso=relatFolhaPonto');
+            $('#print-iframe').attr('src', 'acoes/print.php?0=' + mesAnoInicial + '&1=' + mesAnoFinal + '&2=' + pessoalCodFunc + '&link=' + link + '&acesso=relatFolhaPonto');
             $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
             setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
@@ -244,43 +245,62 @@ $('#folhaDePontoImprimir').click(function(){
     }
 });
 
-$('#folhaDePonto').click(function(){
+$('#folhaDePonto').click(function () {
     $('#modal-ponto').modal('show');
 });
-$('#contraCheque').click(function(){
+$('#contraCheque').click(function () {
     $('#modal-data').modal('show');
 });
-$('#fechaModalData').click(function(){
+$('#fechaModalData').click(function () {
     $('#modal-data').modal('hide');
 });
-$('#fechaModalPonto').click(function(){
+$('#fechaModalPonto').click(function () {
     $('#modal-ponto').modal('hide');
 });
-$('#fechaModalPessoal').click(function(){
+$('#fechaModalPessoal').click(function () {
     fechaTodosModais();
 });
 
 
-$(document).ready(function(){
+$(document).ready(function () {
+    //ampliar imagem
+    var imagem = $('#imgFoto');
+    var originalWidth = imagem.width();
+    var originalHeight = imagem.height();
+    var zoomLevel = 1.5; // Fator de zoom (1.5 = 150%)
+
+    imagem.hover(function () {
+        imagem.css({
+            'width': originalWidth * zoomLevel,
+            'height': originalHeight * zoomLevel,
+            'transition': 'all 0.5s' // Transição suave
+        });
+    }, function () {
+        imagem.css({
+            'width': originalWidth,
+            'height': originalHeight,
+            'transition': 'all 0.5s' // Transição suave
+        });
+    });
     $('#carregandoModal').hide();
     getPessoalNome();
     var login = JSON.parse(sessionStorage.getItem('login'));
-    if(login.relatFichaFuncional == 0){
+    if (login.relatFichaFuncional == 0) {
         $('#fichaFuncional').hide();
     }
-    if(login.relatAtribuicoesCargo == 0){
+    if (login.relatAtribuicoesCargo == 0) {
         $('#atribuicaoDeCargo').hide();
     }
-    if(login.relatFolhaPonto == 0){
+    if (login.relatFolhaPonto == 0) {
         $('#folhaDePonto').hide();
     }
-    if(login.relatContraCheque == 0){
+    if (login.relatContraCheque == 0) {
         $('#contraCheque').hide();
     }
-    if(login.relatContraCheque == 0){
+    if (login.relatContraCheque == 0) {
         $('#contraCheque').hide();
     }
-    if(login.atendimentoAgenda == 0){
+    if (login.atendimentoAgenda == 0) {
         $('#atendimentoBtn').hide();
     }
 });

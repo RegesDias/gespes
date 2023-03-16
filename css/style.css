@@ -7,7 +7,6 @@
 
 #corpo {
   background-image: linear-gradient(rgba(255, 255, 255, .8) 0%, rgba(255, 255, 255, .8) 100%), url(../img/BrasaoMacae.png);
-
 }
 
 #versao {
@@ -38,8 +37,8 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-body {
-  max-height: 400px;
+.modal-body-pericia {
+  max-height: 500px;
   /* defina a altura desejada */
   overflow-y: auto;
 }

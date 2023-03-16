@@ -1,5 +1,24 @@
 
 $(document).ready(function () {
+    //ampliar imagem
+    var imagem = $('#imgFoto');
+    var originalWidth = imagem.width();
+    var originalHeight = imagem.height();
+    var zoomLevel = 1.5; // Fator de zoom (1.5 = 150%)
+
+    imagem.hover(function () {
+        imagem.css({
+            'width': originalWidth * zoomLevel,
+            'height': originalHeight * zoomLevel,
+            'transition': 'all 0.5s' // Transição suave
+        });
+    }, function () {
+        imagem.css({
+            'width': originalWidth,
+            'height': originalHeight,
+            'transition': 'all 0.5s' // Transição suave
+        });
+    });
     carregarSelect2();
     getFormFiltroSelectMedicoAgenda();
     listaLocaldaPericia();
@@ -392,7 +411,7 @@ $('#fechaModalPessoal').click(function(){
 $('#idCid10Busca').on('keyup', function() {
     var term = $(this).val();
     var url ='acoes/CID10/listaCategoriaSub.php?term='+term;
-    if(term.length >= 4){
+    if(term.length >= 3){
           $.ajax({
             url:url,
             type: 'POST',
@@ -434,7 +453,7 @@ $('#idCid10Busca').on('keyup', function() {
   $('#idCid10BuscaHPP').on('keyup', function() {
     var term = $(this).val();
     var url ='acoes/CID10/listaCategoriaSub.php?term='+term;
-    if(term.length >= 4){
+    if(term.length >= 3){
           $.ajax({
             url:url,
             type: 'POST',
