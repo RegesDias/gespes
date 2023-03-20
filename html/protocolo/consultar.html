@@ -1,4 +1,3 @@
-
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Protocolo Interno</h3>
@@ -11,7 +10,7 @@
       </button>
     </div>
   </div>
-  
+
   <div class="card-body">
     <div class="form-group" id='formFiltro'>
       <div class="row">
@@ -49,15 +48,15 @@
           </div>
         </div>
       </div>
-      <div class="row" id="protFiltroSetor">
-        <div class="col-md-10">
+      <div class="row">
+        <div class="col-md-10" id="protFiltroSetor">
           <div class="form-group">
             <select id='formFiltroSelectSetor' class="form-control select2" style="width: 100%;">
               <option value="tds">TODOS OS SETORES</option>
             </select>
           </div>
         </div>
-        <div class="col-md-2">
+        <div id='formFiltroBtnTamanho'class="col-md-2">
           <div class="form-group">
             <button id="formFiltroBtn" type="button" class="btn btn-block btn-secondary" data-dismiss="modal">
               <i class="nav-icon fas fa-filter"></i> Filtrar
@@ -67,70 +66,80 @@
       </div>
     </div>
     <div class="card card-outline">
-          <div id="barraGrafico" class="card card-secondary collapsed-card">
-            <div class="card-header">
-              <h3 class="card-title">Total de documentos encontrados: <b id="totalEncontrados">0</b> </h3>
+      <div id="barraGrafico" class="card card-secondary collapsed-card">
+        <div class="card-header">
+          <h3 class="card-title">Total de documentos encontrados: <b id="totalEncontrados">0</b> </h3>
 
-              <div class="card-tools" id="barraGraficoExibir">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i id="barraGraficoBotao" class="fas fa-plus"></i>
-                </button>
-              </div>
-            </div>
-            <div id="barraGraficoCorpo" class="card-body" style="display: none;">
-              <div class="chart" >
-                <div id='divCanvas'>
-                  <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div> 
-              </div>
-            </div>
+          <div class="card-tools" id="barraGraficoExibir">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i id="barraGraficoBotao" class="fas fa-plus"></i>
+            </button>
+          </div>
         </div>
-            
-        <form name="moose">
-            <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active col-3">
-                <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> <i class="nav-icon fas fa-filter"></i> Documento
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> <i class="nav-icon fas fa-filter"></i> Assunto
-                </label>
+        <div id="barraGraficoCorpo" class="card-body" style="display: none;">
+          <div class="chart">
+            <div id='divCanvas'>
+              <canvas id="areaChart"
+                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
-            <div class="card-body" style="height:300px;width:100%;overflow:auto;">
-                <div class="row">
-                    <div class="col-md-3">
-                        <select class='selectDouble' id="listaPessoal" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
-                        </select>
-                    </div>
-                    <div class="col-md-9">
-                        <select class='selectDouble' id="listaPessoalNome" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
-                        </select>
-                    </div>
-                </div>
+          </div>
+        </div>
+      </div>
+
+      <form name="moose">
+        <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-secondary active col-3">
+            <input type="radio" name="options" id="optionPessoalCodigo" autocomplete="off" checked> <i
+              class="nav-icon fas fa-filter"></i> Documento
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="options" id="optionPessoalNome" autocomplete="off"> <i
+              class="nav-icon fas fa-filter"></i> Assunto
+          </label>
+        </div>
+        <div class="card-body" style="height:300px;width:100%;overflow:auto;">
+          <div class="row">
+            <div class="col-md-3">
+              <select class='selectDouble' id="listaPessoal" style="overflow:visible; width:100%" name="S1"
+                onchange="selectDouble(S1, S2)">
+              </select>
             </div>
-        </form>
+            <div class="col-md-9">
+              <select class='selectDouble' id="listaPessoalNome" style="overflow:visible; width:100%" name="S2"
+                onchange="selectDouble(S2, S1)">
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <button id='visualizarServidor' type="button" disabled class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <button id='visualizarServidor' type="button" disabled class="btn btn-secondary "><i
+            class="nav-icon fas fa-search"></i> Visualizar</button>
         <input type="text" id='visualizarServidorTipoAcao' class="d-none">
       </div>
-    <input type="text" id='textMatriculaCpfNome' placeholder="Número do Documento ou Assunto" class="form-control">
-    <input type="text" id='textMatriculaCpfNomeOrder' class="d-none">
+      <input type="text" id='textMatriculaCpfNome' placeholder="Número do Documento ou Assunto" class="form-control">
+      <input type="text" id='textMatriculaCpfNomeOrder' class="d-none">
       <div class="input-group-prepend">
-        <button id='btnMatriculaCpfNome' type="button" disabled  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Buscar</button>
+        <button id='btnMatriculaCpfNome' type="button" disabled class="btn btn-secondary"><i
+            class="nav-icon fas fa-search"></i> Buscar</button>
       </div>
       <div class="input-group-prepend">
-        <button id='btnLimpar' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-filter"></i> Data entrada</button>
+        <button id='btnLimpar' type="button" class="btn btn-secondary"><i class="nav-icon fas fa-filter"></i> Data
+          entrada</button>
       </div>
       <div class="input-group-prepend" id="protBTNInserir">
-        <button id='btnInserir' type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-plus"></i> Inserir</button>
+        <button id='btnInserir' type="button" class="btn btn-secondary"><i class="nav-icon fas fa-plus"></i>
+          Inserir</button>
       </div>
-  </div>
-  <div class="modal fade" id="modal-inserir">
-    <div class="modal-dialog modal-xl">
+    </div>
+    <div class="modal fade" id="modal-inserir">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <div class="modal-header"> 
-            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+          <div class="modal-header">
+            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+              style="opacity: .8; height: 40px; margin-right:10px">
             <h4 class="modal-title" id="tituloModalInserir">Cadastrar Documento</h4>
             <button type="button" class="close" id="fecharModalInserir" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -150,7 +159,7 @@
             <div class="row">
               <div class="col-8">
                 <label>Número</label>
-                <input  id='numeroModalInserir' type="number" class="form-control" placeholder="Número do documento">
+                <input id='numeroModalInserir' type="number" class="form-control" placeholder="Número do documento">
               </div>
               <div class="col-4">
                 <label>Ano</label>
@@ -161,51 +170,53 @@
             <div class="row">
               <div class="col-12">
                 <label>Assunto</label>
-                <input  id='assuntoModalInserir' type="text" class="form-control">
+                <input id='assuntoModalInserir' type="text" class="form-control">
               </div>
             </div>
             <div class="row">
               <div class="col-12">
                 <label>Origem</label>
-                <input  id='origemModalInserir' type="text" class="form-control" autocomplete="off">
+                <input id='origemModalInserir' type="text" class="form-control" autocomplete="off">
               </div>
             </div>
-            <div class="modal-header"> 
+            <div class="modal-header">
               <h4 class="modal-title" id="tituloModalInserir">Movimentar para:</h4>
             </div>
             <div class="row">
               <div class="col-12">
                 <label>Setor</label>
                 <select id='setorModalInserir' class="form-control select2" style="width: 100%;">
-                  <option value=""  selected ></option>
+                  <option value="" selected></option>
                 </select>
               </div>
               <div class="col-12">
                 <label>Responsável</label>
                 <select id='responsavelModalInserir' class="form-control select2" style="width: 100%;">
-                  <option value=""  selected ></option>
-                </select>                  
+                  <option value="" selected></option>
+                </select>
               </div>
-                <div class="col-12">
-                  <label>Descrição:</label>
-                  <textarea class="form-control" rows="3"  id='textoModalInserir'>
+              <div class="col-12">
+                <label>Descrição:</label>
+                <textarea class="form-control" rows="3" id='textoModalInserir'>
                   </textarea>
-                </div>
               </div>
+            </div>
           </div>
           <div class="modal-footer justify-content-between">
             <div class="input-group-prepend">
-              <button id='salvarModalInserir'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Salvar</button>
+              <button id='salvarModalInserir' type="button" class="btn btn-secondary "><i
+                  class="nav-icon fas fa-arrow-circle-right"></i> Salvar</button>
             </div>
+          </div>
         </div>
       </div>
-  </div>
-</div>
-  <div class="modal fade" id="modal-pessoal">
-    <div class="modal-dialog modal-xl">
+    </div>
+    <div class="modal fade" id="modal-pessoal">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+              style="opacity: .8; height: 40px; margin-right:10px">
             <h4 class="modal-title">Informações do Documento</h4>
             <button type="button" class="close" id="fechaModalPessoal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -213,41 +224,47 @@
           </div>
           <div class="modal-body">
 
-        <div class="card">
-          <div class="card-header p-2">
-            <ul class="nav nav-pills">
-              <li class="nav-item"><a class="nav-link active" id='documentoClick' href="#documento" data-toggle="tab">Documento</a></li>
-              <li class="nav-item"><a class="nav-link" id="movimentacaoTab" href="#movimentacoes" data-toggle="tab" id="movimentacaoTab">Movimentações</a></li>
-              <li class="nav-item"><a class="nav-link" id="observacaoTab" href="#observacoes" data-toggle="tab">Observações</a></li>
-            </ul>
-          </div><!-- /.card-header -->
-          <div class="card-body">
-            <div class="tab-content">
-              <div class="active tab-pane" id="documento"> 
-                  <div class="row">
-                    <div class="col-4">
-                      <label>Tipo</label>
-                      <input disabled="disabled" id='tipo' type="text" class="form-control" placeholder="Lotação">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" id='documentoClick' href="#documento"
+                      data-toggle="tab">Documento</a></li>
+                  <li class="nav-item"><a class="nav-link" id="movimentacaoTab" href="#movimentacoes" data-toggle="tab"
+                      id="movimentacaoTab">Movimentações</a></li>
+                  <li class="nav-item"><a class="nav-link" id="observacaoTab" href="#observacoes"
+                      data-toggle="tab">Observações</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="active tab-pane" id="documento">
+                    <div class="row">
+                      <div class="col-4">
+                        <label>Tipo</label>
+                        <input disabled="disabled" id='tipo' type="text" class="form-control" placeholder="Lotação">
+                      </div>
+                      <div class="col-8">
+                        <label>Origem</label>
+                        <input disabled="disabled" id='origem' type="text" class="form-control" placeholder="Lotação">
+                      </div>
                     </div>
-                    <div class="col-8">
-                      <label>Origem</label>
-                      <input disabled="disabled" id='origem' type="text" class="form-control" placeholder="Lotação">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12">
+                    <div class="row">
+                      <div class="col-12">
                         <div class="row">
-                            <div class="col-4">
-                              <label>Número</label>
-                              <input disabled="disabled" id='numero_documento' type="text" class="form-control" placeholder="CodFunc">
-                            </div>
-                            <div class="col-4">
-                              <label>Data Inclussão</label>
-                              <input disabled="disabled" id="data_inclusao" type="text" class="form-control" placeholder="Data Admissão">
-                            </div>
-                            <div class="col-4">
-                              <label>Status</label>
-                              <input disabled="disabled" id="status" type="text" class="form-control" placeholder="Sessões">
+                          <div class="col-4">
+                            <label>Número</label>
+                            <input disabled="disabled" id='numero_documento' type="text" class="form-control"
+                              placeholder="CodFunc">
+                          </div>
+                          <div class="col-4">
+                            <label>Data Inclussão</label>
+                            <input disabled="disabled" id="data_inclusao" type="text" class="form-control"
+                              placeholder="Data Admissão">
+                          </div>
+                          <div class="col-4">
+                            <label>Status</label>
+                            <input disabled="disabled" id="status" type="text" class="form-control"
+                              placeholder="Sessões">
                           </div>
                         </div>
                         <div class="row">
@@ -256,247 +273,270 @@
                             <input disabled="disabled" id="assunto" type="text" class="form-control" placeholder="nome">
                           </div>
                         </div>
+                      </div>
                     </div>
+                    <!--Campos Ocultos-->
+                    <input id='idInfo' type="text" class="d-none">
+                    <input id='idHistFunc' type="text" class="d-none">
                   </div>
-                  <!--Campos Ocultos-->
-                  <input id='idInfo' type="text" class="d-none">
-                  <input id='idHistFunc' type="text" class="d-none">
-                </div>
 
-              <div class="tab-pane" id="movimentacoes">
-                <div class="row">
-                  <div class="col-12">
+                  <div class="tab-pane" id="movimentacoes">
+                    <div class="row">
+                      <div class="col-12">
                         <div class="card card-outline">
-                            <form name="moose">
-                                <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary active col-md-2" >
-                                    <input type="radio" name="optionsM" id="optionListaDataEntrega" autocomplete="off" checked> Data
-                                    </label>
-                                    <label class="btn btn-secondary">
-                                    <input type="radio" name="optionsM" id="optionListaResponsavel" autocomplete="off"> Descrição
-                                    </label>
+                          <form name="moose">
+                            <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-secondary active col-md-2">
+                                <input type="radio" name="optionsM" id="optionListaDataEntrega" autocomplete="off"
+                                  checked> Data
+                              </label>
+                              <label class="btn btn-secondary">
+                                <input type="radio" name="optionsM" id="optionListaResponsavel" autocomplete="off">
+                                Descrição
+                              </label>
+                            </div>
+                            <div class="card-body" style="height:100px;width:100%;overflow:auto;">
+                              <div class="row">
+                                <div class="col-md-2">
+                                  <select class='selectDouble' id="listaDataEntrega"
+                                    style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
+                                  </select>
                                 </div>
-                                <div class="card-body" style="height:100px;width:100%;overflow:auto;">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <select class='selectDouble' id="listaDataEntrega" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
-                                            </select>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <select class='selectDouble' id="listaResponsavel" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
-                                            </select>
-                                        </div>
-                                    </div>
+                                <div class="col-md-10">
+                                  <select class='selectDouble' id="listaResponsavel"
+                                    style="overflow:visible; width:100%" name="S2" onchange="selectDouble(S2, S1)">
+                                  </select>
                                 </div>
-                            </form>
+                              </div>
+                            </div>
+                          </form>
                         </div>
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
-                              <button id='visualizarDocumento' disabled type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-search"></i> Visualizar</button>
+                            <button id='visualizarDocumento' disabled type="button" class="btn btn-secondary"><i
+                                class="nav-icon fas fa-search"></i> Visualizar</button>
                           </div>
                           <div class="input-group-prepend" id="protBTNMovimentar">
-                              <button id='movimentarDocumento'   type="button"  class="btn btn-secondary"><i class="nav-icon fas fa-arrow-circle-right"></i> Movimentar</button>
+                            <button id='movimentarDocumento' type="button" class="btn btn-secondary"><i
+                                class="nav-icon fas fa-arrow-circle-right"></i> Movimentar</button>
                           </div>
                           <div id="protBTNArquivar">
                             <div class="input-group-prepend" id="arquivarDesarquivar">
-                              <button id='arquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-export"></i> Arquivar</button>
-                              <button id='desarquivarDocumento'   type="button"  class="btn btn-primary"><i class="nav-icon fas fa-file-import"></i> Desarquivar</button>
+                              <button id='arquivarDocumento' type="button" class="btn btn-primary"><i
+                                  class="nav-icon fas fa-file-export"></i> Arquivar</button>
+                              <button id='desarquivarDocumento' type="button" class="btn btn-primary"><i
+                                  class="nav-icon fas fa-file-import"></i> Desarquivar</button>
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
                   </div>
-            </div>
-        </div>
 
-      <div class="tab-pane" id="observacoes">
-        <div class="row">
-          <div class="col-12">
-                <div class="card card-outline">
-                    <form name="moose">
-                        <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-secondary active col-md-2" >
-                            <input type="radio" name="optionsO" id="optionListaObservacaoData" autocomplete="off" checked> Data
-                            </label>
-                            <label class="btn btn-secondary">
-                            <input type="radio" name="optionsO" id="optionListaObservacaoNome" autocomplete="off"> Descrição
-                            </label>
-                        </div>
-                        <div class="card-body" style="height:100px;width:100%;overflow:auto;">
-                            <div class="row">
+                  <div class="tab-pane" id="observacoes">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card card-outline">
+                          <form name="moose">
+                            <div class="btn-group btn-block btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-secondary active col-md-2">
+                                <input type="radio" name="optionsO" id="optionListaObservacaoData" autocomplete="off"
+                                  checked> Data
+                              </label>
+                              <label class="btn btn-secondary">
+                                <input type="radio" name="optionsO" id="optionListaObservacaoNome" autocomplete="off">
+                                Descrição
+                              </label>
+                            </div>
+                            <div class="card-body" style="height:100px;width:100%;overflow:auto;">
+                              <div class="row">
                                 <div class="col-md-2">
-                                    <select class='selectDouble' id="listaObservacaoData" style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
-                                    </select>
+                                  <select class='selectDouble' id="listaObservacaoData"
+                                    style="overflow:visible; width:100%" name="S1" onchange="selectDouble(S1, S2)">
+                                  </select>
                                 </div>
                                 <div class="col-md-10">
-                                    <select class='selectDouble' id="listaObservacao" style="overflow:visible; width:100%"  name="S2" onchange="selectDouble(S2, S1)">
-                                    </select>
+                                  <select class='selectDouble' id="listaObservacao" style="overflow:visible; width:100%"
+                                    name="S2" onchange="selectDouble(S2, S1)">
+                                  </select>
                                 </div>
+                              </div>
                             </div>
+                          </form>
                         </div>
-                    </form>
-                </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                      <button id='visualizarObservacao' disabled type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-search"></i> Visualizar</button>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <button id='visualizarObservacao' disabled type="button" class="btn btn-secondary "><i
+                                class="nav-icon fas fa-search"></i> Visualizar</button>
+                          </div>
+                          <div class="input-group-prepend">
+                            <button id='criarObservacao' type="button" class="btn btn-secondary "><i
+                                class="nav-icon fas fa-arrow-circle-right"></i> Escrever</button>
+                          </div>
+                          <input disabled="disabled" id="idDocumento" type="text" class="d-none" placeholder="Oculto">
+                          <input disabled="disabled" id="idMovimentacao" type="text" class="d-none"
+                            placeholder="Oculto">
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="input-group-prepend">
-                      <button id='criarObservacao' type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Escrever</button>
-                  </div>
-                  <input disabled="disabled" id="idDocumento" type="text" class="d-none" placeholder="Oculto">
-                  <input disabled="disabled" id="idMovimentacao" type="text" class="d-none" placeholder="Oculto">
                 </div>
+              </div>
+              <!-- /.tab-content -->
+            </div><!-- /.card-body -->
           </div>
         </div>
-      </div>
-    </div>
-    </div>
-    <!-- /.tab-content -->
-  </div><!-- /.card-body -->
-</div>
-</div>
         <div class="modal-footer justify-content-between">
         </div>
         <div class="modal fade" id="modal-ponto" style="margin-top:60px">
           <div class="modal-dialog modal-xl">
-              <div class="modal-content">
-                <div class="modal-header"> 
-                  <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
-                  <h4 class="modal-title" id="detalhamentoModalTitulo">detalhamentoModalTitulo</h4>
-                  <button type="button" class="close" id="fechaModalPonto" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <label id="detalhamentoModalLabel1" >detalhamentoModalLabel1</label>
-                      <input disabled class="form-control" id='verEncaminhado' type="text">
-                    </div>
-                  </div>
-                  <div id='divDetalhamentoMovimentacao' class="row d-none">
-                    <div class="col-4">
-                      <label id="MovDataEntradaLabel" > Data Entrada</label>
-                      <input disabled class="form-control" id='MovDataEntrada' type="text">
-                    </div>
-                    <div class="col-4">
-                      <label id="MovDataRecebidoLabel" >Data Recebido</label>
-                      <input disabled class="form-control" id='MovDataRecebido' type="text">
-                    </div>
-                    <div class="col-4">
-                      <label id="MovDataRecebidoLabel" >Data Saída</label>
-                      <input disabled class="form-control" id='MovDataSaida' type="text">
-                    </div>
-                    <div class="col-12">
-                      <label id="MovResponsavelLabel" >Responsável:</label>
-                      <input disabled class="form-control" id='MovResponsavel' type="text">
-                    </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12">
-                        <label id="detalhamentoModalLabel2">detalhamentoModalLabel2</label>
-                            <div class="card-body  bg-gray" id='verEncaminhamento'>
-                            </div>
-                        </div>
-                    </div>
+            <div class="modal-content">
+              <div class="modal-header">
+                <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                  style="opacity: .8; height: 40px; margin-right:10px">
+                <h4 class="modal-title" id="detalhamentoModalTitulo">detalhamentoModalTitulo</h4>
+                <button type="button" class="close" id="fechaModalPonto" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-12">
+                    <label id="detalhamentoModalLabel1">detalhamentoModalLabel1</label>
+                    <input disabled class="form-control" id='verEncaminhado' type="text">
                   </div>
                 </div>
+                <div id='divDetalhamentoMovimentacao' class="row d-none">
+                  <div class="col-4">
+                    <label id="MovDataEntradaLabel"> Data Entrada</label>
+                    <input disabled class="form-control" id='MovDataEntrada' type="text">
+                  </div>
+                  <div class="col-4">
+                    <label id="MovDataRecebidoLabel">Data Recebido</label>
+                    <input disabled class="form-control" id='MovDataRecebido' type="text">
+                  </div>
+                  <div class="col-4">
+                    <label id="MovDataRecebidoLabel">Data Saída</label>
+                    <input disabled class="form-control" id='MovDataSaida' type="text">
+                  </div>
+                  <div class="col-12">
+                    <label id="MovResponsavelLabel">Responsável:</label>
+                    <input disabled class="form-control" id='MovResponsavel' type="text">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label id="detalhamentoModalLabel2">detalhamentoModalLabel2</label>
+                    <div class="card-body  bg-gray" id='verEncaminhamento'>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
       </div>
 
       <div class="modal fade" id="modal-observacao" style="margin-top:60px">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header"> 
-                <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
-                <h4 class="modal-title" id="detalhamentoModalTitulo">Observações</h4>
-                <button type="button" class="close" id="fechaModalObservacao" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12">
-                    <label>Descrição:</label>
-                    <textarea class="form-control" rows="3"  id='observacaoTexto'>
-                    </textarea>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer justify-content-between">
-                <div class="input-group-prepend">
-                  <button id='salvarObservacao'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Salvar</button>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                style="opacity: .8; height: 40px; margin-right:10px">
+              <h4 class="modal-title" id="detalhamentoModalTitulo">Observações</h4>
+              <button type="button" class="close" id="fechaModalObservacao" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          </div>
-      </div>
-    </div>
-      <div class="modal fade" id="modal-movimentar" style="margin-top:30px">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header"> 
-                <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
-                <h4 class="modal-title" id="encaminharModalTitulo">Encaminhar Documento</h4>
-                <button type="button" class="close" id="fechaModalMovimenta" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div id='divMovimentacao' class="col-12">
-                    <label >Movimentação</label>
-                    <select id='movimentacoesTipo' class="form-control select2" style="width: 100%;">
-                      <option value="" selected></option>
-                      <option value="encaminhamento" >ENCAMINHAMENTO</option>
-                      <option value="saida" >SAÍDA</option>
-                    </select>
-                  </div>
-                  <div id='divDataEntrada' class="col-6 d-none">
-                    <label>Data entrada</label>
-                    <input type="date" disabled="disabled" name="optionsM" id="encaminharDataEntrada" class="form-control" autocomplete="off">
-                  </div>
-                  <div id='divDataSaida' class="col-6 d-none">
-                    <label>Data Saida</label>
-                    <input type="date" disabled="disabled" name="optionsM" id="encaminharDataSaida" class="form-control" autocomplete="off">
-                  </div>
-                  <div id='divDestino' class="col-12 d-none">
-                    <label>Destino</label>
-                    <input type="text" name="optionsM" id="encaminharDestino" class="form-control" autocomplete="off">
-                  </div>
-                  <div id='divSetor' class="col-12 d-none">
-                    <label>Setor</label>
-                    <select id='movimentacoesSetor' class="form-control select2" style="width: 100%;">
-                      <option value=""  selected ></option>
-                    </select>
-                  </div>
-                  <div id='divResponsavel' class="col-12 d-none">
-                    <label>Responsável</label>
-                    <select id='encaminharResponsavel' class="form-control select2" style="width: 100%;">
-                      <option value=""  selected ></option>
-                    </select>                  
-                  </div>
-                  <div id='divEncaminhamento' class="col-12 d-none">
-                    <label>Encaminhamento</label>
-                    <textarea class="form-control" rows="3"  id='encaminharTexto'></textarea>            
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <label>Descrição:</label>
+                  <textarea class="form-control" rows="3" id='observacaoTexto'>
+                    </textarea>
                 </div>
               </div>
-          </div>
-          <div class="modal-footer justify-content-between">
+            </div>
+            <div class="modal-footer justify-content-between">
               <div class="input-group-prepend">
-                <button id='executarMovimentacao'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Encaminhar</button>
+                <button id='salvarObservacao' type="button" class="btn btn-secondary "><i
+                    class="nav-icon fas fa-arrow-circle-right"></i> Salvar</button>
               </div>
-              <div class="input-group-prepend">
-                <button id='executarSaida'   type="button"  class="btn btn-secondary "><i class="nav-icon fas fa-arrow-circle-right"></i> Arquivar</button>
-              </div>
-          </div>
-      </div>
-    </div>
-      <iframe src="" id='print-iframe' name='print-frame-name' class="d-none"></iframe>
-          <div id="carregandoModal" class="overlay dark hidden">
-            <img src="img/loading.gif">
+            </div>
           </div>
         </div>
       </div>
+      <div class="modal fade" id="modal-movimentar" style="margin-top:30px">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                style="opacity: .8; height: 40px; margin-right:10px">
+              <h4 class="modal-title" id="encaminharModalTitulo">Encaminhar Documento</h4>
+              <button type="button" class="close" id="fechaModalMovimenta" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div id='divMovimentacao' class="col-12">
+                  <label>Movimentação</label>
+                  <select id='movimentacoesTipo' class="form-control select2" style="width: 100%;">
+                    <option value="" selected></option>
+                    <option value="encaminhamento">ENCAMINHAMENTO</option>
+                    <option value="saida">SAÍDA</option>
+                  </select>
+                </div>
+                <div id='divDataEntrada' class="col-6 d-none">
+                  <label>Data entrada</label>
+                  <input type="date" disabled="disabled" name="optionsM" id="encaminharDataEntrada" class="form-control"
+                    autocomplete="off">
+                </div>
+                <div id='divDataSaida' class="col-6 d-none">
+                  <label>Data Saida</label>
+                  <input type="date" disabled="disabled" name="optionsM" id="encaminharDataSaida" class="form-control"
+                    autocomplete="off">
+                </div>
+                <div id='divDestino' class="col-12 d-none">
+                  <label>Destino</label>
+                  <input type="text" name="optionsM" id="encaminharDestino" class="form-control" autocomplete="off">
+                </div>
+                <div id='divSetor' class="col-12 d-none">
+                  <label>Setor</label>
+                  <select id='movimentacoesSetor' class="form-control select2" style="width: 100%;">
+                    <option value="" selected></option>
+                  </select>
+                </div>
+                <div id='divResponsavel' class="col-12 d-none">
+                  <label>Responsável</label>
+                  <select id='encaminharResponsavel' class="form-control select2" style="width: 100%;">
+                    <option value="" selected></option>
+                  </select>
+                </div>
+                <div id='divEncaminhamento' class="col-12 d-none">
+                  <label>Encaminhamento</label>
+                  <textarea class="form-control" rows="3" id='encaminharTexto'></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <div class="input-group-prepend">
+                <button id='executarMovimentacao' type="button" class="btn btn-secondary "><i
+                    class="nav-icon fas fa-arrow-circle-right"></i> Encaminhar</button>
+              </div>
+              <div class="input-group-prepend">
+                <button id='executarSaida' type="button" class="btn btn-secondary "><i
+                    class="nav-icon fas fa-arrow-circle-right"></i> Arquivar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <iframe src="" id='print-iframe' name='print-frame-name' class="d-none"></iframe>
+        <div id="carregandoModal" class="overlay dark hidden">
+          <img src="img/loading.gif">
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script src="js/protocolo.js"></script>

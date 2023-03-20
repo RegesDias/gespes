@@ -340,7 +340,7 @@ class Documentos extends Generica{
         ON gespes.usuario.id = tb_movimentacao.usuario_id
         WHERE tb_movimentacao.ativo = '1'";
         if(($ano != '') AND ($ano !='tds')){
-            $sql .= " AND tb_movimentacao.ano_documento = '$ano' ";
+            $sql .= " AND tb_documentos.ano_documento = '$ano' ";
         }
         if(($status != '') AND ($status !='tds')){
             $sql .= " AND tb_documentos.status = '$status' ";

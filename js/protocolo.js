@@ -12,7 +12,7 @@ function formFiltroAno(){
         preenchimentoSelectAno(result)
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
-        msn('error','Sua sessão expirou');
+        msn('error','Sua sessão expirou #formFiltroAno');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         //codigo...
@@ -29,7 +29,7 @@ function formFiltroTipo(){
         preenchimentoSelectTipo(result);
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
-        msn('error','Sua sessão expirou');
+        msn('error','Sua sessão expirou #formFiltroTipo');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
@@ -46,7 +46,7 @@ function formFiltroStatus(){
         preenchimentoSelectStatus(result);
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
-        msn('error','Sua sessão expirou');
+        msn('error','Sua sessão expirou #formFiltroStatus');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
@@ -63,7 +63,7 @@ function formFiltroAssuntos(){
         preenchimentoAutoCompleteAssunto(result);
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
-        msn('error','Sua sessão expirou');
+        msn('error','Sua sessão expirou #formFiltroAssuntos');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
         $('#carregando').hide();
@@ -85,7 +85,7 @@ function autocompleteEncaminharAssunto(availableTags) {
 };
 function getListaSetoresAtivos() {
     $.ajax({
-        url: 'acoes/usuario/listarSetoresAtivos.php',
+        url: 'acoes/documentos/listarSetoresAtivos.php',
         method: 'GET',
         dataType: 'json',
         async: false
@@ -95,7 +95,7 @@ function getListaSetoresAtivos() {
         validar = new Promise(function(resolve, reject) {resolve(1);});
         return true;
     }).fail(function() {
-        msn('error','Sua sessão expirou');
+        msn('error','Sua sessão expirou #getListaSetoresAtivos');
         setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
     });
@@ -103,7 +103,7 @@ function getListaSetoresAtivos() {
 };
 function getListaSecretarias() {
     $.ajax({
-        url: 'acoes/secretaria/listar.php',
+        url: 'acoes/documentos/listarSecretarias.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
@@ -119,12 +119,12 @@ function getListaSecretarias() {
 };
 function getUsuarios(){
     $.ajax({
-        url: 'acoes/usuario/listarNome.php',
+        url: 'acoes/documentos/listarUsuarioPorNome.php',
         method: 'GET',
         dataType: 'json'
     }).done(function(result){
         if (result.codigo==0){
-            msn('error',result.mensagem);
+            msn('error',result.mensagem+' #getUsuarios');
         }else{
             preenchimentoSelectUsuario(result);
             validar = new Promise(function(resolve, reject) {resolve(1);});
@@ -281,8 +281,8 @@ function getDocumentoAnoTipoStatusLocal(data, order){
                 preenchimentoSelect(result.exec);
             }
             }).fail(function() {
-                msn('error','Sua sessão expirou');
-               // setTimeout(() => {  window.location.href = "index.html" }, 1000);
+                msn('error','Sua sessão expirou #getDocumentoAnoTipoStatusLocal');
+               setTimeout(() => {  window.location.href = "index.html" }, 1000);
             }).always(function() {
                 $('#carregando').hide();
             });
@@ -627,7 +627,7 @@ function inserirDocumento(data) {
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 1000);
     }).always(function() {
     });
 };
@@ -1116,12 +1116,11 @@ function geraNome(result){
 
 $(document).ready(function(){
     var login = JSON.parse(sessionStorage.getItem('login'));
-console.log(login);
     if(login.protFiltroUsuarios == 0){
         $('#protFiltroUsuarios').addClass('d-none');
-        console.log('protFiltroUsuarios')
     }
     if(login.protFiltroSetor == 0){
+        $('#formFiltroBtnTamanho').attr('class','col-md-12');
         $('#protFiltroSetor').addClass('d-none');
     }
     if(login.protBTNArquivar == 0){
@@ -1149,6 +1148,7 @@ console.log(login);
     getListaSecretarias()
 
     //carregamento encadeado das funcoes do formulario
+    
     formFiltroAno().then(
         formFiltroTipo().then(
             formFiltroStatus().then(
@@ -1161,4 +1161,5 @@ console.log(login);
             )
         )
     )
+    
 });
