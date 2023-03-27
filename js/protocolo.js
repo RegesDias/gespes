@@ -13,7 +13,7 @@ function formFiltroAno(){
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
         msn('error','Sua sessão expirou #formFiltroAno');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         //codigo...
     });
@@ -30,7 +30,7 @@ function formFiltroTipo(){
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
         msn('error','Sua sessão expirou #formFiltroTipo');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -47,7 +47,7 @@ function formFiltroStatus(){
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
         msn('error','Sua sessão expirou #formFiltroStatus');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -64,7 +64,7 @@ function formFiltroAssuntos(){
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
         msn('error','Sua sessão expirou #formFiltroAssuntos');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -96,7 +96,7 @@ function getListaSetoresAtivos() {
         return true;
     }).fail(function() {
         msn('error','Sua sessão expirou #getListaSetoresAtivos');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
     return validar;
@@ -112,7 +112,7 @@ function getListaSecretarias() {
         validar = new Promise(function(resolve, reject) {resolve(1);});
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
     return validar;
@@ -131,7 +131,7 @@ function getUsuarios(){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -211,7 +211,7 @@ function geMovimentacaoId(id){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
 };
@@ -242,7 +242,7 @@ function geObservacaoId(id){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        //setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
 };
@@ -282,7 +282,7 @@ function getDocumentoAnoTipoStatusLocal(data, order){
             }
             }).fail(function() {
                 msn('error','Sua sessão expirou #getDocumentoAnoTipoStatusLocal');
-               setTimeout(() => {  window.location.href = "index.html" }, 1000);
+               setTimeout(() => {  window.location.href = "index.html" }, 5000);
             }).always(function() {
                 $('#carregando').hide();
             });
@@ -316,7 +316,7 @@ function getDocumentoNumeroAno(dado,order){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-       // setTimeout(() => {  window.location.href = "index.html" }, 1000);
+       // setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -366,7 +366,7 @@ function getDocumentoId(codfunc){
         $('#modal-pessoal').modal('show');
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -385,7 +385,7 @@ function getUsuarioIdSetor(dado){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -460,7 +460,7 @@ function getRecebeDocumento(dado){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -497,7 +497,7 @@ function salvarObservacaoDocumento(data) {
         $('#modal-observacao').modal('hide');
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        //setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
 };
@@ -512,7 +512,7 @@ function arquivarDocumento(data) {
         getDocumentoId(data.idDocumento);
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
 };
@@ -537,7 +537,7 @@ function desarquivarDocumento(data) {
         getDocumentoId(data.idDocumento);
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
 };
@@ -627,7 +627,7 @@ function inserirDocumento(data) {
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
     });
 };
@@ -763,7 +763,7 @@ function movimentarDocumentoExecutar(data) {
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        //setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -803,7 +803,7 @@ function saidaDocumentoExecutar(data) {
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        //setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        //setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -852,7 +852,7 @@ function getUsuarioIdSetorCadastra(dado){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });
@@ -992,7 +992,7 @@ function verificaSeDeveSerRecebido(dado){
         }
     }).fail(function() {
         msn('error','Sua sessão expirou');
-        setTimeout(() => {  window.location.href = "index.html" }, 1000);
+        setTimeout(() => {  window.location.href = "index.html" }, 5000);
     }).always(function() {
         $('#carregando').hide();
     });

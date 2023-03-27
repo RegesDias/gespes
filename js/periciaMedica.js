@@ -453,7 +453,7 @@ $('#idCid10Busca').on('keyup', function() {
   $('#idCid10BuscaHPP').on('keyup', function() {
     var term = $(this).val();
     var url ='acoes/CID10/listaCategoriaSub.php?term='+term;
-    if(term.length >= 3){
+    if(term.length >= 4){
           $.ajax({
             url:url,
             type: 'POST',
