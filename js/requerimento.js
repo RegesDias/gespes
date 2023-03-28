@@ -181,17 +181,6 @@ $('#modalAgendamentoImprimir').click(function () {
   setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
   setTimeout(() => { $('#carregandoModal').hide() }, 2000);
 });
-$('#modalInserirProtocoloImprimir').click(function () {
-  $('#modal-data').modal('hide');
-  matricula = $("#pessoalCodFunc").val()
-  link = 'relatorio/getRelRequerimentoProtocoloGeralAtual';
-  $('#carregandoModal').show();
-  $('#print-iframe').attr('src', 'acoes/print.php?0=' + matricula + '&link=' + link + '&acesso=relatContraCheque');
-  $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
-
-  setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
-  setTimeout(() => { $('#carregandoModal').hide() }, 2000);
-});
 $("#medicosAtivos").on("click", function () {
   let cpf = $("#medicosAtivos").val()
   console.log(cpf)
@@ -456,6 +445,17 @@ $('#imprimirHomolodadoSolicitacao').click(function () {
   link = 'relatorio/getRelSesmtSolicitaLicenca';
   $('#carregandoModal').show();
   $('#print-iframe').attr('src', 'acoes/print.php?0=' + idRatendimento + '&link=' + link + '&acesso=relatHomolodadoSolicitacao');
+  $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
+
+  setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
+  setTimeout(() => { $('#carregandoModal').hide() }, 2000);
+});
+$('#modalInserirProtocoloImprimir').click(function () {
+  $('#modal-data').modal('hide');
+  matricula = $("#pessoalCodFunc").val()
+  link = 'relatorio/getRelRequerimentoProtocoloGeralAtual';
+  $('#carregandoModal').show();
+  $('#print-iframe').attr('src', 'acoes/print.php?0=' + matricula + '&link=' + link + '&acesso=relatPedidoProtocoloGeral');
   $('#print-iframe').attr('src', $('#print-iframe').attr('src'));
 
   setTimeout(() => { $("#print-iframe").get(0).contentWindow.print() }, 2000);
