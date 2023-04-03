@@ -85,7 +85,6 @@ function getPessoaDadosFuncionais(codfunc) {
         $('#idHistFunc').val(dadosPessoal[0].idHistFunc);
         let atendimentoSesmit = dadosPessoal[0].atendimentoSesmit;
         $('#modal-pessoal').modal('show');
-        console.log(dadosPessoal[0]);
 
         if (atendimentoSesmit == '1') {
             $('#atendimentoBloqueado').addClass('d-none');

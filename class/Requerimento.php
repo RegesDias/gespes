@@ -79,7 +79,6 @@ class Requerimentos extends Generica{
                 ON requerimento.id_requerimento_solicitacao = requerimento_solicitacao.id
           WHERE
               requerimento.impresso = '$impresso' AND
-              requerimento.impresso = '$impresso' AND
               requerimento.finalizado = '$finalizado' AND
               id_agenda = '$id_agenda' AND
               requerimento.id_info = '$id'";

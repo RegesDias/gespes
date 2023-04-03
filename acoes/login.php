@@ -26,6 +26,7 @@ if ($_SESSION['logado'] == 'SIM'):
 	$retorno = array(
 						'codigo' => 1, 
 						'mensagem' => 'Logado com sucesso!', 
+						'id' => $retorno[0]->id,
 						'nome' => $retorno[0]->nome,
 						'CPF' => $retorno[0]->CPF,
 						'consultaPessoal' => $retorno[0]->consultaPessoal,

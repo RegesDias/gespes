@@ -30,6 +30,7 @@
 				if(response.codigo == "1"){
                     msn('success',response.mensagem);
 					var log = {
+								'id': response.id,
 								'nome': response.nome,
 								'CPF': response.CPF,
 								'idSetor': response.idSetor,

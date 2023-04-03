@@ -142,7 +142,6 @@ $("#formFiltroSelectUsuario").change(function () {
         $("#idEvento").val(event.event.id);
         buscaEventoId(event.event.id);
         vagasOcupadas(event.event.id);
-        console.log(event.event.id);
         getPessoalIdEvento();
         $("#calendarModal").modal();
       },

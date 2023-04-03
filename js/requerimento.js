@@ -14,7 +14,6 @@ $("#reagendarModalDadosDoAgendamento").on("click", function () {
     if (result.codigo == 0) {
       result.acao = 'error'
     }
-    console.log(result.exec);
     msn(result.acao, result.mensagem);
     $('#modalDadosDoAgendamento').modal('hide');
     $('#medicosAtivosDataNaAgenda').html('');
@@ -34,7 +33,6 @@ $("#modalAgendamentoCadastrar").on("click", function () {
   end.id_info = $("#idInfo").val();
   end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
   end.id_requerimento_medico = $("#medicosAtivos").val()
-  console.log(end.id_requerimento_medico);
   $.ajax({
     url: "acoes/requerimento/inserirAtendimento.php",
     method: "POST",
@@ -44,7 +42,6 @@ $("#modalAgendamentoCadastrar").on("click", function () {
     if (result.codigo == 0) {
       result.acao = 'error'
     }
-    console.log(result.exec);
     msn(result.acao, result.mensagem);
     $('#modalAgendamento').modal('hide');
     $('#medicosAtivosDataNaAgenda').html('');
@@ -96,7 +93,6 @@ $("#solicitacaoSalvar").on("click", function () {
     data: end,
   })
     .done(function (result) {
-      console.log(result);
       if (result.id == 0) {
         msn('error', 'Servidor já possue endereço salvo!');
       } else {
@@ -148,7 +144,6 @@ function listaRequerimentoHomologadoIdInfo() {
     dataType: "json",
   })
     .done(function (result) {
-      console.log(id);
       $('#listaSolicitacoesHomologadas').html("");
       for (var i = 0; i < result.length; i++) {
         $("#listaSolicitacoesHomologadas").prepend(
@@ -183,7 +178,6 @@ $('#modalAgendamentoImprimir').click(function () {
 });
 $("#medicosAtivos").on("click", function () {
   let cpf = $("#medicosAtivos").val()
-  console.log(cpf)
   $("#medicosAtivosDataNaAgenda").html('');
   preenchimentoMedicosAtivosDataNaAgenda(cpf)
 });
@@ -269,21 +263,11 @@ $('#listaSolicitacoesHomologadas').on("click", "li", function () {
   tarefa = $(this).text();
   acao = tarefa.split(' - ')
   $('#idrequerimentoSelectLi').val($(this).val())
-  if (acao[1] == 'Não Homologado') {
-    $('#modalInserirProtocolo').modal('show')
-  } else if (acao[1] == 'Homologado') {
     $('#modalDadosDoAgendamento').modal('show')
     $('#botoesParaRegendamento').addClass('d-none')
     $('#botoesParaImpressao').removeClass('d-none')
     resumoAgendamento()
     requerimentosStatusReAgenda()
-  } else {
-    $('#medicosAtivosDataNaAgenda').html('')
-    $('#vagasDisponibilizadas').val('')
-    $('#vagasOcupadas').val('')
-    $('#modalAgendamento').modal('show')
-    preenchimentoMedicosAtivosCpf()
-  }
 });
 $('#listaSolicitacoesCadastradas').on("click", "li", function () {
   tarefa = $(this).text();
@@ -319,15 +303,11 @@ $('#fechaAgendamento').click(function () {
 });
 function resumoAgendamento() {
   id_requerimento = $("#idrequerimentoSelectLi").val()
-  console.log('id_requerimento');
-
-  console.log(id_requerimento);
   $.ajax({
     url: "acoes/requerimento/resumoAgendamento.php?id_requerimento=" + id_requerimento,
     method: "GET",
     dataType: "json"
   }).done(function (result) {
-    console.log(result);
     let data = converteDataBr(result[0].data);
     let diaSemana = diaDaSemana(data);
     $('#idRatendimento').val(result[0].idRatendimento)
@@ -337,7 +317,6 @@ function resumoAgendamento() {
     $('#statusModalDadosDoAgendamento').text(result[0].status)
     $('#dataModalDadosDoAgendamento').text(data + "- " + diaSemana + " no período da " + result[0].periodo)
   }).fail(function () {
-    console.log('result');
   })
 }
 function requerimentosStatusReAgenda() {
@@ -394,7 +373,6 @@ $('#medicosAtivosDataNaAgenda').change(function () {
     vo = $('#vagasOcupadas').val();
     vagasD = parseInt(vd);
     vagasO = parseInt(vo);
-    console.log(vagasD + '>' + vagasO);
     if (vagasD > vagasO) {
       $('#modalAgendamentoCadastrar').prop('disabled', false);
     } else {
@@ -407,8 +385,6 @@ $('#finalizarHomologado').click(function () {
   var end = new Object()
   end.id = $("#idrequerimentoSelectLi").val()
   end.impresso = '1';
-  console.log(end);
-  console.log('finalizarHomologado');
   $.ajax({
     url: "acoes/requerimento/atualizarImpresso.php",
     method: "POST",

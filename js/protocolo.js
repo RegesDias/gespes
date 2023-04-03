@@ -340,14 +340,15 @@ function getDocumentoId(codfunc){
         $('#idDocumento').val(documento[0].id);
         $('#idMovimentacao').val(documento[0].idMovimentacao);
         var login = JSON.parse(sessionStorage.getItem('login'));
-        if(documento[0].setor_id != login.idSetor){
-            $('#movimentarDocumento').addClass('d-none');
-            $('#criarObservacao').addClass('d-none');
-            $('#arquivarDesarquivar').addClass('d-none');
-        }else{
+        if((documento[0].data_recebido == null)&&(documento[0].usuario_id  == login.id)){
+        //if(documento[0].setor_id != login.idSetor){
             $('#movimentarDocumento').removeClass('d-none');
             $('#criarObservacao').removeClass('d-none');
             $('#arquivarDesarquivar').removeClass('d-none');
+        }else{
+            $('#movimentarDocumento').addClass('d-none');
+            $('#criarObservacao').addClass('d-none');
+            $('#arquivarDesarquivar').addClass('d-none');
         }
         if (documento[0].idStatus == 2){
             $('#movimentarDocumento').addClass('d-none');
@@ -983,7 +984,7 @@ function verificaSeDeveSerRecebido(dado){
         dataType: 'json'
     }).done(function(documento){
         var login = JSON.parse(sessionStorage.getItem('login'));
-        if((documento[0].data_recebido == null)&&(documento[0].setor_id  == login.idSetor)){
+        if((documento[0].data_recebido == null)&&(documento[0].usuario_id  == login.id)){
             $('#visualizarServidor').html('<i class="nav-icon fas fa-check"></i> Receber');
             $('#visualizarServidorTipoAcao').val(documento[0].idMovimentacao);
         }else{

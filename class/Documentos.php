@@ -25,6 +25,7 @@ class Documentos extends Generica{
                                         tb_documentos.id,
                                         tb_movimentacao.id as idMovimentacao,
                                         tb_movimentacao.setor_id,
+                                        tb_movimentacao.usuario_id,
                                         tb_documentos.ano_documento,
                                         tb_documentos.numero_documento,
                                         tb_documentos.assunto,

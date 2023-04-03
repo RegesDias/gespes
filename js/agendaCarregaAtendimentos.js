@@ -124,7 +124,6 @@ $('#fechaModalPonto').click(function () {
     $('#modal-ponto').modal('hide');
 });
 $('#fechaModalPessoal').click(function () {
-  console.log('fechaModalPessoal');
     let id = $("#idEvento").val();
     vagasOcupadas(id);
     fechaTodosModais();
@@ -195,8 +194,6 @@ $('#finalizarHomologado').click(function () {
     var end = new Object()
     end.id = $("#idrequerimentoSelectLi").val()
     end.impresso = '1';
-    console.log(end);
-    console.log('finalizarHomologado');
     $.ajax({
       url: "acoes/requerimento/atualizarImpresso.php",
       method: "POST",
@@ -415,16 +412,11 @@ function listaRequerimentoHomologadoIdInfo() {
     tarefa = $(this).text();
     acao = tarefa.split(' - ')
     $('#idrequerimentoSelectLi').val($(this).val())
-    if (acao[1] == 'Não Homologado'){
-        $('#modalInserirProtocolo').modal('show')
-    }else if(acao[1] == 'Homologado'){
       $('#modalDadosDoAgendamento').modal('show')
       $('#botoesParaRegendamento').addClass('d-none')
       $('#botoesParaImpressao').removeClass('d-none')
       resumoAgendamento()
       requerimentosStatusReAgenda()
-    }else{
-    }
   });
   $("#reagendarModalDadosDoAgendamento").on("click", function () {
     var end = new Object()
@@ -433,7 +425,6 @@ function listaRequerimentoHomologadoIdInfo() {
     end.id_agenda = null
     end.id_info = $("#idInfo").val();
     end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
-    console.log(end);
     $.ajax({
       url: "acoes/requerimento/alterarStatus.php",
       method: "POST",
@@ -460,8 +451,6 @@ function listaRequerimentoHomologadoIdInfo() {
       method: "GET",
       dataType: "json",
     }).done(function (result) {
-      console.log('listaRequerimentoIdRequerimento');
-      console.log(id);
         $('#listaSolicitacoesCadastradas').html("");
         for (var i = 0; i < result.length; i++) {
             $("#listaSolicitacoesCadastradas").prepend(
@@ -574,7 +563,6 @@ function listaRequerimentoHomologadoIdInfo() {
     end.id_info = $("#idInfo").val();
     end.id_requerimento_solicitacao = $("#idRequerimentoSolicitacao").val()
     end.id_requerimento_medico = $("#medicosAtivos").val()
-    console.log( end.id_requerimento_medico);
     $.ajax({
       url: "acoes/requerimento/inserirAtendimento.php",
       method: "POST",
@@ -584,7 +572,6 @@ function listaRequerimentoHomologadoIdInfo() {
           if(result.codigo == 0){
             result.acao = 'error'
           }
-          console.log(result.exec);
           msn(result.acao,result.mensagem);
           $('#modalAgendamento').modal('hide');
           $('#medicosAtivosDataNaAgenda').html('');
