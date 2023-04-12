@@ -105,7 +105,8 @@ function getListaSecretarias() {
     $.ajax({
         url: 'acoes/documentos/listarSecretarias.php',
         method: 'GET',
-        dataType: 'json'
+        dataType: 'json',
+        async: false
     }).done(function(result){
         var size = result.length+2;
         preenchimentoAutoCompleteSecretaria(result);
@@ -121,7 +122,8 @@ function getUsuarios(){
     $.ajax({
         url: 'acoes/documentos/listarUsuarioPorNome.php',
         method: 'GET',
-        dataType: 'json'
+        dataType: 'json',
+        async: false
     }).done(function(result){
         if (result.codigo==0){
             msn('error',result.mensagem+' #getUsuarios');
@@ -322,6 +324,7 @@ function getDocumentoNumeroAno(dado,order){
     });
 };
 function getDocumentoId(codfunc){
+    //modificando
     $('#carregando').show();
     $.ajax({
         url: 'acoes/documentos/buscaId.php?id='+codfunc,
@@ -334,13 +337,15 @@ function getDocumentoId(codfunc){
         $('#origem').val(documento[0].origem);
         $('#data_inclusao').val(converteDataBr(documento[0].data_inclusao));
         $('#status').val(documento[0].status);
-        $('#resposavel').val(documento[0].resposavel);
+        $('#responsavel').val(documento[0].responsavel);
         $('#tipo').val(documento[0].tipo);
         $('#data_entrada').val(converteDataBr(documento[0].data_entrada));
         $('#idDocumento').val(documento[0].id);
         $('#idMovimentacao').val(documento[0].idMovimentacao);
         var login = JSON.parse(sessionStorage.getItem('login'));
-        if((documento[0].data_recebido == null)&&(documento[0].usuario_id  == login.id)){
+        console.log(login)
+        console.log(documento[0])
+        if((documento[0].data_recebido != null)&&(documento[0].usuario_id  == login.id)){
         //if(documento[0].setor_id != login.idSetor){
             $('#movimentarDocumento').removeClass('d-none');
             $('#criarObservacao').removeClass('d-none');
@@ -349,6 +354,11 @@ function getDocumentoId(codfunc){
             $('#movimentarDocumento').addClass('d-none');
             $('#criarObservacao').addClass('d-none');
             $('#arquivarDesarquivar').addClass('d-none');
+        }
+        if (login.adm == 1){
+            $('#movimentarDocumento').removeClass('d-none');
+            $('#criarObservacao').removeClass('d-none');
+            $('#arquivarDesarquivar').removeClass('d-none');
         }
         if (documento[0].idStatus == 2){
             $('#movimentarDocumento').addClass('d-none');
@@ -364,6 +374,7 @@ function getDocumentoId(codfunc){
             $('#arquivarDocumento').removeClass('d-none');
             $('#desarquivarDocumento').addClass('d-none');
         }
+        login
         $('#modal-pessoal').modal('show');
     }).fail(function() {
         msn('error','Sua sessão expirou');
@@ -405,9 +416,16 @@ function preenchimentoSelectUsuarioIdSetorCadastra(result){
 };
 function preenchimentoSelectUsuario(result){
     $("#encaminharResponsavel").empty();
+    var login = JSON.parse(sessionStorage.getItem('login'));
+    $('#formFiltroSelectUsuario').prepend("<option value='tds'>TODOS OS USUÁRIOS</option>");
     for (var i = 0; i < result.length; i++) {
-        $('#formFiltroSelectUsuario').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');    
+        if(login.id == result[i].id){
+            $('#formFiltroSelectUsuario').prepend('<option selected value='+ result[i].id +'> '+result[i].nome+'</option>');
+        }else{
+            $('#formFiltroSelectUsuario').prepend('<option value='+ result[i].id +'> '+result[i].nome+'</option>');
+        }
     }
+
 };
 function preenchimentoSelect(result){
     for (var i = 0; i < result.length; i++) {
@@ -503,6 +521,51 @@ function salvarObservacaoDocumento(data) {
     });
 };
 
+function apagarDocumento(data) {
+    $.ajax({
+        url: 'acoes/documentos/apagar.php',
+        method: 'GET',
+        data: data, 
+        dataType: 'json'
+    }).done(function(result){
+        $('#modal-pessoal').modal('hide');
+        data = carregaDadosFiltro();
+        getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
+    }).fail(function() {
+        msn('error','Sua sessão expirou');
+        //setTimeout(() => {  window.location.href = "index.html" }, 5000);
+    }).always(function() {
+    });
+};
+$("#apagarDocumento").on("click", function() {
+    vidDocumento = $('#idDocumento').val();
+    vidMovimentacao = $('#idMovimentacao').val();
+    var data = {
+        idDocumento:vidDocumento,
+        idMovimentacao:vidMovimentacao
+    }
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Todos os dados do Documento serão apagados! Não é possivel reverter está ação.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim'
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire( 'Apagado!','O Documento foi apagado com sucesso.','success');
+          let usuario = $("#formFiltroSelectUsuario").val();
+          let periodo = $("#periodo").val();
+          let numeroAtendimentos = $("#numeroAtendimentos").val();
+          apagarDocumento(data);
+        }else{
+          Swal.fire( 'Acão Cancelada!','O Documento não foi alterado.','error');
+        }
+      })
+    setTimeout(() => { getDocumentoMovimentacaoId(vidDocumento,'')},1000);
+    
+});
 function arquivarDocumento(data) {
     $.ajax({
         url: 'acoes/documentos/arquivar.php',
@@ -579,6 +642,7 @@ function preenchimentoSelectAno(result){
     for (var i = 0; i < result.length; i++) {
         $('#formFiltroSelectAno').prepend('<option value='+ result[i].ano_documento +'> '+result[i].ano_documento+'</option>');    
     }
+    $('#formFiltroSelectAno').prepend("<option value='tds'> TODOS</option>"); 
 };
 function preenchimentoSelectTipo(result){
     for (var i = 0; i < result.length; i++) {
@@ -1117,11 +1181,18 @@ function geraNome(result){
 
 $(document).ready(function(){
     var login = JSON.parse(sessionStorage.getItem('login'));
+    if(login.adm == 0){
+        $('#apagarDocumento').attr('disabled');
+        $('#apagarDocumento').addClass('d-none');
+    }else{
+        $('#apagarDocumento').removeAttr('disabled');
+        $('#apagarDocumento').removeClass('d-none');
+
+    }
     if(login.protFiltroUsuarios == 0){
         $('#protFiltroUsuarios').addClass('d-none');
     }
     if(login.protFiltroSetor == 0){
-        $('#formFiltroBtnTamanho').attr('class','col-md-12');
         $('#protFiltroSetor').addClass('d-none');
     }
     if(login.protBTNArquivar == 0){
@@ -1156,6 +1227,7 @@ $(document).ready(function(){
                 getListaSetoresAtivos().then(
                     getUsuarios().then(function(){
                         data = carregaDadosFiltro();
+                        console.log(data);
                         getDocumentoAnoTipoStatusLocal(data, 'data_entrada');
                     })
                 )

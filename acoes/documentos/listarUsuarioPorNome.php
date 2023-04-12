@@ -3,8 +3,13 @@
 header('Content-Type: application/json');
 require_once('../../class/Usuario.php');
 $u = new Usuario;
+if ($_SESSION['protSelectTodosUsuarios'] == 1){
+    $exec = $u->listarPorNome();
+}else{
+    $id = $_SESSION['id'];
+    $exec = $u->listarPorNomeId($id);
+}
 
-$exec = $u->listarPorNome();
 
 if(Conexao::verificaLogin('protocolo')){
     $exec->execute();

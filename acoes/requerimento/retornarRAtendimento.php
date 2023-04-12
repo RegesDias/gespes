@@ -6,11 +6,10 @@ header('Content-Type: application/json');
     $login = $s->buscaLoginSDGC();
     $obj->userLogin = $login->id;
     $obj->id_requerimento_status = $s->setDado($_POST['id_requerimento_status']);
-    $obj->id_requerimento = $s->setDado($_POST['idrequerimento']);
-    $obj->idAgenda = $s->setDado($_POST['idAgenda']);
-    $obj->id_requerimento_medico = $s->setDado($_POST['idRequerimentoMedico']);
+    $obj->id_requerimento = $s->setDado($_POST['id']);
     $obj->id_requerimento_atendimento = $s->setDado($_POST['idRequerimentoAtendimento']);
-    $obj->finalizaStatus = '1';
+    $obj->id_requerimento_medico = $s->setDado($_POST['idRequerimentoMedico']);
+    $obj->finalizaStatus = '0';
     
     if(Conexao::verificaLogin('atendimentoAgenda')){
         $tei = $s->atualizaRequerimentoHistorico($obj);

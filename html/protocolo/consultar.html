@@ -18,7 +18,6 @@
           <div class="form-group">
             <label>Ano</label>
             <select id='formFiltroSelectAno' class="form-control select2" style="width: 100%;">
-              <option value="tds">TODOS</option>
             </select>
           </div>
         </div>
@@ -40,23 +39,22 @@
         </div>
       </div>
       <div class="row" id="protFiltroUsuarios">
-        <div class="col-md-12">
-          <div class="form-group">
-            <select id='formFiltroSelectUsuario' class="form-control select2" style="width: 100%;">
-              <option value="tds">TODOS OS USUÁRIOS</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-10" id="protFiltroSetor">
+        <div class="col-md-12" id="protFiltroSetor">
           <div class="form-group">
             <select id='formFiltroSelectSetor' class="form-control select2" style="width: 100%;">
               <option value="tds">TODOS OS SETORES</option>
             </select>
           </div>
         </div>
-        <div id='formFiltroBtnTamanho'class="col-md-2">
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <select id='formFiltroSelectUsuario' class="form-control select2" style="width: 100%;">
+            </select>
+          </div>
+        </div>
+        <div id='formFiltroBtnTamanho' class="col-md-2">
           <div class="form-group">
             <button id="formFiltroBtn" type="button" class="btn btn-block btn-secondary" data-dismiss="modal">
               <i class="nav-icon fas fa-filter"></i> Filtrar
@@ -215,7 +213,8 @@
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
-            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8; height: 40px; margin-right:10px">
+            <img src="img/BrasaoMacae.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+              style="opacity: .8; height: 40px; margin-right:10px">
             <h4 class="modal-title">Informações do Documento</h4>
             <button type="button" class="close" id="fechaModalPessoal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -249,29 +248,46 @@
                     </div>
                     <div class="row">
                       <div class="col-12">
-                        <div class="row">
-                          <div class="col-4">
-                            <label>Número</label>
-                            <input disabled="disabled" id='numero_documento' type="text" class="form-control"
-                              placeholder="CodFunc">
+                        <div class="card card-outline">
+                          <div class="row">
+                            <div class="col-4">
+                              <label>Número</label>
+                              <input disabled="disabled" id='numero_documento' type="text" class="form-control"
+                                placeholder="CodFunc">
+                            </div>
+                            <div class="col-4">
+                              <label>Data Inclussão</label>
+                              <input disabled="disabled" id="data_inclusao" type="text" class="form-control"
+                                placeholder="Data Admissão">
+                            </div>
+                            <div class="col-4">
+                              <label>Status</label>
+                              <input disabled="disabled" id="status" type="text" class="form-control"
+                                placeholder="Sessões">
+                            </div>
                           </div>
-                          <div class="col-4">
-                            <label>Data Inclussão</label>
-                            <input disabled="disabled" id="data_inclusao" type="text" class="form-control"
-                              placeholder="Data Admissão">
+                          <div class="row">
+                            <div class="col-12">
+                              <label>Assunto</label>
+                              <input disabled="disabled" id="assunto" type="text" class="form-control"
+                                placeholder="nome">
+                            </div>
                           </div>
-                          <div class="col-4">
-                            <label>Status</label>
-                            <input disabled="disabled" id="status" type="text" class="form-control"
-                              placeholder="Sessões">
+                          <div class="row">
+                            <div class="col-12">
+                              <label>Responsável</label>
+                              <input disabled="disabled" id="responsavel" type="text" class="form-control"
+                                placeholder="nome">
+                            </div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-12">
-                            <label>Assunto</label>
-                            <input disabled="disabled" id="assunto" type="text" class="form-control" placeholder="nome">
-                          </div>
-                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3 d-nome" id="btnApagarDocumento">
+                      <div class="input-group-prepend">
+                        <button id='apagarDocumento' disabled type="button" class="btn btn-secondary"><i
+                            class="nav-icon fas fa-trash"></i> Apagar
+                        </button>
                       </div>
                     </div>
                     <!--Campos Ocultos-->

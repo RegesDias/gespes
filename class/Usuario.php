@@ -108,6 +108,7 @@ class  Usuario extends Generica{
     $token = uniqid();
     $_SESSION['id'] = $retorno->id;
     $_SESSION['idSetor'] = $retorno->idSetor;
+    $_SESSION['protSelectTodosUsuarios'] = $retorno->protSelectTodosUsuarios;
     $_SESSION['nome'] = $retorno->nome;
     $_SESSION['email'] = $retorno->email;
     $_SESSION['CPF'] = $retorno->CPF;
@@ -256,7 +257,10 @@ class  Usuario extends Generica{
     $call = "SELECT id, nome  FROM usuario WHERE idSetor = '$idSetor' AND status = 'Ativo' ORDER BY id LIMIT 1000";
     return $exec = Conexao::Inst()->prepare($call);
   }
-
+  public function listarPorNomeId($id){
+    $call = "SELECT * FROM usuario WHERE id = '$id'";
+    return $exec = Conexao::Inst()->prepare($call);
+  }
   public function listarPorNome(){
     $call = "SELECT * FROM usuario ORDER BY nome DESC LIMIT 1000";
     return $exec = Conexao::Inst()->prepare($call);

@@ -18,7 +18,8 @@ class Documentos extends Generica{
                             LEFT JOIN
                                 tb_tipo
                                 ON tb_tipo.id = tb_documentos.tipo
-                                WHERE ";
+                                WHERE 
+                                tb_documentos.ativo = '1' AND";
 
     public function buscaId($id){
                             $sql = "SELECT DISTINCT
@@ -35,7 +36,7 @@ class Documentos extends Generica{
                                         tb_movimentacao.data_recebido,
                                         tb_status.nome as status,
                                         tb_status.id as idStatus,
-                                        usuario.nome as resposavel,
+                                        usuario.nome as responsavel,
                                         tb_tipo.sigla as sigla,
                                         tb_tipo.nome as tipo
                                     FROM
@@ -53,7 +54,8 @@ class Documentos extends Generica{
                                     controle_docs.tb_tipo
                                         ON tb_tipo.id = tb_documentos.tipo
                                     WHERE 
-                                        tb_movimentacao.documento_id = '$id'
+                                        tb_movimentacao.documento_id = '$id' AND
+                                        tb_documentos.ativo = '1'
                                     ORDER BY 
                                         tb_movimentacao.id DESC
                                         LIMIT 1";
@@ -139,6 +141,15 @@ class Documentos extends Generica{
         echo json_encode($retorno);
         exit();
     }
+    public function apagar($idDocumento){
+        $sql = "UPDATE tb_movimentacao SET ativo = 0 WHERE documento_id = '$idDocumento'";
+        $stm = Conexao::InstControle()->prepare($sql);
+        $stm->execute();
+
+        $sql = "UPDATE tb_documentos SET ativo = 0 WHERE id = '$idDocumento'";
+        $stm = Conexao::InstControle()->prepare($sql);
+        $stm->execute();
+    }
     public function movimentarExecutar($idDocumento,$encaminharResponsavel,$movimentacoesSetor,$encaminharTexto){
         $idUser = $_SESSION['id'];
         $sql = "INSERT INTO tb_movimentacao(
@@ -221,7 +232,8 @@ class Documentos extends Generica{
                                         assunto,
                                         origem,
                                         status, 
-                                        data_inclusao
+                                        data_inclusao,
+                                        ativo
                                     )VALUES(
                                         '$tipo',
                                         '$numero_documento',
@@ -229,7 +241,8 @@ class Documentos extends Generica{
                                         '$assunto',
                                         '$origem',
                                         '1',
-                                        NOW()
+                                        NOW(),
+                                        '1'
                                     )";
                 $stm = Conexao::InstControle()->prepare($sql);
                 $stm->execute();
@@ -299,7 +312,8 @@ class Documentos extends Generica{
     LEFT JOIN
         tb_tipo
         ON tb_tipo.id = tb_documentos.tipo
-        WHERE tb_movimentacao.ativo = '1'";
+        WHERE tb_movimentacao.ativo = '1' AND
+        tb_documentos.ativo = '1' ";
         if(($ano != '') AND ($ano !='tds')){
             $sql .= " AND tb_documentos.ano_documento = '$ano' ";
         }
@@ -339,7 +353,8 @@ class Documentos extends Generica{
     LEFT JOIN
         gespes.usuario
         ON gespes.usuario.id = tb_movimentacao.usuario_id
-        WHERE tb_movimentacao.ativo = '1'";
+        WHERE tb_movimentacao.ativo = '1' AND
+        tb_documentos.ativo = '1' ";
         if(($ano != '') AND ($ano !='tds')){
             $sql .= " AND tb_documentos.ano_documento = '$ano' ";
         }

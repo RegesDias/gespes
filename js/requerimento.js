@@ -80,6 +80,31 @@ $("#modalInserirProtocoloCadastrar").on("click", function () {
       $("#carregando").hide();
     });
 })
+$("#modalInserirProtocoloApagar").on("click", function () {
+  var end = new Object()
+  end.id = $("#idrequerimentoSelectLi").val()
+  $.ajax({
+    url: "acoes/requerimento/requerimentoSolicitacaoApagar.php",
+    method: "POST",
+    dataType: "json",
+    data: end,
+  }).done(function (result) {
+    if (result.codigo == 0) {
+      result.acao = 'error'
+    }
+    console.log(result)
+    console.log(result.exec)
+    msn(result.acao, result.mensagem);
+    $('#modalInserirProtocolo').modal('hide');
+    $('#numeroProtocolo').val('');
+    listaRequerimentoIdInfo();
+  }).fail(function () {
+    //$(location).attr('href', 'index.html');
+  }).always(function () {
+      $("#carregando").hide();
+  });
+   console.log(end.id)
+})
 $("#solicitacaoSalvar").on("click", function () {
   var end = new Object()
   end.id_requerimento_status = '1';
@@ -381,6 +406,46 @@ $('#medicosAtivosDataNaAgenda').change(function () {
   }, 250);
 
 })
+$('#retornarHomologado').click(function () {
+  Swal.fire({
+    title: 'Você tem certeza?',
+    text: "A ficha de perícia RETORNARA revisão do Médico.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sim'
+  }).then((result) => {
+    if (result.value) {
+        Swal.fire( 'Executado!','A perícia encontra-se agora com o médico perito.','success');
+        var end = new Object()
+        end.id = $("#idrequerimentoSelectLi").val()
+        end.impresso = '1';
+        end.id_requerimento_status = '92';
+        end.idRequerimentoAtendimento = $("#idRatendimento").val();
+        $.ajax({
+          url: "acoes/requerimento/retornarRAtendimento.php",
+          method: "POST",
+          dataType: "json",
+          data: end,
+        }).done(function (result) {
+          if (result.codigo == 0) {
+            result.acao = 'error'
+          }
+          $('#modalDadosDoAgendamento').modal('hide');
+          $('#medicosAtivosDataNaAgenda').html('');
+          listaRequerimentoHomologadoIdInfo();
+      }).fail(function () {
+        $(location).attr('href', 'index.html');
+      })
+      .always(function () {
+        $("#carregando").hide();
+      })
+    }else{
+      Swal.fire( 'Acão Cancelada!','O perícia não foi alterada.','error')
+    }
+  })
+});
 $('#finalizarHomologado').click(function () {
   var end = new Object()
   end.id = $("#idrequerimentoSelectLi").val()

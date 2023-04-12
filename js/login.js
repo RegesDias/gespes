@@ -19,7 +19,6 @@
 		var data = {email:vemail, senha:vsenha, senhaNovaSenha:vsenhaNovaSenha, senhaNovaSenha2:vsenhaNovaSenha2 }
         alterarSenha(data);
     });
-    
     function login(data){
 		$.ajax({
 			type : 'POST',
@@ -34,6 +33,7 @@
 								'nome': response.nome,
 								'CPF': response.CPF,
 								'idSetor': response.idSetor,
+								'adm': response.adm,
 								'pessoal': response.pessoal,
 								'consultaPessoal': response.consultaPessoal,
 								'protocolo': response.protocolo,
@@ -42,6 +42,7 @@
 								'protBTNArquivar': response.protBTNArquivar,
 								'protBTNMovimentar': response.protBTNMovimentar,
 								'protBTNInserir': response.protBTNInserir,
+								'protSelectTodosUsuarios': response.protSelectTodosUsuarios,
 								'atendimentoAgenda': response.atendimentoAgenda,
 								'agenda': response.agenda,
 								'periciaMedica': response.periciaMedica,

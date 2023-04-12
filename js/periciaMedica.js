@@ -706,7 +706,7 @@ $('#idCid10Busca').on('keyup', function() {
             preenchimentoAtendimentosDoDia($('#idAgenda').val());
             msn(result.acao,result.mensagem);
         }).fail(function () {
-          $(location).attr('href', 'index.html');
+          //$(location).attr('href', 'index.html');
         })
         .always(function () {
           $("#carregando").hide();

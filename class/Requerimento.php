@@ -159,6 +159,7 @@ class Requerimentos extends Generica{
             WHERE
               requerimento.id_agenda = '$id' AND
               (requerimento_status.id = '4' OR
+              requerimento_status.id = '92' OR
               requerimento_status.id = '8')
     ";
     return $stm = Conexao::InstSDGC()->prepare($sql);
@@ -405,6 +406,21 @@ public function atualizarRAtendimento($obj){
     $stm = Conexao::InstSDGC()->exec($sql);
     return $stm;
   }
+  public function requerimentoSolicitacaoApagar($obj){
+    $sql1 = "DELETE FROM 
+                  requerimento_historico
+              WHERE
+                id_requerimento = '$obj->id_requerimento'";
+    $stm1 = Conexao::InstSDGC()->exec($sql1);
+    
+    $sql2 = "DELETE FROM 
+                    requerimento
+                 WHERE
+                  id = '$obj->id_requerimento'";
+    $stm2 = Conexao::InstSDGC()->exec($sql2);
+
+    return $stm2;
+  }
   public function atualizarStatus($obj){
     $sql = "UPDATE requerimento SET 
                   id_requerimento_status = '$obj->id_requerimento_status'
@@ -423,7 +439,7 @@ public function atualizarRAtendimento($obj){
   }
   public function finalizaRAtendimento($obj){
     $sql = "UPDATE requerimento_atendimento SET 
-                  finalizado = '1'
+                  finalizado = '$obj->finalizaStatus'
             WHERE 
                 id = '$obj->id_requerimento_atendimento'";
     $stm = Conexao::InstSDGC()->exec($sql);
